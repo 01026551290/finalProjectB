@@ -7,7 +7,7 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<section class="site-hero overlay" style="background-image: url(images/hero_4.jpg)"	data-stellar-background-ratio="0.5">
+<section class="site-hero overlay" style="background-image: url(<%=ctxPath%>/resources/images/hero_4.jpg)"	data-stellar-background-ratio="0.5">
 	<div class="container">
 		<div class="row site-hero-inner justify-content-center align-items-center">
 			<div class="col-md-10 text-center" data-aos="fade-up">
@@ -104,9 +104,9 @@
 		<div class="row align-items-center">
 			<div class="col-md-12 col-lg-7 ml-auto order-lg-2 position-relative mb-5" data-aos="fade-up">
 				<figure class="img-absolute">
-					<img src="images/food-1.jpg" alt="Image" class="img-fluid">
+					<img src="<%=ctxPath%>/resources/images/food-1.jpg" alt="Image" class="img-fluid">
 				</figure>
-				<img src="images/img_1.jpg" alt="Image" class="img-fluid rounded">
+				<img src="<%=ctxPath%>/resources/images/img_1.jpg" alt="Image" class="img-fluid rounded">
 			</div>
 			<div class="col-md-12 col-lg-4 order-lg-1" data-aos="fade-up">
 				<h2 class="heading">Welcome!</h2>
@@ -143,7 +143,7 @@
 			<div class="col-md-6 col-lg-4" data-aos="fade-up">
 				<a href="#" class="room">
 					<figure class="img-wrap">
-						<img src="images/img_1.jpg" alt="Free website template"
+						<img src="<%=ctxPath%>/resources/images/img_1.jpg" alt="Free website template"
 							class="img-fluid mb-3">
 					</figure>
 					<div class="p-3 text-center room-info">
@@ -157,7 +157,7 @@
 			<div class="col-md-6 col-lg-4" data-aos="fade-up">
 				<a href="#" class="room">
 					<figure class="img-wrap">
-						<img src="images/img_2.jpg" alt="Free website template"
+						<img src="<%=ctxPath%>/resources/images/img_2.jpg" alt="Free website template"
 							class="img-fluid mb-3">
 					</figure>
 					<div class="p-3 text-center room-info">
@@ -171,7 +171,7 @@
 			<div class="col-md-6 col-lg-4" data-aos="fade-up">
 				<a href="#" class="room">
 					<figure class="img-wrap">
-						<img src="images/img_3.jpg" alt="Free website template"
+						<img src="<%=ctxPath%>/resources/images/img_3.jpg" alt="Free website template"
 							class="img-fluid mb-3">
 					</figure>
 					<div class="p-3 text-center room-info">
@@ -205,45 +205,45 @@
 				<div class="home-slider major-caousel owl-carousel mb-5"
 					data-aos="fade-up" data-aos-delay="200">
 					<div class="slider-item">
-						<a href="images/slider-1.jpg" data-fancybox="images"
+						<a href="<%=ctxPath%>/resources/images/slider-1.jpg" data-fancybox="<%=ctxPath%>/resources/images"
 							data-caption="Caption for this image"><img
-							src="images/slider-1.jpg" alt="Image placeholder"
+							src="<%=ctxPath%>/resources/images/slider-1.jpg" alt="Image placeholder"
 							class="img-fluid"></a>
 					</div>
 					<div class="slider-item">
-						<a href="images/slider-2.jpg" data-fancybox="images"
+						<a href="<%=ctxPath%>/resources/images/slider-2.jpg" data-fancybox="<%=ctxPath%>/resources/images"
 							data-caption="Caption for this image"><img
-							src="images/slider-2.jpg" alt="Image placeholder"
+							src="<%=ctxPath%>/resources/images/slider-2.jpg" alt="Image placeholder"
 							class="img-fluid"></a>
 					</div>
 					<div class="slider-item">
-						<a href="images/slider-3.jpg" data-fancybox="images"
+						<a href="<%=ctxPath%>/resources/images/slider-3.jpg" data-fancybox="<%=ctxPath%>/resources/images"
 							data-caption="Caption for this image"><img
-							src="images/slider-3.jpg" alt="Image placeholder"
+							src="<%=ctxPath%>/resources/images/slider-3.jpg" alt="Image placeholder"
 							class="img-fluid"></a>
 					</div>
 					<div class="slider-item">
-						<a href="images/slider-4.jpg" data-fancybox="images"
+						<a href="<%=ctxPath%>/resources/images/slider-4.jpg" data-fancybox="<%=ctxPath%>/resources/images"
 							data-caption="Caption for this image"><img
-							src="images/slider-4.jpg" alt="Image placeholder"
+							src="<%=ctxPath%>/resources/images/slider-4.jpg" alt="Image placeholder"
 							class="img-fluid"></a>
 					</div>
 					<div class="slider-item">
-						<a href="images/slider-5.jpg" data-fancybox="images"
+						<a href="<%=ctxPath%>/resources/images/slider-5.jpg" data-fancybox="<%=ctxPath%>/resources/images"
 							data-caption="Caption for this image"><img
-							src="images/slider-5.jpg" alt="Image placeholder"
+							src="<%=ctxPath%>/resources/images/slider-5.jpg" alt="Image placeholder"
 							class="img-fluid"></a>
 					</div>
 					<div class="slider-item">
-						<a href="images/slider-6.jpg" data-fancybox="images"
+						<a href="<%=ctxPath%>/resources/images/slider-6.jpg" data-fancybox="<%=ctxPath%>/resources/images"
 							data-caption="Caption for this image"><img
-							src="images/slider-6.jpg" alt="Image placeholder"
+							src="<%=ctxPath%>/resources/images/slider-6.jpg" alt="Image placeholder"
 							class="img-fluid"></a>
 					</div>
 					<div class="slider-item">
-						<a href="images/slider-7.jpg" data-fancybox="images"
+						<a href="<%=ctxPath%>/resources/images/slider-7.jpg" data-fancybox="<%=ctxPath%>/resources/images"
 							data-caption="Caption for this image"><img
-							src="images/slider-7.jpg" alt="Image placeholder"
+							src="<%=ctxPath%>/resources/images/slider-7.jpg" alt="Image placeholder"
 							class="img-fluid"></a>
 					</div>
 				</div>
@@ -256,7 +256,7 @@
 <!-- END section -->
 
 <section class="section bg-image overlay"
-	style="background-image: url('images/hero_3.jpg');">
+	style="background-image: url('<%=ctxPath%>/resources/images/hero_3.jpg');">
 	<div class="container">
 		<div class="row justify-content-center text-center mb-5">
 			<div class="col-md-7">
@@ -499,7 +499,7 @@
 
 				<div class="testimonial text-center slider-item">
 					<div class="author-image mb-3">
-						<img src="images/person_1.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+						<img src="<%=ctxPath%>/resources/images/person_1.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
 					</div>
 					<blockquote>
 
@@ -515,7 +515,7 @@
 
 				<div class="testimonial text-center slider-item">
 					<div class="author-image mb-3">
-						<img src="images/person_2.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+						<img src="<%=ctxPath%>/resources/images/person_2.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
 					</div>
 					<blockquote>
 						<p>&ldquo;Even the all-powerful Pointing has no control about
@@ -530,7 +530,7 @@
 
 				<div class="testimonial text-center slider-item">
 					<div class="author-image mb-3">
-						<img src="images/person_3.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+						<img src="<%=ctxPath%>/resources/images/person_3.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
 					</div>
 					<blockquote>
 
@@ -547,7 +547,7 @@
 
 				<div class="testimonial text-center slider-item">
 					<div class="author-image mb-3">
-						<img src="images/person_1.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+						<img src="<%=ctxPath%>/resources/images/person_1.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
 					</div>
 					<blockquote>
 
@@ -563,7 +563,7 @@
 
 				<div class="testimonial text-center slider-item">
 					<div class="author-image mb-3">
-						<img src="images/person_2.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+						<img src="<%=ctxPath%>/resources/images/person_2.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
 					</div>
 					<blockquote>
 						<p>&ldquo;Even the all-powerful Pointing has no control about
@@ -578,7 +578,7 @@
 
 				<div class="testimonial text-center slider-item">
 					<div class="author-image mb-3">
-						<img src="images/person_3.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
+						<img src="<%=ctxPath%>/resources/images/person_3.jpg" alt="Image placeholder" class="rounded-circle mx-auto">
 					</div>
 					<blockquote>
 
@@ -616,7 +616,7 @@
 				data-aos="fade-up" data-aos-delay="100">
 
 				<div class="media media-custom d-block mb-4 h-100">
-					<a href="#" class="mb-4 d-block"><img src="images/img_1.jpg" alt="Image placeholder" class="img-fluid"></a>
+					<a href="#" class="mb-4 d-block"><img src="<%=ctxPath%>/resources/images/img_1.jpg" alt="Image placeholder" class="img-fluid"></a>
 					<div class="media-body">
 						<span class="meta-post">February 26, 2018</span>
 						<h2 class="mt-0 mb-3">
@@ -632,7 +632,7 @@
 			<div class="col-lg-4 col-md-6 col-sm-6 col-12 post"
 				data-aos="fade-up" data-aos-delay="200">
 				<div class="media media-custom d-block mb-4 h-100">
-					<a href="#" class="mb-4 d-block"><img src="images/img_2.jpg" alt="Image placeholder" class="img-fluid"></a>
+					<a href="#" class="mb-4 d-block"><img src="<%=ctxPath%>/resources/images/img_2.jpg" alt="Image placeholder" class="img-fluid"></a>
 					<div class="media-body">
 						<span class="meta-post">February 26, 2018</span>
 						<h2 class="mt-0 mb-3">
@@ -647,7 +647,7 @@
 			<div class="col-lg-4 col-md-6 col-sm-6 col-12 post"
 				data-aos="fade-up" data-aos-delay="300">
 				<div class="media media-custom d-block mb-4 h-100">
-					<a href="#" class="mb-4 d-block"><img src="images/img_3.jpg" alt="Image placeholder" class="img-fluid"></a>
+					<a href="#" class="mb-4 d-block"><img src="<%=ctxPath%>/resources/images/img_3.jpg" alt="Image placeholder" class="img-fluid"></a>
 					<div class="media-body">
 						<span class="meta-post">February 26, 2018</span>
 						<h2 class="mt-0 mb-3">
@@ -664,7 +664,7 @@
 </section>
 
 <section class="section bg-image overlay"
-	style="background-image: url('images/hero_4.jpg');">
+	style="background-image: url('<%=ctxPath%>/resources/images/hero_4.jpg');">
 	<div class="container">
 		<div class="row align-items-center">
 			<div class="col-12 col-md-6 text-center mb-4 mb-md-0 text-md-left" data-aos="fade-up">
