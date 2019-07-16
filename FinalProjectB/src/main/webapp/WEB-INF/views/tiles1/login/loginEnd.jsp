@@ -12,9 +12,6 @@
 </script>
 =======
 
-<%
-	String ctxPath = request.getContextPath();
-%>
 
 <script type="text/javascript">
 	var loginuser = "${sessionScope.loginuser}";
