@@ -168,42 +168,57 @@
     <section class="section contact-section" id="next">
       <div class="container">
         <div class="row">
-          <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">            
+          <div class="col-md-7" data-aos="fade-up" data-aos-delay="100"> 
+          <table id="tblMemberRegister">
+		<thead>
+		<tr>
+			<th colspan="2" id="th">::: 회원가입 (<span style="font-size: 10pt; font-style: italic;"><span class="star">*</span>표시는 필수입력사항</span>) :::</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td style="width: 20%; font-weight: bold;">성명&nbsp;<span class="star">*</span></td>
+			<td style="width: 80%; text-align: left;">
+			    <input type="text" name="name" id="name" class="requiredInfo" required /> 
+				<span class="error">성명은 필수입력 사항입니다.</span>
+			</td>
+		</tr>
+		<tr>           
             <form action="#" method="post" class="bg-white p-md-5 p-4 mb-5 border">
               <div class="row">
                 <div class="col-md-6 form-group">
                   <label class="text-black font-weight-bold" for="name">회원아이디</label>
-                  <input type="text" id="" class="form-control ">
+                  <input type="text" id="memberid" name="memberid" class="form-control ">
                 </div>
                 <div class="col-md-6 form-group">
                   <label class="text-black font-weight-bold" for="phone">닉네임</label>
-                  <input type="text" id="phone" class="form-control ">
+                  <input type="text" id="nickname" name="nickname" class="form-control ">
                 </div>
               </div>
           
               <div class="row">
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" for="email">암호</label>
-                  <input type="email" id="email" class="form-control ">
+                  <input type="password" id="pwd" name="pwd" class="form-control ">
                 </div>
               </div>
               
               <div class="row">
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" for="email">암호확인</label>
-                  <input type="email" id="email" class="form-control ">
+                  <input type="password" id="pwdCk" name="pwdCk" class="form-control ">
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" for="email">성명</label>
-                  <input type="email" id="email" class="form-control ">
+                  <input type="text" id="name" name="name" class="form-control ">
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" for="email">이메일</label>
-                  <input type="email" id="email" class="form-control ">
+                  <input type="email" id="email" name="email" class="form-control ">
                 </div>
               </div>
               
