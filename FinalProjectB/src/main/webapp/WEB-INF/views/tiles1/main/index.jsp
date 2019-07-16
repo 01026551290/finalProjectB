@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <<<<<<< HEAD
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -54,11 +53,7 @@
 </div>
 =======
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%
-	String ctxPath = request.getContextPath();
-%>
 
 <section class="site-hero overlay" style="background-image: url(<%=ctxPath%>/resources/images/hero_4.jpg)"	data-stellar-background-ratio="0.5">
 	<div class="container">
