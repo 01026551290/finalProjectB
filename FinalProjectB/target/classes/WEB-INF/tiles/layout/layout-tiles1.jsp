@@ -16,8 +16,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/style1.css" />
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/style.css" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR|Roboto&display=swap">
 
+<link rel="stylesheet" href="<%=ctxPath%>/resources/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=ctxPath%>/resources/css/animate.css">
+<link rel="stylesheet" href="<%=ctxPath%>/resources/css/owl.carousel.min.css">
+<link rel="stylesheet" href="<%=ctxPath%>/resources/css/aos.css">
+<link rel="stylesheet" href="<%=ctxPath%>/resources/css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="<%=ctxPath%>/resources/css/jquery.timepicker.css">
+<link rel="stylesheet" href="<%=ctxPath%>/resources/css/fancybox.min.css">
+
+<link rel="stylesheet" href="<%=ctxPath%>/resources/fonts/ionicons/css/ionicons.min.css">
+<link rel="stylesheet" href="<%=ctxPath%>/resources/fonts/fontawesome/css/font-awesome.min.css">
 </head>
 <body>
 	<div id="mycontainer">
