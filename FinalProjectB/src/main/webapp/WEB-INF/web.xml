@@ -27,7 +27,7 @@
 		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
-		<url-pattern>.go</url-pattern>
+		<url-pattern>*.go</url-pattern>
 	</servlet-mapping>
 		
 	<filter>
@@ -45,7 +45,7 @@
 	</filter-mapping>
 	
 	<welcome-file-list>
-    	<welcome-file>home.go</welcome-file>
+    	<welcome-file>index.go</welcome-file>
   	</welcome-file-list> 
 	
 </web-app>
