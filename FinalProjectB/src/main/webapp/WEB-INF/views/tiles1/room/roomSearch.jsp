@@ -169,18 +169,23 @@
     
     <section class="section bg-light">
       <div class="container">
-		  <div >
-		  	<div >
-				<div class="col-md-3">
-					<div ><h2 >검색 결과 필터링:</h2></div>
+      <!-- 
+      	<div class="row justify-content-center text-center mb-9">
+          <div class="col-md-9">
+            <h2 class="heading aos-animate">Great Offers</h2>
+            <p class="aos-init aos-animate">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+          </div>
+        </div>
+         -->
+         <div class="row">
+			<div class="col-md-5">
+		  		<div>
 					<form>
-					<fieldset class="" data-filter-name="name" id="filter-name">
-						<h3 aria-expanded="true" role="button" tabindex="0" aria-controls="filter-name-contents">검색할 이름</h3>
-						<div id="filter-name-contents" class="filter-contents">
-							<label for="f-name" class="offscreen">숙박 시설 이름</label>
-							<span class="name-input-wrapper"><input type="text" value="" class="clearable" name="f-name" id="f-name" placeholder="숙박 시설 이름…"></span>
-							<button type="submit" id="f-name-cta" name="nameSubmit" aria-label="숙박 시설 이름으로 검색 결과 필터링" class="icon cta cta-control ">
-								<span class="offscreen">숙박 시설 이름으로 검색 결과 필터링</span>
+					<fieldset>
+						<h3 aria-expanded="true" role="button" tabindex="0">검색할 이름</h3>
+						<div>
+							<span><input type="text" value="" name="f-name" id="f-name" placeholder="숙박 시설 이름…"></span>
+							<button type="submit" id="f-name-cta" name="nameSubmit">검색
 							</button>
 						</div>
 					</fieldset>
@@ -236,11 +241,6 @@
 									<div class="widget-slider-current-values">
 										<span class="min">₩0</span> ~ <span class="max">₩1,000,000+</span>
 									</div>
-									<div class="widget-slider-cont">
-										<div class="widget-slider-highlight" style="margin-left: 0%; margin-right: 0%;"></div>
-										<div tabindex="0" class="cta cta-control widget-slider-handle widget-slider-handle-min" role="slider" aria-valuemin="0" aria-valuemax="1000000" aria-labelledby="f-price-min-label" aria-controls="f-price-min" aria-valuenow="0" style="left: 0%;"> </div>
-										<div tabindex="0" class="cta cta-control widget-slider-handle widget-slider-handle-max" role="slider" aria-valuemin="0" aria-valuemax="1000000" aria-labelledby="f-price-max-label" aria-controls="f-price-max" aria-valuenow="1000000" style="left: 100%;"> </div>
-									</div>
 								</div>
 							</div>
 						</fieldset>
@@ -252,35 +252,30 @@
 								<ul>
 									<li class=""><input type="checkbox" role="checkbox" name="f-star-rating" value="5" id="f-star-rating-5" aria-labelledby="f-label-star-rating-5">
 										<label for="f-star-rating-5" id="f-label-star-rating-5">
-											<span class="offscreen" aria-label="5성급">5 </span>
 											<span class="star-rating">5성급</span>
 										</label>
 									</li>
 									<li class="">
 										<input type="checkbox" role="checkbox" name="f-star-rating" value="4" id="f-star-rating-4" aria-labelledby="f-label-star-rating-4">
 										<label for="f-star-rating-4" id="f-label-star-rating-4">
-											<span class="offscreen" aria-label="4성급">4 </span>
 											<span class="star-rating">4성급</span>
 										</label>
 									</li>
 									<li class="">
 										<input type="checkbox" role="checkbox" name="f-star-rating" value="3" id="f-star-rating-3" aria-labelledby="f-label-star-rating-3">
 										<label for="f-star-rating-3" id="f-label-star-rating-3">
-											<span class="offscreen" aria-label="3성급">3 </span>
 											<span class="star-rating">3성급</span>
 										</label>
 									</li>
 									<li class="">
 										<input type="checkbox" role="checkbox" name="f-star-rating" value="2" id="f-star-rating-2" aria-labelledby="f-label-star-rating-2">
 										<label for="f-star-rating-2" id="f-label-star-rating-2">
-											<span class="offscreen" aria-label="2성급">2 </span>
 											<span class="star-rating">2성급</span>
 										</label>
 									</li>
 									<li class="">
 										<input type="checkbox" role="checkbox" name="f-star-rating" value="1" id="f-star-rating-1" aria-labelledby="f-label-star-rating-1">
 										<label for="f-star-rating-1" id="f-label-star-rating-1">
-											<span class="offscreen" aria-label="1성급">1 </span>
 											<span class="star-rating">1성급</span>
 										</label>
 									</li>
@@ -456,32 +451,16 @@
 					</div>
 				</form>
 			</div>
-		</div>			
-        <div class="row justify-content-center text-center mb-5">
-          <div class="col-md-9">
-            <h2 class="heading" data-aos="fade">Great Offers</h2>
-            <p data-aos="fade">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-          </div>
-        </div>
-      
-        <div class="site-block-half d-block d-lg-flex bg-white" data-aos="fade" data-aos-delay="100">
+		</div>
+    	<div class="col-md-7 aos-animate">
           <a href="#" class="image d-block bg-image-2" style="background-image: url('images/img_1.jpg');"></a>
-          <div class="text">
-            <span class="d-block mb-4"><span class="display-4 text-primary">$199</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
-            <h2 class="mb-4">Family Room</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-            <p><a href="#" class="btn btn-primary text-white">Book Now</a></p>
-          </div>
-        </div>
-        <div class="site-block-half d-block d-lg-flex bg-white" data-aos="fade" data-aos-delay="200">
-          <a href="#" class="image d-block bg-image-2 order-2" style="background-image: url('images/img_2.jpg');"></a>
-          <div class="text order-1">
-            <span class="d-block mb-4"><span class="display-4 text-primary">$299</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
-            <h2 class="mb-4">Presidential Room</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-            <p><a href="#" class="btn btn-primary text-white">Book Now</a></p>
-          </div>
-        </div>
-
-      </div>
-    </section>
+          	<div class="text">
+	            <span class="d-block mb-4"><span class="display-4 text-primary">$199</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
+	            <h2 class="mb-4">Family Room</h2>
+	            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+	            <p><a href="#" class="btn btn-primary text-white">Book Now</a></p>
+          	</div>
+		</div>
+	</div>			
+</div>
+</section>
