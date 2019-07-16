@@ -45,7 +45,7 @@
 	</filter-mapping>
 	
 	<welcome-file-list>
-    	<welcome-file>home.go</welcome-file>
+    	<welcome-file>index.go</welcome-file>
   	</welcome-file-list> 
 	
 </web-app>

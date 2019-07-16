@@ -7,6 +7,7 @@
 	
 	@media ( min-width : 769px) and ( max-width : 991px) {
 		.custom-border {
+<<<<<<< HEAD
 		 	border: solid 1px red;
 		 }
 		.custom-loginFrm {
@@ -87,6 +88,88 @@
 <div class="container custom-border">
 
 	<div class="row col-md-8 col-md-offset-2 custom-border">
+=======
+		 	/* border: solid 1px red; */
+		 }
+		.custom-loginFrm {
+			margin: 40px 0 0 0;
+		}
+		.custom-input {
+			padding: 0 0 30px 0;
+		}
+		.custom-login-submit {
+			padding: 45px 0 0 20px;
+		}
+	}
+	
+	@media ( min-width : 992px) {
+		.custom-border {
+		 	/* border: solid 1px red; */
+		 }
+		.custom-loginFrm {
+			margin: 40px 0 0 0;
+		}
+		.custom-input {
+			padding: 0 0 30px 0;
+		}
+		.custom-login-submit {
+			padding: 45px 0 0 20px;
+		}
+	}
+	
+</style>
+
+<script type="text/javascript">
+ 
+     $(document).ready(function(){
+    	 
+    	 $("#btnLOGIN").click(function() {
+    		 func_Login();
+    	 }); // end of $("#btnLOGIN").click();-----------------------
+    	 
+    	 $("#pwd").keydown(function(event){
+  			
+  			if(event.keyCode == 13) { // 엔터를 했을 경우
+  				func_Login();
+  			}
+    	 }); // end of $("#pwd").keydown();-----------------------	
+    	 
+    }); // end of $(document).ready()---------------------------	 
+
+    
+    function func_Login() {
+    		 
+		 var userid = $("#userid").val(); 
+		 var pwd = $("#pwd").val(); 
+		
+		 if(userid.trim()=="") {
+		 	 alert("아이디를 입력하세요!!");
+			 $("#userid").val(""); 
+			 $("#userid").focus();
+			 return;
+		 }
+		
+		 if(pwd.trim()=="") {
+			 alert("비밀번호를 입력하세요!!");
+			 $("#pwd").val(""); 
+			 $("#pwd").focus();
+			 return;
+		 }
+
+		 var frm = document.loginFrm;
+		 
+		 frm.action = "<%=ctxPath%>/loginEnd.action";
+		 frm.method = "POST";
+		 frm.submit();
+		 
+    } // end of function func_Login(event)-----------------------------
+     
+</script>
+
+<div class="container custom-border">
+
+	<div class="row col-md-8 col-md-offset-2 col-sm-10 custom-border">
+>>>>>>> branch 'master' of https://github.com/01026551290/finalProjectB.git
 		<h2 class="text-primary">로그인</h2>
 		<p class="bg-primary">&nbsp;</p>
 		
