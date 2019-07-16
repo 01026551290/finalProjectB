@@ -1,4 +1,4 @@
-package com.spring.god.controller;
+package com.spring.god.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
