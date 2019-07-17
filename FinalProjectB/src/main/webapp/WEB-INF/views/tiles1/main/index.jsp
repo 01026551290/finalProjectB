@@ -12,9 +12,9 @@
 		<div class="row site-hero-inner justify-content-center align-items-center">
 			<div class="col-md-10 text-center" data-aos="fade-up">
 				<span class="custom-caption text-uppercase text-white d-block  mb-3">
-                       Welcome	To 5 
+                       Welcome	To 
                        <span class="fa fa-star text-primary"></span> 
-                       Hotel
+                       God
 				</span>
 				<h1 class="heading">A Best Place To Stay</h1>
 			</div>
@@ -38,7 +38,13 @@
 				<form action="#">
 					<div class="row">
 						<div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-							<label for="checkin_date" class="font-weight-bold text-black">Check In</label>
+							<label for="text" class="font-weight-bold text-black">목적지</label>
+							<div class="field-icon-wrap">
+								<input type="text" id="" class="form-control" placeholder="숙박명 또는 지역명을 검색">
+							</div>
+						</div>
+						<div class="col-md-6 mb-3 mb-lg-0 col-lg-2">
+							<label for="checkin_date" class="font-weight-bold text-black">체크인</label>
 							<div class="field-icon-wrap">
 								<div class="icon">
 									<span class="icon-calendar"></span>
@@ -46,8 +52,8 @@
 								<input type="text" id="checkin_date" class="form-control">
 							</div>
 						</div>
-						<div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-							<label for="checkout_date" class="font-weight-bold text-black">Check Out</label>
+						<div class="col-md-6 mb-3 mb-lg-0 col-lg-2">
+							<label for="checkout_date" class="font-weight-bold text-black">체크아웃</label>
 							<div class="field-icon-wrap">
 								<div class="icon">
 									<span class="icon-calendar"></span>
@@ -87,8 +93,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6 col-lg-3 align-self-end">
-							<button class="btn btn-primary btn-block text-white">Check Availabilty</button>
+						<div class="col-md-6 col-lg-2 align-self-end">
+							<button class="btn btn-primary btn-block text-white">검색</button>
 						</div>
 					</div>
 				</form>
@@ -131,53 +137,43 @@
 	<div class="container">
 		<div class="row justify-content-center text-center mb-5">
 			<div class="col-md-7">
-				<h2 class="heading" data-aos="fade-up">Rooms &amp; Suites</h2>
-				<p data-aos="fade-up" data-aos-delay="100">Far far away, behind
-					the word mountains, far from the countries Vokalia and
-					Consonantia, there live the blind texts. Separated they live in
-					Bookmarksgrove right at the coast of the Semantics, a large
-					language ocean.</p>
+				<h2 class="heading">Best 숙소</h2>
+				<p>퀄리티와 인테리어 디자인이 검증된 숙소 셀렉션</p>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-6 col-lg-4" data-aos="fade-up">
+			<div class="col-md-6 col-lg-4">
 				<a href="#" class="room">
 					<figure class="img-wrap">
-						<img src="<%=ctxPath%>/resources/images/img_1.jpg" alt="Free website template"
-							class="img-fluid mb-3">
+						<img src="<%=ctxPath%>/resources/images/img_1.jpg" alt="Free website template" class="img-fluid mb-3">
 					</figure>
 					<div class="p-3 text-center room-info">
 						<h2>Single Room</h2>
-						<span class="text-uppercase letter-spacing-1">90$ / per
-							night</span>
+						<span class="text-uppercase letter-spacing-1">90$ / per	night</span>
 					</div>
 				</a>
 			</div>
 
-			<div class="col-md-6 col-lg-4" data-aos="fade-up">
+			<div class="col-md-6 col-lg-4">
 				<a href="#" class="room">
 					<figure class="img-wrap">
-						<img src="<%=ctxPath%>/resources/images/img_2.jpg" alt="Free website template"
-							class="img-fluid mb-3">
+						<img src="<%=ctxPath%>/resources/images/img_2.jpg" alt="Free website template" class="img-fluid mb-3">
 					</figure>
 					<div class="p-3 text-center room-info">
 						<h2>Family Room</h2>
-						<span class="text-uppercase letter-spacing-1">120$ / per
-							night</span>
+						<span class="text-uppercase letter-spacing-1">120$ / per night</span>
 					</div>
 				</a>
 			</div>
 
-			<div class="col-md-6 col-lg-4" data-aos="fade-up">
+			<div class="col-md-6 col-lg-4">
 				<a href="#" class="room">
 					<figure class="img-wrap">
-						<img src="<%=ctxPath%>/resources/images/img_3.jpg" alt="Free website template"
-							class="img-fluid mb-3">
+						<img src="<%=ctxPath%>/resources/images/img_3.jpg" alt="Free website template" class="img-fluid mb-3">
 					</figure>
 					<div class="p-3 text-center room-info">
 						<h2>Presidential Room</h2>
-						<span class="text-uppercase letter-spacing-1">250$ / per
-							night</span>
+						<span class="text-uppercase letter-spacing-1">250$ / per night</span>
 					</div>
 				</a>
 			</div>
