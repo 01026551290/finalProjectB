@@ -289,3 +289,40 @@ DECLARE
  FROM MEMBER;
 
 -------------------------------------------------------------------------------------------------------------------------
+
+
+-- 작성자명 : 정혜인  작성일자 : 2019.07.17
+
+
+insert into LCATEGORY (LARGECATEGORYCODE, LARGECATEGORYNAME) values (10, '호텔');
+insert into LCATEGORY (LARGECATEGORYCODE, LARGECATEGORYNAME) values (20, '리조트');
+insert into LCATEGORY (LARGECATEGORYCODE, LARGECATEGORYNAME) values (30, '게스트하우스');
+insert into LCATEGORY (LARGECATEGORYCODE, LARGECATEGORYNAME) values (40, '모텔');
+insert into LCATEGORY (LARGECATEGORYCODE, LARGECATEGORYNAME) values (50, '펜션');
+insert into LCATEGORY (LARGECATEGORYCODE, LARGECATEGORYNAME) values (60, '호스텔');
+
+select *
+from LCATEGORY
+
+insert into LONTION (LARGECATEGORYONTIONCODE, FK_LARGECATEGORYCODE, NAME, BUSINESSTEL, ADDRESS, INFO, ONTIONTYPE) 
+values (110, 10, '제주 신라 호텔', '0647355114', '제주특별자치도 서귀포시 색달동 중문관광로72번길 75', '세계자연문화유산인 제주의아름다운 풍광을 담은 리조트로써 그 명성을 쌓아가고 있는 제주신라호텔', '레스토랑, 발렛파킹');
+
+insert into LONTION (LARGECATEGORYONTIONCODE, FK_LARGECATEGORYCODE, NAME, BUSINESSTEL, ADDRESS, INFO, ONTIONTYPE) 
+values (120, 20, '제주 아모렉스 리조트', '0647110125', '제주특별자치도 제주시 도두일동 서해안로 216', '제주시에 위치한 3성급 아파트식 호텔, 헬스클럽 및 무료 키즈클럽 이용 가능', '헬스클럽, 키즈클럽');
+
+insert into LONTION (LARGECATEGORYONTIONCODE, FK_LARGECATEGORYCODE, NAME, BUSINESSTEL, ADDRESS, INFO, ONTIONTYPE) 
+values (130, 30, '뷰타워리조트', '0647438953', '제주특별자치도 제주시 도두이동 719-1', '제주에 있는 3성급 펜션', '라운지바');
+
+insert into LONTION (LARGECATEGORYONTIONCODE, FK_LARGECATEGORYCODE, NAME, BUSINESSTEL, ADDRESS, INFO, ONTIONTYPE) 
+values (140, 40, '코업시티호텔 성산', '0647809800', '제주특별자치도 서귀포시 성산읍 성산리 250', '해변에 자리한 3.5성급 호텔, 성산 일출봉에서 가까우며 레스토랑 이용 가능', '레스토랑');
+
+insert into LONTION (LARGECATEGORYONTIONCODE, FK_LARGECATEGORYCODE, NAME, BUSINESSTEL, ADDRESS, INFO, ONTIONTYPE) 
+values (150, 50, '더 클라우드 풀앤스파', '0647838366', '제주특별자치도 서귀포시 성산읍 성산리 308', '더클라우드 풀앤스파는 제주국제공항에서 차로 1시간 30분 거리에 위치해 있습니다.', '주차장');
+
+insert into LONTION (LARGECATEGORYONTIONCODE, FK_LARGECATEGORYCODE, NAME, BUSINESSTEL, ADDRESS, INFO, ONTIONTYPE) 
+values (160, 60, '미도 호스텔', '0647891234', '제주특별자치도 서귀포시 서귀동 258-2', '분위기 있고 조용한 감성 여행자숙소 Since 1977', '주차장');
+
+commit;
+
+select *
+from LONTION
