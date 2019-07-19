@@ -1827,10 +1827,17 @@ opacity
     padding-right: 0;
 }
 
-.searchword {
+.searchType {
     display: inline-block;
-    width: 300px;
-    text-align: left;
-    padding-top: 10px;
     color: #ffaa34;
+    width: 100%;
+}
+
+.searchType span {
+	display: inline-block;
+}
+
+.searchType .styleWord {
+	width: 30%;
+	text-align: right;
 }
