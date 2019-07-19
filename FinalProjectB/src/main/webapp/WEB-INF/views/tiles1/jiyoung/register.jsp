@@ -2,11 +2,12 @@
     pageEncoding="UTF-8"%>
        
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+
     
 <script type="text/javascript">
 	
 	$(document).ready(function(){
-		
+		alert("소무");
 		var now = new Date(); 
 		// 자바스크립트에서 현재날짜시각을 얻어온다.
 		
@@ -50,7 +51,7 @@
 		// 그러므로 $(".form-control").each(); 은
 		// 클래스가 form-control 인 것마다 하나하나씩 반복업무를 해주는 것이다.
 		
-		$("#userid").bind("keyup", function(){
+		$("#MEMBERID").bind("keyup", function(){
 			alert("아이디중복확인 버튼을 클릭하여 ID중복 검사를 하세요!!");
 			$(this).val("");
 		}); // end of $("#userid").bind()----------
@@ -60,15 +61,15 @@
 		$("#idcheck").click(function() {
 			
 			// 팝업창 띄우기
-			var url = "idDuplicateCheck.kh"; /* 4 앞에 슬래시 없으면 절대경로이다.*/
-			window.open(url, "idcheck",
+			var url = "idDuplicateCheck.go"; /* 4 앞에 슬래시 없으면 절대경로이다.*/
+			window.open(url, "registercheck",
 					    "left=500px, top=100px, width=300px, height=230px");
 			// 기본적으로 아무런 조건없이 그냥 어떤 창을 띄우면 method 는 GET 방식으로 움직인다. 
 			
 		});// end of $("#idcheck").click()------------
 		
 		
-		$("#pwd").blur(function(){
+		$("#PWD").blur(function(){
 			var passwd = $(this).val();
 			
 		//	var regExp_PW = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;
@@ -93,15 +94,15 @@
 		
 	
 		$("#pwdcheck").blur(function(){
-			var passwd = $("#pwd").val();
+			var passwd = $("#PWD").val();
 			var passwdCheck = $(this).val();
 			
 			if(passwd != passwdCheck) {
 				$(this).parent().find(".error").show();
 				$(":input").attr("disabled",true).addClass("bgcol");
 				$(this).attr("disabled",false).removeClass("bgcol");
-				$("#pwd").attr("disabled",false).removeClass("bgcol");
-				$("#pwd").focus();
+				$("#PWD").attr("disabled",false).removeClass("bgcol");
+				$("#PWD").focus();
 			}
 			else {
 				$(this).parent().find(".error").hide();
@@ -110,8 +111,17 @@
 			
 		});// end of $("#pwdcheck").blur()--------------
 		
+			$("#NICKNAME").click(function() {
+			
+			// 팝업창 띄우기
+			var url = "nicknameDuplicateCheck.go"; /* 4 앞에 슬래시 없으면 절대경로이다.*/
+			window.open(url, "registercheck",
+					    "left=500px, top=100px, width=300px, height=230px");
+			// 기본적으로 아무런 조건없이 그냥 어떤 창을 띄우면 method 는 GET 방식으로 움직인다. 
+			
+		});// end of $("#idcheck").click()------------
 		
-		$("#email").blur(function(){
+		$("#EMAIL").blur(function(){
 			
 			var email = $(this).val();
 			
@@ -177,33 +187,7 @@
 				$(":input").attr("disabled", false).removeClass("bgcol");
 			}			
 		});// end of $("#hp3").blur()-------------
-		
-		
-		$("#zipcodeSearch").click(function(){
-			new daum.Postcode({
-				oncomplete: function(data) {
-				    $("#post1").val(data.postcode1);  // 우편번호의 첫번째 값     예> 151
-				    $("#post2").val(data.postcode2);  // 우편번호의 두번째 값     예> 019
-				    $("#addr1").val(data.address);    // 큰주소                        예> 서울특별시 종로구 인사로 17 
-				    $("#addr2").focus();
-				}
-			}).open();
-		});
-		
-		
-		$(".address").blur(function(){
-			var address = $(this).val().trim();
-			if(address == "") {
-				$(this).parent().find(".error").show();
-				$(":input").attr("disabled", true).addClass("bgcol");
-				$(this).attr("disabled", false).removeClass("bgcol");
-			}
-			else {
-				$(this).parent().find(".error").hide();
-				$(":input").attr("disabled", false).removeClass("bgcol");
-			}
-		});
-		
+
 	}); // end of $(document).ready()-------------------
 	
 	
@@ -228,19 +212,19 @@
    	   ==> id의 값이 이름인 라디오에 체크가 안되었으면 false를 반환
    	 */
    	  
-	  if( !$("input:radio[name=gender]").is(":checked")) {
+	  if( !$("input:radio[name=GENDER]").is(":checked")) {
 		  alert("성별을 선택하셔야 합니다.");
 		  return;
 	  } 
    	   
-   	  if( !$("input:checkbox[id=agree]").is(":checked") ) {
+   	 /*  if( !$("input:checkbox[id=agree]").is(":checked") ) {
    		  alert("이용약관에 동의하셔야 합니다.");
    		  return;
-   	  } 
+   	  }  */
    	 
    	  var frm = document.registerFrm;
    	  frm.method = "POST";
-   	  frm.action = "memberInsert.kh";
+   	  frm.action = "memberInsert.go";
    	  frm.submit();
 	}// end of function goRegister(event)----------
 	
@@ -253,7 +237,7 @@
           <div class="col-md-10 text-center" data-aos="fade">
             <h1 class="heading mb-3">회원가입에 오신걸 환영합니다</h1>
             <ul class="custom-breadcrumbs mb-4">
-              <li><a href="index.html">홈으로</a></li>
+              <li><a href="index.go">홈으로</a></li>
               <li>&bullet;</li>
               <li>예약하기</li>
             </ul>
@@ -274,18 +258,18 @@
         <div class="row">
           <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
             <div>::: 회원가입 (<span style="font-size: 10pt; font-style: italic;"><span class="star">*</span>표시는 필수입력사항</span>) </div>
-            <form action="#" method="post" class="bg-white p-md-5 p-4 mb-5 border">                      
+            <form name="registerFrm" >                      
               <div class="row">
                 <div class="col-md-12 form-group">
               <div class="row">
                 <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="email" required>성명</label><span class="star">*</span>
-                  <input type="email" id="email" class="form-control " required>
+                  <label class="text-black font-weight-bold" for="NAME" required>성명</label><span class="star">*</span>
+                  <input type="text" name="NAME" id="NAME" class="form-control " required>
                   <span class="error">성명은 필수입력 사항입니다.</span>
                 </div>
               </div>
-                  <label class="text-black font-weight-bold" for="email" required>회원아이디</label><span class="star">*</span>
-                  <input type="text" name="userid" id="userid" class="form-control "required>
+                  <label class="text-black font-weight-bold" for="MEMBERID" required>회원아이디</label><span class="star">*</span>
+                  <input type="text" name="MEMBERID" id="MEMBERID" class="form-control "required>
                    <!-- 아이디중복체크 -->
 			    <img id="idcheck" src="../images/b_id_check.gif" style="vertical-align: middle;" />
 			    <span class="error">아이디는 필수입력 사항입니다.</span>
@@ -293,43 +277,43 @@
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="email" required>암호</label><span class="star">*</span>
-                  <input type="email" id="email" class="form-control ">
+                  <label class="text-black font-weight-bold" for="PWD" required>암호</label><span class="star">*</span>
+                  <input type="password" name="PWD" id="PWD" class="form-control ">
                   <span id="error_passwd">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로만 입력가능합니다.</span>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="email" required>암호확인</label><span class="star">*</span>
-                  <input type="email" id="email" class="form-control ">
+                  <label class="text-black font-weight-bold" for="PWDcheck" required>암호확인</label><span class="star">*</span>
+                  <input type="password" name="PWDcheck" id="PWDcheck" class="form-control ">
                   <span class="error">암호가 일치하지 않습니다.</span>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="email" required>닉네임</label><span class="star">*</span>
-                  <input type="email" id="email" class="form-control ">
+                  <label class="text-black font-weight-bold" for="NICKNAME" required>닉네임</label><span class="star">*</span>
+                  <input type="text" name="NICKNAME" id="NICKNAME"  class="form-control ">
                   <span class="error">닉네임은 필수입력 사항입니다.</span>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="email" required>Email</label><span class="star">*</span>
-                  <input type="email" id="email" class="form-control ">
+                  <label class="text-black font-weight-bold" for="EMAIL" required>Email</label><span class="star">*</span>
+                  <input type="EMAIL" name="EMAIL" id="EMAIL" class="form-control ">
                   <span class="error">이메일 형식에 맞지 않습니다.</span>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="email">성별</label><span class="star">*</span>
-                  <input type="radio" id="male" name="gender" value="1" /><label for="male" style="margin-left: 2%;">남자</label>
-			   	  <input type="radio" id="female" name="gender" value="2" style="margin-left: 10%;" /><label for="female" style="margin-left: 2%;">여자</label>
+                  <label class="text-black font-weight-bold" for="GENDER">성별</label><span class="star">*</span>
+                  <input type="radio" id="male" name="GENDER" value="1" /><label for="male" style="margin-left: 2%;">남자</label>
+			   	  <input type="radio" id="female" name="GENDER" value="2" style="margin-left: 10%;" /><label for="female" style="margin-left: 2%;">여자</label>
 			   	  <span class="error">성별을 입력하세요</span>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="email">전화번호</label><span class="star">*</span>
+                  <label class="text-black font-weight-bold" for="TEL">전화번호</label><span class="star">*</span>
                   <select name="hp1" id="hp1" style="width: 75px; padding: 8px;">
 					<option value="010" selected>010</option>
 					<option value="011">011</option>
@@ -399,7 +383,7 @@
               </div>
               <div class="row">
                 <div class="col-md-6 form-group">
-                  <input type="submit" value="Reserve Now" class="btn btn-primary text-white py-3 px-5 font-weight-bold">
+                  <input type="button" id="btnRegister" value="Reserve Now" class="btn btn-primary text-white py-3 px-5 font-weight-bold" onClick="goRegister(event);">
                 </div>
               </div>
             </form>

@@ -4,5 +4,22 @@
 
 <mapper namespace="jinsoodb">
 		
+		<resultMap type="HASHMAP" id="GENDERCNTPERCNT">
+			<result property="GENDER" column="GENDER" javaType="STRING" />
+			<result property="CNT" column="CNT" javaType="STRING" />
+			<result property="PERCNT" column="PERCNT" javaType="STRING" />
+		</resultMap>
+		
+		<select id="getGenderCntList" resultMap="GENDERCNTPERCNT" >
+			SELECT GENDER , COUNT(*) AS CNT , ROUND(COUNT(*) /(SELECT COUNT(*) FROM MEMBER)*100 ,2) AS PERCNT
+			FROM MEMBER
+			GROUP BY GENDER 
+			ORDER BY GENDER
+		</select>
+		
+		<select id="adminLogin" parameterType="HashMap" resultType="com.spring.god.jinsoo.model.JinsooadminVO">
+				SELECT SEQ , PWD , NAME FROM ADMIN WHERE SEQ = #{seq} AND PWD = #{pwd}
+		</select>
+		
 </mapper>
 
