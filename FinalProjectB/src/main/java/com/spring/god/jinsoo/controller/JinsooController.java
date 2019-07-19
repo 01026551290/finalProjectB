@@ -60,7 +60,7 @@ public class JinsooController {
 			mv.setViewName("tiles1/jinsoo/msg");
 			
 			}
-			
+						
 			else {
 				
 				session.setAttribute("adminvo", adminvo);

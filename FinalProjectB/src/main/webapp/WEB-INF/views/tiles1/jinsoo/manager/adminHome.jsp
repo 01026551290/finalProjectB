@@ -13,67 +13,90 @@
  
  $(document).ready(function(){
 	 
-		Highcharts.chart('container', {
-		    chart: {
-		        plotBackgroundColor: null,
-		        plotBorderWidth: null,
-		        plotShadow: false,
-		        type: 'pie'
-		    },
-		    title: {
-		        text: 'Browser market shares in January, 2018'
-		    },
-		    tooltip: {
-		        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-		    },
-		    plotOptions: {
-		        pie: {
-		            allowPointSelect: true,
-		            cursor: 'pointer',
-		            dataLabels: {
-		                enabled: true,
-		                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-		            }
-		        }
-		    },
-		    series: [{
-		        name: 'Brands',
-		        colorByPoint: true,
-		        data: [{
-		            name: 'Chrome',
-		            y: 61.41,
-		            sliced: true,
-		            selected: true
-		        }, {
-		            name: 'Internet Explorer',
-		            y: 11.84
-		        }, {
-		            name: 'Firefox',
-		            y: 10.85
-		        }, {
-		            name: 'Edge',
-		            y: 4.67
-		        }, {
-		            name: 'Safari',
-		            y: 4.18
-		        }, {
-		            name: 'Sogou Explorer',
-		            y: 1.64
-		        }, {
-		            name: 'Opera',
-		            y: 1.6
-		        }, {
-		            name: 'QQ',
-		            y: 1.2
-		        }, {
-		            name: 'Other',
-		            y: 2.61
-		        }]
-		    }]
-		});
-});
+	 
+	 $.ajax({
+		 
+		 url:"genderJSON.go",
+		 dataType: "JSON",
+		 success: function(json){
+			 
+			 $("#container").empty();
+			
+			
+			
+			 var resultArr = [];
+				for(var i=0; i<json.length; i++){
+						if(json[i].GENDER == 1){
+							var obj = {name:"남자" , y:Number(json[i].PERCNT)};
+						}
+						else{
+							var obj = {name:"여자" , y:Number(json[i].PERCNT)};
+						}
+ //					var obj = {name:json[i].GENDER , y:Number(json[i].PERCNT)};		
+					
+					
+					resultArr.push(obj); 
+						
+				}
+				Highcharts.chart('container', {
+				    chart: {
+				        plotBackgroundColor: null,
+				        plotBorderWidth: null,
+				        plotShadow: false,
+				        type: 'pie'
+				    },
+				    title: {
+				        text: '성별통계'
+				    },
+				    tooltip: {
+				        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+				    },
+				    plotOptions: {
+				        pie: {
+				            allowPointSelect: true,
+				            cursor: 'pointer',
+				            dataLabels: {
+				                enabled: true,
+				                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+				            }
+				        }
+				    },
+				    series: [{
+				        name: '인원비율',
+				        colorByPoint: true,
+				        data: resultArr
+				    }]
+				});
+			 
+		 },error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		 
+	 });// end of $.ajax({
+				
+						
+	$.ajax({
+		
+		url: "memberCntJSON.go"
+		
+	});// end of $.ajax({  		 
+	
+				
+		
+		
+}); // end of $(document).ready(function()
 </script>
 
+<div style="height: 500px; width: 500px; display: inline-block;" >
+	<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin-top: 400px;  "></div>    
+</div>
 
-<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin-top: 200px;  "></div>    
-    
+<div style="height: 500px; width: 500px; ">
+	    <table>	    
+	    	<thead>
+	    		<tr>    <th>총인원수 : 100명</th> </tr>
+	    		<tr>	<th>신입회원 : 10명</th> </tr>
+	    		<tr>	<th>탈퇴한회원 : 20명</th> </tr>
+	    	</thead>
+	    </table>
+</div>        
