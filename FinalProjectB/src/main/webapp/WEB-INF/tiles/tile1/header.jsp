@@ -10,14 +10,14 @@
 	<div class="container-fluid">
 		<div class="row align-items-center">
 			<div class="col-3 col-lg-3 site-logo" data-aos="fade">
-				<a href="index.html">God</a>
+				<a href="index.go">God</a>
 			</div>
                
                <div class="col-6 col-lg-6">
                    <div data-aos="fade-up" data-aos-offset="-200">
-				<form action="#">
+				<!-- <form action="#">
 					<div class="row">
-						<div class="col-md-8 col-lg-8 col-sm-8">
+						<div class="col-mdw-8 col-lg-8 col-sm-8">
 							<div class="field-icon-wrap">
 								<input type="text" id="" class="form-control" placeholder="숙박명 또는 지역명을 검색">
 							</div>
@@ -27,10 +27,11 @@
 							<button class="btn btn-primary btn-block text-white pdlr0">검색</button>
 						</div>
 					</div>
-				</form>
-                   <div class="searchword">
-                       <span>1.조아조아호텔(포이치문)</span>
-                   </div>
+				</form> -->
+				<div class="searchType">
+					<span class="styleWord">실시간검색어 : </span>				
+				    <span class="searchWord">1.조아조아호텔(포이치문)</span>
+				</div>
 			</div>
                
                </div>
@@ -49,12 +50,18 @@
 							<div class="row full-height align-items-center">
 								<div class="col-md-6 mx-auto">
 									<ul class="list-unstyled menu">
-										<li class="active"><a href="index.html">Home</a></li>
-										<li><a href="rooms.html">Rooms</a></li>
-										<li><a href="about.html">About</a></li>
-										<li><a href="events.html">Events</a></li>
-										<li><a href="contact.html">Contact</a></li>
-										<li><a href="reservation.html">Reservation</a></li>
+										<li class="active"><a href="index.go">홈으로</a></li>
+										<!-- 로그인 전 -->
+										<li><a href="#">로그인</a></li>
+										<li><a href="#">회원가입</a></li>
+										<li><a href="#">고객센터</a></li>
+										
+										<!-- 로그인 후 보여지는 메뉴    
+										<li class="active"><a href="index.go">홈으로</a></li>
+										<li><a href="#">여행</a></li>
+										<li><a href="#">찜목록</a></li>
+										<li><a href="#">마이페이지</a></li>
+										-->
 									</ul>
 								</div>
 							</div>
