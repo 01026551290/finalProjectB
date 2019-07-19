@@ -11,6 +11,12 @@
 }
 </style>
 
+<script type="text/javascript">
+	function googleMapSearch(){
+		
+	}
+</script>
+
 
 
 <section class="site-hero inner-page overlay" style="background-image: url(images/hero_4.jpg)" data-stellar-background-ratio="0.5">
@@ -100,80 +106,11 @@
     
     <section class="section">
       <div class="container">
-        
         <div class="row">
-          <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
-            <a href="#" class="room">
-              <figure class="img-wrap">
-                <img src="images/img_1.jpg" alt="Free website template" class="img-fluid mb-3">
-              </figure>
-              <div class="p-3 text-center room-info">
-                <h2>Single Room</h2>
-                <span class="text-uppercase letter-spacing-1">90$ / per night</span>
-              </div>
-            </a>
+        
+          <iframe style="border: none; width: 830px; height: 680px;" src="<%=request.getContextPath() %>/searchStoreMap.go?searchWord=${searchWord}"></iframe>
+          
           </div>
-
-          <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
-            <a href="#" class="room">
-              <figure class="img-wrap">
-                <img src="images/img_2.jpg" alt="Free website template" class="img-fluid mb-3">
-              </figure>
-              <div class="p-3 text-center room-info">
-                <h2>Family Room</h2>
-                <span class="text-uppercase letter-spacing-1">120$ / per night</span>
-              </div>
-            </a>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
-            <a href="#" class="room">
-              <figure class="img-wrap">
-                <img src="images/img_3.jpg" alt="Free website template" class="img-fluid mb-3">
-              </figure>
-              <div class="p-3 text-center room-info">
-                <h2>Presidential Room</h2>
-                <span class="text-uppercase letter-spacing-1">250$ / per night</span>
-              </div>
-            </a>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
-            <a href="#" class="room">
-              <figure class="img-wrap">
-                <img src="images/img_1.jpg" alt="Free website template" class="img-fluid mb-3">
-              </figure>
-              <div class="p-3 text-center room-info">
-                <h2>Single Room</h2>
-                <span class="text-uppercase letter-spacing-1">90$ / per night</span>
-              </div>
-            </a>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
-            <a href="#" class="room">
-              <figure class="img-wrap">
-                <img src="images/img_2.jpg" alt="Free website template" class="img-fluid mb-3">
-              </figure>
-              <div class="p-3 text-center room-info">
-                <h2>Family Room</h2>
-                <span class="text-uppercase letter-spacing-1">120$ / per night</span>
-              </div>
-            </a>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
-            <a href="#" class="room">
-              <figure class="img-wrap">
-                <img src="images/img_3.jpg" alt="Free website template" class="img-fluid mb-3">
-              </figure>
-              <div class="p-3 text-center room-info">
-                <h2>Presidential Room</h2>
-                <span class="text-uppercase letter-spacing-1">250$ / per night</span>
-              </div>
-            </a>
-          </div>
-
         </div>
       </div>
     </section>
@@ -467,7 +404,109 @@
     	
     			<div>
     			<div class="row">
-
+    			
+ 					<!-- 웅앵웅어쩌구 하트랑있는 에어비엔비 소스 시작 -->
+   					<div class="col-12 col-sm-6 col-lg-4 single_gallery_item wow fadeInUpBig" data-wow-delay="0.2s">
+	   					<div class="_y89bwt">
+		   					<div class="_1dp4576">
+			   					<div aria-hidden="false" class="_e296pg">
+				   					<div class="_e296pg">
+					   					<div class="_13ky0r6y" style="padding-top: 66.6667%; background: rgb(216, 216, 216);">
+						   					<div class="_1szwzht">
+							   					<a href="/rooms/8087041?location=Paris&amp;adults=1&amp;previous_page_section_name=1001" target="listing_8087041" aria-hidden="true" tabindex="-1">
+							   					<span class="_krjbj">Bright Apartment Close to Monmartre</span>
+								   					<div class="_qptau">
+									   					<div class="_yydl86">
+										   					<div class="_1na7kj9b">
+											   					<div class="_e296pg" style="width: 100%; height: 100%;">
+												   					<div class="_1df8dftk" role="img" aria-label="Bright Apartment Close to Monmartre" style="width: 100%; height: 100%; background-image: url(&quot;https://a0.muscache.com/im/pictures/09c13788-75fa-456f-b8ad-844ce737ba58.jpg?aki_policy=large&quot;);">
+												   					</div>
+											   					</div>
+										   					</div>
+									   					</div>
+								   					</div>
+							   					</a>
+							   					<div class="_17bbo57">
+								   					<div class="_189umuy">
+									   					<div class="_14hndxaq" style="transform: scale(1); width: 18px; opacity: 1;"></div>
+									   					<div class="_1qellvc4" style="transform: scale(1); width: 16px; opacity: 1;"></div>
+									   					<div class="_1qellvc4" style="transform: scale(1); width: 16px; opacity: 1;"></div>
+									   					<div class="_1qellvc4" style="transform: scale(1); width: 16px; opacity: 1;"></div>
+									   					<div class="_1qellvc4" style="transform: scale(1); width: 16px; opacity: 1;"></div>
+									   					<div class="_1qellvc4" style="transform: scale(0.666667); width: 10.6667px; opacity: 0.875;"></div>
+								   					</div>
+							   					</div>
+						   					</div>
+					   					</div>
+					   					<div class="_1r8d33l9" aria-hidden="false">
+						   					<div class="_tk908t">
+							   					<button type="button" aria-label="Bright Apartment Close to Monmartre, 이전 이미지" class="_4fditnk">
+							   						<div class="_n0qiwy"></div>
+							   					</button>
+							   					<button type="button" aria-label="Bright Apartment Close to Monmartre, 다음 이미지" class="_1imd680n">
+							   						<div class="_grtzc2"></div>
+							   					</button>
+						   					</div>
+					   					</div>
+				   					</div>
+				   					<div class="_1j1huff">
+					   					<div class="_zjunba">
+						   					<div></div>
+						   					<div>
+							   					<div class="_k1g2qh">
+								   					<button type="button" class="_1rp5252" id="8087041" aria-busy="false" style="padding: 8px; margin: -8px;">
+									   					<svg viewBox="0 0 24 24" fill="#484848" fill-opacity="0.5" stroke="#ffffff" stroke-width="2" focusable="false" aria-label="목록에 숙소 추가하기" role="img" stroke-linecap="round" stroke-linejoin="round" style="height: 28px;width: 28px;display: block;overflow: visible;">
+									   						<path d="m17.5 2.9c-2.1 0-4.1 1.3-5.4 2.8-1.6-1.6-3.8-3.2-6.2-2.7-1.5.2-2.9 1.2-3.6 2.6-2.3 4.1 1 8.3 3.9 11.1 1.4 1.3 2.8 2.5 4.3 3.6.4.3 1.1.9 1.6.9s1.2-.6 1.6-.9c3.2-2.3 6.6-5.1 8.2-8.8 1.5-3.4 0-8.6-4.4-8.6" stroke-linejoin="round"></path>
+									   					</svg>
+								   					</button>
+							   					</div>
+						   					</div>
+						   				</div>
+				   						<div></div>
+				   					</div>
+			   					</div>
+		   					</div>
+		   					<div class="_gxc04lv">
+			   					<a href="/rooms/8087041?location=Paris&amp;adults=1&amp;previous_page_section_name=1001" target="listing_8087041" rel="noopener" data-check-info-section="true" class="_1ol0z3h">
+				   					<div role="text">
+					   					<div class="_5ioaf7q" style="color: rgb(118, 118, 118);">
+						   					<div class="_1etkxf1" style="color: rgb(118, 118, 118);">
+							   					<span class="_1xxanas2">
+							   						<span style="color: rgb(118, 118, 118);">아파트 전체<span aria-hidden="true"> · </span>침대 1개</span>
+							   					</span>
+						   					</div>
+					   					</div>
+					   					<div style="margin-top: 6px;">
+						   					<div class="_88rsw9a">
+							   					<div class="_b9qfkc2">
+							   						<div class="_1dss1omb">Bright Apartment Close to Monmartre</div>
+							   					</div>
+						   					</div>
+					   					</div>
+					   					<div style="margin-top: 2px;">
+						   					<div class="_aq2oyh">
+							   					<div class="_36rlri">
+								   					<span class="_q27mtmr">
+									   					<span role="img" aria-label="평점 5/5" class="_rs3rozr" style="width: 50px;">
+										   					<span class="_83zdpk" style="width: 50px;">
+											   					<span class="_ogu8zgi" style="width: 50px;"></span>
+									       					</span>
+								       					</span>
+							       					</span>
+						       					<span class="_krjbj">후기 124개</span>
+						       					<span class="_1gvnvab" aria-hidden="true"><span class="_j2qalb2">124</span></span>
+						       					</div>
+						       					<span class="_j2qalb2"><span aria-hidden="true"> · </span>슈퍼호스트</span>
+					       					</div>
+				       					</div>
+			       					</div>
+		       					</a>
+	       					</div>
+       					</div>
+					</div>	
+					<!-- 웅앵웅어쩌구 하트랑있는 에어비엔비 소스 종료 -->
+										
+										
                     					<div class="col-12 col-sm-6 col-lg-4 single_gallery_item wow fadeInUpBig" data-wow-delay="0.2s">
                     					<!-- Product Image -->
 	                                    <div class="product-img">
