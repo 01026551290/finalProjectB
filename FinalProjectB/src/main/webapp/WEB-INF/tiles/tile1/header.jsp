@@ -5,15 +5,156 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
+<script src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+
+	var weatherTimejugi = 0;  // 단위는 밀리초
+	
+	$(document).ready(function() {
+		loopshowNowTime();
+		
+		// 시간이 대략 매 30분 0초가 되면 기상청 날씨정보를 자동 갱신해서 가져오려고 함.
+		// (매 정시마다 변경되어지는 날씨정보를 정시에 보내주지 않고 대략 30분이 지난다음에 보내주므로)
+		var now = new Date();
+		var minute = now.getMinutes();  // 현재시각중 분을 읽어온다.
+		
+		if(minute < 30) { // 현재시각중 분이 0~29분 이라면
+			weatherTimejugi = (30-minute)*60*1000;  // 현재시각의 분이 0분이라면 weatherTimejugi에 30분을 넣어준다.
+			                                        // 현재시각의 분이 5분이라면 weatherTimejugi에 25분을 넣어준다.
+			                                        // 현재시각의 분이 29분이라면 weatherTimejugi에 1분을 넣어준다.
+		}
+		else if(minute == 30) {
+			weatherTimejugi = 1000;                 // 현재시각의 분이 30분이라면 weatherTimejugi에 1초 넣어준다.
+		}
+		else {                                      // 현재시각의 분이 31~59분이라면
+			weatherTimejugi = ( (60-minute)+30 )*60*1000;  // 현재시각의 분이 31분이라면 weatherTimejugi에 (29+30)분을 넣어준다.
+			                                               // 현재시각의 분이 40분이라면 weatherTimejugi에 (20+30)분을 넣어준다.
+			                                               // 현재시각의 분이 59분이라면 weatherTimejugi에 (1+30)분을 넣어준다.
+		}
+		
+		loopshowWeather(); // 기상청 날씨정보 공공API XML데이터 호출하기
+		
+	}); // end of ready(); ---------------------------------
+	
+	function showNowTime() {
+		
+		var now = new Date();
+		
+		var month = now.getMonth() + 1 // 0이 1월달이기때문에 +1 을 해준것
+		if(month < 10) {
+			month = "0"+month;
+		}
+		
+		var strNow = now.getFullYear() + "-" + month + "-" + now.getDate();
+		
+		var hour = "";
+	    if(now.getHours() < 10) {
+	    	 hour = "0"+now.getHours();
+	    } 
+	    else {
+	    	hour = now.getHours();
+	    }
+		
+		var minute = "";
+		if(now.getMinutes() < 10) {
+			minute = "0"+now.getMinutes();
+		} else {
+			minute = now.getMinutes();
+		}
+		
+		var second = "";
+		if(now.getSeconds() < 10) {
+			second = "0"+now.getSeconds();
+		} else {
+			second = now.getSeconds();
+		}
+		
+		strNow += " "+hour + ":" + minute + ":" + second;
+		
+		$("#clock").html("<span style='color:green; font-weight:bold;'>"+strNow+"</span>");
+	
+	}// end of function showNowTime() -----------------------------
+	
+	// ------ 기상청 날씨정보 공공API XML데이터 호출하기 -------- //
+	function showWeather() {
+
+		$.ajax({
+				url: "<%= request.getContextPath() %>/weatherXML.go",
+				type: "GET",
+				dataType: "XML",
+				success: function(xml){
+						var rootElement = $(xml).find(":root");
+					    console.log($(rootElement).prop("tagName"));   
+					    // ==> current
+										   
+					    var weather = $(rootElement).find("weather");
+					    console.log( $(weather).attr("year") +"년 " + $(weather).attr("month") + "월 " + $(weather).attr("day") + "일 " + $(weather).attr("hour") + "시" );        
+						// 2019년 01월 20일 22시
+						
+						var updateTime = $(weather).attr("year") +"년 " + $(weather).attr("month") + "월 " + $(weather).attr("day") + "일 " + $(weather).attr("hour") + "시";
+						
+					    var localArr = $(rootElement).find("local");
+
+					    var html = "";
+					    
+					    for(var i=0; i<localArr.length; i++) {
+					    	var local = $(localArr).eq(i);
+					    	if($(local).attr("stn_id") == "184" || $(local).attr("stn_id") == "189") { // 제주도 와 서귀포만 뽑아옴
+							   /* .eq(index) 는 선택된 요소들을 인덱스 번호로 찾을 수 있는 선택자이다. 
+							            마치 배열의 인덱스(index)로 값(value)를 찾는 것과 같은 효과를 낸다.
+							   */
+							   console.log($(local).text() + " stn_id:" + $(local).attr("stn_id") + " icon:" + $(local).attr("icon") + " desc:" + $(local).attr("desc") + " ta:" + $(local).attr("ta") );
+							   
+								html += "<span class='weatherArea'>"+$(local).text()+"</span>";
+								html += "<span class='weatherImg'>"+"<img src='http://www.kma.go.kr/images/icon/NW/NB"+$(local).attr("icon")+".png'><span class='weather'>("+$(local).attr("desc")+")</span>"+"</span>";
+								html += "<span class='weatherAir'>"+$(local).attr("ta")+"</span>";
+				    	   }
+					    }
+					    
+					    $(".weatherType").html(html);
+					    
+					}, // end of success: function(xml)-----------------------------
+
+					error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					}	
+				}); // end of $.ajax({});-------------------------------------------------
+		
+	}// end of function showWeather()----------------------
+	
+	function loopshowNowTime() {
+		showNowTime();
+		
+		var timejugi = 1000;   // 시간을 1초 마다 자동 갱신하려고.
+		
+		setTimeout(function() {
+						loopshowNowTime();	
+					}, timejugi);
+		
+	}// end of loopshowNowTime() --------------------------
+	
+	function loopshowWeather() {
+		showWeather();
+		
+		setTimeout(function() {
+			   showWeather();	
+			}, weatherTimejugi); // 현재시각의 분이 5분이라면 weatherTimejugi가 25분이므로 25분후인 30분에 showWeather();를 실행한다.
+		
+		setTimeout(function() {
+	           loopshowWeather();	
+			}, weatherTimejugi + (60*60*1000));  // 현재시각의 분이 5분이라면 weatherTimejugi가 25분이므로 25분후인 30분에 1시간을 더한후에 showWeather();를 실행한다.
+	}// end of loopshowWeather() --------------------------
+	
+</script>
 
 <header class="site-header js-site-header">
 	<div class="container-fluid">
 		<div class="row align-items-center">
-			<div class="col-3 col-lg-3 site-logo" data-aos="fade">
+			<div class="col-2 col-lg-3 site-logo" data-aos="fade">
 				<a href="index.go">God</a>
 			</div>
                
-               <div class="col-6 col-lg-6">
+               <div class="col-8 col-lg-6">
                    <div data-aos="fade-up" data-aos-offset="-200">
 				<!-- <form action="#">
 					<div class="row">
@@ -29,14 +170,16 @@
 					</div>
 				</form> -->
 				<div class="searchType">
-					<span class="styleWord">실시간검색어 : </span>				
+					<span class="styleWord">실시간검색어</span>				
 				    <span class="searchWord">1.조아조아호텔(포이치문)</span>
 				</div>
+				<div class="weatherType"></div>
+				<div id="displayWeather"></div>
 			</div>
                
                </div>
                
-			<div class="col-3 col-lg-3">
+			<div class="col-2 col-lg-3">
 
 
 				<div class="site-menu-toggle js-site-menu-toggle" data-aos="fade">

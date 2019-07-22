@@ -1827,17 +1827,40 @@ opacity
     padding-right: 0;
 }
 
-.searchType {
+.searchType, .weatherType {
     display: inline-block;
-    color: #ffaa34;
     width: 100%;
+    color: #ffaa34;
+    text-align: center;
 }
 
 .searchType span {
 	display: inline-block;
+
+}
+
+.weatherType span {
+	display: inline-block;
+	padding-right: 20px;
+	line-height: 33px;
+}
+
+.weatherType span:last-child {
+	padding-right: 0;
+}
+
+.weather, .weatherAir {
+    font-size: 10pt;
+}
+
+.weatherType span:nth-child(3):after {
+	display: inline-block;
+	content: "|";
+	clear:both;
+	padding-left: 22px;
 }
 
 .searchType .styleWord {
 	width: 30%;
-	text-align: right;
+	text-align: center;
 }

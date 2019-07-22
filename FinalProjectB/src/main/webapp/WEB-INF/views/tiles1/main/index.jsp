@@ -43,24 +43,6 @@
 								<input type="text" id="" class="form-control" placeholder="숙박명 또는 지역명을 검색">
 							</div>
 						</div>
-						<div class="col-md-6 mb-3 mb-lg-0 col-lg-2">
-							<label for="checkin_date" class="font-weight-bold text-black">체크인</label>
-							<div class="field-icon-wrap">
-								<div class="icon">
-									<span class="icon-calendar"></span>
-								</div>
-								<input type="text" id="checkin_date" class="form-control">
-							</div>
-						</div>
-						<div class="col-md-6 mb-3 mb-lg-0 col-lg-2">
-							<label for="checkout_date" class="font-weight-bold text-black">체크아웃</label>
-							<div class="field-icon-wrap">
-								<div class="icon">
-									<span class="icon-calendar"></span>
-								</div>
-								<input type="text" id="checkout_date" class="form-control">
-							</div>
-						</div>
 						<div class="col-md-6 mb-3 mb-md-0 col-lg-3">
 							<div class="row">
 								<div class="col-md-6 mb-3 mb-md-0">
@@ -91,6 +73,24 @@
 										</select>
 									</div>
 								</div>
+							</div>
+						</div>
+						<div class="col-md-6 mb-3 mb-lg-0 col-lg-2">
+							<label for="checkin_date" class="font-weight-bold text-black">체크인</label>
+							<div class="field-icon-wrap">
+								<div class="icon">
+									<span class="icon-calendar"></span>
+								</div>
+								<input type="text" id="checkin_date" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-6 mb-3 mb-lg-0 col-lg-2">
+							<label for="checkout_date" class="font-weight-bold text-black">체크아웃</label>
+							<div class="field-icon-wrap">
+								<div class="icon">
+									<span class="icon-calendar"></span>
+								</div>
+								<input type="text" id="checkout_date" class="form-control">
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-2 align-self-end">
