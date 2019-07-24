@@ -23,8 +23,6 @@
 			
 		});
 		
-		$( "#checkin_date" ).datepicker({dateFormat:"yy-mm-dd"});
-		$( "#checkout_date" ).datepicker({dateFormat:"yy-mm-dd"});
 		
 		// === 검색어 입력시 자동글 완성하기 2 ===
 		$("#displayList").hide();
@@ -195,7 +193,7 @@
 								<div class="icon">
 									<span class="icon-calendar"></span>
 								</div>
-								<input type="text" id="checkin_date" name="checkin_date" class="form-control" style="padding-right:0;">
+								<input type="text" id="checkin_date" name="checkin_date" class="form-control" style="padding-right:0;" autocomplete="off">
 							</div>
 						</div>
 						<div class="col-md-6 mb-3 mb-lg-0 col-lg-2">
@@ -204,7 +202,7 @@
 								<div class="icon">
 									<span class="icon-calendar"></span>
 								</div>
-								<input type="text" id="checkout_date" name="checkout_date" class="form-control" style="padding-right:0;">
+								<input type="text" id="checkout_date" name="checkout_date" class="form-control" style="padding-right:0;" autocomplete="off">
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-2 align-self-end">

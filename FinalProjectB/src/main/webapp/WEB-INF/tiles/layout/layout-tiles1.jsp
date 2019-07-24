@@ -33,6 +33,12 @@
 <link rel="stylesheet" href="<%=ctxPath%>/resources/css/style.css">
 
 <script src="https://kit.fontawesome.com/dc25e27438.js"></script>
+<script src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
+
+<!-- 카카오지도 맵키 -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=62de2ce598e3b6a4e1ffe201c5604a5c&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=62de2ce598e3b6a4e1ffe201c5604a5c&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=62de2ce598e3b6a4e1ffe201c5604a5c"></script>
 
 </head>
 <body>
