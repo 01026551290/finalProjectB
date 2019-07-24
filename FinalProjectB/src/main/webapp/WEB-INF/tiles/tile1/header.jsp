@@ -6,6 +6,7 @@
 	String ctxPath = request.getContextPath();
 %>
 <script src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
+<script src="<%= ctxPath%>/resources/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
 <script type="text/javascript">
 
 	var weatherTimejugi = 0;  // 단위는 밀리초

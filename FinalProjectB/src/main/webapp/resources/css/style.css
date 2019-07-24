@@ -1864,3 +1864,17 @@ opacity
 	width: 30%;
 	text-align: center;
 }
+
+div#displayList {
+	position: absolute;
+    height: 100px;
+    width: 100%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: 1px solid #eaebec;
+    border-top: none;
+    background: #fff;
+    padding-top: 5px;
+    overflow: auto;
+    z-index: 100;
+}

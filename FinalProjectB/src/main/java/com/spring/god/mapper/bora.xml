@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boradb">
+	<!-- === 검색어 입력시 자동글 완성하기 6 === -->
+    <select id="wordNameSearchView" parameterType="String" resultType="String">
+		select NAME
+		from LONTION
+		where lower(NAME) like '%'||lower(#{searchWord})||'%'
+    </select>
+	<select id="wordAddrSearchView" parameterType="String" resultType="String">
+		select ADDRESS
+		from LONTION
+		where lower(ADDRESS) like '%'||lower(#{searchWord})||'%'
+    </select>
+
+
+
+
+
+
+</mapper>
