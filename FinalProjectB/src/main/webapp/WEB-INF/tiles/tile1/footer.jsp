@@ -81,6 +81,4 @@
 <script src="<%=ctxPath%>/resources/js/bootstrap-datepicker.js"></script>
 <script src="<%=ctxPath%>/resources/js/jquery.timepicker.min.js"></script>
 
-
-
 <script src="<%=ctxPath%>/resources/js/main.js"></script>

@@ -9,20 +9,14 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-						
-		$("#searchWord").keydown(function(event){
-			if(event.keyCode == 13) {
-			//	goSearch();
-			}
-		});
 		
+		/*
 		$("#btnSearch").click(function(){
 			var frm = document.infoSearchFrm;
 			var checkinDateVal = frm.checkin_date.value.trim();
 			alert(checkinDateVal);
-			
 		});
-		
+		*/
 		
 		// === 검색어 입력시 자동글 완성하기 2 ===
 		$("#displayList").hide();
@@ -32,7 +26,7 @@
 			var form_data = {searchWord:$("#searchWord").val()};
 			
 			$.ajax({
-				url:"<%=request.getContextPath()%>/wordSearchView.go",
+				url:"<%=request.getContextPath()%>/autosearch/wordSearchView.go",
 				type:"GET",
 				data:form_data,
 				dataType:"JSON",
@@ -100,6 +94,80 @@
 			
 			goSearch();
 		});
+		
+		///////////////////////////////////////////////////////////////////////////////////
+		
+		var rangeDate = 31; // set limit day
+		var setSdate, setEdate;
+		$("#checkin_date").datepicker({
+		    dateFormat: 'yy-mm-dd',
+		    minDate: 0,
+		    onSelect: function(selectDate){
+		        var stxt = selectDate.split("-");
+		            stxt[1] = stxt[1] - 1;
+		        var sdate = new Date(stxt[0], stxt[1], stxt[2]);
+		        var edate = new Date(stxt[0], stxt[1], stxt[2]);
+		            edate.setDate(sdate.getDate() + rangeDate);
+		        
+		        $('#checkout_date').datepicker('option', {
+		            minDate: selectDate,
+		            beforeShow : function () {
+		                $("#checkout_date").datepicker( "option", "maxDate", edate );                
+		                setSdate = selectDate;
+		                console.log(setSdate)
+		        }});
+		        //checkout_date 설정
+		    }
+		    //checkin_date 선택되었을 때
+		});
+		            
+		$("#checkout_date").datepicker({ 
+		    dateFormat: 'yy-mm-dd',
+		    onSelect : function(selectDate){
+		        setEdate = selectDate;
+		        console.log(setEdate)
+		    }
+		});
+		$("#btnSearch").on("click", function(e){
+		    if($("input#checkin_date").val() == ""){
+		        alert("시작일을 선택해주세요.");
+		        $("input#checkin_date").focus();
+		        return false;
+		    }else if($("input#checkout_date").val() == ""){
+		        alert("종료일을 선택해주세요.");
+		        $("input#checkout_date").focus();
+		        return false;
+		    }
+			
+		    
+		    var t1 = $("input#checkin_date").val().split("-");
+		    var t2 = $("input#checkout_date").val().split("-");
+		    var t1date = new Date(t1[0], t1[1], t1[2]);
+		    var t2date = new Date(t2[0], t2[1], t2[2]);
+		    var diff = t2date - t1date;
+		    var currDay = 24 * 60 * 60 * 1000;
+		    if(parseInt(diff/currDay) > rangeDate){
+		        alert("로그 조회 기간은 " + rangeDate + "일을 초과할 수 없습니다.");        
+		        return false;
+		    }
+
+			var checkin_dateVal = $("input#checkin_date").val();
+			var checkout_dateVal = $("input#checkout_date").val();
+			checkin_dateVal = checkin_dateVal.substring(0,4) + checkin_dateVal.substring(5,7) + checkin_dateVal.substring(8);
+			checkout_dateVal = checkout_dateVal.substring(0,4) + checkout_dateVal.substring(5,7) + checkout_dateVal.substring(8);
+			
+			alert(checkin_dateVal);
+			alert(checkout_dateVal);
+		    
+			alert("성공")
+		});
+		//조회 버튼 클릭
+		
+		///////////////////////////////////////////////////////////////////////////////////
+		
+		
+		
+		
 	}); // end of $(document).ready------------------------
 	
 	
@@ -193,7 +261,7 @@
 								<div class="icon">
 									<span class="icon-calendar"></span>
 								</div>
-								<input type="text" id="checkin_date" name="checkin_date" class="form-control" style="padding-right:0;" autocomplete="off">
+								<input type="text" id="checkin_date" name="checkin_date" type="date" class="form-control" style="padding-right:0;" autocomplete="off">
 							</div>
 						</div>
 						<div class="col-md-6 mb-3 mb-lg-0 col-lg-2">
@@ -202,7 +270,7 @@
 								<div class="icon">
 									<span class="icon-calendar"></span>
 								</div>
-								<input type="text" id="checkout_date" name="checkout_date" class="form-control" style="padding-right:0;" autocomplete="off">
+								<input type="text" id="checkout_date" type="date" name="checkout_date" class="form-control" style="padding-right:0;" autocomplete="off">
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-2 align-self-end">
