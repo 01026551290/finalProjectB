@@ -13,27 +13,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.god.bora.service.InterBoraService;
+import com.spring.god.bora.model.HotelRoomVO;
+import com.spring.god.bora.service.InterHotelRoomService;
 
 @Component
 @Controller
-public class BoraController {
+public class HotelRoomController {
 	
 	@Autowired
-	private InterBoraService service;
+	private InterHotelRoomService service;
 
-	////////////////////////////////////////////////////////////////////////////////////////////
-	// 날씨 XML
-	@RequestMapping(value="/weatherXML.go", method= {RequestMethod.GET})
-	public String weatherXML() {
-		// XML만(정보) 보여주기 때문에 tiles 사용하지 않아도 됨 
-		return "tiles1/bora/xml/weatherXML";
-		//	/FinalProjectB/src/main/webapp/WEB-INF/views/tiles1/bora/xml/weatherXML.jsp 파일을 생성한다.
-	}
-	
 	// === 검색어 입력시 자동글 완성하기 3 ===
-	@RequestMapping(value="/wordSearchView.go", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
+	@RequestMapping(value="autosearch/wordSearchView.go", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String wordSearchShow(HttpServletRequest request) {
 		
@@ -69,6 +62,26 @@ public class BoraController {
 		String result = jsonArr.toString();
 		
 		return result;
+	}
+		
+	// === 숙소보여주기(최신숙소) === 
+	@RequestMapping(value="view/accommodationList.go", method= {RequestMethod.GET})
+	public ModelAndView accommodationList(HttpServletRequest request, ModelAndView mv) {
+		
+		
+		List<HotelRoomVO> hotelList = service.getlist();
+		
+		mv.addObject("hotelList", hotelList);
+		mv.setViewName("board/accomodation.tiles1");
+		
+		return mv;
+	}
+	
+	
+	// === 결제 전 페이지 ===
+	@RequestMapping(value="/accommodationInfo.go", method= {RequestMethod.GET})
+	public String accommodationInfo() {
+		return "bora/accomodationInfo.tiles1";
 	}
 	
 	

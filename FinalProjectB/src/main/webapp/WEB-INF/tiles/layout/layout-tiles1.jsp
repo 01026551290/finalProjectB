@@ -31,6 +31,7 @@
 
 <!-- Theme Style -->
 <link rel="stylesheet" href="<%=ctxPath%>/resources/css/style.css">
+<link rel="stylesheet" href="<%= ctxPath%>/resources/js/jquery-ui.min.css">
 
 <script src="https://kit.fontawesome.com/dc25e27438.js"></script>
 <script src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>

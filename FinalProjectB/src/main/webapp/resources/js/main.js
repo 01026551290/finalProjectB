@@ -153,7 +153,7 @@
   }
   smoothScroll();
 
-  var dateAndTime = function() {
+  /*var dateAndTime = function() {
     $('#m_date').datepicker({
       'format': 'yyyy-mm-dd',
       'autoclose': true
@@ -165,7 +165,7 @@
     $('#m_time').timepicker();
   };
   dateAndTime();
-
+  */
 
   var windowScroll = function() {
 
