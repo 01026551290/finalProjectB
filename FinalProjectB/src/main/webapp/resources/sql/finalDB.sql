@@ -401,9 +401,13 @@ NOCACHE;
 
 delete from LONTION;
 
+select * from LONTION;
+
 ALTER TABLE LONTION MODIFY LARGECATEGORYONTIONCODE NUMBER(4);
 ALTER TABLE LONTION MODIFY IMG VARCHAR2(300)   DEFAULT 'Hno.jpg'
 ALTER TABLE MEMBER MODIFY PICTURE VARCHAR2(300)   DEFAULT 'no.jpg';
+
+ALTER TABLE LONTION ADD (REGDAY DATE DEFAULT SYSDATE );
 
 insert into LONTION (LARGECATEGORYONTIONCODE, FK_LARGECATEGORYCODE, NAME, BUSINESSTEL, ADDRESS, INFO, ONTIONTYPE) 
 values (SEQ_LONTION_10.nextval, 10, '제주 신라 호텔', '0647355114', '제주특별자치도 서귀포시 색달동 중문관광로72번길 75', '세계자연문화유산인 제주의아름다운 풍광을 담은 리조트로써 그 명성을 쌓아가고 있는 제주신라호텔', '레스토랑, 발렛파킹');
@@ -610,7 +614,8 @@ INSERT INTO RESERVE2(FK_RESERVEID,CHECKIN,CHECKOUT,NONIGHT)
 VALUES(SEQ_RESERVE1_RESERVEID.CURRVAL,SYSDATE+30,SYSDATE+31,2);
 
 
-SELECT * FROM RESERVE1;
+SELECT reserveid, fk_productid, price, to_char(reservedate, 'yyyy-mm-dd') AS reservedate
+FROM RESERVE1;
 SELECT * FROM RESERVE2;
 
 
@@ -635,4 +640,10 @@ from
         group by fk_largecategoryontioncode
     ) a join lontion b
 on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE
-where b.address like '%제주%' or  b.name like '%제주%'
+where b.address like '%제주특별자치도%' or  b.name like '%제주특별자치도%'
+
+select * from LONTION;
+
+select *
+from LONTION
+where regday = to_char(sysdate, 'yyyy-mm-dd');

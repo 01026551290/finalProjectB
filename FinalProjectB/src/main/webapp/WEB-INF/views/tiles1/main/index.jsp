@@ -226,30 +226,30 @@
 						<div class="col-md-6 mb-3 mb-md-0 col-lg-3">
 							<div class="row">
 								<div class="col-md-6 mb-3 mb-md-0">
-									<label for="adults" class="font-weight-bold text-black">Adults</label>
+									<label for="adult" class="font-weight-bold text-black">성인</label>
 									<div class="field-icon-wrap">
 										<div class="icon">
 											<span class="ion-ios-arrow-down"></span>
 										</div>
-										<select name="" id="adults" class="form-control">
-											<option value="">1</option>
-											<option value="">2</option>
-											<option value="">3</option>
-											<option value="">4+</option>
+										<select name="adult" id="adults" class="form-control">
+											<option value="1" selected>1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4+</option>
 										</select>
 									</div>
 								</div>
 								<div class="col-md-6 mb-3 mb-md-0">
-									<label for="children" class="font-weight-bold text-black">Children</label>
+									<label for="children" class="font-weight-bold text-black">아동</label>
 									<div class="field-icon-wrap">
 										<div class="icon">
 											<span class="ion-ios-arrow-down"></span>
 										</div>
-										<select name="" id="children" class="form-control">
-											<option value="">1</option>
-											<option value="">2</option>
-											<option value="">3</option>
-											<option value="">4+</option>
+										<select name="children" id="children" class="form-control">
+											<option value="0" selected>0</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
 										</select>
 									</div>
 								</div>
