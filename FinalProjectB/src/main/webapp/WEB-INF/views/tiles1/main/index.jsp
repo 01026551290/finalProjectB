@@ -7,14 +7,21 @@
 	String ctxPath = request.getContextPath();
 %>
 <style type="text/css">
-.starArea {
-	background: url(..<%=request.getContextPath()%>/resources/images/star_bg.png);
-	display: inline-block;
-    border: 1px solid red;
-    width: 100px;
-    height: 20px;
-	
+.starAreaIn {
+	background: url(..<%=request.getContextPath()%>/resources/images/star_bgb.png);
+    background-size: 15px 14px;
+    display: inline-flex;
+    width: 76px;
+    height: 14px;
 }
+.starAreaOut {
+	background: url(..<%=request.getContextPath()%>/resources/images/star_bg.png);
+    background-size: 15px 14px;
+    display: inline-block;
+    width: 76px;
+    height: 14px;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -392,8 +399,17 @@
 									<a href="#">${hotelvo.name}</a>
 								</h2>
 								<%-- <p>${hotelvo.weekPrice}원 ~</p> --%>
-								<p><span class="starArea"><span class="blind">star</span></span></p>
-								<p>${hotelvo.star*10}</p>
+								<p>
+										<span class="starAreaIn">
+											<span class="starAreaOut" style="width: ${hotelvo.star*14.6}px;"><span class="blind">star</span></span>
+										</span>
+									<c:if test="${hotelvo.star != null}">
+										<span style="font-size: 10pt;">${hotelvo.star}점</span>
+									</c:if>
+									<c:if test="${hotelvo.star == null}">
+										<span style="font-size: 10pt;">0점</span>
+									</c:if>
+								</p>
 							</div>
 						</div>
 					</div>

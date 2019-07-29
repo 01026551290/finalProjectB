@@ -15,7 +15,7 @@
     </select>
 
 	<select id="getlist" resultType="com.spring.god.bora.model.HotelRoomVO">
-		select name, substr(address, 9) as address
+		select name, address
 		     , img, regDay
 		     , star, starcnt
 		    from
