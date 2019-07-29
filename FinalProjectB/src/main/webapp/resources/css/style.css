@@ -1831,6 +1831,8 @@ opacity
     padding-left: 0;
     padding-right: 0;
 }
+.dpi {display: inline;}
+.fontB {font-weight: bold;}
 
 .searchType, .weatherType {
     display: inline-block;
@@ -1895,4 +1897,11 @@ div#displayList {
     font-size: 0;
     line-height: 0;
     text-indent: -9999px;
+}
+
+.noticeStyle {
+    font-size: 14px;
+    font-weight: bold;
+    font-family: "Roboto", arial, sans-serif;
+    text-transform: uppercase;
 }
