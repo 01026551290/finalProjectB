@@ -1,198 +1,194 @@
- package com.spring.god.jiyoung.model;
+﻿ package com.spring.god.jiyoung.model;
 
 public class MemberVO {
 
-	private int IDX;         //회원번호(시퀀스로 데이터가 들어온다)
-	private String MEMBERID;   //회원아이디
-	private String NICKNAME;     //회원명
-	private String PWD;      //비밀번호(SHA-256 암호화 대상)
-	private String NAME;    //이메일   (AES-256 암호화/복호화 대상)
-	private String EMAIL;      //휴대폰
-	private String BRITHDAY;      //   (AES-256 암호화/복호화 대상)
-	private String TEL;      //   (AES-256 암호화/복호화 대상)
-	private int    GENDER;    //우편번호
-	private String REGISTERDAY;    // 
-	private int STATUS;    //주소
-	private int GRADE;    //
-	private int POINT;   //성별   남자 1, 여자2
-	private String PICTURE; //생년
-	private String FINALLOGINDATE;  //생월
-	private String FINALPWDATE;  //생일
-	private String FK_MEMBERID;
-	private String FK_IDX;
+	private int idx;         //회원번호(시퀀스로 데이터가 들어온다)
+	private String memberId;   //회원아이디
+	private String nickName;     //회원명
+	private String pwd;      //비밀번호(SHA-256 암호화 대상)
+	private String name;    //이메일   (AES-256 암호화/복호화 대상)
+	private String email;      //휴대폰
+	private String brithDay;      //   (AES-256 암호화/복호화 대상)
+	private String tel;      //   (AES-256 암호화/복호화 대상)
+	private int    gender;    //우편번호
+	private String registerDay;    // 
+	private int status;    //주소
+	private int grade;    //
+	private int point;   //성별   남자 1, 여자2
+	private String picture; //생년
+	private String finalLoginDate;  //생월
+	private String finalPwDate;  //생일
+	private String fk_MemberId;
+	private String fk_Idx;
 	
 	public MemberVO() {}
-	
-	public MemberVO(int iDX, String mEMBERID, String nICKNAME, String pWD, String nAME, String eMAIL, String bRITHDAY,
-			String tEL, int gENDER, String rEGISTERDAY, int sTATUS, int gRADE, int pOINT, String pICTURE,
-			String fINALLOGINDATE, String fINALPWDATE, String fK_MEMBERID, String fK_IDX) {
+
+	public MemberVO(int idx, String memberId, String nickName, String pwd, String name, String email, String brithDay,
+			String tel, int gender, String registerDay, int status, int grade, int point, String picture,
+			String finalLoginDate, String finalPwDate, String fk_MemberId, String fk_Idx) {
 		super();
-		IDX = iDX;
-		MEMBERID = mEMBERID;
-		NICKNAME = nICKNAME;
-		PWD = pWD;
-		NAME = nAME;
-		EMAIL = eMAIL;
-		BRITHDAY = bRITHDAY;
-		TEL = tEL;
-		GENDER = gENDER;
-		REGISTERDAY = rEGISTERDAY;
-		STATUS = sTATUS;
-		GRADE = gRADE;
-		POINT = pOINT;
-		PICTURE = pICTURE;
-		FINALLOGINDATE = fINALLOGINDATE;
-		FINALPWDATE = fINALPWDATE;
-		FK_MEMBERID = fK_MEMBERID;
-		FK_IDX = fK_IDX;
+		this.idx = idx;
+		this.memberId = memberId;
+		this.nickName = nickName;
+		this.pwd = pwd;
+		this.name = name;
+		this.email = email;
+		this.brithDay = brithDay;
+		this.tel = tel;
+		this.gender = gender;
+		this.registerDay = registerDay;
+		this.status = status;
+		this.grade = grade;
+		this.point = point;
+		this.picture = picture;
+		this.finalLoginDate = finalLoginDate;
+		this.finalPwDate = finalPwDate;
+		this.fk_MemberId = fk_MemberId;
+		this.fk_Idx = fk_Idx;
 	}
 
-	public int getIDX() {
-		return IDX;
+	public int getIdx() {
+		return idx;
 	}
 
-	public void setIDX(int iDX) {
-		IDX = iDX;
+	public void setIdx(int idx) {
+		this.idx = idx;
 	}
 
-	public String getMEMBERID() {
-		return MEMBERID;
+	public String getMemberId() {
+		return memberId;
 	}
 
-	public void setMEMBERID(String mEMBERID) {
-		MEMBERID = mEMBERID;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
-	public String getNICKNAME() {
-		return NICKNAME;
+	public String getNickName() {
+		return nickName;
 	}
 
-	public void setNICKNAME(String nICKNAME) {
-		NICKNAME = nICKNAME;
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
-	public String getPWD() {
-		return PWD;
+	public String getPwd() {
+		return pwd;
 	}
 
-	public void setPWD(String pWD) {
-		PWD = pWD;
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 
-	public String getNAME() {
-		return NAME;
+	public String getName() {
+		return name;
 	}
 
-	public void setNAME(String nAME) {
-		NAME = nAME;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getEMAIL() {
-		return EMAIL;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEMAIL(String eMAIL) {
-		EMAIL = eMAIL;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public String getBRITHDAY() {
-		return BRITHDAY;
+	public String getBrithDay() {
+		return brithDay;
 	}
 
-	public void setBRITHDAY(String bRITHDAY) {
-		BRITHDAY = bRITHDAY;
+	public void setBrithDay(String brithDay) {
+		this.brithDay = brithDay;
 	}
 
-	public String getTEL() {
-		return TEL;
+	public String getTel() {
+		return tel;
 	}
 
-	public void setTEL(String tEL) {
-		TEL = tEL;
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 
-	public int getGENDER() {
-		return GENDER;
+	public int getGender() {
+		return gender;
 	}
 
-	public void setGENDER(int gENDER) {
-		GENDER = gENDER;
+	public void setGender(int gender) {
+		this.gender = gender;
 	}
 
-	public String getREGISTERDAY() {
-		return REGISTERDAY;
+	public String getRegisterDay() {
+		return registerDay;
 	}
 
-	public void setREGISTERDAY(String rEGISTERDAY) {
-		REGISTERDAY = rEGISTERDAY;
+	public void setRegisterDay(String registerDay) {
+		this.registerDay = registerDay;
 	}
 
-	public int getSTATUS() {
-		return STATUS;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setSTATUS(int sTATUS) {
-		STATUS = sTATUS;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
-	public int getGRADE() {
-		return GRADE;
+	public int getGrade() {
+		return grade;
 	}
 
-	public void setGRADE(int gRADE) {
-		GRADE = gRADE;
+	public void setGrade(int grade) {
+		this.grade = grade;
 	}
 
-	public int getPOINT() {
-		return POINT;
+	public int getPoint() {
+		return point;
 	}
 
-	public void setPOINT(int pOINT) {
-		POINT = pOINT;
+	public void setPoint(int point) {
+		this.point = point;
 	}
 
-	public String getPICTURE() {
-		return PICTURE;
+	public String getPicture() {
+		return picture;
 	}
 
-	public void setPICTURE(String pICTURE) {
-		PICTURE = pICTURE;
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 
-	public String getFINALLOGINDATE() {
-		return FINALLOGINDATE;
+	public String getFinalLoginDate() {
+		return finalLoginDate;
 	}
 
-	public void setFINALLOGINDATE(String fINALLOGINDATE) {
-		FINALLOGINDATE = fINALLOGINDATE;
+	public void setFinalLoginDate(String finalLoginDate) {
+		this.finalLoginDate = finalLoginDate;
 	}
 
-	public String getFINALPWDATE() {
-		return FINALPWDATE;
+	public String getFinalPwDate() {
+		return finalPwDate;
 	}
 
-	public void setFINALPWDATE(String fINALPWDATE) {
-		FINALPWDATE = fINALPWDATE;
+	public void setFinalPwDate(String finalPwDate) {
+		this.finalPwDate = finalPwDate;
 	}
 
-	public String getFK_MEMBERID() {
-		return FK_MEMBERID;
+	public String getFk_MemberId() {
+		return fk_MemberId;
 	}
 
-	public void setFK_MEMBERID(String fK_MEMBERID) {
-		FK_MEMBERID = fK_MEMBERID;
+	public void setFk_MemberId(String fk_MemberId) {
+		this.fk_MemberId = fk_MemberId;
 	}
 
-	public String getFK_IDX() {
-		return FK_IDX;
+	public String getFk_Idx() {
+		return fk_Idx;
 	}
 
-	public void setFK_IDX(String fK_IDX) {
-		FK_IDX = fK_IDX;
-	}
-	
-	
-	
-	
+	public void setFk_Idx(String fk_Idx) {
+		this.fk_Idx = fk_Idx;
+	}	
 	
 }
