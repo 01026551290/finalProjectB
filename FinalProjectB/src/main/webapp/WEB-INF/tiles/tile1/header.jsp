@@ -176,7 +176,7 @@
 							<div class="row full-height align-items-center">
 								<div class="col-md-6 mx-auto">
 									<ul class="list-unstyled menu">
-										<c:if test="${loginEndmap == null }">
+										<c:if test="${loginuser == null }">
                              			<li class="active"><a href="index.go">홈으로</a></li>
 										<!-- 로그인 전 -->
 										<li><a href="<%= ctxPath%>/jiyoung/login.go">로그인</a></li>
@@ -184,7 +184,7 @@
 										<li><a href="#">고객센터</a></li>
 										</c:if>
 										<!-- 로그인 후 보여지는 메뉴 -->
-										<c:if test="${loginEndmap != null }">    
+										<c:if test="${loginuser != null }">    
 										<li class="active"><a href="index.go">홈으로</a></li>
 										<li><a href="#">여행</a></li>
 										<li><a href="#">찜목록</a></li>

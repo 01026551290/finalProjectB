@@ -3,11 +3,11 @@
        
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
+
     
 <script type="text/javascript">
 	
 	$(document).ready(function(){
-		alert("소무");
 		var now = new Date(); 
 		// 자바스크립트에서 현재날짜시각을 얻어온다.
 		
@@ -16,7 +16,7 @@
 				
 		$(".error").hide();
 		$("#error_passwd").hide();
-		$("#name").focus();
+		$("#NAME").focus();
 		
 	/*	
 		$("#name").blur(function(){
@@ -49,25 +49,25 @@
 		// 선택자.each(); 은
 		// 선택자의 갯수만큼 반복처리를 해주는 것이다.
 		// 그러므로 $(".form-control").each(); 은
-		// 클래스가 form-control 인 것마다 하나하나씩 반복업무를 해주는 것이다.
-		
+		// 클래스가 form-control 인 것마다 하나하나씩 반복업무를 해주는 것이다.	
+	/////////////////////////////////////////////////////////////////	
 		$("#MEMBERID").bind("keyup", function(){
 			alert("아이디중복확인 버튼을 클릭하여 ID중복 검사를 하세요!!");
 			$(this).val("");
-		}); // end of $("#userid").bind()----------
+		}); // end of $("#MEMBERID").bind()----------
 		
 		
 		/// **** ID중복확인하기 위한 팝업창 띄우기 ****///
 		$("#idcheck").click(function() {
 			
 			// 팝업창 띄우기
-			var url = "idDuplicateCheck.go"; /* 4 앞에 슬래시 없으면 절대경로이다.*/
-			window.open(url, "registercheck",
+			var url = "memberidDuplicateCheck.go"; /* 4 앞에 슬래시 없으면 절대경로이다.*/
+			window.open(url, "GET", 
 					    "left=500px, top=100px, width=300px, height=230px");
 			// 기본적으로 아무런 조건없이 그냥 어떤 창을 띄우면 method 는 GET 방식으로 움직인다. 
 			
 		});// end of $("#idcheck").click()------------
-		
+	/////////////////////////////////////////////////////////////////	
 		
 		$("#PWD").blur(function(){
 			var passwd = $(this).val();
@@ -107,20 +107,38 @@
 			else {
 				$(this).parent().find(".error").hide();
 				$(":input").attr("disabled",false).removeClass("bgcol");
+				$("#NICKNAME").focus();
 			}
 			
 		});// end of $("#pwdcheck").blur()--------------
+		/////////////////////////////////////////////////////////////////////////
 		
-			$("#NICKNAME").click(function() {
+		$("#NICKNAME").bind("keyup", function(){
+			alert("닉네임 중복확인 버튼을 클릭하여 닉네임 검사를 하세요!!");
+			$(this).val("");
+		}); // end of $("#NICKNAME").bind()----------
+		
+		/// **** 닉네임 중복확인하기 위한 팝업창 띄우기 ****///
+		$("#nicknamecheck").click(function() {
 			
 			// 팝업창 띄우기
 			var url = "nicknameDuplicateCheck.go"; /* 4 앞에 슬래시 없으면 절대경로이다.*/
-			window.open(url, "registercheck",
+			window.open(url, "GET", 
 					    "left=500px, top=100px, width=300px, height=230px");
 			// 기본적으로 아무런 조건없이 그냥 어떤 창을 띄우면 method 는 GET 방식으로 움직인다. 
-			
-		});// end of $("#idcheck").click()------------
+			$("#EMAIL").focus();
+		});// end of $("#nicknamecheck").click()------------
 		
+		///////////////////////////////////////////////////////////////
+		/// **** 이메일 중복확인하기 위한 팝업창 띄우기 ****///
+		$("#emailcheck").click(function() {
+			
+			// 팝업창 띄우기
+			var url = "emailDuplicateCheck.go"; /* 4 앞에 슬래시 없으면 절대경로이다.*/
+			window.open(url, "GET", 
+					    "left=500px, top=100px, width=300px, height=230px");
+			// 기본적으로 아무런 조건없이 그냥 어떤 창을 띄우면 method 는 GET 방식으로 움직인다. 
+		});// end of $("#nicknamecheck").click()------------
 		$("#EMAIL").blur(function(){
 			
 			var email = $(this).val();
@@ -138,6 +156,7 @@
 			else {
 				$(this).parent().find(".error").hide();
 				$(":input").attr("disabled",false).removeClass("bgcol");
+				$("#hp2").focus();
 			}
 			
 		});// end of $("#email").blur()--------------
@@ -164,6 +183,7 @@
 			else {
 				$(this).parent().find(".error").hide();
 				$(":input").attr("disabled", false).removeClass("bgcol");
+				$("#hp3").focus();
 			}
 			
 		});// end of $("#hp2").blur()-------------
@@ -185,6 +205,7 @@
 			else {
 				$(this).parent().find(".error").hide();
 				$(":input").attr("disabled", false).removeClass("bgcol");
+				$("#hp3").focus();
 			}			
 		});// end of $("#hp3").blur()-------------
 
@@ -212,7 +233,7 @@
    	   ==> id의 값이 이름인 라디오에 체크가 안되었으면 false를 반환
    	 */
    	  
-	  if( !$("input:radio[name=GENDER]").is(":checked")) {
+	  if( !$("input:radio[name=gender]").is(":checked")) {
 		  alert("성별을 선택하셔야 합니다.");
 		  return;
 	  } 
@@ -264,12 +285,12 @@
               <div class="row">
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" for="NAME" required>성명</label><span class="star">*</span>
-                  <input type="text" name="NAME" id="NAME" class="form-control " required>
+                  <input type="text" name="name" id="NAME" class="form-control " required>
                   <span class="error">성명은 필수입력 사항입니다.</span>
                 </div>
               </div>
                   <label class="text-black font-weight-bold" for="MEMBERID" required>회원아이디</label><span class="star">*</span>
-                  <input type="text" name="MEMBERID" id="MEMBERID" class="form-control "required>
+                  <input type="text" name="memberId" id="MEMBERID" class="form-control "required>
                    <!-- 아이디중복체크 -->
 			    <img id="idcheck" src="../images/b_id_check.gif" style="vertical-align: middle;" />
 			    <span class="error">아이디는 필수입력 사항입니다.</span>
@@ -278,7 +299,7 @@
               <div class="row">
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" for="PWD" required>암호</label><span class="star">*</span>
-                  <input type="password" name="PWD" id="PWD" class="form-control ">
+                  <input type="password" name="pwd" id="PWD" class="form-control ">
                   <span id="error_passwd">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로만 입력가능합니다.</span>
                 </div>
               </div>
@@ -292,22 +313,26 @@
               <div class="row">
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" for="NICKNAME" required>닉네임</label><span class="star">*</span>
-                  <input type="text" name="NICKNAME" id="NICKNAME"  class="form-control ">
+                  <input type="text" name="nickName" id="NICKNAME"  class="form-control ">
+                   <!-- 아이디중복체크 -->
+			    <img id="nicknamecheck" src="../images/b_id_check.gif" style="vertical-align: middle;" />
                   <span class="error">닉네임은 필수입력 사항입니다.</span>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" for="EMAIL" required>Email</label><span class="star">*</span>
-                  <input type="EMAIL" name="EMAIL" id="EMAIL" class="form-control ">
+                  <input type="email" name="email" id="EMAIL" class="form-control ">
+                   <!-- 아이디중복체크 -->
+			    <img id="emailcheck" src="../images/b_id_check.gif" style="vertical-align: middle;" />
                   <span class="error">이메일 형식에 맞지 않습니다.</span>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" for="GENDER">성별</label><span class="star">*</span>
-                  <input type="radio" id="male" name="GENDER" value="1" /><label for="male" style="margin-left: 2%;">남자</label>
-			   	  <input type="radio" id="female" name="GENDER" value="2" style="margin-left: 10%;" /><label for="female" style="margin-left: 2%;">여자</label>
+                  <input type="radio" id="male" name="gender" value="1" /><label for="male" style="margin-left: 2%;">남자</label>
+			   	  <input type="radio" id="female" name="gender" value="2" style="margin-left: 10%;" /><label for="female" style="margin-left: 2%;">여자</label>
 			   	  <span class="error">성별을 입력하세요</span>
                 </div>
               </div>
@@ -316,11 +341,6 @@
                   <label class="text-black font-weight-bold" for="TEL">전화번호</label><span class="star">*</span>
                   <select name="hp1" id="hp1" style="width: 75px; padding: 8px;">
 					<option value="010" selected>010</option>
-					<option value="011">011</option>
-					<option value="016">016</option>
-					<option value="017">017</option>
-					<option value="018">018</option>
-					<option value="019">019</option>
 				</select>&nbsp;-&nbsp;
 			    <input type="text" name="hp2" id="hp2" size="6" maxlength="4" />&nbsp;-&nbsp;
 			    <input type="text" name="hp3" id="hp3" size="6" maxlength="4" />&nbsp;&nbsp;
