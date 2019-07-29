@@ -85,7 +85,7 @@ public class HotelRoomVO {
 		this.businessTel = businessTel;
 	}
 	public String getAddress() {
-		return address;
+		return address.substring(8);
 	}
 	public void setAddress(String address) {
 		this.address = address;
