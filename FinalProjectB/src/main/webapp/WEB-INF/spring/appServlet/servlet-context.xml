@@ -29,7 +29,7 @@
 		<beans:property name="order" value="2"/>
 	</beans:bean>
 	
-	<context:component-scan base-package="com.spring.god.*" />
+	<context:component-scan base-package="com.spring.god.*" name-generator="com.spring.god.common.FullBeanNameGenerator"/>
 	
 	
 	<aop:aspectj-autoproxy />

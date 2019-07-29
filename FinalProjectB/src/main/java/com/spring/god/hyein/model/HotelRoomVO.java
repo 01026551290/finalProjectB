@@ -24,6 +24,9 @@ public class HotelRoomVO {
    private String productPeriod1;                // 상품기간1
    private String productPeriod2; 
    
+   private double star;
+   private int starcnt;
+   
       
    public HotelRoomVO() {   }
 
@@ -32,7 +35,8 @@ public class HotelRoomVO {
    public HotelRoomVO(String largeCategoryontionCode, String fk_LargeCategoryCode, String name, String businessTel,
 		String address, String info, String ontionType, String img, String regDay, String productId,
 		String fk_LargeCategoryOntionCode, String roomType, String roomOption, String productName, String weekPrice,
-		String weekenPrice, String roomInfo, String productStatus, String productPeriod1, String productPeriod2) {
+		String weekenPrice, String roomInfo, String productStatus, String productPeriod1, String productPeriod2
+		, double star, int starcnt) {
 
 	this.largeCategoryontionCode = largeCategoryontionCode;
 	this.fk_LargeCategoryCode = fk_LargeCategoryCode;
@@ -54,6 +58,8 @@ public class HotelRoomVO {
 	this.productStatus = productStatus;
 	this.productPeriod1 = productPeriod1;
 	this.productPeriod2 = productPeriod2;
+	this.star = star;
+	this.starcnt = starcnt;
    }
 
 
@@ -102,7 +108,7 @@ public String getLargeCategoryontionCode() {
    
    
    public String getAddress() {
-      return address;
+      return address.substring(8);
    }
    
    
@@ -258,6 +264,30 @@ public String getLargeCategoryontionCode() {
 
 	public void setRegDay(String regDay) {
 		this.regDay = regDay;
+	}
+
+
+
+	public double getStar() {
+		return star;
+	}
+
+
+
+	public void setStar(double star) {
+		this.star = star;
+	}
+
+
+
+	public int getStarcnt() {
+		return starcnt;
+	}
+
+
+
+	public void setStarcnt(int starcnt) {
+		this.starcnt = starcnt;
 	}
 
 }
