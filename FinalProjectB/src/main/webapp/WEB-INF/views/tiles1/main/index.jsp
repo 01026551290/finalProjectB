@@ -337,6 +337,28 @@
 	</div>
 </section>
 
+<c:if test="${hotelRoomVOList!=null}">
+	<c:forEach var="hotelvo" items="${hotelRoomVOList}">
+	<div class="col-lg-4 col-md-6 col-sm-12 hotelBox ">
+		<!-- 상단(이미지,찜하트) -->
+		<div style="    position: relative;">
+			<button type="button" onclick="location.href='/god/yj/addHeart.go?largeCategoryontionCode=${vo.largeCategoryontionCode}'" class="heart" id="btn_heart${status}" aria-busy="false" style="padding: 8px; margin: -8px; border: none; background-color: transparent;">
+				<i class="far fa-heart"></i>
+			</button>
+			<img src="/god/resources/images/hotel/${hotelvo.img}" style="width: 100%;">
+		</div>
+		<!-- 하단(설명,호텔명,가격,평점) -->
+		<div style="padding: 12px 0 0 0;">
+		<div class="hotelAddr">${hotelvo.address}</div>
+		<div class="hotelName">${hotelvo.name}</div>
+		<div class="hotelPrice">${hotelvo.weekPrice}원 ~</div>
+		<div class="hotelStar">★★★★☆ 28개의 후기</div>
+		</div>
+	</div>
+	</c:forEach>
+</c:if>
+
+
 <section class="section blog-post-entry bg-light">
 	<div class="container">
 		<div class="row justify-content-center text-center mb-5">
@@ -346,55 +368,27 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-4 col-md-6 col-sm-6 col-12 post">
+			<%-- <c:if test="${hotelList!=null}"> --%>
+				<c:forEach var="hotelvo" items="${hotelList}">
+					<div class="col-lg-4 col-md-6 col-sm-6 col-12 post mb-4">
+						<div class="media media-custom d-block h-100">
+							<a href="#" class="mb-4 d-block">
+								<img src="<%=ctxPath%>/resources/images/${hotelvo.img}" class="img-fluid">
+							</a>
+							<!-- 하단(호텔명,가격,평점) -->
+							<div class="media-body">
+								<span class="meta-post">${hotelvo.address}</span>
+								<h2 class="mt-0 mb-3">
+									<a href="#">${hotelvo.name}</a>
+								</h2>
+								<%-- <p>${hotelvo.weekPrice}원 ~</p> --%>
+								<p>★★★★☆ 28개의 후기</p>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			<%-- </c:if> --%>
 
-				<div class="media media-custom d-block mb-4 h-100">
-					<a href="#" class="mb-4 d-block"><img
-						src="<%=ctxPath%>/resources/images/img_1.jpg"
-						alt="Image placeholder" class="img-fluid"></a>
-					<div class="media-body">
-						<span class="meta-post">February 26, 2018</span>
-						<h2 class="mt-0 mb-3">
-							<a href="#">Travel Hacks to Make Your Flight More Comfortable</a>
-						</h2>
-						<p>Far far away, behind the word mountains, far from the
-							countries Vokalia and Consonantia, there live the blind texts.</p>
-					</div>
-				</div>
-
-			</div>
-			<div class="col-lg-4 col-md-6 col-sm-6 col-12 post">
-				<div class="media media-custom d-block mb-4 h-100">
-					<a href="#" class="mb-4 d-block"><img
-						src="<%=ctxPath%>/resources/images/img_2.jpg"
-						alt="Image placeholder" class="img-fluid"></a>
-					<div class="media-body">
-						<span class="meta-post">February 26, 2018</span>
-						<h2 class="mt-0 mb-3">
-							<a href="#">5 Job Types That Aallow You To Earn As You Travel
-								The World</a>
-						</h2>
-						<p>Separated they live in Bookmarksgrove right at the coast of
-							the Semantics, a large language ocean.</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-4 col-md-6 col-sm-6 col-12 post">
-				<div class="media media-custom d-block mb-4 h-100">
-					<a href="#" class="mb-4 d-block"><img
-						src="<%=ctxPath%>/resources/images/img_3.jpg"
-						alt="Image placeholder" class="img-fluid"></a>
-					<div class="media-body">
-						<span class="meta-post">February 26, 2018</span>
-						<h2 class="mt-0 mb-3">
-							<a href="#">30 Great Ideas On Gifts For Travelers</a>
-						</h2>
-						<p>A small river named Duden flows by their place and supplies
-							it with the necessary regelialia. t is a paradisematic country,
-							in which roasted parts of sentences.</p>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </section>

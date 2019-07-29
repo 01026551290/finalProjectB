@@ -642,8 +642,96 @@ from
 on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE
 where b.address like '%제주특별자치도%' or  b.name like '%제주특별자치도%'
 
+select * from PRODUCT;
+
+select * from LONTION;
+ '19/09/24' BETWEEN CHECKIN+1 AND CHECKOUT-1
+ 
+select NAME, ADDRESS, ONTIONTYPE, IMG, REGDAY
+from LONTION
+where to_date(regday,'yy/mm/dd')='19/07/26';
+
+
+select name, substr(address, 9) as address
+     , ontionType, img, regDay
+    from
+    (
+        select rownum AS rno, name, address, ontionType, img, regDay
+        from
+        (
+            select name, address, ontionType, img
+                 , to_char(regDay, 'yyyy-mm-dd') as regDay
+            from LONTION
+        ) V
+    ) T
+where rno between 1 and 10;
+
+
+------------------------------------------------ *** 리뷰 테이블 *** ------------------------------------------------------------
+      
+CREATE TABLE REVIEW(
+REVIEWIDX NUMBER(30) NOT NULL
+,MEMBERIDX NUMBER(30) NOT NULL
+,HOTELIDX NUMBER(30) NOT NULL
+,ROOMIDX NUMBER(20) NOT NULL
+,RESERVEIDX NUMBER(30) NOT NULL
+,TITLE VARCHAR2(50) NOT NULL
+,CONTENT VARCHAR2(4000) NOT NULL
+,IMGIDX NUMBER(30)
+,STATUS NUMBER(1) DEFAULT 1
+,CONSTRAINT PK_REVIEWIDX PRIMARY KEY(REVIEWIDX)
+,CONSTRAINT REVIEW_FK_MEMBERIDX FOREIGN KEY(MEMBERIDX) REFERENCES MEMBER(IDX)
+,CONSTRAINT REVIEW_FK_HOTELIDX FOREIGN KEY(HOTELIDX) REFERENCES LONTION(LARGECATEGORYONTIONCODE)
+,CONSTRAINT REVIEW_FK_ROOMIDX FOREIGN KEY(ROOMIDX) REFERENCES PRODUCT(PRODUCTID)
+,CONSTRAINT REVIEW_FK_RESERVEIDX FOREIGN KEY(RESERVEIDX) REFERENCES RESERVE1(RESERVEID)
+)
+
+CREATE TABLE REVIEW_IMG(
+IMGIDX NUMBER(30) NOT NULL
+,REVIEWIDX NUMBER(30) NOT NULL
+,FILENAME VARCHAR2(200) NOT NULL
+,ORGFILENAME VARCHAR2(200) NOT NULL
+,FILESIZE VARCHAR2(200) NOT NULL
+,CONSTRAINT PK_IMGIDX PRIMARY KEY(IMGIDX)
+,CONSTRAINT REVIEW_IMG_FK_REVIEWIDX FOREIGN KEY(REVIEWIDX) REFERENCES REVIEW(REVIEWIDX)
+)
+
+ALTER TABLE REVIEW ADD (STAR NUMBER(2));
+
+CREATE TABLE HOTELVIEWS (
+MEMBERIDX NUMBER(30) 
+,HOTELIDX NUMBER(20)
+,VIEWSDATE DATE DEFAULT SYSDATE
+,CONSTRAINT FK_MEMBERID_HOTELVIEWS FOREIGN KEY(MEMBERIDX)REFERENCES MEMBER(IDX)
+,CONSTRAINT FK_HOTELIDX_HOTELVIEWS FOREIGN KEY(HOTELIDX) REFERENCES LONTION(LARGECATEGORYONTIONCODE)
+)
+
+SELECT MEMBERIDX FROM RESERVE1 MINUS SELECT IDX FROM MEMBER;
+
+SELECT * FROM RESERVE1;
+select * from HOTELVIEWS; -- 조회수
+select * from REVIEW;     -- 후기
+select * from REVIEW_IMG;
+
 select * from LONTION;
 
-select *
-from LONTION
-where regday = to_char(sysdate, 'yyyy-mm-dd');
+select hotelidx,avg(star),count(*)
+from review
+group by hotelidx
+
+select name, substr(address, 9) as address
+     , ontionType, img, regDay
+    from
+    (
+        select rownum AS rno, largecategoryontioncode, name, address, ontionType, img, regDay
+        from
+        (
+            select name, address, ontionType, img
+                 , to_char(regDay, 'yyyy-mm-dd') as regDay
+            from LONTION
+        ) V -- LEFT JOIN review R 
+        on V.
+    ) T
+where rno between 1 and 10;
+
+

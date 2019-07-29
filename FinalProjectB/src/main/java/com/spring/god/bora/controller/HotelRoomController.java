@@ -65,24 +65,23 @@ public class HotelRoomController {
 	}
 		
 	// === 숙소보여주기(최신숙소) === 
-	@RequestMapping(value="view/accommodationList.go", method= {RequestMethod.GET})
+	@RequestMapping(value="/mainHotelList.go", method= {RequestMethod.GET})
 	public ModelAndView accommodationList(HttpServletRequest request, ModelAndView mv) {
 		
 		
 		List<HotelRoomVO> hotelList = service.getlist();
 		
 		mv.addObject("hotelList", hotelList);
-		mv.setViewName("board/accomodation.tiles1");
-		
+		mv.setViewName("main/index.tiles1");
 		return mv;
 	}
 	
-	
+	/*
 	// === 결제 전 페이지 ===
 	@RequestMapping(value="/accommodationInfo.go", method= {RequestMethod.GET})
 	public String accommodationInfo() {
 		return "bora/accomodationInfo.tiles1";
 	}
-	
+	*/
 	
 }

@@ -26,6 +26,10 @@ public class HotelRoomVO {
 	private String productPeriod1;             	// 상품기간1
 	private String productPeriod2; 				// 상품기간2
 	
+	// 리뷰
+	private Double star;						// 별
+	private int cnt;							// 별갯수
+	
 	public HotelRoomVO() {}
 	public HotelRoomVO(String largeCategoryontionCode, String fk_LargeCategoryCode, String name, String businessTel,
 			String address, String info, String ontionType, String img, String regDay, String productId,
