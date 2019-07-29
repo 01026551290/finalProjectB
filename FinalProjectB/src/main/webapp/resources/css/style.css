@@ -1878,3 +1878,16 @@ div#displayList {
     overflow: auto;
     z-index: 100;
 }
+
+.blind {
+    overflow: hidden;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+}

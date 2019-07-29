@@ -6,6 +6,16 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
+<style type="text/css">
+.starArea {
+	background: url(..<%=request.getContextPath()%>/resources/images/star_bg.png);
+	display: inline-block;
+    border: 1px solid red;
+    width: 100px;
+    height: 20px;
+	
+}
+</style>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -382,7 +392,8 @@
 									<a href="#">${hotelvo.name}</a>
 								</h2>
 								<%-- <p>${hotelvo.weekPrice}원 ~</p> --%>
-								<p>★★★★☆ 28개의 후기</p>
+								<p><span class="starArea"><span class="blind">star</span></span></p>
+								<p>${hotelvo.star*10}</p>
 							</div>
 						</div>
 					</div>

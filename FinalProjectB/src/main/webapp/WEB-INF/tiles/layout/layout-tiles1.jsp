@@ -18,6 +18,8 @@
 <meta name="author" content="" />
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR|Roboto&display=swap">
 
+<script src="https://kit.fontawesome.com/dc25e27438.js"></script>
+
 <link rel="stylesheet" href="<%=ctxPath%>/resources/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=ctxPath%>/resources/css/animate.css">
 <link rel="stylesheet" href="<%=ctxPath%>/resources/css/owl.carousel.min.css">
@@ -33,7 +35,6 @@
 <link rel="stylesheet" href="<%=ctxPath%>/resources/css/style.css">
 <link rel="stylesheet" href="<%= ctxPath%>/resources/js/jquery-ui.min.css">
 
-<script src="https://kit.fontawesome.com/dc25e27438.js"></script>
 <script src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 
 <!-- 카카오지도 맵키 -->

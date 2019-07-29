@@ -16,17 +16,22 @@
 
 	<select id="getlist" resultType="com.spring.god.bora.model.HotelRoomVO">
 		select name, substr(address, 9) as address
-			 , ontionType, img, regDay
-		from
-		(
-		    select rownum AS rno, name, address, ontionType, img, regDay
+		     , img, regDay
+		     , star, starcnt
 		    from
 		    (
-		        select name, address, ontionType, img
-		             , to_char(regDay, 'yyyy-mm-dd') as regDay
-		        from LONTION
-		    ) V
-		) T
+		        select rownum AS rno, largecategoryontioncode, name, address, ontionType, img, regDay, hotelidx, star, starcnt
+		        from
+		        (
+		            select name, largecategoryontioncode, address, ontionType, img
+		                 , to_char(regDay, 'yyyy-mm-dd') as regDay
+		            from lontion
+		        ) V LEFT JOIN ( select hotelidx,avg(star) AS STAR,count(*) AS starcnt
+		                            from review
+		                            group by hotelidx
+		                       ) R 
+		        on V.largecategoryontioncode = R.hotelidx
+		    ) T
 		where rno between 1 and 10
 	</select>
 
