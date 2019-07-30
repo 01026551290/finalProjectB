@@ -1038,9 +1038,10 @@ textarea.form-control {
 }
 
 .contact-section .contact-info p {
-	font-family: 'Noto Sans KR', sans-serif;
-	font-size: 30px;
-	margin-bottom: 30px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 30px;
+    margin-bottom: 30px;
+    border-bottom: 3px solid #ffa527;
 }
 
 .contact-section .contact-info p .d-block {
@@ -1831,9 +1832,25 @@ opacity
     padding-left: 0;
     padding-right: 0;
 }
+.taC {text-align: center;}
 .dpi {display: inline;}
 .fontB {font-weight: bold;}
 
+.blind {
+    overflow: hidden;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+}
+
+
+/* 메인 및 숙소 CSS */
 .searchType, .weatherType {
     display: inline-block;
     width: 100%;
@@ -1886,22 +1903,18 @@ div#displayList {
     z-index: 100;
 }
 
-.blind {
-    overflow: hidden;
-    visibility: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1px;
-    height: 1px;
-    font-size: 0;
-    line-height: 0;
-    text-indent: -9999px;
-}
 
 .noticeStyle {
     font-size: 14px;
     font-weight: bold;
     font-family: "Roboto", arial, sans-serif;
     text-transform: uppercase;
+}
+
+/* 로그인 CSS */
+.styleAfter a:first-child:after {
+    display: inline-block;
+    content: "|";
+    clear: both;
+    padding: 0 15px;
 }
