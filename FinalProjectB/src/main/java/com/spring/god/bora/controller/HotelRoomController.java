@@ -70,4 +70,16 @@ public class HotelRoomController {
 		return "bora/accomodationInfo.tiles1";
 	}
 	
+	// === 이용약관 ===
+	@RequestMapping(value="/terms.go", method= {RequestMethod.GET})
+	public String terms() {
+		return "tiles1/bora/serviceGuideLine/terms";
+	}
+	
+	// === 개인정보방침 ===
+	@RequestMapping(value="/privacy_policy.go", method= {RequestMethod.GET})
+	public String policy() {
+		return "tiles1/bora/serviceGuideLine/privacy_policy";
+	}
+	
 }

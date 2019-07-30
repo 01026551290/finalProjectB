@@ -1831,6 +1831,7 @@ opacity
     padding-left: 0;
     padding-right: 0;
 }
+.mgt10 {margin-top: 10px;}
 .taC {text-align: center;}
 .dpi {display: inline;}
 .fontB {font-weight: bold;}
@@ -1909,6 +1910,23 @@ div#displayList {
     font-family: "Roboto", arial, sans-serif;
     text-transform: uppercase;
 }
+
+.b_detail_border {
+    border-bottom: 1px dotted #e5e5e5;
+    padding-bottom: 15px;   
+}
+
+.b_detail_total {
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #616161;
+    padding: 10px 0;
+
+.myInfoEdit {
+	display: inline-block;
+	width: 100%;
+	text-align: right;
+}
+
 
 /* 로그인 CSS */
 .loginborder {

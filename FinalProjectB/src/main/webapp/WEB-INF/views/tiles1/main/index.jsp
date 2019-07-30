@@ -354,28 +354,6 @@
 	</div>
 </section>
 
-<c:if test="${hotelRoomVOList!=null}">
-	<c:forEach var="hotelvo" items="${hotelRoomVOList}">
-	<div class="col-lg-4 col-md-6 col-sm-12 hotelBox ">
-		<!-- 상단(이미지,찜하트) -->
-		<div style="    position: relative;">
-			<button type="button" onclick="location.href='/god/yj/addHeart.go?largeCategoryontionCode=${vo.largeCategoryontionCode}'" class="heart" id="btn_heart${status}" aria-busy="false" style="padding: 8px; margin: -8px; border: none; background-color: transparent;">
-				<i class="far fa-heart"></i>
-			</button>
-			<img src="/god/resources/images/hotel/${hotelvo.img}" style="width: 100%;">
-		</div>
-		<!-- 하단(설명,호텔명,가격,평점) -->
-		<div style="padding: 12px 0 0 0;">
-		<div class="hotelAddr">${hotelvo.address}</div>
-		<div class="hotelName">${hotelvo.name}</div>
-		<div class="hotelPrice">${hotelvo.weekPrice}원 ~</div>
-		<div class="hotelStar">★★★★☆ 28개의 후기</div>
-		</div>
-	</div>
-	</c:forEach>
-</c:if>
-
-
 <section class="section blog-post-entry bg-light">
 	<div class="container">
 		<div class="row justify-content-center text-center mb-5">
