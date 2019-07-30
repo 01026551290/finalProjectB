@@ -1041,7 +1041,6 @@ textarea.form-control {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 30px;
     margin-bottom: 30px;
-    border-bottom: 3px solid #ffa527;
 }
 
 .contact-section .contact-info p .d-block {
@@ -1912,6 +1911,10 @@ div#displayList {
 }
 
 /* 로그인 CSS */
+.loginborder {
+    border-bottom: 3px solid #ffa527;
+}
+
 .styleAfter a:first-child:after {
     display: inline-block;
     content: "|";
