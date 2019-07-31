@@ -6,6 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.spring.god.jiyoung.model.MemberVO;
+
 @Repository
 public class HotelRoomDAO implements InterHotelRoomDAO {
 	
@@ -31,6 +33,13 @@ public class HotelRoomDAO implements InterHotelRoomDAO {
 	public List<HotelRoomVO> getlist() {
 		List<HotelRoomVO> hotelList = sqlsession.selectList("boradb.getlist");
 		return hotelList;
+	}
+	
+	// 예약및결제페이지에서 회원정보 수정하기
+	@Override
+	public int accomodationInfoMyEditEnd(MemberVO mvo) {
+		int n = sqlsession.update("boradb.accomodationInfoMyEditEnd", mvo);
+		return n;
 	}
 	
 }

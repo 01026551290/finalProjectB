@@ -194,46 +194,46 @@ public class MemberController {
 	}
 	
 	// 로그인 하기
-	@RequestMapping(value="/loginEnd.go", method= {RequestMethod.POST})
-	public ModelAndView loginEnd(ModelAndView mv , HttpServletRequest request) throws UnsupportedEncodingException, GeneralSecurityException {
-		
-		String userid = request.getParameter("userid");
-		String pwd = request.getParameter("pwd");		
-		
-		HashMap<String, String> paraMap = new HashMap<String, String>();
-		paraMap.put("userid", userid);
-		paraMap.put("pwd", SHA256.encrypt(pwd));		
-		
-		MemberVO mvo = service.getLoginMember(paraMap);
-		////////////////////////////////////////////////////////
-		HttpSession session = request.getSession();
-		
-		if(mvo == null) {
-			String msg = "아이디 또는 암호가 틀립니다";
-			String loc = "javascript:history.back()";
-			
-			mv.addObject("msg", msg);
-			mv.addObject("loc", loc);
-			mv.setViewName("tiles1/jiyoung/msg");
-			
-		}
-		else {
-			session.setAttribute("loginuser", mvo);
-			if(session.getAttribute("gobackURL") != null) {
-				
-				
-				String gobackURL = (String)session.getAttribute("gobackURL");
-				mv.addObject("gobackURL", gobackURL);
-				
-				session.removeAttribute("gobackURL");
-			
-		}
-			mv.setViewName("main/index.tiles1");
-			
-			}
-			
-		return mv;
-		}
+	   @RequestMapping(value="/loginEnd.go", method= {RequestMethod.POST})
+	   public ModelAndView loginEnd(ModelAndView mv , HttpServletRequest request) throws UnsupportedEncodingException, GeneralSecurityException {
+	      
+	      String userid = request.getParameter("userid");
+	      String pwd = request.getParameter("pwd");      
+	      
+	      HashMap<String, String> paraMap = new HashMap<String, String>();
+	      paraMap.put("userid", userid);
+	      paraMap.put("pwd", SHA256.encrypt(pwd));      
+	      
+	      MemberVO mvo = service.getLoginMember(paraMap);
+	      ////////////////////////////////////////////////////////
+	      HttpSession session = request.getSession();
+	      
+	      if(mvo == null) {
+	         String msg = "아이디 또는 암호가 틀립니다";
+	         String loc = "javascript:history.back()";
+	         
+	         mv.addObject("msg", msg);
+	         mv.addObject("loc", loc);
+	         mv.setViewName("tiles1/jiyoung/msg");
+	         
+	      }
+	      else {
+	         session.setAttribute("loginuser", mvo);
+	         if(session.getAttribute("gobackURL") != null) {
+	            
+	            
+	            String gobackURL = (String)session.getAttribute("gobackURL");
+	            mv.addObject("gobackURL", gobackURL);
+	            
+	            session.removeAttribute("gobackURL");
+	         
+	      }
+	         mv.setViewName("tiles1/jiyoung/loginEnd");
+	         
+	         }
+	         
+	      return mv;
+	      }
 
 	
 	
@@ -441,15 +441,20 @@ public class MemberController {
 		return mv;	
 	}
 	
+		@RequestMapping(value="/mypage.go")
+		public ModelAndView mypage(ModelAndView mv) {
+			
+			mv.setViewName("jiyoung/mypage.tiles1");
+			
+			return mv;
+		}
+		
+		
+		
+	}
 
 	
-	
-	
-	
-	
-	
-	
-}
+
 	
 	
 
