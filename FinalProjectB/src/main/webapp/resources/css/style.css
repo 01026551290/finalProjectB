@@ -1878,10 +1878,14 @@ opacity
 }
 
 .weatherType span:nth-child(3):after {
-	display: inline-block;
-	content: "|";
-	clear:both;
-	padding-left: 22px;
+   display: inline-block;
+   content: " ";
+   background-color: #ffaa34;
+   overflow: hidden;    
+   width: 1px;
+   height: 13px;
+   margin-left: 20px;
+   vertical-align: -1px;
 }
 
 .searchType .styleWord {
