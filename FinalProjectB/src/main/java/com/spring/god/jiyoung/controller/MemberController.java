@@ -185,7 +185,7 @@ public class MemberController {
 	}
 	
 	// 로그인 페이지 띄우기
-	@RequestMapping(value="jiyoung/login.go")
+	@RequestMapping(value="/login.go")
 	public ModelAndView login(ModelAndView mv) {
 		
 		mv.setViewName("jiyoung/login.tiles1");
@@ -194,7 +194,7 @@ public class MemberController {
 	}
 	
 	// 로그인 하기
-	@RequestMapping(value="jiyoung/loginEnd.go", method= {RequestMethod.POST})
+	@RequestMapping(value="/loginEnd.go", method= {RequestMethod.POST})
 	public ModelAndView loginEnd(ModelAndView mv , HttpServletRequest request) throws UnsupportedEncodingException, GeneralSecurityException {
 		
 		String userid = request.getParameter("userid");
@@ -239,7 +239,7 @@ public class MemberController {
 	
 	
 	// 로그아웃 하기
-		@RequestMapping(value="jiyoung/logout.go")
+		@RequestMapping(value="/logout.go")
 		public ModelAndView logout(ModelAndView mv , HttpServletRequest request) {
 			
 			HttpSession session = request.getSession();
@@ -256,7 +256,7 @@ public class MemberController {
 		}
 	
 		// 아이디 찾기
-		@RequestMapping(value="/jiyoung/idFind.go", method= {RequestMethod.GET})
+		@RequestMapping(value="/idFind.go", method= {RequestMethod.GET})
 		public ModelAndView idFind(ModelAndView mv , HttpServletRequest request) {						
 				mv.addObject("method","GET");
 				mv.setViewName("tiles1/jiyoung/idFind");
@@ -264,7 +264,7 @@ public class MemberController {
 		}
 		
 		// 아이디 찾기
-		@RequestMapping(value="/jiyoung/idFindEnd.go", method= {RequestMethod.POST})
+		@RequestMapping(value="/idFindEnd.go", method= {RequestMethod.POST})
 		public ModelAndView idFindEnd(ModelAndView mv , HttpServletRequest request) {						
 			
 			String name = request.getParameter("name");
@@ -290,7 +290,7 @@ public class MemberController {
 		
 		
 		// 비밀번호 찾기
-		@RequestMapping(value="/jiyoung/pwdFind.go", method= {RequestMethod.GET})
+		@RequestMapping(value="/pwdFind.go", method= {RequestMethod.GET})
 		public ModelAndView pwdFind(ModelAndView mv , HttpServletRequest request, HttpServletRequest response) {						
 				mv.addObject("method","GET");
 				mv.setViewName("tiles1/jiyoung/pwdFind");
@@ -301,7 +301,7 @@ public class MemberController {
 		
 		
 		// 비밀번호 찾기
-		@RequestMapping(value="/jiyoung/pwdFindEnd.go", method= {RequestMethod.POST})
+		@RequestMapping(value="/pwdFindEnd.go", method= {RequestMethod.POST})
 		public ModelAndView pwdFindEnd(ModelAndView mv , HttpServletRequest request) {						
 			
 			mv.addObject("method","POST"); // 인증코드 인증하기 위해서 post로 바꿔줌.
@@ -374,7 +374,7 @@ public class MemberController {
 		
 		
 		
-	@RequestMapping(value="/jiyoung/verifyCertificationFrm.go", method= {RequestMethod.POST})
+	@RequestMapping(value="/verifyCertificationFrm.go", method= {RequestMethod.POST})
 	public ModelAndView VerifyCertificationAction(ModelAndView mv, HttpServletRequest request){	
 		
 		String userid = request.getParameter("userid"); /* 데이터베이스에서 업뎃해야 돼서 받아옴. */
@@ -389,11 +389,11 @@ public class MemberController {
 
 		if(certificationCode.equals(userCertificationCode)) { //유저가 보낸 코드와 같다라면
 			msg = "인증성공 되었습니다.";
-			loc = request.getContextPath() + "/jiyoung/pwdConfirm.go?userid="+userid; // 겟 방식으로 보내줌.
+			loc = request.getContextPath() + "/pwdConfirm.go?userid="+userid; // 겟 방식으로 보내줌.
 		}
 		else {
 			msg = "발급된 인증코드가 아닙니다. 인증코드를 다시 발급받으세요!!";
-			loc = request.getContextPath() + "/jiyoung/pwdFind.go"; /* 처음부터 해라. */
+			loc = request.getContextPath() + "/pwdFind.go"; /* 처음부터 해라. */
 		}
 		
 		mv.addObject("msg",msg);
@@ -409,7 +409,7 @@ public class MemberController {
 	// 패스워드 변경을 위한 페이지를 띄워줘야 됨.
 	// 강사님은 한 페이지에서 해결했는데, 그건 이클립스라서 아무 방식이나 받기 때문임.
 	// 근데 스프링에서는 한 메서드에 한 request 방식만 받기 때문에, 나눠줘야 함.
-	@RequestMapping(value="/jiyoung/pwdConfirm.go", method= {RequestMethod.GET})
+	@RequestMapping(value="/pwdConfirm.go", method= {RequestMethod.GET})
 	public ModelAndView PwdConfirmAction(ModelAndView mv, HttpServletRequest request){
 		
 		String userid = request.getParameter("userid");
@@ -420,7 +420,7 @@ public class MemberController {
 	}
 	
 	// 인증 후 패스워드 변경하는 곳 (바로 위의 PwdConfirmAction 에서 이어지는 것임.)
-	@RequestMapping(value="/jiyoung/PwdConfirmEnd.go", method= {RequestMethod.POST})
+	@RequestMapping(value="/PwdConfirmEnd.go", method= {RequestMethod.POST})
 	public ModelAndView PwdConfirmActionEnd(ModelAndView mv, HttpServletRequest request){
 		
 		String userid = request.getParameter("userid");
@@ -428,13 +428,13 @@ public class MemberController {
 		
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("userid", userid);
-		paraMap.put("pwd", pwd);
+		paraMap.put("pwd",SHA256.encrypt(pwd));
 			
 		int n = service.updatePwdUser(paraMap);
-		
+		System.out.println(n);
 		mv.addObject("n", n);	
-		mv.addObject("method", "GET");
-		mv.addObject("pwd", pwd);
+		mv.addObject("method", "POST");
+
 		mv.addObject("userid", userid);
 	
 		mv.setViewName("tiles1/jiyoung/pwdConfirm");

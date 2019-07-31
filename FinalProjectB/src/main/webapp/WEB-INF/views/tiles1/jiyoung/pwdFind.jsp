@@ -69,7 +69,7 @@
 	    // 아이디 & 이메일 보내기 -> 이후 인증코드 보내기도 수행함.
 		$("#btnFind").click(function(){
 			var frm = document.pwdFindFrm;
-			frm.action = "<%= ctxPath%>/jiyoung/pwdFindEnd.go";
+			frm.action = "<%= ctxPath%>/pwdFindEnd.go";
 			frm.method = "POST";
 			frm.submit();
 		});
@@ -83,7 +83,7 @@
 			frm.userCertificationCode.value = $("#input_confirmCode").val();
 			
 			frm.method = "POST";
-			frm.action = "<%= ctxPath%>/jiyoung/verifyCertificationFrm.go";
+			frm.action = "<%= ctxPath%>/verifyCertificationFrm.go";
 			frm.submit();
 		});
 	    

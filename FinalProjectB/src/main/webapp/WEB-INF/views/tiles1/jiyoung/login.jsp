@@ -78,7 +78,7 @@
 
 		 var frm = document.loginFrm;
 		 
-		 frm.action = "<%=ctxPath%>/jiyoung/loginEnd.go";
+		 frm.action = "<%=ctxPath%>/loginEnd.go";
 		 frm.method = "POST";
 		 frm.submit();
 		 
@@ -171,7 +171,7 @@
 						<div class="modal-body" style="height: 300px; width: 100%;">
 							<div id="idFind">
 								<iframe style="border: none; width: 100%; height: 280px;"
-									src="<%=request.getContextPath()%>/jiyoung/idFind.go">
+									src="<%=request.getContextPath()%>/idFind.go">
 								</iframe>
 							</div>
 						</div>
@@ -196,7 +196,7 @@
 						<div class="modal-body">
 							<div id="pwFind">
 								<iframe style="border: none; width: 100%; height: 350px;"
-									src="<%= request.getContextPath() %>/jiyoung/pwdFind.go">
+									src="<%= request.getContextPath() %>/pwdFind.go">
 								</iframe>
 							</div>
 						</div>

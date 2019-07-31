@@ -179,7 +179,7 @@
 										<c:if test="${loginuser == null }">
                              			<li class="active"><a href="index.go">홈으로</a></li>
 										<!-- 로그인 전 -->
-										<li><a href="<%= ctxPath%>/jiyoung/login.go">로그인</a></li>
+										<li><a href="<%= ctxPath%>/login.go">로그인</a></li>
 										<li><a href="<%= ctxPath%>/register.go">회원가입</a></li>
 										<li><a href="#">고객센터</a></li>
 										</c:if>
@@ -188,8 +188,8 @@
 										<li class="active"><a href="index.go">홈으로</a></li>
 										<li><a href="#">여행</a></li>
 										<li><a href="#">찜목록</a></li>
-										<li><a href="#">마이페이지</a></li>
-										<li><a href="<%= ctxPath%>/jiyoung/logout.go">로그아웃</a></li>
+										<li><a href="<%= ctxPath%>/mypage.go">마이페이지</a></li>
+										<li><a href="<%= ctxPath%>/logout.go">로그아웃</a></li>
 										</c:if>
 									</ul>
 								</div>

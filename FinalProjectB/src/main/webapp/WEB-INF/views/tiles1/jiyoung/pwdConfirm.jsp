@@ -82,7 +82,7 @@
 			else {
 				var frm = document.pwdConfirmFrm;
 				frm.method = "POST";
-				frm.action = "<%= ctxPath%>/jiyoung/PwdConfirm.go";
+				frm.action = "<%= ctxPath%>/PwdConfirmEnd.go";
 				frm.submit();
 			}
 		});
