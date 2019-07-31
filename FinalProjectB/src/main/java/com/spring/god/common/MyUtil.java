@@ -10,10 +10,10 @@ public class MyUtil {
 		String currentURL = request.getRequestURL().toString();
 		//   http://localhost:9090/MyMVC/shop/prodView.kh
 		
-		String queryString = request.getQueryString();
+		//String queryString = request.getQueryString();
 		//   pnum=2
 		
-		currentURL += "?"+queryString;
+		//currentURL += "?"+queryString;
 		//   http://localhost:9090/MyMVC/shop/prodView.kh?pnum=2
 		
 		String ctxPath = request.getContextPath();

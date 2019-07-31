@@ -52,8 +52,19 @@ public class MemberDAO implements InterMemberDAO {
 		}
 
 		@Override
+		public int add_withFile(ReviewVO rvo) {
+			int n = sqlsession.insert("yujindb.addReview_withfile",rvo);
+			int m = sqlsession.insert("yujindb.addReviewFile",rvo);
+			
+			System.out.println(n);
+			System.out.println(m);
+			return n;
+		}
+
+		@Override
 		public List<HistoryVO> getHistory(int memberidx) {
 			List<HistoryVO> list = sqlsession.selectList("yujindb.getHistory",memberidx);
 			return list;
 		}
+
 }

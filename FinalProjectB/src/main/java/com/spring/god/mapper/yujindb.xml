@@ -92,6 +92,16 @@
       VALUES(seq_review.nextval,5,1002,1001,11,#{title},#{content},#{star},0)
    </insert>
    
+   <insert id="addReview_withfile" parameterType="com.spring.god.yujin.model.ReviewVO">
+      INSERT INTO review(reviewidx,memberidx,hotelidx,roomidx,reserveidx,title,content,star,GROUPNO,imgidx)
+      VALUES(seq_review.nextval,5,1002,1001,11,#{title},#{content},#{star},0,SEQ_REVIEW_IMG.nextval)
+   </insert>
+   
+   <insert id="addReviewFile" parameterType="com.spring.god.yujin.model.ReviewVO">
+      INSERT INTO REVIEW_IMG(imgidx,reviewidx,filename,orgfilename,filesize)
+      VALUES(SEQ_REVIEW_IMG.currval,seq_review.currval,#{filename},#{orgfilename},#{filesize})
+   </insert>
+   
    <select id="getHistory" parameterType="int" resultType="com.spring.god.yujin.model.HistoryVO">
    		select fk_productid,price,reservedate,checkin,checkout,nonight,title,content,star,regdate,filename, b.* from
    		(select a.fk_productid,price,reservedate,checkin,checkout,checkout-checkin+1 as nonight,b.title,b.content,b.star,b.regdate,b.filename from

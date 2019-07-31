@@ -21,7 +21,7 @@ public class ReviewVO {
 	private String orgfilename; 
 	private String filesize;    
 	
-	private MultipartFile attach; 
+	private MultipartFile attach0; 
 	
 	private String groupno;
 	private String fk_seq;
@@ -173,12 +173,12 @@ public class ReviewVO {
 		this.filesize = filesize;
 	}
 
-	public MultipartFile getAttach() {
-		return attach;
+	public MultipartFile getAttach0() {
+		return attach0;
 	}
 
-	public void setAttach(MultipartFile attach) {
-		this.attach = attach;
+	public void setAttach0(MultipartFile attach0) {
+		this.attach0 = attach0;
 	}
 
 	public String getGroupno() {

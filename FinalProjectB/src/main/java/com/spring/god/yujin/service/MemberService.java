@@ -55,8 +55,8 @@ public class MemberService implements InterMemberService {
 
 		@Override
 		public int add_withFile(ReviewVO rvo) {
-			// TODO Auto-generated method stub
-			return 0;
+			int n = dao.add_withFile(rvo);
+			return n;
 		}
 
 		@Override

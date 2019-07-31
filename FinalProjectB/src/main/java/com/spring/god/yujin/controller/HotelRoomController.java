@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.god.hyein.model.HotelRoomVO;
+import com.spring.god.jiyoung.model.MemberVO;
 import com.spring.god.yujin.model.HistoryVO;
 import com.spring.god.yujin.service.InterHotelRoomService;
 
@@ -29,6 +30,7 @@ public class HotelRoomController {
 
 	   @RequestMapping(value="/search.go", method= {RequestMethod.GET})
 	   public ModelAndView roomSearch(HttpServletRequest request,ModelAndView mv) {
+		   
 	      String searchWord = request.getParameter("searchWord")!=null?request.getParameter("searchWord"):"";
 	      if(searchWord.trim().isEmpty())   
 	         searchWord="";

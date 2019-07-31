@@ -13,8 +13,8 @@ public interface InterMemberService {
 	int addHeart(HashMap<String, String> paramap); // 찜 추가
 	int delHeart(HashMap<String, String> paramap); // 찜 삭제
 
-	List<HotelRoomVO> heartList(String memberId); // 찜리스트 조회
-	List<String> heartNo(String string); // 찜하트 채워줄 리스트조회
+	List<HotelRoomVO> heartList(String memberid); // 찜리스트 조회
+	List<String> heartNo(String memberid); // 찜하트 채워줄 리스트조회(호텔번호)
 	
 	int add(ReviewVO rvo);
 	int add_withFile(ReviewVO rvo);

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-
+<%	String ctxPath = request.getContextPath();%>
 <style>
 /*  .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;} */
     .wrap * {padding: 0;margin: 0;}
@@ -61,13 +61,24 @@
          color: #af3d3d;
           font-size: 22px;
       }
+      
+      .heartAreaIn {
+	background: url(..<%=request.getContextPath()%>/resources/images/heart_bgb.png);
+    background-size: 22px 22px;
+    display: inline-flex;
+    width: 22px;
+    height: 22px;
+	}
+	.heartAreaOut {
+		background: url(..<%=request.getContextPath()%>/resources/images/heart_bg.png);
+	    background-size: 15px 14px;
+	    display: inline-block;
+	    width: 76px;
+	    height: 14px;
+	}
+	
 </style>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=62de2ce598e3b6a4e1ffe201c5604a5c&libraries=services"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=62de2ce598e3b6a4e1ffe201c5604a5c&libraries=services,clusterer,drawing"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=62de2ce598e3b6a4e1ffe201c5604a5c"></script>
-<script type="text/javascript" src="/god/resources/js/jquery-3.3.1.min.js"></script>
- 
  <script type="text/javascript">
    map = null;
    
@@ -288,7 +299,7 @@
          <div class="row">
 	    <div class="col-md-6 col-sm-5">
 	           <div class="map_wrap">
-	              <div id="map" style="width:480px;height:740px; margin: 0 auto;" class="block-32 aos-init aos-animate"></div>
+	              <div id="map" style="width:480px;height:740px; margin: 0 auto;" class="block-32"></div>
 	           </div>
 	    </div>
        <div class="col-md-6 aos-animate col-sm-7">       
@@ -301,14 +312,15 @@
                      <!-- 상단(이미지,찜하트) -->
                      <div style="    position: relative;">
                      <button type="button" onclick="location.href='/god/addHeart.go?largeCategoryontionCode=${vo.largeCategoryontionCode}'" class="heart" id="btn_heart${status}" aria-busy="false" style="padding: 8px; margin: -8px; border: none; background-color: transparent;">
+                     <span class="heartAreaIn">
                      <c:if test="${heartNoList!=null}">
 	                     <c:forEach var="heartNo" items="${heartNoList}">
 	                     	<c:if test="${vo.largeCategoryontionCode==heartNo}">
-								<i class="fas fa-heart"></i>
+						<span class="heartAreaOut" style="width: ${hotelvo.star*14.6}px;"><span class="blind">heart</span></span>
 	                     	</c:if>
 	                     </c:forEach>
-		                        <i class="far fa-heart"></i>
                      </c:if>
+		      		 </span>
                      </button>
                         <img src="/god/resources/images/hotel/${vo.img}" style="width: 100%;">
                      </div>

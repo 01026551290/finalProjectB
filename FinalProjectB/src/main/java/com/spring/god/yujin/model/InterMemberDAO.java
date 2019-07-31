@@ -12,10 +12,10 @@ public interface InterMemberDAO {
 	int delHeart(HashMap<String, String> paramap);
 
 	List<HotelRoomVO> getHeartList(String memberId);
-
 	List<String> getHeartNo(String memberId);
 
 	int addReview(ReviewVO rvo);
+	int add_withFile(ReviewVO rvo);
 
 	List<HistoryVO> getHistory(int memberidx);
 

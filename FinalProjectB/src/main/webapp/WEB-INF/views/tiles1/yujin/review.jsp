@@ -272,21 +272,21 @@
     <section class="section contact-section" id="next">
       <div class="container">
         <div class="row">
-          <div class="col-md-5 aos-init" data-aos="fade-up" data-aos-delay="200">
+          <div class="col-md-5 ">
             <div class="row">
-              <div class="col-md-10 ml-auto contact-info">
-              <img src="/god/resources/images/hotel/Hno.jpg" width="370px"><br>
-                <p><span class="d-block">Name:</span> <span class="text-black"> 호텔명</span></p>
-                <p><span class="d-block">Address:</span> <span class="text-black"> 호텔주소</span></p>
-                <p><span class="d-block">Room:</span> <span class="text-black"> 룸타입</span></p>
-                <p><span class="d-block">Period of use:</span> <span class="text-black"> 이용기간</span></p>
+              <div class="col-md-12  ">
+              <img src="/god/resources/images/hotel/Hno.jpg" width="100%"><br>
+                <p><span class="d-block">Name</span> <span class="text-black"> 호텔명</span></p>
+                <p><span class="d-block">Address</span> <span class="text-black"> 호텔주소</span></p>
+                <p><span class="d-block">Room</span> <span class="text-black"> 룸타입</span></p>
+                <p><span class="d-block">Period of use</span> <span class="text-black"> 이용기간</span></p>
               </div>
             </div>
           </div>
-          <div class="col-md-7 aos-init" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-md-7 " >
             
-            <!-- <form name="reviewFrm" class="bg-white p-md-5 p-4 mb-5 border" enctype="multipart/form-data"> -->
-            <form name="reviewFrm" class="bg-white p-md-5 p-4 mb-5 border">
+            <form name="reviewFrm" class="bg-white p-md-5 p-4 mb-5 border" enctype="multipart/form-data">
+            <!-- <form name="reviewFrm" class="bg-white p-md-5 p-4 mb-5 border"> -->
               <div class="row">
                 <div class="col-md-12 form-group">
 	                <label class="text-black font-weight-bold" >숙박이 어땠나요?</label> &nbsp;&nbsp;
@@ -327,10 +327,10 @@
                   <label class="text-black font-weight-bold" >Image attach</label>&nbsp;
                   <input id="spinnerImgQty" value="0" style="width: 30px; height: 20px;"><br>
                   <input type="hidden" name="attachCount" id="attachCount"/>
+				  <div id="divfileattach"></div>
                   <!-- 
                   <input multiple="multiple" type="file" name="imgFile_0">
 					
-					<div id="divfileattach"></div>
 					 -->
 
 <!-- 

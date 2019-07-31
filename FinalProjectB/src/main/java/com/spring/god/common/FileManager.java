@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -20,29 +19,27 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 
-// ===== #136. FileManager 클래스 생성하기 =====
+// ===== #131. FileManager 클래스 생성하기 =====
 @Component
 public class FileManager {
 
 	// == 파일 업로드 하기 첫번째 방법 ==
 	// path : 업로드 할 파일의 저장 경로
 	// 리턴 : 서버에 저장된 새로운 파일명
-	public static String doFileUpload(byte[] bytes, String originalFilename, String path) throws Exception {
-		                    //실제 업로드할 파일 내용, 업로드할 파일의 이름, 경로
+	public String doFileUpload(byte[] bytes, String originalFilename, String path) throws Exception {
 		String newFilename = null;
 
-		if(bytes == null) // 첨부파일이 없으면
-			return null;  // 끝내라
+		if(bytes == null)
+			return null;
 		
 		// 클라이언트가 업로드한 파일의 이름
-		if(originalFilename.equals("")) // 파일의 이름이 없다면
-			return null;                // 끝내라
+		if(originalFilename.equals(""))
+			return null;
 		
-		// 둘다 올바르게 올라왔다면~
-		// 확장자									 // originalFilename에서 lastIndexOf 맨마지막에나오는 . 의 위치값을 알아온다
+		// 확장자												// lastIndexOf 맨마지막에나오는 .
 		String fileExt = originalFilename.substring(originalFilename.lastIndexOf(".")); 
-		if(fileExt == null || fileExt.equals("")) // 확장자가 없거나 텅비었다면
-			return null; 						  // 끝내라
+		if(fileExt == null || fileExt.equals(""))
+			return null;
 		
 		// 서버에 저장할 새로운 파일명을 만든다.
 		// 서버에 저장할 새로운 파일명이 동일한 파일명이 되지 않고 고유한 파일명이 되도록 하기 위해
@@ -181,12 +178,12 @@ public class FileManager {
 	    		outs.close();  // ServletOutputStream outs 객체를 소멸시킨다.
 	            fin.close();   // BufferedInputStream fin 객체를 소멸시킨다.
 	            
-	            return true;   // Exception 이 발생하지 않으면 true 를 리턴시킨다. 정상적으로 다운
+	            return true;   // Exception 이 발생하지 않으면 true 를 리턴시킨다.
 	        }
 	    } catch(Exception e) {
 	    }
 	    
-	    return false;         // Exception 이 발생하면 false 를 리턴시킨다. 비정상적으로 다운
+	    return false;         // Exception 이 발생하면 false 를 리턴시킨다.
 	}
 	
 	
