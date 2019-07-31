@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.god.bora.model.HotelRoomVO;
 import com.spring.god.bora.model.InterHotelRoomDAO;
+import com.spring.god.jiyoung.model.MemberVO;
 
 
 @Service
@@ -33,6 +34,13 @@ public class HotelRoomService implements InterHotelRoomService {
 	public List<HotelRoomVO> getlist() {
 		List<HotelRoomVO> hotelList = dao.getlist();
 		return hotelList;
+	}
+	
+	// 예약및결제페이지에서 회원정보 수정하기
+	@Override
+	public int accomodationInfoMyEditEnd(MemberVO mvo) {
+		int n = dao.accomodationInfoMyEditEnd(mvo);
+		return n;
 	}
 	
 }

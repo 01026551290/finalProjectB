@@ -3,6 +3,7 @@ package com.spring.god.bora.service;
 import java.util.List;
 
 import com.spring.god.bora.model.HotelRoomVO;
+import com.spring.god.jiyoung.model.MemberVO;
 
 public interface InterHotelRoomService {
 	
@@ -13,6 +14,9 @@ public interface InterHotelRoomService {
 	
 	// 숙소보여주기(최신숙소)
 	List<HotelRoomVO> getlist();
+	
+	// 예약및결제페이지에서 회원정보 수정하기
+	int accomodationInfoMyEditEnd(MemberVO mvo);
 
 
 }

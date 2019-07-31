@@ -1936,6 +1936,10 @@ div#displayList {
     color: #ffaa34;
 }
 
+.error {
+    font-size: 10pt;
+    color: #dc3545;
+}
 
 /* 로그인 CSS */
 .loginborder {
