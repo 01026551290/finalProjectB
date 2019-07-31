@@ -52,5 +52,24 @@
 		from MEMBER
 		where MEMBERID = #{userid} and PWD = #{pwd}  
    </select>
+   
+    <select id="getidFind" parameterType="HashMap" resultType="String">
+		SELECT MEMBERID
+		from MEMBER
+		where NAME = #{name} and EMAIL = #{email}
+   </select> 
+   
+   <select id="isUserExists" parameterType="HashMap" resultType="int">
+		SELECT count(*)
+		from MEMBER
+		where status = 1 and memberid = #{userid} and email = #{email}
+   </select>
+   
+  <update id="updatePwdUser" parameterType="HashMap">
+   UPDATE MEMBER SET PWD = #{pwd}
+   where status = 1 and memberid = #{userid}
+  </update>
+   
+   
       
 </mapper>

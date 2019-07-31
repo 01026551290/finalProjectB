@@ -17,5 +17,13 @@ public interface InterMemberService {
 	//로그인하기
 	MemberVO getLoginMember(HashMap<String, String> paraMap);
 
+	String getidFind(HashMap<String, String> paraMap);//아이디찾기
+
+	String getpwdFind(HashMap<String, String> paraMap);//비밀번호찾기
+
+	boolean isUserExists(HashMap<String, String> paraMap);//유저확인하기
+
+	int updatePwdUser(HashMap<String, String> paraMap);
+
 
 }

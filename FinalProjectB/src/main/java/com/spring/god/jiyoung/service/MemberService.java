@@ -63,5 +63,35 @@ public class MemberService implements InterMemberService {
 		MemberVO loginuser = dao.getLoginMember(paraMap);
 		return loginuser;
 	}
+
+
+	@Override
+	public String getidFind(HashMap<String, String> paraMap) {
+		
+		String idFind = dao.getidFind(paraMap); 
+		return idFind;
+	}
+
+
+	@Override
+	public String getpwdFind(HashMap<String, String> paraMap) {
+		
+		String pwdFind = dao.getpwdFind(paraMap); 
+		return pwdFind;
+	}
+
+	//유저확인하기
+	@Override
+	public boolean isUserExists(HashMap<String, String> paraMap) {
+		boolean isUserExists = dao.isUserExists(paraMap); 
+		return isUserExists;
+	}
+
+
+	@Override
+	public int updatePwdUser(HashMap<String, String> paraMap) {
+		int updatePwdUser = dao.updatePwdUser(paraMap);
+		return updatePwdUser;
+	}
 	
 }

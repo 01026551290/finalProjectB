@@ -3,6 +3,7 @@ package com.spring.god.jiyoung.controller;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +36,7 @@ public class MemberController {
 	@Autowired
 	private InterMemberService service;
 	
-	private SHA256 sha;
+	private SHA256 sha;	
 	
 	@RequestMapping(value="/register.go", method= {RequestMethod.GET})
 	public ModelAndView register(ModelAndView mv) {
@@ -147,6 +148,7 @@ public class MemberController {
 	public String register(HttpServletRequest request, MemberVO mvo) throws Throwable {
 	
 		String pwd = request.getParameter("pwd");
+		pwd = SHA256.encrypt(pwd);
 		String birthDay = request.getParameter("birthyyyy");
 		birthDay += request.getParameter("birthmm");
 		birthDay += request.getParameter("birthdd");
@@ -157,7 +159,7 @@ public class MemberController {
 		
 		
 		System.out.println(pwd);
-		
+		mvo.setPwd(pwd);
 		mvo.setBrithDay(birthDay);
 		mvo.setTel(tel);
 		mvo.setPwd(pwd);
@@ -193,7 +195,7 @@ public class MemberController {
 	
 	// 로그인 하기
 	@RequestMapping(value="jiyoung/loginEnd.go", method= {RequestMethod.POST})
-	public ModelAndView loginEnd(ModelAndView mv , HttpServletRequest request, MemberVO mvo) throws UnsupportedEncodingException, GeneralSecurityException {
+	public ModelAndView loginEnd(ModelAndView mv , HttpServletRequest request) throws UnsupportedEncodingException, GeneralSecurityException {
 		
 		String userid = request.getParameter("userid");
 		String pwd = request.getParameter("pwd");		
@@ -202,7 +204,7 @@ public class MemberController {
 		paraMap.put("userid", userid);
 		paraMap.put("pwd", SHA256.encrypt(pwd));		
 		
-		mvo = service.getLoginMember(paraMap);
+		MemberVO mvo = service.getLoginMember(paraMap);
 		////////////////////////////////////////////////////////
 		HttpSession session = request.getSession();
 		
@@ -212,7 +214,7 @@ public class MemberController {
 			
 			mv.addObject("msg", msg);
 			mv.addObject("loc", loc);
-			mv.setViewName("msg");
+			mv.setViewName("tiles1/jiyoung/msg");
 			
 		}
 		else {
@@ -253,11 +255,201 @@ public class MemberController {
 			return mv;
 		}
 	
+		// 아이디 찾기
+		@RequestMapping(value="/jiyoung/idFind.go", method= {RequestMethod.GET})
+		public ModelAndView idFind(ModelAndView mv , HttpServletRequest request) {						
+				mv.addObject("method","GET");
+				mv.setViewName("tiles1/jiyoung/idFind");
+			return mv;
+		}
+		
+		// 아이디 찾기
+		@RequestMapping(value="/jiyoung/idFindEnd.go", method= {RequestMethod.POST})
+		public ModelAndView idFindEnd(ModelAndView mv , HttpServletRequest request) {						
+			
+			String name = request.getParameter("name");
+			String email  = request.getParameter("email");
+			
+			HashMap<String, String> paraMap = new HashMap<String, String>();
+			paraMap.put("name", name);
+			paraMap.put("email", email);
+			
+			String idFind = service.getidFind(paraMap);
+			
+			mv.addObject("method","POST");
+			mv.addObject("name",name);
+			mv.addObject("email",email);
+			mv.addObject("idFind",idFind);
+			mv.setViewName("tiles1/jiyoung/idFind");
+//				mv.setViewName("jiyoung/login.tiles1");
+				
+			
+			return mv;
+		}		
 
+		
+		
+		// 비밀번호 찾기
+		@RequestMapping(value="/jiyoung/pwdFind.go", method= {RequestMethod.GET})
+		public ModelAndView pwdFind(ModelAndView mv , HttpServletRequest request, HttpServletRequest response) {						
+				mv.addObject("method","GET");
+				mv.setViewName("tiles1/jiyoung/pwdFind");
+			return mv;
+		}
+		
+		
+		
+		
+		// 비밀번호 찾기
+		@RequestMapping(value="/jiyoung/pwdFindEnd.go", method= {RequestMethod.POST})
+		public ModelAndView pwdFindEnd(ModelAndView mv , HttpServletRequest request) {						
+			
+			mv.addObject("method","POST"); // 인증코드 인증하기 위해서 post로 바꿔줌.
+			
+			// 인증 폼에서 입력한 userid와 email을 받아옴.
+			String userid = request.getParameter("userid");
+			String email  = request.getParameter("email");
+
+			HashMap<String, String> paraMap = new HashMap<String, String>();
+			paraMap.put("userid", userid);
+			paraMap.put("email", email);
+			
+			boolean isUserExists = service.isUserExists(paraMap);
+			
+			
+			int n = 0;	
+			
+			// 회원이 존재하는 경우
+			if(isUserExists) {
+				n = 1; // n을 1로 바꾸겠다.
+				
+				GoogleMail mail = new GoogleMail();					
+				// 인증키를 랜덤하게 생성하도록 한다.
+				Random rnd = new Random();						
+				String certificationCode = "";
+										
+				char randchar = ' ';
+				for(int i=0; i<5; i++) {
+					randchar = (char) (rnd.nextInt('z' - 'a' + 1) + 'a'); 
+					certificationCode += randchar;
+				}
+				
+				int randnum = 0;
+				for (int i=0; i<7; i++) {
+					randnum = rnd.nextInt(9-0+1)+0;
+					certificationCode += randnum;
+				}
+				
+				// 랜덤하게 생성한 인증코드를 비밀번호 찾기를 하고자 하는 사용자의 email로 전송시킨다.
+				HttpSession session = request.getSession();
+				try {
+					mail.sendmail(email, certificationCode);
+
+					session.setAttribute("certificationCode", certificationCode); // 자바에서 발급한 인증코드를 세션에 저장			
+					request.setAttribute("email", email); // 유저가 써둔 email을 유지시키기 위함.
+					
+				} catch(Exception e) {
+					e.printStackTrace();
+					n = -1;
+					request.setAttribute("sendMailFailMsg", "메일 발송에 실패했습니다.");
+				}
+			}// end of if--------------
+			// 회원으로 존재하지 않는 경우
+			else {
+				n= 0;
+			}//end of else-------------
+			
+			mv.addObject("pwdFind","pwdFind");
+			mv.addObject("userid",userid);
+			mv.addObject("email",email);
+			mv.addObject("n",n);
+			mv.setViewName("tiles1/jiyoung/pwdFind");					
+			
+			System.out.println(isUserExists);
+			System.out.println(n);
+			return mv;
+			
+	} // end of 비밀번호 찾기 ---------------
+				
+		
+		
+		
+	@RequestMapping(value="/jiyoung/verifyCertificationFrm.go", method= {RequestMethod.POST})
+	public ModelAndView VerifyCertificationAction(ModelAndView mv, HttpServletRequest request){	
+		
+		String userid = request.getParameter("userid"); /* 데이터베이스에서 업뎃해야 돼서 받아옴. */
+		String userCertificationCode = request.getParameter("userCertificationCode");
+		
+		HttpSession session = request.getSession();
+		String certificationCode = (String) session.getAttribute("certificationCode");
+		session.removeAttribute("certificationCode");
+		
+		String msg = "";
+		String loc = "";
+
+		if(certificationCode.equals(userCertificationCode)) { //유저가 보낸 코드와 같다라면
+			msg = "인증성공 되었습니다.";
+			loc = request.getContextPath() + "/jiyoung/pwdConfirm.go?userid="+userid; // 겟 방식으로 보내줌.
+		}
+		else {
+			msg = "발급된 인증코드가 아닙니다. 인증코드를 다시 발급받으세요!!";
+			loc = request.getContextPath() + "/jiyoung/pwdFind.go"; /* 처음부터 해라. */
+		}
+		
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.setViewName("/tiles1/jiyoung/msg");
+		
+		return mv;
+		
+	} // end of 인증번호 인증 ------------------
+	
+
+	
+	// 패스워드 변경을 위한 페이지를 띄워줘야 됨.
+	// 강사님은 한 페이지에서 해결했는데, 그건 이클립스라서 아무 방식이나 받기 때문임.
+	// 근데 스프링에서는 한 메서드에 한 request 방식만 받기 때문에, 나눠줘야 함.
+	@RequestMapping(value="/jiyoung/pwdConfirm.go", method= {RequestMethod.GET})
+	public ModelAndView PwdConfirmAction(ModelAndView mv, HttpServletRequest request){
+		
+		String userid = request.getParameter("userid");
+		request.setAttribute("userid", userid);
+		
+		mv.setViewName("tiles1/jiyoung/pwdConfirm");
+		return mv;
+	}
+	
+	// 인증 후 패스워드 변경하는 곳 (바로 위의 PwdConfirmAction 에서 이어지는 것임.)
+	@RequestMapping(value="/jiyoung/PwdConfirmEnd.go", method= {RequestMethod.POST})
+	public ModelAndView PwdConfirmActionEnd(ModelAndView mv, HttpServletRequest request){
+		
+		String userid = request.getParameter("userid");
+		String pwd = request.getParameter("pwd");
+		
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("userid", userid);
+		paraMap.put("pwd", pwd);
+			
+		int n = service.updatePwdUser(paraMap);
+		
+		mv.addObject("n", n);	
+		mv.addObject("method", "GET");
+		mv.addObject("pwd", pwd);
+		mv.addObject("userid", userid);
+	
+		mv.setViewName("tiles1/jiyoung/pwdConfirm");
+		return mv;	
+	}
+	
+
+	
+	
+	
+	
+	
+	
+	
 }
-	
-
-	
 	
 	
 

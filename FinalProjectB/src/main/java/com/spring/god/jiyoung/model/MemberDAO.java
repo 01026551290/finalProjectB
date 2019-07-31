@@ -57,9 +57,36 @@ public class MemberDAO implements InterMemberDAO {
 		return loginuser;
 	}
 
+	@Override
+	public String getidFind(HashMap<String, String> paraMap) {
+		String idFind =sqlsession.selectOne("jiyoungdb.getidFind",paraMap);				
+		return idFind;
+	}
 
+	@Override
+	public String getpwdFind(HashMap<String, String> paraMap) {
+		String pwdFind =sqlsession.selectOne("jiyoungdb.getpwdFind",paraMap);				
+		return pwdFind;
+	}
 
+	@Override
+	public boolean isUserExists(HashMap<String, String> paraMap) {
+		boolean isUserExists = false;
+		int n = sqlsession.selectOne("jiyoungdb.isUserExists",paraMap);
+		if(n==1)
+			isUserExists=true;
+		
+		return isUserExists;
+	}
 
+	@Override
+	public int updatePwdUser(HashMap<String, String> paraMap) {
+		
+		int updatePwdUser = sqlsession.update("jiyoungdb.updatePwdUser",paraMap);			
+		return updatePwdUser;
+	}
+
+	
 	
 		
 }

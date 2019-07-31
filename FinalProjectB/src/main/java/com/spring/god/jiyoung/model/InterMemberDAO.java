@@ -14,4 +14,12 @@ public interface InterMemberDAO {
 		
 	MemberVO getLoginMember(HashMap<String, String> paraMap);// 로그인하기
 
+	String getidFind(HashMap<String, String> paraMap);//아이디 찾기
+
+	String getpwdFind(HashMap<String, String> paraMap);//비밀번호 찾기
+
+	boolean isUserExists(HashMap<String, String> paraMap);//유저확인하기
+
+	int updatePwdUser(HashMap<String, String> paraMap);
+
 }
