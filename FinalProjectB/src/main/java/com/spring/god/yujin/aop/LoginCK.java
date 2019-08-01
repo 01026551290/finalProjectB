@@ -33,7 +33,7 @@ public class LoginCK {
       try {
          if (session.getAttribute("loginuser") == null) {
             String msg = "로그인 후 이용가능";
-            String loc = request.getContextPath() + "/jiyoung/login.go";
+            String loc = request.getContextPath() + "/login.go";
             request.setAttribute("msg", msg);
             request.setAttribute("loc", loc);
 
