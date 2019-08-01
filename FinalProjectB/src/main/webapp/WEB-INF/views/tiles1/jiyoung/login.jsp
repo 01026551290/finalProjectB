@@ -147,10 +147,10 @@
 					<div class="row">
 						<div class="col-md-12 form-group taC">
 							<input type="button" value="로그인" onclick="func_Login();"
-								class="btn btn-primary text-white py-3 px-5 mx-2 font-weight-bold">
+								class="btn btn-primary text-white py-3 mx-2 font-weight-bold">
 							<input type="button" value="회원가입"
 								onclick="location.href='/god/register.go'"
-								class="btn btn-primary text-white py-3 px-5 mx-2 font-weight-bold">
+								class="btn btn-primary text-white py-3 mx-2 font-weight-bold">
 						</div>
 						<div class="col-md-12 form-group taC styleAfter">
 							<a style="cursor: pointer;" data-toggle="modal" data-target="#userIdfind" data-dismiss="modal">아이디찾기</a> 

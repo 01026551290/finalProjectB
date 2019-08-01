@@ -1946,9 +1946,18 @@ div#displayList {
     border-bottom: 3px solid #ffa527;
 }
 
+.styleAfter a {
+	color: #ffaa34 !important;
+}
+
 .styleAfter a:first-child:after {
     display: inline-block;
-    content: "|";
-    clear: both;
-    padding: 0 15px;
+   	content: " ";
+   	background-color: #ffaa34;
+   	overflow: hidden;    
+   	width: 1px;
+   	height: 15px;
+   	margin-left: 20px;
+   	margin-right: 14px;
+   	vertical-align: -2px;
 }
