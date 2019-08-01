@@ -64,17 +64,17 @@
       
       .heartAreaIn {
 	background: url(..<%=request.getContextPath()%>/resources/images/heart_bgb.png);
-    background-size: 22px 22px;
-    display: inline-flex;
-    width: 22px;
-    height: 22px;
+	    background-size: 22px 22px;
+	    display: inline-flex;
+	    width: 22px;
+	    height: 22px;
 	}
 	.heartAreaOut {
 		background: url(..<%=request.getContextPath()%>/resources/images/heart_bg.png);
-	    background-size: 15px 14px;
-	    display: inline-block;
-	    width: 76px;
-	    height: 14px;
+	    background-size: 22px 22px;
+	    display: inline-flex;
+	    width: 22px;
+	    height: 22px;
 	}
 	
 </style>
@@ -279,7 +279,6 @@
             </form>
           </div>
 
-
         </div>
       </div>
     </section>
@@ -312,14 +311,13 @@
                      <!-- 상단(이미지,찜하트) -->
                      <div style="    position: relative;">
                      <button type="button" onclick="location.href='/god/addHeart.go?largeCategoryontionCode=${vo.largeCategoryontionCode}'" class="heart" id="btn_heart${status}" aria-busy="false" style="padding: 8px; margin: -8px; border: none; background-color: transparent;">
-                     <span class="heartAreaIn">
-                     <c:if test="${heartNoList!=null}">
-	                     <c:forEach var="heartNo" items="${heartNoList}">
-	                     	<c:if test="${vo.largeCategoryontionCode==heartNo}">
-						<span class="heartAreaOut" style="width: ${hotelvo.star*14.6}px;"><span class="blind">heart</span></span>
-	                     	</c:if>
-	                     </c:forEach>
-                     </c:if>
+                     <span class="heartAreaOut">
+                     	<c:if test="${vo.fk_LargeCategoryCode!=null}">
+							<span class="heartAreaIn" style="width: 22px;"><span class="blind">heart</span></span>
+                     	</c:if>
+                     	<c:if test="${vo.fk_LargeCategoryCode==null}">
+							<span class="heartAreaIn" style="width: 0px;"><span class="blind">heart</span></span>
+                     	</c:if>
 		      		 </span>
                      </button>
                         <img src="/god/resources/images/hotel/${vo.img}" style="width: 100%;">

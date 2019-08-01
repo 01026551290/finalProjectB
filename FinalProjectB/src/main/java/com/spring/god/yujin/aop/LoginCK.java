@@ -50,4 +50,38 @@ public class LoginCK {
       }
 
    }
+   
+   // 위는 ?뒤 내용 삭제 // 아래는 ?뒤 내용 삽입
+   
+   @Pointcut("execution(public * com.spring.god..*Controller.LoginCK2_*(..))")
+   public void loginCK2() {
+   }
+   
+   @Before("loginCK2()")
+   public void before2(JoinPoint joinPoint) {
+	   HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0];
+	   HttpServletResponse response = (HttpServletResponse) joinPoint.getArgs()[1];
+	   
+	   HttpSession session = request.getSession();
+	   
+	   try {
+		   if (session.getAttribute("loginuser") == null) {
+			   request.setAttribute("msg", "로그인 후 이용가능");
+			   request.setAttribute("loc", request.getContextPath() + "/login.go");
+			   
+			   String url = MyUtil.getCurrentURLNext(request);
+			   session.setAttribute("gobackURL", url);
+
+			   RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/tiles1/yujin/msg.jsp");
+			   dispatcher.forward(request, response);
+		   } else {
+			   session.setAttribute("url", "url");
+		   }
+
+		   
+	   } catch (ServletException | IOException e) {
+		   e.printStackTrace();
+	   }
+	   
+   }
 }
