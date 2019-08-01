@@ -25,5 +25,7 @@ public interface InterMemberService {
 
 	int updatePwdUser(HashMap<String, String> paraMap);
 
+	MemberVO memberEdit(int idx);
+
 
 }
