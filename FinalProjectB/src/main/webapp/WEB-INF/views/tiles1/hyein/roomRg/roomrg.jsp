@@ -53,10 +53,19 @@
 		font-size: 9pt;
 		font-style: italic;
 	}
+	
+	/* input[type=checkbox] {  vertical-align:middle; } */
+	
+	.chk { 
+		margin-right: 15px;
+		/* margin:-4px 3px 0 5px;
+		vertical-align: middle; */
+	}
 
-.form-control::placeholder {
-    color: #a6a6a6;
-}
+	.form-control::placeholder {
+	    color: #a6a6a6;
+	}
+	
 </style>
     
 <script type="text/javascript">
@@ -78,7 +87,7 @@
 			}
 		}); // end of $("#spinnerImgQty").spinner();---------------
 		
-		
+		/* 
 		$("#spinnerImgQty").bind("spinstop", function(){
 			//==== 암기!!! 스피너는 이벤트가 "change" 가 아니라 "spinstop" 이다. ====//
 			
@@ -102,8 +111,8 @@
 				$("#attachCount").val(spinnerImgQtyVal); // 첨부되어진 파일의 갯수가 몇개냐~
 			}
 		}); // end of $("#spinnerImgQty").bind("spinstop", function(){})-------------------------------
-		
-		
+		 */
+		 
 		// === 숙소명 검증 (공백일 경우) ===
 		
 		$("input#name").blur(function(){
@@ -299,14 +308,14 @@
 		});
 		
 		var frm = document.roomrgFrm;
-		
+		frm.method = "POST";
 		frm.action = "<%= request.getContextPath()%>/roomrgEnd.go";
-		frm.method = "GET";
 		frm.submit();
 	}
 	
-	/* function func_Next() {
+	    function func_Next() {
 		
+    	/*
 		var fk_LargeCategoryCode = $("select[name=fk_LargeCategoryCode]").val(); 
 		
 //		console.log(fk_LargeCategoryCode); //숙소가 선택되는지 콘솔로 검사
@@ -351,48 +360,16 @@
 		
 		var test = new Array(); //배열선언
 
+		*/
+		
 		$("input[name=ontionType]:checked").each(function() {
-
-			//test += $(this).val();
 
 		    test.push($(this).val());   // 값 찍어보시면 a,b 이런식으로 콤마 구분자가 같이 들어갑니다. 
 
 		});
 		
-	} */
+	} 
 
-	/*
-	function goAddressToLatlng(addressVal) {
-    	var address = encodeURIComponent(addressVal);
-    	
-    	$.ajax({
-        	url: "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyDDQx9Q_JsWUjWyssoeEaeBGSbhvGcTyrA&sensor=false&address="+address,
-        	type: "GET",
-        	dataType: "JSON",
-           	success: function(json){
-                    if(json.status == 'OK') {
-                        var html = "";
-                        
-                        for(var i=0; i<json.results.length; i++) {
-                          html += "주소 : " +json.results[i].formatted_address+"<br/>";
-                          html += "위도 : " +json.results[i].geometry.location.lat+"<br/>";
-                          html += "경도 : " +json.results[i].geometry.location.lng+"<br/>";
-                        }
-                    
-                        $("#latlngVal").html(html);
-                    } else if(json.status == 'ZERO_RESULTS') {
-                        alert("지오코딩이 성공했지만 반환된 결과가 없음을 나타냅니다.\n\n이는 지오코딩이 존재하지 않는 address 또는 원격 지역의 latlng을 전달받는 경우 발생할 수 있습니다.")
-                    } else if(json.status == 'OVER_QUERY_LIMIT') {
-                        alert("할당량이 초과되었습니다.");
-                    } else if(json.status == 'REQUEST_DENIED') {
-                        alert("요청이 거부되었습니다.\n\n대부분의 경우 sensor 매개변수가 없기 때문입니다.");
-                    } else if(json.status == 'INVALID_REQUEST') {
-                        alert("일반적으로 쿼리(address 또는 latlng)가 누락되었음을 나타냅니다.");
-                    }
-            }
-    	});
-	}
-	*/
 	
 </script>  
     
@@ -424,7 +401,7 @@
         <div class="row">
           <div class="col-md-12" data-aos="fade-up" data-aos-delay="100" >
             
-            <form name="roomrgFrm" class="bg-white p-md-5 p-4 mb-5 border">
+            <form name="roomrgFrm" class="bg-white p-md-5 p-4 mb-5 border"  enctype="multipart/form-data" >
               <div class="row">
                 <div class="col-md-12 form-group">
                     <label class="text-black font-weight-bold" for="rtype">숙소 유형</label>
@@ -478,10 +455,11 @@
                 </div>
               </div>
 
-               <div class="row"> 
+               <div class="row checkbox"> 
                 <div class="col-md-12 form-group">
                     <label for="ontionType" class="text-black font-weight-bold" >옵션</label><br/>
                     <input type="checkbox" id="restaurant" name="ontionType" value="레스토랑">&nbsp;<label for="restaurant" class="chk">레스토랑</label>
+                    <input type="checkbox" id="breakfast" name="ontionType" value="조식">&nbsp;<label for="breakfast" class="chk">조식</label>
                     <input type="checkbox" id="pickup" name="ontionType" value="공항픽업서비스">&nbsp;<label for="pickup" class="chk">픽업서비스</label>
                     <input type="checkbox" id="conference" name="ontionType" value="회의시설">&nbsp;<label for="conference" class="chk">회의시설</label>
                     <input type="checkbox" id="lounge" name="ontionType" value="라운지바">&nbsp;<label for="lounge" class="chk">라운지바</label>
@@ -490,32 +468,36 @@
                     <input type="checkbox" id="parking" name="ontionType" value="주차장">&nbsp;<label for="parking" class="chk">주차장</label>
                     <input type="checkbox" id="valet" name="ontionType" value="발렛파킹">&nbsp;<label for="valet" class="chk">발렛파킹</label>
                     <input type="checkbox" id="sauna" name="ontionType" value="찜질방">&nbsp;<label for="sauna" class="chk">찜질방</label>
-                    <input type="checkbox" id="disabled" name="ontionType" class="chk" value="장애인편의시설">&nbsp;<label for="disabled">장애인편의시설</label>
-                    <input type="checkbox" id="tennis" name="ontionType" value="테니스코트">&nbsp;<label for="tennis">테니스코트</label>
+                    <input type="checkbox" id="disabled" name="ontionType" class="chk" value="장애인편의시설">&nbsp;<label for="disabled" class="chk">장애인편의시설</label>
+                    <input type="checkbox" id="tennis" name="ontionType" value="테니스코트">&nbsp;<label for="tennis" class="chk">테니스코트</label>
+                    <input type="checkbox" id="smoking" name="smoking" value="흡연실">&nbsp;<label for="smoking" class="chk">흡연실</label>
+                    <input type="checkbox" id="24checkin" name="24checkin" value="24시간 체크인">&nbsp;<label for="24checkin" class="chk">24시간 체크인</label>
                 </div>
                </div>
                 
-                <!-- 
-                <%-- === #132. 파일첨부 타입 추가하기 === --%>
-				<div>
-				<label for="img" class="text-black font-weight-bold" >이미지 첨부</label><br/>
-					<input type="file" name="img" id="img" class="form-control" />
-				</div>
-				 -->
-				 
+				<!-- 스피너로 첨부 추가 이미지파일 첨부하기!!!! -->
 				<%-- ==== 첨부파일 타입 추가하기 ==== --%>
-				<label for="img" class="text-black font-weight-bold" >이미지 첨부</label><br/>
-		       	<!-- <td width="25%" class="prodInputName" style="padding-bottom: 10px;">추가이미지파일(선택)</td> -->
+				<!-- 
+				<label for="img" class="text-black font-weight-bold" >숙소 이미지 첨부</label><br/>
+		       	<td width="25%" class="prodInputName" style="padding-bottom: 10px;">추가이미지파일(선택)</td>
 		       	<td>
 		       		<label for="spinnerImgQty">파일갯수 : </label>
 				    <input id="spinnerImgQty" value="0" style="width: 30px; height: 20px;">
 		       		<div id="divfileattach"></div>
-		       		<input type="hidden" name="attachCount" id="attachCount" class="form-control" /> 
+		       		<input type="hidden" name="attachCount" id="attachCount" class="form-control" style="position: absolute;" /> 
 		       	</td>
+		       	-->
+		       	
+		      <div class="row">
+		       <div class="col-md-12 form-group" id="wrap">
+			      <label for="attach" class="text-black font-weight-bold">파일첨부</label>
+				  <input type="file" name="attach" id="attach" class="form-control"/>
+		      </div>
+		      </div>
                 
               <div class="row">
                 <div class="col-md-6 form-group">
-                  <input type="button" value="Next" id="btnNext" class="btn btn-primary text-white py-3 px-5 font-weight-bold" style="margin-top: 30px;" onclick="goNext(event);"/>
+                	<input type="button" value="Next" id="btnNext" class="btn btn-primary text-white py-3 px-5 font-weight-bold" style="margin-top: 30px;" onclick="goNext(event);"/>
                 </div>
               </div>
                

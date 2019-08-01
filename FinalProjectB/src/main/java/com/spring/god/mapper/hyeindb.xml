@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hyeindb">
+
+	<!-- 숙소 등록하기 -->
+	<insert id="hotelAdd" parameterType="com.spring.god.hyein.model.HotelRoomVO"> 
+	 	insert into LONTION (largeCategoryontionCode, fk_LargeCategoryCode, name, businessTel, address, info, ontionType, regDay, img) 
+		values(${lseq}.nextval, #{fk_LargeCategoryCode}, #{name}, #{businessTel}, #{address}, #{info}, #{ontionType}, default, #{img})
+	 </insert>
+	 
+	 <!-- 객실 등록의 숙소명 검색어 자동완성하기 -->
+	 <select id="wordNameSearchView" parameterType="String" resultType="String">
+		select name
+		from LONTION
+		where lower(name) like '%'||lower(#{searchWord})||'%'
+     </select>
+	 
+	 <!-- 자동완성 검색어의 대분류 카테고리 넘버 가져오기 -->
+	 <select id="getLargeCodeNum" parameterType="String" resultType="String">
+		select largeCategoryontionCode
+		from LONTION
+		where lower(name) like lower(#{searchWord})
+     </select>
+     
+	 <!-- 룸 등록하기 -->
+	 <insert id="roomAdd" parameterType="com.spring.god.hyein.model.HotelRoomVO">
+		 insert into PRODUCT (productId, fk_LargeCategoryOntionCode, roomType, roomOption, productName, roomInfo, weekPrice, weekenPrice) 
+		 values (${pseq}.nextval, #{largeCategoryontionCode}, #{roomType}, #{roomOption}, #{productName}, #{roomInfo}, #{weekPrice}, #{weekenPrice})
+	 </insert>
+	 <!-- 이미지 등록하기 -->
+	 <insert id="photoaddimg" parameterType="List">
+	  	 insert into PRODUCTPIC (productPicId, fk_productId, picture)
+		 values
+		 <foreach collection="photoList" item="vo" separator=",">
+		    (seq_productPic.nextval, ${vo.pseq}.currval, #{vo.fileName})	 
+		 </foreach>
+	 </insert>
+	 
+</mapper>

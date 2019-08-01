@@ -1,5 +1,7 @@
 package com.spring.god.hyein.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class HotelRoomVO {
 
    private String largeCategoryontionCode;       // 호텔옵션코드
@@ -9,7 +11,7 @@ public class HotelRoomVO {
    private String address;                       // 주소
    private String info;                          // 소개글
    private String ontionType;                    // 옵션타입
-   private String img;                           // 이미지파일
+   private String img;                           // 숙소이미지파일
    private String regDay;      				     // 숙소등록날짜
    
    private String productId;                     // 상품ID
@@ -22,21 +24,31 @@ public class HotelRoomVO {
    private String roomInfo;                      // 룸소개
    private String productStatus;                 // 룸상태
    private String productPeriod1;                // 상품기간1
-   private String productPeriod2; 
+   private String productPeriod2; 				 // 상품기간2
+   private double star;							 // 평점
+   private int starcnt;							 // 평점갯수
    
-   private double star;
-   private int starcnt;
+   /*
+	=== 파일을 첨부하도록 VO 수정하기
+		먼저, 오라클에서 productpic 테이블에 
+		3개 컬럼( , , )을 추가한 후에 아래의 작업을 한다
+   */
+   private String fileName; 					 // WAS(톰캣)에 저장될 파일명(2019072509271512345.png) // 동시에 업로드할 경우를 대비해서 초를 세분화해서 올려둔다 중복이 안되게..
+   private String picture;					     // 진짜 파일명(강아지.png) // 사용자가 파일을 업로드 하거나 파일을 다운로드할 때 사용되어지는 파일명
+   private String fileSize;						 // 파일크기
    
-      
-   public HotelRoomVO() {   }
-
+   private MultipartFile attach;   				 // 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
    
+   
+   public HotelRoomVO() {  
+	   
+   }
 
    public HotelRoomVO(String largeCategoryontionCode, String fk_LargeCategoryCode, String name, String businessTel,
 		String address, String info, String ontionType, String img, String regDay, String productId,
 		String fk_LargeCategoryOntionCode, String roomType, String roomOption, String productName, String weekPrice,
-		String weekenPrice, String roomInfo, String productStatus, String productPeriod1, String productPeriod2
-		, double star, int starcnt) {
+		String weekenPrice, String roomInfo, String productStatus, String productPeriod1, String productPeriod2,
+		double star, int starcnt, String fileName, String picture, String fileSize) {
 
 	this.largeCategoryontionCode = largeCategoryontionCode;
 	this.fk_LargeCategoryCode = fk_LargeCategoryCode;
@@ -60,8 +72,11 @@ public class HotelRoomVO {
 	this.productPeriod2 = productPeriod2;
 	this.star = star;
 	this.starcnt = starcnt;
+	this.fileName = fileName;
+	this.picture = picture;
+	this.fileSize = fileSize;
+	
    }
-
 
 
 public String getLargeCategoryontionCode() {
@@ -76,6 +91,12 @@ public String getLargeCategoryontionCode() {
    public String getLseq() {
 		return "SEQ_LONTION_"+fk_LargeCategoryCode;
 	}
+   
+   public String getPseq() {
+	   return "SEQ_PRODUCT_"+roomType.substring(0, 1)+"0";
+   }
+   
+   
    
    public String getFk_LargeCategoryCode() {
       return fk_LargeCategoryCode;
@@ -108,7 +129,7 @@ public String getLargeCategoryontionCode() {
    
    
    public String getAddress() {
-      return address.substring(8);
+      return address;
    }
    
    
@@ -266,28 +287,54 @@ public String getLargeCategoryontionCode() {
 		this.regDay = regDay;
 	}
 
-
-
 	public double getStar() {
 		return star;
 	}
-
-
 
 	public void setStar(double star) {
 		this.star = star;
 	}
 
-
-
 	public int getStarcnt() {
 		return starcnt;
 	}
 
-
-
 	public void setStarcnt(int starcnt) {
 		this.starcnt = starcnt;
 	}
+	
+	////이미지 업로드////////////////////////////////////////
+	
+	public MultipartFile getAttach() {
+		return attach;
+	}
 
+	public void setAttach(MultipartFile attach) {
+		this.attach = attach;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	public String getFileSize() {
+		return fileSize;
+	}
+
+	public void setFileSize(String fileSize) {
+		this.fileSize = fileSize;
+	}
+	
 }
