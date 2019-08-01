@@ -450,6 +450,35 @@ public class MemberController {
 		}
 		
 		
+		@RequestMapping(value="/memberedit.go")
+		public ModelAndView memberEdit(ModelAndView mv,HttpServletRequest request,MemberVO vo) {
+			HttpSession session = request.getSession();
+			vo = (MemberVO)session.getAttribute("loginuser");
+			
+			int idx = vo.getIdx();
+			
+			vo = service.memberEdit(idx);
+			
+			mv.addObject("vo",vo);
+			mv.setViewName("jiyoung/memberEdit.tiles1");
+			return mv;
+		}
+		
+		
+		@RequestMapping(value="/memberEditEnd.go")
+		public ModelAndView memberEditEnd(ModelAndView mv,HttpServletRequest request,MemberVO vo) {
+			HttpSession session = request.getSession();
+			vo = (MemberVO)session.getAttribute("loginuser");
+			int idx = vo.getIdx();
+			
+			vo = service.memberEdit(idx);
+			
+			mv.addObject("vo",vo);
+			mv.setViewName("jiyoung/memberEdit.tiles1");
+			return mv;
+		}
+		
+		
 		
 	}
 
