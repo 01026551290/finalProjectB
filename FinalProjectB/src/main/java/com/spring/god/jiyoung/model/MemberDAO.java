@@ -86,6 +86,12 @@ public class MemberDAO implements InterMemberDAO {
 		return updatePwdUser;
 	}
 
+	@Override
+	public MemberVO memberEdit(int idx) {
+		MemberVO memberEdit = sqlsession.selectOne("jiyoungdb.memberEdit",idx);			
+		return memberEdit;
+	}
+
 	
 	
 		
