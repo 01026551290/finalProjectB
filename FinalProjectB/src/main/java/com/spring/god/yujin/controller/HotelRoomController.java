@@ -3,6 +3,7 @@ package com.spring.god.yujin.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -50,6 +51,14 @@ public class HotelRoomController {
 	      paramap.put("CHECKIN", CHECKIN);
 	      paramap.put("CHECKOUT", CHECKOUT);
 	      paramap.put("per", String.valueOf(per));
+	      
+	      
+	      HttpSession session = request.getSession();
+	      if(session.getAttribute("loginuser")!=null) {
+	    	  String memberid =(String)((MemberVO)session.getAttribute("loginuser")).getMemberId(); 
+	    	  paramap.put("memberid", memberid);
+	      }
+	      
 	/*
 	      
 	      int totalCnt = 0;
@@ -98,7 +107,6 @@ public class HotelRoomController {
 	*/
 	      List<HotelRoomVO> hotelRoomVOList = service.getlist(paramap);
 	      
-	      HttpSession session = request.getSession();
 	      session.setAttribute("hotelRoomVOList", hotelRoomVOList);
 	      
 //	      for(HotelRoomVO hotelvo : hotelRoomVOList) {
