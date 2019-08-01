@@ -3,8 +3,10 @@ package com.spring.god.bora.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.tools.ant.taskdefs.SubAnt;
 import org.json.JSONArray;
@@ -29,7 +31,7 @@ public class HotelRoomController {
 	private InterHotelRoomService service;
 
 	// === 검색어 입력시 자동글 완성하기 3 ===
-	@RequestMapping(value="autosearch/wordSearchView.go", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
+	@RequestMapping(value="/autosearch/wordSearchView.go", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String wordSearchShow(HttpServletRequest request) {
 		
@@ -93,30 +95,6 @@ public class HotelRoomController {
 		return mv;
 	}
 	
-	// === 예약확인페이지 에서 정보수정 ===
-	@RequestMapping(value="/accomodationInfoMyEditEnd.go", method= {RequestMethod.POST})
-	public String LoginCK_accomodationInfoMyEditEnd(HttpServletRequest request, HttpServletResponse response, MemberVO mvo) {
-		
-		String tel = request.getParameter("tel");
-		String email = request.getParameter("email");
-		
-		int n = service.accomodationInfoMyEditEnd(mvo);
-		
-		mvo.setTel(tel);
-		mvo.setEmail(email);
-		
-		String msg = "";
-		if(n>0)
-			msg = "회원정보 수정 성공!!";
-		else
-			msg = "회원정보 수정 실패!!";
-		
-		request.setAttribute("msg", msg);
-		
-		return "tiles1/msg";
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// === 이용약관 ===
 	@RequestMapping(value="/terms.go", method= {RequestMethod.GET})
 	public String terms() {
@@ -129,4 +107,34 @@ public class HotelRoomController {
 		return "tiles1/bora/serviceGuideLine/privacy_policy";
 	}
 	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// === 결제하기 ===
+	@RequestMapping(value="/payEnd.go", method= {RequestMethod.GET})
+	public ModelAndView LoginCK2_payEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+		
+		String totalPrice = request.getParameter("totalPrice");
+		System.out.println(totalPrice);
+		return mv;
+	} 
+		
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

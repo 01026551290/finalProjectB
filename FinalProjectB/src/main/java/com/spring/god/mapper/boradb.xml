@@ -35,10 +35,6 @@
 		where rno between 1 and 10
 	</select>
 	
-	<update id="accomodationInfoMyEditEnd" parameterType="com.spring.god.jiyoung.model.MemberVO">
-		update member set tel = #{tel} and email = #{email}
-		where idx = #{idx} 
-	</update>
 
 
 

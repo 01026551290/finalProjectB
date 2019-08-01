@@ -36,11 +36,5 @@ public class HotelRoomService implements InterHotelRoomService {
 		return hotelList;
 	}
 	
-	// 예약및결제페이지에서 회원정보 수정하기
-	@Override
-	public int accomodationInfoMyEditEnd(MemberVO mvo) {
-		int n = dao.accomodationInfoMyEditEnd(mvo);
-		return n;
-	}
 	
 }

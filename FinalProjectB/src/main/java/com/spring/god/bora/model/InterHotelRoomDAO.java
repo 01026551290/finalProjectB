@@ -14,8 +14,5 @@ public interface InterHotelRoomDAO {
 	// 숙소보여주기(최신숙소)
 	List<HotelRoomVO> getlist();
 	
-	// 예약및결제페이지에서 회원정보 수정하기
-	int accomodationInfoMyEditEnd(MemberVO mvo);
-
 
 }

@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class MyUtil {
 
-	// *** ? 다음의 데이터까지 포함한 현재 URL주소를 알려주는 메소드 *** //
+	// *** 1. ? 전의 데이터까지 포함한 현재 URL주소를 알려주는 메소드 *** //
 	public static String getCurrentURL(HttpServletRequest request) {
 		
 		String currentURL = request.getRequestURL().toString();
@@ -30,6 +30,32 @@ public class MyUtil {
 		
 	}// end of public static String getCurrentURL(HttpServletRequest request)-----------------
 	
+	// *** 2. ? 다음의 데이터까지 포함한 현재 URL주소를 알려주는 메소드 *** //
+	public static String getCurrentURLNext(HttpServletRequest request) {
+		
+		String currentURL = request.getRequestURL().toString();
+		//   http://localhost:9090/MyMVC/shop/prodView.kh
+		
+		String queryString = request.getQueryString();
+		//   pnum=2
+		
+		//currentURL += "?"+queryString;
+		//   http://localhost:9090/MyMVC/shop/prodView.kh?pnum=2
+		
+		String ctxPath = request.getContextPath();
+		//   /MyMVC
+		
+		int beginIndex = currentURL.indexOf(ctxPath) + ctxPath.length();
+		//                         21		         +        6
+		
+		currentURL = currentURL.substring(beginIndex+1);
+		//                        27+1
+		
+		return currentURL;
+		//     shop/prodView.kh?pnum=2
+		
+	}// end of public static String getCurrentURLNext(HttpServletRequest request)-----------------
+
 
 	// === 검색어가 포함된 페이지바 만들기 === //
 	public static String makePageBar(String url

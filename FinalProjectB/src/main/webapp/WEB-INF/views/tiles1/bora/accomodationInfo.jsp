@@ -20,14 +20,14 @@
 					// 입력하지 않거나 공백만 입력했을 경우
 					// alert("입력하지 않거나 공백만 입력했을 경우");
 					
-					$(this).parent().find(".error").show();
+					$(this).siblings().find(".error").show();
 					$(":input").attr("disabled",true);
 					$(this).attr("disabled",false);
 				}
 				else{
 					// 공백이 아닌 글자를 입력한 경우
 					// alert("공백이 아닌 글자를 입력한 경우");
-					$(this).parent().find(".error").hide();
+					$(this).siblings().find(".error").hide();
 					$(":input").attr("disabled",false);
 				}
 			});
@@ -43,11 +43,13 @@
 			var bool = regExp_TEL.test(tel);
 			
 			if(!bool) {
+				$(".error").show();
 				$(":input").attr("disabled", true);
 				$(this).attr("disabled", false);
 				$(this).focus();
 			}
 			else {
+				$(".error").hide();
 				$(":input").attr("disabled", false);
 			}			
 		});// end of $("#tel").blur()-------------
@@ -62,11 +64,13 @@
 			var bool = regExp_EMAIL.test(email);
 			
 			if(!bool) {
+				$(".error").show();
 				$(":input").attr("disabled",true);
 				$(this).attr("disabled",false); 
 				$(this).focus();
 			}
 			else {
+				$(".error").hide();
 				$(":input").attr("disabled",false);
 			}
 			
@@ -74,7 +78,18 @@
 		
 	});// end of $(document).ready()--------------------
 	
-	function goEdit(event) {
+	// === 결제하기(실제로 카드 결제) === //
+	function goPay(idx, totalPrice) {
+		
+	//	alert(idx + "," + totalPrice);
+		// 아임포트 결제금액 팝업창 띄우기
+		var url = "<%= request.getContextPath()%>/payEnd.go?idx="+idx+"&totalPrice="+totalPrice;
+		
+		window.open(url, "payEnd", "left=350px, top=100px, width=820px, height=600px");
+		
+	}// end of function goPay(idx)----------------------
+	
+	<%-- function goMyEdit() {
 		
 		var flagBool = false;
 		
@@ -94,11 +109,11 @@
 		else {
 			var frm = document.reserveFrm;
 			frm.method = "POST";
-			frm.action = "<%= request.getContextPath()%>/accomodationInfoMyEditEnd.go";
+			frm.action = "<%= request.getContextPath()%>/accommodationInfoMyEditEnd.go";
 			frm.submit();
 		}
 		
-	}// end of goEdit(event)------------------
+	}// end of goEdit(event)------------------ --%>
 
 </script>
 
@@ -180,8 +195,8 @@
                                 <input type="text" name="name" id="name" class="form-control" value="${sessionScope.loginuser.name}" readonly />
                             </div>
                             <div class="col-md-6 form-group">
-                                <label for="phone">Phone</label>
-                                <input type="text" name="phone" id="phone" class="form-control" value="${sessionScope.loginuser.tel}" class="requiredInfo" placeholder="-는 생략, 숫자만입력" required />
+                                <label for="tel">Phone</label>
+                                <input type="text" name="tel" id="tel" class="form-control" value="${sessionScope.loginuser.tel}" class="requiredInfo" placeholder="-는 생략, 숫자만입력" />
                                 <span class="error">필수입력 사항입니다.</span>
                             </div>
                         </div>
@@ -189,11 +204,15 @@
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" value="${sessionScope.loginuser.email}" class="requiredInfo" placeholder="abc@gmail.com" required />
+                                <input type="email" name="email" id="email" class="form-control" value="${sessionScope.loginuser.email}" class="requiredInfo" placeholder="abc@gmail.com" />
                                 <span class="error">필수입력 사항입니다.</span>
                             </div>
                         </div>
-                        <a href="#" class="myInfoEdit" onclick="goMyEdit(event);">내정보수정</a>
+                        <!-- 
+                        <div class="taR">
+                        	<button class="myInfoEdit" onclick="goMyEdit();">내정보수정</button>
+                       	</div> 
+                       	-->
                     </form>
                     <!-- // end 예약자 정보 -->
                     
@@ -222,7 +241,7 @@
                     </div>
                     
                     <div class="bg-white p-md-3 p-4 mb-2">
-                        <button id="btnPayment" class="btn btn-primary btn-block text-white">결제하기</button>
+                        <button id="btnPayment" class="btn btn-primary btn-block text-white" onClick="goPay(${(sessionScope.loginuser).idx}, ${paraMap.totalPrice});">결제하기</button>
                     </div>
                     
                 </div>
@@ -234,7 +253,8 @@
 		<!-- // end container-->
     </section>
     
-    <form name="ReserveFrm">
+    <!-- 호텔정보 보내는 폼 -->
+    <form name="reserveHiddenFrm">
     	<input type="hidden" value="${paraMap.img}" />
     	<input type="hidden" value="${paraMap.name}" />
     	<input type="hidden" value="${paraMap.address}" />

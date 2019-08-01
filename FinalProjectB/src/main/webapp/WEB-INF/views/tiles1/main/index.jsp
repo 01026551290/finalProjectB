@@ -173,10 +173,10 @@
 			checkin_dateVal = checkin_dateVal.substring(0,4) + checkin_dateVal.substring(5,7) + checkin_dateVal.substring(8);
 			checkout_dateVal = checkout_dateVal.substring(0,4) + checkout_dateVal.substring(5,7) + checkout_dateVal.substring(8);
 			
-			alert(checkin_dateVal);
-			alert(checkout_dateVal);
+		//	alert(checkin_dateVal);
+		//	alert(checkout_dateVal);
 		    
-			alert("성공")
+		//	alert("성공")
 		});
 		//조회 버튼 클릭
 		
@@ -191,7 +191,7 @@
 	function goSearch() {
 		var frm = document.infoSearchFrm;
 		frm.method = "GET";
-		frm.action = "<%=request.getContextPath()%>/list.go";
+		frm.action = "<%=request.getContextPath()%>/search.go";
 		//	frm.submit();
 	}
 	

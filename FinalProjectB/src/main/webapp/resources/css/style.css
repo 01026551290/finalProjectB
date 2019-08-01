@@ -1833,6 +1833,8 @@ opacity
 }
 .mgt10 {margin-top: 10px;}
 .taC {text-align: center;}
+.taL {text-align: left;}
+.taR {text-align: right;}
 .dpi {display: inline;}
 .fontB {font-weight: bold;}
 
@@ -1926,12 +1928,6 @@ div#displayList {
     padding: 10px 0;
 }
 
-.myInfoEdit {
-	display: inline-block;
-	width: 100%;
-	text-align: right;
-}
-
 .styleFont {
     color: #ffaa34;
 }
@@ -1939,6 +1935,13 @@ div#displayList {
 .error {
     font-size: 10pt;
     color: #dc3545;
+}
+
+.myInfoEdit {
+	cursor: pointer;
+	color: #ffaa34 !important;
+	border: none;
+	background-color: #fff;
 }
 
 /* 로그인 CSS */
