@@ -1944,6 +1944,12 @@ div#displayList {
 	background-color: #fff;
 }
 
+/* 지도 영역 section */
+.section_map {
+	padding-top: 0em !important;
+    padding-bottom: 3em !important;
+}
+
 /* 로그인 CSS */
 .loginborder {
     border-bottom: 3px solid #ffa527;
