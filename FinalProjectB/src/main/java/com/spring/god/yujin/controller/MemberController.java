@@ -36,12 +36,15 @@ public class MemberController {
 	 private FileManager filemanager;
 	 
 	 @RequestMapping(value="/addHeart.go", method= {RequestMethod.GET})
-	   public ModelAndView LoginCK_addHeart(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+	   public ModelAndView LoginCK2_addHeart(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
 	      
 	      String largeCategoryontionCode = request.getParameter("largeCategoryontionCode");
 
 	      HttpSession session = request.getSession(); 
 	      String memberid = ((MemberVO)session.getAttribute("loginuser")).getMemberId();	
+	      String url = (String) session.getAttribute("url");
+	      session.removeAttribute("url");
+	    		  
 	      
 	      HashMap<String, String> paramap = new HashMap<String,String>();
 	      paramap.put("largeCategoryontionCode", largeCategoryontionCode);
@@ -52,6 +55,10 @@ public class MemberController {
 	      
 	      String msg = "";
 	      String loc = "javascript:history.back()";
+	      if(url != null && url != "") {
+	    	  loc = request.getContextPath() + "/search.go";
+	      }
+	      
 	      if(org!=1) {
 	    	  int add = service.addHeart(paramap);
 	          msg = "찜 실패";
@@ -80,8 +87,8 @@ public class MemberController {
 		  String memberidx = ((MemberVO)session.getAttribute("loginuser")).getMemberId();	
 		      
 		  List<HotelRoomVO> hotelRoomVOList = service.heartList(memberidx);
-	      List<String> heartNoList = service.heartNo(memberidx);
-	      mv.addObject("heartNoList",heartNoList);
+//	      List<String> heartNoList = service.heartNo(memberidx);
+//	      mv.addObject("heartNoList",heartNoList);
 	      session.setAttribute("hotelRoomVOList", hotelRoomVOList);
 	      
 		   mv.setViewName("yujin/heartList.tiles1");

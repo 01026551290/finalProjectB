@@ -15,7 +15,8 @@
    </select>
 
    <select id="getlist" parameterType="HashMap" resultType="com.spring.god.hyein.model.HotelRoomVO">
-		 	  select a.*,b.star as star,b.starcnt as starcnt 
+   <if test='memberid==null or "".equals(memberid)'>
+	  select a.*,b.star as star,b.starcnt as starcnt 
 	  from
 		  (
 	 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
@@ -55,6 +56,55 @@
 			  from review
 			  group by hotelidx) b
       on a.largecategoryontioncode=b.hotelidx
+   </if>
+      
+   <if test='memberid!=null and !"".equals(memberid)'>
+      select a.*,b.fk_memberid as regDay from 
+		(
+		select a.*,b.star as star,b.starcnt as starcnt 
+			  from
+				  (
+			 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
+			      from
+				      (
+				      select distinct fk_largecategoryontioncode,min(weekprice) as week,min(weekenprice) as weekend
+				      from
+					      (
+					      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice
+					      FROM
+						      (
+						      SELECT FK_PRODUCTID,b.checkin,b.checkout
+						      FROM RESERVE1 A JOIN RESERVE2 B
+						      ON a.reserveid = B.FK_RESERVEID
+						      <if test='!CHECKIN.equals("") and !CHECKOUT.equals("")'>
+						      WHERE #{CHECKIN} BETWEEN CHECKIN+1 AND CHECKOUT-1
+						        OR  #{CHECKOUT} BETWEEN CHECKIN+1 AND CHECKOUT-1
+						      <!--[CDATA[ 
+						          	OR (#{CHECKIN} < CHECKIN+1 AND CHECKOUT-1 < #{CHECKOUT})
+						       ]]-->
+						      </if>
+						      ) A RIGHT JOIN PRODUCT B
+					      ON a.fk_productid = B.PRODUCTID
+					      WHERE a.fk_productid IS NULL
+					      <if test="per!=0">
+					          and  substr(roomtype,3)=#{per}
+					      </if>
+					      )
+				      group by fk_largecategoryontioncode
+				      ) a join lontion b
+				      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE   
+				      <if test='searchWord!=""'>
+				      where b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%'   
+				      </if>
+			      ) a left join 
+				      (select hotelidx,avg(star) as star,count(*) as starcnt
+					  from review
+					  group by hotelidx) b
+		      on a.largecategoryontioncode=b.hotelidx
+		 ) a left join (     
+		      select * from likelist where fk_memberid=#{memberid} and status=1) b
+		      on a.largecategoryontioncode = b.fk_hotelid
+   </if>
    </select>
    
    <select id="findHeart" parameterType="HashMap" resultType="int">
@@ -74,7 +124,7 @@
    </update>
    
    <select id="getHeartList" parameterType="String" resultType="com.spring.god.hyein.model.HotelRoomVO">
-	select address, name, img, largeCategoryontionCode 
+	select address, name, img, largeCategoryontionCode, fk_hotelid as fk_LargeCategoryCode
 	from lontion a join (
 						 select fk_hotelid from likelist where status=1 and fk_memberid=#{memberId}
 						 ) b

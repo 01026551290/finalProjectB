@@ -63,18 +63,18 @@
       }
       
     .heartAreaIn {
-	background: url(..<%=request.getContextPath()%>/resources/images/heart_bgb.png);
-    background-size: 22px 22px;
-    display: inline-flex;
-    width: 22px;
-    height: 22px;
+		background: url(..<%=request.getContextPath()%>/resources/images/heart_bgb.png);
+	    background-size: 22px 22px;
+	    display: inline-flex;
+	    width: 22px;
+	    height: 22px;
 	}
 	.heartAreaOut {
 		background: url(..<%=request.getContextPath()%>/resources/images/heart_bg.png);
-	    background-size: 15px 14px;
-	    display: inline-block;
-	    width: 76px;
-	    height: 14px;
+	    background-size: 22px 22px;
+	    display: inline-flex;
+	    width: 22px;
+	    height: 22px;
 	}
 </style>
 
@@ -458,9 +458,9 @@
     
     <section class="section">
       <div class="container">
-        <div class="row" align="center">
-           <div class="map_wrap">
-              <div id="map" style="width:1140px;height:680px; margin: 0 auto;" class="block-32 aos-init aos-animate"></div>
+        <div class="row">
+           <div class="map_wrap col-md-12">
+              <div id="map" style="height:680px; margin: 0 auto;" class="block-32 aos-init aos-animate"></div>
            </div>
         </div>
       </div>
@@ -761,15 +761,11 @@
                      <!-- 상단(이미지,찜하트) -->
                      <div style="    position: relative;">
                      <button type="button" onclick="location.href='/god/addHeart.go?largeCategoryontionCode=${vo.largeCategoryontionCode}'" class="heart" id="btn_heart${status}" aria-busy="false" style="padding: 8px; margin: -8px; border: none; background-color: transparent;">
-                        <span class="heartAreaIn">
-	                     <c:if test="${heartNoList!=null}">
-		                     <c:forEach var="heartNo" items="${heartNoList}">
-		                     	<c:if test="${vo.largeCategoryontionCode==heartNo}">
-							<span class="heartAreaOut" style="width: ${hotelvo.star*14.6}px;"><span class="blind">heart</span></span>
-		                     	</c:if>
-		                     </c:forEach>
-	                     </c:if>
-			      		 </span>
+                        <span class="heartAreaOut">
+	                     <c:if test="${vo.regDay!=null}">
+							<span class="heartAreaIn" style="width: 22px;"><span class="blind">heart</span></span>
+	                     	</c:if>
+ 			      		 </span>
                      </button>
                         <img src="/god/resources/images/hotel/${vo.img}" style="width: 100%;">
                      </div>
