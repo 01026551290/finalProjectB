@@ -456,7 +456,7 @@
     </section>
 
     
-    <section class="section">
+    <section class="section section_map">
       <div class="container">
         <div class="row">
            <div class="map_wrap col-md-12">
