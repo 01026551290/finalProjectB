@@ -7,7 +7,7 @@
 	<!-- 숙소 등록하기 -->
 	<insert id="hotelAdd" parameterType="com.spring.god.hyein.model.HotelRoomVO"> 
 	 	insert into LONTION (largeCategoryontionCode, fk_LargeCategoryCode, name, businessTel, address, info, ontionType, regDay, img) 
-		values(${lseq}.nextval, #{fk_LargeCategoryCode}, #{name}, #{businessTel}, #{address}, #{info}, #{ontionType}, default, #{img})
+		values(${lseq}.nextval, #{fk_LargeCategoryCode}, #{name}, #{businessTel}, #{address}, #{info}, #{ontionType}, default, #{fileName})
 	 </insert>
 	 
 	 <!-- 객실 등록의 숙소명 검색어 자동완성하기 -->
