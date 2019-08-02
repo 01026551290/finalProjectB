@@ -170,7 +170,7 @@ public class MyUtil {
 		int pageNo = ((currentShowPage - 1)/blockSize) * blockSize + 1;
 		
 		if(pageNo != 1) {
-			pageBar += "<li><a href='"+url+"currentShowPage="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchWord="+searchWord+"&cHECKIN="+cHECKIN+"&cHECKOUT="+cHECKOUT+"&adult="+adult+"&children="+children+"'><<</a></li>";
+			pageBar += "<li><a href='"+url+"currentShowPage="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchWord="+searchWord+"&checkin_date="+cHECKIN+"&checkout_date="+cHECKOUT+"&adult="+adult+"&children="+children+"'><<</a></li>";
 		}
 		
 		while( !(loop>blockSize || pageNo>totalPage) ) {
@@ -179,7 +179,7 @@ public class MyUtil {
 				pageBar += "<li class='active'><span>"+pageNo+"</span></li>";
 			}
 			else {
-				pageBar += "<li><a href='"+url+"currentShowPage="+pageNo+"&sizePerPage="+sizePerPage+"&searchWord="+searchWord+"&cHECKIN="+cHECKIN+"&cHECKOUT="+cHECKOUT+"&adult="+adult+"&children="+children+"'>"+pageNo+"</a><li/>"; 
+				pageBar += "<li><a href='"+url+"currentShowPage="+pageNo+"&sizePerPage="+sizePerPage+"&searchWord="+searchWord+"&checkin_date="+cHECKIN+"&checkout_date="+cHECKOUT+"&adult="+adult+"&children="+children+"'>"+pageNo+"</a><li/>"; 
 				       // ""+1+"&nbsp;"+2+"&nbsp;"+3+"&nbsp;"+......+10+"&nbsp;"
 			}
 			
@@ -189,7 +189,7 @@ public class MyUtil {
 		
 		// *** [다음] 만들기 *** //
 		if( !(pageNo>totalPage) ) {
-			pageBar += "<li><a href='"+url+"currentShowPage="+pageNo+"&sizePerPage="+sizePerPage+"&searchWord="+searchWord+"&cHECKIN="+cHECKIN+"&cHECKOUT="+cHECKOUT+"&adult="+adult+"&children="+children+"'>>></a></li>"; 
+			pageBar += "<li><a href='"+url+"currentShowPage="+pageNo+"&sizePerPage="+sizePerPage+"&searchWord="+searchWord+"&checkin_date="+cHECKIN+"&checkout_date="+cHECKOUT+"&adult="+adult+"&children="+children+"'>>></a></li>"; 
 		}
 		
 		return pageBar;

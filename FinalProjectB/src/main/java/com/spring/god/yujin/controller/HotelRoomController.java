@@ -36,8 +36,8 @@ public class HotelRoomController {
 	      String searchWord = request.getParameter("searchWord")!=null?request.getParameter("searchWord"):"";
 	      if(searchWord.trim().isEmpty())   
 	         searchWord="";
-	      String CHECKIN = request.getParameter("CHECKIN")!=null?request.getParameter("CHECKIN"):"";
-	      String CHECKOUT = request.getParameter("CHECKOUT")!=null?request.getParameter("CHECKOUT"):"";
+	      String checkin_date = request.getParameter("checkin_date")!=null?request.getParameter("checkin_date"):"";
+	      String checkout_date = request.getParameter("checkout_date")!=null?request.getParameter("checkout_date"):"";
 	      String adult = request.getParameter("adult")!=null?request.getParameter("adult"):"2";
 	      String children = request.getParameter("children")!=null?request.getParameter("children"):"";
 	      int per = 2;
@@ -47,10 +47,16 @@ public class HotelRoomController {
 	         per = 2;
 	      }
 	      
+	      mv.addObject("searchWord",searchWord);
+	      mv.addObject("checkin_date",checkin_date);
+	      mv.addObject("checkout_date",checkout_date);
+	      mv.addObject("adult",Integer.parseInt(adult));
+	      mv.addObject("children",Integer.parseInt(children));
+	      
 	      HashMap<String, String> paramap = new HashMap<String,String>();
 	      paramap.put("searchWord", searchWord);
-	      paramap.put("CHECKIN", CHECKIN);
-	      paramap.put("CHECKOUT", CHECKOUT);
+	      paramap.put("checkin_date", checkin_date);
+	      paramap.put("checkout_date", checkout_date);
 	      paramap.put("per", String.valueOf(per));
 	      
 	      
@@ -94,7 +100,7 @@ public class HotelRoomController {
 	      String url = "/god/search.go?";
 	      int blockSize = 3;
 	      
-	      pagebar += MyUtil.makePageBarHotelList(url, currentShowPage, sizePerPage, totalPage, blockSize, searchWord, CHECKIN, CHECKOUT, adult, children);
+	      pagebar += MyUtil.makePageBarHotelList(url, currentShowPage, sizePerPage, totalPage, blockSize, searchWord, checkin_date, checkout_date, adult, children);
 	      pagebar += "</ul>";
 	      
 	      String listUrl = MyUtil.getCurrentURL(request);

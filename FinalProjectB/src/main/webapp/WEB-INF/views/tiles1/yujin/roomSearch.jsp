@@ -363,9 +363,27 @@
 		frm.action = "<%=request.getContextPath()%>/search.go";
 		//	frm.submit();
 	}
+   
+   function goProduct(largeCategoryontionCode){
+	   frm = document.goPFrm;
+		
+	   frm.largeCategoryontionCode.value=largeCategoryontionCode;
+	   
+	   frm.method = "GET";
+	   frm.action = "<%=request.getContextPath()%>/product.go";
+	   frm.submit();
+   }
 	
        
 </script> 
+
+<form name="goPFrm">
+<input type="hidden" name="largeCategoryontionCode" value="" >
+<input type="hidden" name="checkout_date" value="${checkout_date}" >
+<input type="hidden" name="checkin_date" value="${checkin_date}" >
+<input type="hidden" name="children" value="${children}" >
+<input type="hidden" name="adult" value="${adult}" >
+</form>
 
 
 <section class="site-hero inner-page overlay" style="background-image: url(/god/resources/images/hero_4.jpg)" data-stellar-background-ratio="0.5">
@@ -400,7 +418,7 @@
 						<div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
 							<label for="text" class="font-weight-bold text-black">목적지</label>
 							<div class="field-icon-wrap">
-								<input type="text" id="searchWord" class="form-control" name="searchWord"
+								<input type="text" id="searchWord" class="form-control" name="searchWord" value="${searchWord}"
 									placeholder="숙박명 또는 지역명을 검색" autocomplete="off">
 
 								<!-- === 검색어 입력시 자동글 완성하기 1 === -->
@@ -417,11 +435,17 @@
 										<div class="icon">
 											<span class="ion-ios-arrow-down"></span>
 										</div>
-										<select name="adult" id="adults" class="form-control">
-											<option value="1" selected>1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-											<option value="4">4+</option>
+										<select name="adult" id="adults" class="form-control" >
+											<c:if test="${adult!=null and adult!=''}">
+												<c:forEach var="i" begin="1" end="4">
+													<c:if test="${adult==i}">
+														<option value="${i}" selected>${i}</option>
+													</c:if>
+													<c:if test="${adult!=i}">
+														<option value="${i}" >${i}</option>
+													</c:if>
+												</c:forEach>
+											</c:if>
 										</select>
 									</div>
 								</div>
@@ -432,10 +456,16 @@
 											<span class="ion-ios-arrow-down"></span>
 										</div>
 										<select name="children" id="children" class="form-control">
-											<option value="0" selected>0</option>
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
+										<c:if test="${children!=null and children!=''}">
+												<c:forEach var="i" begin="0" end="3">
+													<c:if test="${children==i}">
+														<option value="${i}" selected>${i}</option>
+													</c:if>
+													<c:if test="${children!=i}">
+														<option value="${i}" >${i}</option>
+													</c:if>
+												</c:forEach>
+											</c:if>
 										</select>
 									</div>
 								</div>
@@ -447,7 +477,7 @@
 								<div class="icon">
 									<span class="icon-calendar"></span>
 								</div>
-								<input type="text" id="checkin_date" name="checkin_date" type="date" class="form-control" style="padding-right:0;" autocomplete="off">
+								<input value="${checkin_date}" type="text" id="checkin_date" name="checkin_date" type="date" class="form-control" style="padding-right:0;" autocomplete="off">
 							</div>
 						</div>
 						<div class="col-md-6 mb-3 mb-lg-0 col-lg-2">
@@ -456,7 +486,7 @@
 								<div class="icon">
 									<span class="icon-calendar"></span>
 								</div>
-								<input type="text" id="checkout_date" type="date" name="checkout_date" class="form-control" style="padding-right:0;" autocomplete="off">
+								<input value="${checkout_date}" type="text" id="checkout_date" type="date" name="checkout_date" class="form-control" style="padding-right:0;" autocomplete="off">
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-2 align-self-end">
@@ -782,12 +812,12 @@
 	                     	</c:if>
  			      		 </span>
                      </button>
-                        <img src="/god/resources/images/hotel/${vo.img}" style="width: 100%;">
+                        <img src="/god/resources/images/hotel/${vo.img}" style="width: 100%;" onclick="goProduct('${vo.largeCategoryontionCode}')">
                      </div>
                      <!-- 하단(설명,호텔명,가격,평점) -->
                      <div style="padding: 12px 0 0 0;">
                         <div class="hotelAddr">${vo.address}</div>
-                        <div class="hotelName">${vo.name}</div>
+                        <div class="hotelName" onclick="goProduct('${vo.largeCategoryontionCode}')">${vo.name}</div>
                         <div class="hotelPrice">${vo.weekPrice}원 ~</div>
                         
 							<c:if test="${vo.starcnt != 0}">

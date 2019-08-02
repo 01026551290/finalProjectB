@@ -20,11 +20,11 @@
 				      SELECT FK_PRODUCTID,b.checkin,b.checkout
 				      FROM RESERVE1 A JOIN RESERVE2 B
 				      ON a.reserveid = B.FK_RESERVEID
-				      <if test='!CHECKIN.equals("") and !CHECKOUT.equals("")'>
-				      WHERE #{CHECKIN} BETWEEN CHECKIN+1 AND CHECKOUT-1
-				        OR  #{CHECKOUT} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				      <if test='!checkin_date.equals("") and !checkout_date.equals("")'>
+				      WHERE #{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				        OR  #{checkout_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
 				      <!--[CDATA[ 
-				          	OR (#{CHECKIN} < CHECKIN+1 AND CHECKOUT-1 < #{CHECKOUT})
+				          	OR (#{checkin_date} < CHECKIN+1 AND CHECKOUT-1 < #{checkout_date})
 				       ]]-->
 				      </if>
 				      ) A RIGHT JOIN PRODUCT B
@@ -65,11 +65,11 @@
 				      SELECT FK_PRODUCTID,b.checkin,b.checkout
 				      FROM RESERVE1 A JOIN RESERVE2 B
 				      ON a.reserveid = B.FK_RESERVEID
-				      <if test='!CHECKIN.equals("") and !CHECKOUT.equals("")'>
-				      WHERE #{CHECKIN} BETWEEN CHECKIN+1 AND CHECKOUT-1
-				        OR  #{CHECKOUT} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				      <if test='!checkin_date.equals("") and !checkout_date.equals("")'>
+				      WHERE #{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				        OR  #{checkout_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
 				      <!--[CDATA[ 
-				          	OR (#{CHECKIN} < CHECKIN+1 AND CHECKOUT-1 < #{CHECKOUT})
+				          	OR (#{checkin_date} < CHECKIN+1 AND CHECKOUT-1 < #{checkout_date})
 				       ]]-->
 				      </if>
 				      ) A RIGHT JOIN PRODUCT B
