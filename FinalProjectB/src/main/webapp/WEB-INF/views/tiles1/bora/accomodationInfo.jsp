@@ -78,42 +78,29 @@
 		
 	});// end of $(document).ready()--------------------
 	
+		
 	// === 결제하기(실제로 카드 결제) === //
 	function goPay(idx, totalPrice) {
-		
-	//	alert(idx + "," + totalPrice);
+	
+		if( !$("input:checkbox[id=agree1]").is(":checked")) {
+			alert("이용약관 및 개인정보 처리방침에 동의하셔야 합니다.");
+			return;
+		}	
+
 		// 아임포트 결제금액 팝업창 띄우기
 		var url = "<%= request.getContextPath()%>/payEnd.go?idx="+idx+"&totalPrice="+totalPrice;
-		
 		window.open(url, "payEnd", "left=350px, top=100px, width=820px, height=600px");
 		
 	}// end of function goPay(idx)----------------------
 	
-	<%-- function goMyEdit() {
+	function goReserveUpdate(idx, totalPrice) {
 		
-		var flagBool = false;
+		var frm = document.reserveHotelInfoFrm;
 		
-		$(".requiredInfo").each(function(){
-			var data = $(this).val().trim();
-			if(data == "") {
-				flagBool = true;
-				return false;
-			}
-		});
-		
-		if(flagBool) {
-			alert("필수입력란은 모두 입력하셔야 합니다.");
-			event.preventDefault(); // click event 를 작동치 못하도록 한다.
-			return;
-		}
-		else {
-			var frm = document.reserveFrm;
-			frm.method = "POST";
-			frm.action = "<%= request.getContextPath()%>/accommodationInfoMyEditEnd.go";
-			frm.submit();
-		}
-		
-	}// end of goEdit(event)------------------ --%>
+		frm.method = "POST";
+		frm.action = "<%= request.getContextPath()%>/reserveAddInsertLoginUser.go";
+		frm.submit();
+	}// end of function goReserveUpdate()---------
 
 </script>
 
@@ -156,7 +143,7 @@
                             </p>
 							<p class="b_detail_border">
                                 <span class="d-block">숙박일수:</span><!-- 숙박일수 -->
-                                <span class="text-black">(${paraMap.nonight}일)</span>
+                                <span class="text-black">(${paraMap.noNight}일)</span>
                             </p>
                             
                             <p class="b_detail_border">
@@ -196,7 +183,7 @@
                             </div>
                             <div class="col-md-6 form-group">
                                 <label for="tel">Phone</label>
-                                <input type="text" name="tel" id="tel" class="form-control" value="${sessionScope.loginuser.tel}" class="requiredInfo" placeholder="-는 생략, 숫자만입력" />
+                                <input type="text" name="tel" id="tel" class="form-control" value="${sessionScope.loginuser.tel}" class="requiredInfo" placeholder="-는 생략, 숫자만입력" readonly />
                                 <span class="error">필수입력 사항입니다.</span>
                             </div>
                         </div>
@@ -204,7 +191,7 @@
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" value="${sessionScope.loginuser.email}" class="requiredInfo" placeholder="abc@gmail.com" />
+                                <input type="email" name="email" id="email" class="form-control" value="${sessionScope.loginuser.email}" class="requiredInfo" placeholder="abc@gmail.com" readonly />
                                 <span class="error">필수입력 사항입니다.</span>
                             </div>
                         </div>
@@ -241,7 +228,8 @@
                     </div>
                     
                     <div class="bg-white p-md-3 p-4 mb-2">
-                        <button id="btnPayment" class="btn btn-primary btn-block text-white" onClick="goPay(${(sessionScope.loginuser).idx}, ${paraMap.totalPrice});">결제하기</button>
+                        <%-- <button id="btnPayment" class="btn btn-primary btn-block text-white" onClick="goPay(${(sessionScope.loginuser).idx}, ${paraMap.totalPrice});">결제하기</button> --%>
+                        <button id="btnPayment" class="btn btn-primary btn-block text-white" onClick="goReserveUpdate(${(sessionScope.loginuser).idx}, ${paraMap.totalPrice});">결제하기</button>
                     </div>
                     
                 </div>
@@ -254,16 +242,18 @@
     </section>
     
     <!-- 호텔정보 보내는 폼 -->
-    <form name="reserveHiddenFrm">
-    	<input type="hidden" value="${paraMap.img}" />
-    	<input type="hidden" value="${paraMap.name}" />
-    	<input type="hidden" value="${paraMap.address}" />
-    	<input type="hidden" value="${paraMap.checkIn}" />
-    	<input type="hidden" value="${paraMap.checkOut}" />
-    	<input type="hidden" value="${paraMap.nonight}" />
-    	<input type="hidden" value="${paraMap.productName}" />
-    	<input type="hidden" value="${paraMap.roomType}" />
-    	<input type="hidden" value="${paraMap.weekPrice}" />
-    	<input type="hidden" value="${paraMap.totalPrice}" />
-    	<input type="hidden" value="${paraMap.point}" />
+    <form name="reserveHotelInfoFrm">
+    	<input type="hidden" name="fk_productId" value="${paraMap.productId}" />
+    	
+    	<input type="hidden" name="img" value="${paraMap.img}" />
+    	<input type="hidden" name="name" value="${paraMap.name}" />
+    	<input type="hidden" name="address" value="${paraMap.address}" />
+    	<input type="hidden" name="checkIn" value="${paraMap.checkIn}" />
+    	<input type="hidden" name="checkOut" value="${paraMap.checkOut}" />
+    	<input type="hidden" name="noNight" value="${paraMap.noNight}" />
+    	<input type="hidden" name="productName" value="${paraMap.productName}" />
+    	<input type="hidden" name="roomType" value="${paraMap.roomType}" />
+    	<input type="hidden" name="weekPrice" value="${paraMap.weekPrice}" />
+    	<input type="hidden" name="price" value="${paraMap.totalPrice}" />
+    	<input type="hidden" name="point" value="${paraMap.point}" />
     </form>

@@ -27,14 +27,6 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		/*
-		$("#btnSearch").click(function(){
-			var frm = document.infoSearchFrm;
-			var checkinDateVal = frm.checkin_date.value.trim();
-			alert(checkinDateVal);
-		});
-		*/
-		
 		// === 검색어 입력시 자동글 완성하기 2 ===
 		$("#displayList").hide();
 		
@@ -231,7 +223,7 @@
 						<div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
 							<label for="text" class="font-weight-bold text-black">목적지</label>
 							<div class="field-icon-wrap">
-								<input type="text" id="searchWord" class="form-control"
+								<input type="text" name="searchWord" id="searchWord" class="form-control"
 									placeholder="숙박명 또는 지역명을 검색" autocomplete="off">
 
 								<!-- === 검색어 입력시 자동글 완성하기 1 === -->
@@ -378,9 +370,9 @@
 								</h2>
 								<%-- <p>${hotelvo.weekPrice}원 ~</p> --%>
 								<p>
-										<span class="starAreaIn">
-											<span class="starAreaOut" style="width: ${hotelvo.star*14.6}px;"><span class="blind">star</span></span>
-										</span>
+									<span class="starAreaIn">
+										<span class="starAreaOut" style="width: ${hotelvo.star*14.6}px;"><span class="blind">star</span></span>
+									</span>
 									<c:if test="${hotelvo.star != null}">
 										<span style="font-size: 10pt;">${hotelvo.star}점</span>
 									</c:if>

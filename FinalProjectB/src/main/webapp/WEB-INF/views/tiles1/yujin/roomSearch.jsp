@@ -284,6 +284,78 @@
 		
 		///////////////////////////////////////////////////////////////////////////////////
 		
+        
+      $("#displayList2").hide();
+		
+		$("#hotelName").keyup(function(){
+			
+			var form_data2 = {hotelName:$("#hotelName").val()};
+			
+			$.ajax({
+				url:"<%=request.getContextPath()%>/autosearch/wordSearchViewOnlyName.go",
+				type:"GET",
+				data:form_data2,
+				dataType:"JSON",
+				success:function(json) {
+					
+					// === 검색어 입력시 자동글 완성하기 7 ===
+					if(json.length > 0) {
+					
+						var html = "";
+						
+						$.each(json, function(entryIndex, item){
+							var name = item.name;
+							
+							var len = $("#hotelName").val().length;
+							var result = "";
+							
+							if(name != null && name.length > 0) {
+							var indexN = name.toLowerCase().indexOf( $("#hotelName").val().toLowerCase() );
+								result += "<span class='clickWord' style='display: inline-block; width: 100%;'><span class='first'>" +name.substr(0, indexN)+ "</span>" + "<span class='second' style='color:#ffaa34;'>" +name.substr(indexN, len)+ "</span>" + "<span class='third'>" +name.substr(indexN+len)+ "</span></span>";
+							}
+								html += "<span style='cursor:pointer;'>"+ result +"</span><br/>";
+						});
+						
+						$("#displayList2").html(html);
+						$("#displayList2").show();
+						
+					}
+					else {
+						// 검색된 데이터가 존재하지 않을 경우
+						$("#displayList2").hide();
+					}
+					
+				},
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+		});	
+		// === 검색어 입력시 자동글 완성하기 8 ===
+		$("#displayList2").click(function(event){
+			var word = "";
+			var $target = $(event.target);
+			
+			if($target.is(".clickWord")) {
+				word = $target.text();
+			}
+			else if($target.is(".first")) {
+				word = $target.text() + $target.next().text() + $target.next().next().text();
+			}
+			else if($target.is(".second")) {
+				word = $target.prev().text() + $target.text() + $target.next().text();
+			}
+			else if($target.is(".third")) {
+				word = $target.prev().prev().text() + $target.prev().text() + $target.text();
+			}	
+			$("#hotelName").val(word); // 텍스트박스에 검색된 결과의 문자열을 입력해준다.
+			
+			$("#displayList2").hide();
+			
+		});
+		
+		///////////////////////////////////////////////////////////////////////////////////
+		
 		var rangeDate = 31; // set limit day
 		var setSdate, setEdate;
 		$("#checkin_date").datepicker({
@@ -526,11 +598,16 @@
               <div>
                <form>
                <fieldset>
-                  <h3 aria-expanded="true" role="button" tabindex="0">검색할 이름</h3>
+                  <h3 aria-expanded="true" role="button" tabindex="0" style="margin-bottom: 15px;">옵션으로 검색</h3>
                   <div>
-                     <span><input type="text" value="" name="f-name" id="f-name" placeholder="숙박 시설 이름…"></span>
-                     <button type="submit" id="f-name-cta" name="nameSubmit">검색
-                     </button>
+                     <span>
+                     	<input type="text" id="hotelName" class="form-control" name="hotelName" value="${hotelName}"
+							placeholder="숙박명 " autocomplete="off">
+
+						<!-- === 검색어 입력시 자동글 완성하기 1 === -->
+						<div id="displayList2"></div>
+					</span>
+                     <button id="optionSearch" class="btn btn-primary btn-block text-white" style="margin-top: 8px; margin-bottom: 16px;">숙박명으로 검색하기</button>
                   </div>
                </fieldset>
                <div data-field-collection="non-name">
@@ -539,7 +616,7 @@
                         <h3 aria-expanded="true" role="button" tabindex="0">인기 필터</h3>
                      </legend>
                      <div id="filter-popular-contents" class="filter-contents">
-                        <ul>
+                        <ul class="list-unstyled link">
                            <input type="hidden" name="vrFilterApplied" value="">
                            <li class="">
                               <input type="checkbox" value="2048" data-id="f-facilities-2048" id="f-popular-2048" aria-labelledby="f-label-popular-2048" name="f-amid">
@@ -588,44 +665,6 @@
                         </div>
                      </div>
                   </fieldset>
-                  <fieldset class="checkbox-filters inline-touch-controls " data-filter-name="star-rating" id="filter-star-rating">
-                     <legend class="filter-legend">
-                        <h3 aria-expanded="true" role="button" tabindex="0">숙박 시설 등급</h3>
-                     </legend>
-                     <div id="filter-star-rating-contents" class="filter-contents">
-                        <ul>
-                           <li class=""><input type="checkbox" role="checkbox" name="f-star-rating" value="5" id="f-star-rating-5" aria-labelledby="f-label-star-rating-5">
-                              <label for="f-star-rating-5" id="f-label-star-rating-5">
-                                 <span class="star-rating">5성급</span>
-                              </label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" role="checkbox" name="f-star-rating" value="4" id="f-star-rating-4" aria-labelledby="f-label-star-rating-4">
-                              <label for="f-star-rating-4" id="f-label-star-rating-4">
-                                 <span class="star-rating">4성급</span>
-                              </label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" role="checkbox" name="f-star-rating" value="3" id="f-star-rating-3" aria-labelledby="f-label-star-rating-3">
-                              <label for="f-star-rating-3" id="f-label-star-rating-3">
-                                 <span class="star-rating">3성급</span>
-                              </label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" role="checkbox" name="f-star-rating" value="2" id="f-star-rating-2" aria-labelledby="f-label-star-rating-2">
-                              <label for="f-star-rating-2" id="f-label-star-rating-2">
-                                 <span class="star-rating">2성급</span>
-                              </label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" role="checkbox" name="f-star-rating" value="1" id="f-star-rating-1" aria-labelledby="f-label-star-rating-1">
-                              <label for="f-star-rating-1" id="f-label-star-rating-1">
-                                 <span class="star-rating">1성급</span>
-                              </label>
-                           </li>
-                        </ul>
-                     </div>
-                  </fieldset>
                   <fieldset class="widget-slider-enabled" data-filter-name="guest-rating" id="filter-guest-rating">
                      <h3 aria-expanded="true" role="button" tabindex="0" aria-controls="filter-guest-rating-contents">고객 평점</h3>
                      <div id="filter-guest-rating-contents" class="filter-contents">
@@ -656,7 +695,7 @@
                         <h3 aria-expanded="false" role="button" tabindex="0">숙박 시설 유형</h3>
                      </legend>
                      <div id="filter-accommodation-type-contents" class="filter-contents">
-                        <ul>
+                       <ul class="list-unstyled link">
                            <li class="">
                               <input type="checkbox" name="f-accid" value="30" id="f-accid-30" aria-labelledby="f-label-accid-30">
                               <label for="f-accid-30" id="f-label-accid-30">게스트하우스</label>
@@ -689,7 +728,7 @@
                      <h3 aria-expanded="false" role="button" tabindex="0">시설</h3>
                      </legend>
                      <div id="filter-facilities-contents" class="filter-contents">
-                        <ul>
+                        <ul class="list-unstyled link">
                            <li class="">
                               <input type="checkbox" name="f-amid" value="517" id="f-facilities-517" aria-labelledby="f-label-facilities-517">
                               <label for="f-facilities-517" id="f-label-facilities-517">객실 내 욕조</label>
@@ -791,7 +830,7 @@
                   </fieldset>
                </div>
                <div class="filters-submit-row">
-                  <button class="cta">선택 사항 적용</button>
+                   <button id="optionSearch" class="btn btn-primary btn-block text-white" style="margin-top: 8px; margin-bottom: 16px;">옵션으로 검색</button>
                </div>
             </form>
          </div>

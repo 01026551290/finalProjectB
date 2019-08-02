@@ -88,7 +88,8 @@ public class AdminController {
 			
 			HttpSession session = mrequest.getSession();
 			String root = session.getServletContext().getRealPath("/");
-			String path = root + "resources" + File.separator + "files";
+//			path = root + "resources" + File.separator + "files";
+			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\resources" + File.separator + "images";
 			
 			System.out.println(">>> 확인용 path ==> " + path);
 			

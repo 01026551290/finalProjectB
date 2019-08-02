@@ -32,7 +32,31 @@
 		                       ) R 
 		        on V.largecategoryontioncode = R.hotelidx
 		    ) T
-		where rno between 1 and 10
+		where rno between 1 and 9
+	</select>
+	
+	<select id="reserveAddSelect" parameterType="com.spring.god.yujin.model.HistoryVO" resultType="int">
+		select count(*)
+		from
+		(
+		    select *
+		    from
+		    (
+		        select fk_reserveid, checkin, checkout, reserveid, fk_productid, price, reservedate, memberidx, status
+		             , (checkout - checkin)+1 AS nonight
+		        from reserve2 R2 JOIN reserve1 R1
+		        on R2.fk_reserveid = R1.reserveid
+		        where ( ${checkIn} BETWEEN checkin+1 AND checkout-1
+		            OR  ${checkOut} BETWEEN checkin+1 AND checkout-1
+		            <!--[CDATA[ 
+                         OR (#{checkIn} < checkin+1 AND checkout-1 < #{checkOut})
+                    ]]-->
+		    ) V RIGHT JOIN product P
+		    on V.fk_productid = P.productid
+		) P RIGHT JOIN LONTION L
+		on P.fk_largecategoryontioncode = L.largecategoryontioncode
+		where productid=${fk_productId}
+		and checkin is null	
 	</select>
 	
 
