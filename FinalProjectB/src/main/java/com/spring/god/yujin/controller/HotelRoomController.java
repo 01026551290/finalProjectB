@@ -36,11 +36,14 @@ public class HotelRoomController {
 	      String searchWord = request.getParameter("searchWord")!=null?request.getParameter("searchWord"):"";
 	      if(searchWord.trim().isEmpty())   
 	         searchWord="";
+	      String hotelName = request.getParameter("hotelName")!=null?request.getParameter("hotelName"):"";
+	      if(hotelName.trim().isEmpty())   
+	    	  hotelName="";
 	      String checkin_date = request.getParameter("checkin_date")!=null?request.getParameter("checkin_date"):"";
 	      String checkout_date = request.getParameter("checkout_date")!=null?request.getParameter("checkout_date"):"";
-	      String adult = request.getParameter("adult")!=null?request.getParameter("adult"):"2";
-	      String children = request.getParameter("children")!=null?request.getParameter("children"):"";
-	      int per = 2;
+	      String adult = request.getParameter("adult")!=null?request.getParameter("adult"):"0";
+	      String children = request.getParameter("children")!=null?request.getParameter("children"):"0";
+	      int per = 0;
 	      try {
 	         per = Integer.parseInt(adult)+(Integer.parseInt(children)/2);
 	      } catch (NumberFormatException e) {
@@ -48,6 +51,7 @@ public class HotelRoomController {
 	      }
 	      
 	      mv.addObject("searchWord",searchWord);
+	      mv.addObject("hotelName",hotelName);
 	      mv.addObject("checkin_date",checkin_date);
 	      mv.addObject("checkout_date",checkout_date);
 	      mv.addObject("adult",Integer.parseInt(adult));
@@ -69,7 +73,7 @@ public class HotelRoomController {
 	
 	      
 	      int totalCnt = 0;
-	      int sizePerPage = 2;
+	      int sizePerPage = 12;
 	      int currentShowPage = 1;
 	      int totalPage = 0;
 	      if(request.getParameter("currentShowPage")==null)

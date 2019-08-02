@@ -60,6 +60,34 @@ public class HotelRoomController {
 		
 		return result;
 	}
+	
+	// === 검색어 입력시 자동글 완성하기 4 ===
+	@RequestMapping(value="/autosearch/wordSearchViewOnlyName.go", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String wordSearchViewOnlyName(HttpServletRequest request) {
+		
+		String searchWord = request.getParameter("hotelName");
+		
+		List<String> wordNameList = null;
+		
+		if(searchWord!="") {
+			wordNameList = service.wordNameSearchView(searchWord);
+		}
+		
+		JSONArray jsonArr = new JSONArray();
+		
+		if(wordNameList != null) {
+			for(String name : wordNameList) {
+				JSONObject jsonObj = new JSONObject();
+				jsonObj.put("name", name);
+				
+				jsonArr.put(jsonObj);
+			}
+		}
+		String result = jsonArr.toString();
+		
+		return result;
+	}
 		
 	
 }
