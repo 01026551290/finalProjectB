@@ -243,6 +243,8 @@
     
     <!-- 호텔정보 보내는 폼 -->
     <form name="reserveHotelInfoFrm">
+    	<input type="hidden" name="fk_productId" value="${paraMap.productId}" />
+    	
     	<input type="hidden" name="img" value="${paraMap.img}" />
     	<input type="hidden" name="name" value="${paraMap.name}" />
     	<input type="hidden" name="address" value="${paraMap.address}" />

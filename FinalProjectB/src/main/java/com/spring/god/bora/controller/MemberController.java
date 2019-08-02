@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.god.bora.service.InterHotelRoomService;
+import com.spring.god.bora.service.InterMemberService;
 import com.spring.god.jiyoung.model.MemberVO;
 import com.spring.god.yujin.model.HistoryVO;
 
@@ -22,7 +23,7 @@ import com.spring.god.yujin.model.HistoryVO;
 public class MemberController {
 
 	@Autowired
-	private InterHotelRoomService service;
+	private InterMemberService service;
 	
 	// === 예약확인페이지 ===
 	@RequestMapping(value="/accommodationInfo.go", method= {RequestMethod.GET})
@@ -37,6 +38,7 @@ public class MemberController {
 		paraMap.put("checkOut", "20190802".substring(0,4)+"년 "+"20190802".substring(4,6)+"월 "+"20190802".substring(6)+"일");
 		paraMap.put("noNight", String.valueOf(Integer.parseInt("20190802")-Integer.parseInt("20190801")+1));
 		
+		paraMap.put("productId", "2017");
 		paraMap.put("productName", "트윈룸");
 		paraMap.put("roomType", "2");
 		paraMap.put("weekPrice", "140000");
@@ -81,9 +83,17 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
+		int n = service.reserveAddSelect(hvo);
+		System.out.println("n값:" + n);
+		String msg = "";
+		if(n>0)
+			msg = "예약가능 성공!!";
+		else
+			msg = "예약가능 실패!!";
 		
+		request.setAttribute("msg", msg);
 		
-		return "tiles1/bora/paymentGateway";
+		return "tiles1/msg";
 	}
 	
 }
