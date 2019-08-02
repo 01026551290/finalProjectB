@@ -76,6 +76,21 @@
 	    width: 22px;
 	    height: 22px;
 	}
+	
+	.starAreaIn {
+		background: url(..<%=request.getContextPath()%>/resources/images/star_bgb.png);
+	    background-size: 15px 14px;
+	    display: inline-flex;
+	    width: 76px;
+	    height: 14px;
+	}
+	.starAreaOut {
+		background: url(..<%=request.getContextPath()%>/resources/images/star_bg.png);
+	    background-size: 15px 14px;
+	    display: inline-block;
+	    width: 76px;
+	    height: 14px;
+	}
 </style>
 
  <script type="text/javascript">
@@ -385,7 +400,7 @@
 						<div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
 							<label for="text" class="font-weight-bold text-black">목적지</label>
 							<div class="field-icon-wrap">
-								<input type="text" id="searchWord" class="form-control"
+								<input type="text" id="searchWord" class="form-control" name="searchWord"
 									placeholder="숙박명 또는 지역명을 검색" autocomplete="off">
 
 								<!-- === 검색어 입력시 자동글 완성하기 1 === -->
@@ -774,18 +789,34 @@
                         <div class="hotelAddr">${vo.address}</div>
                         <div class="hotelName">${vo.name}</div>
                         <div class="hotelPrice">${vo.weekPrice}원 ~</div>
-                        <c:if test="${vo.starcnt!=0}">
-	                        <div class="hotelStar">★★★★☆ ${vo.star}&nbsp;${vo.starcnt}개의 후기</div>
-                        </c:if>
-                        <c:if test="${vo.starcnt==0}">
-	                        <div class="hotelStar">아직 후기가 없습니다.</div>                    
-                        </c:if>
+                        
+							<c:if test="${vo.starcnt != 0}">
+                        <span class="starAreaIn">
+								<span class="starAreaOut" style="width: ${vo.star*14.6}px;"><span class="blind">star</span></span>
+						</span>
+								<span style="font-size: 10pt;">${vo.star}점 &nbsp;${vo.starcnt}개의 후기</span>
+							</c:if>
+							<c:if test="${vo.starcnt==0}">
+                        <span class="starAreaIn">
+						</span>
+								<span style="font-size: 10pt;">아직 후기가 없습니다.</span>
+							</c:if>
                      </div>
                       </div>
             </c:forEach>
          </c:if>
                   
              </div>
+             
+             <div class="col-12">
+            <div class="custom-pagination">
+              <ul class="list-unstyled">
+				${pagebar}
+              </ul>
+            </div>
+          </div>
+             
+             
             </div>
        
       </div>

@@ -160,5 +160,40 @@ public class MyUtil {
 		
 		return result;
 	}// end of private String replaceParameter(String param)------
+
+	public static String makePageBarHotelList(String url, int currentShowPage, int sizePerPage, int totalPage,
+			int blockSize, String searchWord, String cHECKIN, String cHECKOUT, String adult, String children) {
+		String pageBar = "";
+		
+		int loop = 1;
+		
+		int pageNo = ((currentShowPage - 1)/blockSize) * blockSize + 1;
+		
+		if(pageNo != 1) {
+			pageBar += "<li><a href='"+url+"currentShowPage="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchWord="+searchWord+"&cHECKIN="+cHECKIN+"&cHECKOUT="+cHECKOUT+"&adult="+adult+"&children="+children+"'><<</a></li>";
+		}
+		
+		while( !(loop>blockSize || pageNo>totalPage) ) {
+			
+			if(pageNo == currentShowPage) {
+				pageBar += "<li class='active'><span>"+pageNo+"</span></li>";
+			}
+			else {
+				pageBar += "<li><a href='"+url+"currentShowPage="+pageNo+"&sizePerPage="+sizePerPage+"&searchWord="+searchWord+"&cHECKIN="+cHECKIN+"&cHECKOUT="+cHECKOUT+"&adult="+adult+"&children="+children+"'>"+pageNo+"</a><li/>"; 
+				       // ""+1+"&nbsp;"+2+"&nbsp;"+3+"&nbsp;"+......+10+"&nbsp;"
+			}
+			
+			loop++;
+			pageNo++;
+		}// end of while---------------------------------
+		
+		// *** [다음] 만들기 *** //
+		if( !(pageNo>totalPage) ) {
+			pageBar += "<li><a href='"+url+"currentShowPage="+pageNo+"&sizePerPage="+sizePerPage+"&searchWord="+searchWord+"&cHECKIN="+cHECKIN+"&cHECKOUT="+cHECKOUT+"&adult="+adult+"&children="+children+"'>>></a></li>"; 
+		}
+		
+		return pageBar;
+	}
+
 	
 }

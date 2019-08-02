@@ -5,13 +5,92 @@
 <mapper namespace="yujindb">
    
    <select id="getTotalCntHotel" parameterType="HashMap" resultType="int">
-      select COUNT(*)
-      from LONTION
+      select count(*)
+	  from
+		  (
+	 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
+	      from
+		      (
+		      select distinct fk_largecategoryontioncode,min(weekprice) as week,min(weekenprice) as weekend
+		      from
+			      (
+			      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice
+			      FROM
+				      (
+				      SELECT FK_PRODUCTID,b.checkin,b.checkout
+				      FROM RESERVE1 A JOIN RESERVE2 B
+				      ON a.reserveid = B.FK_RESERVEID
+				      <if test='!CHECKIN.equals("") and !CHECKOUT.equals("")'>
+				      WHERE #{CHECKIN} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				        OR  #{CHECKOUT} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				      <!--[CDATA[ 
+				          	OR (#{CHECKIN} < CHECKIN+1 AND CHECKOUT-1 < #{CHECKOUT})
+				       ]]-->
+				      </if>
+				      ) A RIGHT JOIN PRODUCT B
+			      ON a.fk_productid = B.PRODUCTID
+			      WHERE a.fk_productid IS NULL
+			      <if test="per!=0">
+			          and  substr(roomtype,3)=#{per}
+			      </if>
+			      )
+		      group by fk_largecategoryontioncode
+		      ) a join lontion b
+		      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE   
+		      <if test='searchWord!=""'>
+		      where b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%'   
+		      </if>
+	      ) a left join 
+		      (select hotelidx,avg(star) as star,count(*) as starcnt
+			  from review
+			  group by hotelidx) b
+      on a.largecategoryontioncode=b.hotelidx
    </select>
    
-   <select id="getTotalHotelList" parameterType="HashMap">
-      select *
-      from LONTION
+   <select id="getTotalHotelList" parameterType="HashMap" resultType="com.spring.god.hyein.model.HotelRoomVO">
+      select * from
+      (
+      select ROW_NUMBER() OVER(ORDER BY a.name) NUM,a.*,b.star as star,b.starcnt as starcnt 
+	  from
+		  (
+	 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
+	      from
+		      (
+		      select distinct fk_largecategoryontioncode,min(weekprice) as week,min(weekenprice) as weekend
+		      from
+			      (
+			      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice
+			      FROM
+				      (
+				      SELECT FK_PRODUCTID,b.checkin,b.checkout
+				      FROM RESERVE1 A JOIN RESERVE2 B
+				      ON a.reserveid = B.FK_RESERVEID
+				      <if test='!CHECKIN.equals("") and !CHECKOUT.equals("")'>
+				      WHERE #{CHECKIN} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				        OR  #{CHECKOUT} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				      <!--[CDATA[ 
+				          	OR (#{CHECKIN} < CHECKIN+1 AND CHECKOUT-1 < #{CHECKOUT})
+				       ]]-->
+				      </if>
+				      ) A RIGHT JOIN PRODUCT B
+			      ON a.fk_productid = B.PRODUCTID
+			      WHERE a.fk_productid IS NULL
+			      <if test="per!=0">
+			          and  substr(roomtype,3)=#{per}
+			      </if>
+			      )
+		      group by fk_largecategoryontioncode
+		      ) a join lontion b
+		      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE   
+		      <if test='searchWord!=""'>
+		      where b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%'   
+		      </if>
+	      ) a left join 
+		      (select hotelidx,avg(star) as star,count(*) as starcnt
+			  from review
+			  group by hotelidx) b
+      on a.largecategoryontioncode=b.hotelidx
+      ) where num between #{startRno} and #{endRno}
    </select>
 
    <select id="getlist" parameterType="HashMap" resultType="com.spring.god.hyein.model.HotelRoomVO">
@@ -149,22 +228,22 @@
    
    <insert id="addReviewFile" parameterType="com.spring.god.yujin.model.ReviewVO">
       INSERT INTO REVIEW_IMG(imgidx,reviewidx,filename,orgfilename,filesize)
-      VALUES(SEQ_REVIEW_IMG.currval,seq_review.currval,#{filename},#{orgfilename},#{filesize})
+      VALUES(SEQ_REVIEW_IMG.currval,seq_review.currval,#{fileName},#{orgFileName},#{fileSize})
    </insert>
    
    <select id="getHistory" parameterType="int" resultType="com.spring.god.yujin.model.HistoryVO">
-   		select fk_productid,price,reservedate,checkin,checkout,nonight,title,content,star,regdate,filename, b.* from
+   		select fk_productId,price,reserveDate,checkIn,checkOut,noNight,title,content,star,regDate,fileName, b.* from
    		(select a.fk_productid,price,reservedate,checkin,checkout,checkout-checkin+1 as nonight,b.title,b.content,b.star,b.regdate,b.filename from
 		(select reserveid,fk_productid,price,reservedate,b.* from reserve1 a join reserve2 b
 		on a.reserveid=b.fk_reserveid
-		where a.status=1 and a.memberidx=#{memberidx}) 
+		where a.status=1 and a.memberidx=#{memberIdx}) 
 		a left join 
 		(select a.reserveidx,a.title,a.content,a.star,a.regdate,b.filename
 		from review a left join (select reviewidx, listagg(filename,',') within group(order by reviewidx) as filename
 		from review_img
 		group by reviewidx) b
 		on a.reviewidx=b.reviewidx
-		where a.status=1 and a.memberidx=#{memberidx}) 
+		where a.status=1 and a.memberidx=#{memberIdx}) 
 		b
 		on a.reserveid = b.reserveidx) 
 		a left join

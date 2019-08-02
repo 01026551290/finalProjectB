@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.god.common.MyUtil;
 import com.spring.god.hyein.model.HotelRoomVO;
 import com.spring.god.jiyoung.model.MemberVO;
 import com.spring.god.yujin.model.HistoryVO;
@@ -59,10 +60,10 @@ public class HotelRoomController {
 	    	  paramap.put("memberid", memberid);
 	      }
 	      
-	/*
+	
 	      
 	      int totalCnt = 0;
-	      int sizePerPage = 18;
+	      int sizePerPage = 2;
 	      int currentShowPage = 1;
 	      int totalPage = 0;
 	      if(request.getParameter("currentShowPage")==null)
@@ -86,26 +87,25 @@ public class HotelRoomController {
 	      paramap.put("startRno", String.valueOf(startRno));
 	      paramap.put("endRno", String.valueOf(endRno));
 	         
-	      List<Object> hotelList = service.getTotalHotelList(paramap);
+	      List<HotelRoomVO> hotelRoomVOList = service.getTotalHotelList(paramap);
 	      
 	      
 	      String pagebar = "<ul>";
-	      String url = "/search.go";
-	      int blockSize = 10;
+	      String url = "/god/search.go?";
+	      int blockSize = 3;
 	      
-	      pagebar += MyUtil.makePageBarHotelList(url, currentShowPage, sizePerPage, totalPage, blockSize, searchWord, CHECKIN, CHECKOUT, per);
+	      pagebar += MyUtil.makePageBarHotelList(url, currentShowPage, sizePerPage, totalPage, blockSize, searchWord, CHECKIN, CHECKOUT, adult, children);
 	      pagebar += "</ul>";
 	      
 	      String listUrl = MyUtil.getCurrentURL(request);
 	      
-	      HttpSession session = request.getSession();
 	      session.setAttribute("listUrl", listUrl);
 	      
 	      mv.addObject("paramap",paramap); //나중에 오류시 if문으로 !"".equals(searchWord)조건주기
-	      mv.addObject("hotelList",hotelList);
+//	      mv.addObject("hotelList",hotelList);
 	      mv.addObject("pagebar",pagebar);
-	*/
-	      List<HotelRoomVO> hotelRoomVOList = service.getlist(paramap);
+	
+//	      List<HotelRoomVO> hotelRoomVOList = service.getlist(paramap);
 	      
 	      session.setAttribute("hotelRoomVOList", hotelRoomVOList);
 	      
@@ -152,7 +152,7 @@ public class HotelRoomController {
 	    			  jsonObj.put("addr", hrvo.getAddress());
 	    			  jsonObj.put("name", hrvo.getName());
 	    			  jsonObj.put("img", hrvo.getImg());
-	    			  jsonObj.put("largeCategoryontionCode", hrvo.getLargecategoryontioncode());
+	    			  jsonObj.put("largeCategoryontionCode", hrvo.getLargeCategoryOntionCode());
 	    			  jsonObj.put("price", hrvo.getPrice());
 	    			  
 	    			  jsonArr.put(jsonObj);

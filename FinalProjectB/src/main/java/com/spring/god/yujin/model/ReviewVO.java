@@ -4,93 +4,94 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ReviewVO {
 
-	private int reviewidx;
-	private int memberidx;
-	private int hotelidx;
-	private int roomidx;   
-	private int reserveidx; 
+	private int reviewIdx;
+	private int memberIdx;
+	private int hotelIdx;
+	private int roomIdx;   
+	private int reserveIdx; 
 	private String title;      
 	private String content;    
-	private int imgidx;
+	private int imgIdx;
 	private int status;
 	private double star;
-	private String regdate;
-	private int parentseq;
+	private String regDate;
+	private int parentSeq;
 	
-	private String filename;    
-	private String orgfilename; 
-	private String filesize;    
+	private String fileName;    
+	private String orgFileName; 
+	private String fileSize;    
 	
 	private MultipartFile attach0; 
 	
-	private String groupno;
+	private String groupNo;
 	private String fk_seq;
-	private String depthno;
+	private String depthNo;
 	
 	public ReviewVO() {}
 
-	public ReviewVO(int reviewidx, int memberidx, int hotelidx, int roomidx, int reserveidx, String title,
-			String content, int imgidx, int status, double star, String regdate, int parentseq, String filename,
-			String orgfilename, String filesize, String groupno, String fk_seq, String depthno) {
+	public ReviewVO(int reviewIdx, int memberIdx, int hotelIdx, int roomIdx, int reserveIdx, String title,
+			String content, int imgIdx, int status, double star, String regDate, int parentSeq, String fileName,
+			String orgFileName, String fileSize, MultipartFile attach0, String groupNo, String fk_seq, String depthNo) {
 		super();
-		this.reviewidx = reviewidx;
-		this.memberidx = memberidx;
-		this.hotelidx = hotelidx;
-		this.roomidx = roomidx;
-		this.reserveidx = reserveidx;
+		this.reviewIdx = reviewIdx;
+		this.memberIdx = memberIdx;
+		this.hotelIdx = hotelIdx;
+		this.roomIdx = roomIdx;
+		this.reserveIdx = reserveIdx;
 		this.title = title;
 		this.content = content;
-		this.imgidx = imgidx;
+		this.imgIdx = imgIdx;
 		this.status = status;
 		this.star = star;
-		this.regdate = regdate;
-		this.parentseq = parentseq;
-		this.filename = filename;
-		this.orgfilename = orgfilename;
-		this.filesize = filesize;
-		this.groupno = groupno;
+		this.regDate = regDate;
+		this.parentSeq = parentSeq;
+		this.fileName = fileName;
+		this.orgFileName = orgFileName;
+		this.fileSize = fileSize;
+		this.attach0 = attach0;
+		this.groupNo = groupNo;
 		this.fk_seq = fk_seq;
-		this.depthno = depthno;
+		this.depthNo = depthNo;
 	}
 
-	public int getReviewidx() {
-		return reviewidx;
+	public int getReviewIdx() {
+		return reviewIdx;
 	}
 
-	public void setReviewidx(int reviewidx) {
-		this.reviewidx = reviewidx;
+	public void setReviewIdx(int reviewIdx) {
+		this.reviewIdx = reviewIdx;
 	}
 
-	public int getMemberidx() {
-		return memberidx;
+	public int getMemberIdx() {
+		return memberIdx;
 	}
 
-	public void setMemberidx(int memberidx) {
-		this.memberidx = memberidx;
+	public void setMemberIdx(int memberIdx) {
+		this.memberIdx = memberIdx;
 	}
 
-	public int getHotelidx() {
-		return hotelidx;
+	public int getHotelIdx() {
+		return hotelIdx;
 	}
 
-	public void setHotelidx(int hotelidx) {
-		this.hotelidx = hotelidx;
+	public void setHotelIdx(int hotelIdx) {
+		this.hotelIdx = hotelIdx;
 	}
 
-	public int getRoomidx() {
-		return roomidx;
+	public int getRoomIdx() {
+		return roomIdx;
 	}
 
-	public void setRoomidx(int roomidx) {
-		this.roomidx = roomidx;
+	public void setRoomIdx(int roomIdx) {
+		this.roomIdx = roomIdx;
 	}
 
-	public int getReserveidx() {
-		return reserveidx;
+	public int getReserveIdx() {
+		return reserveIdx;
 	}
 
-	public void setReserveidx(int reserveidx) {
-		this.reserveidx = reserveidx;
+	public void setReserveIdx(int reserveIdx) {
+		this.reserveIdx = reserveIdx;
 	}
 
 	public String getTitle() {
@@ -109,12 +110,12 @@ public class ReviewVO {
 		this.content = content;
 	}
 
-	public int getImgidx() {
-		return imgidx;
+	public int getImgIdx() {
+		return imgIdx;
 	}
 
-	public void setImgidx(int imgidx) {
-		this.imgidx = imgidx;
+	public void setImgIdx(int imgIdx) {
+		this.imgIdx = imgIdx;
 	}
 
 	public int getStatus() {
@@ -133,44 +134,44 @@ public class ReviewVO {
 		this.star = star;
 	}
 
-	public String getRegdate() {
-		return regdate;
+	public String getRegDate() {
+		return regDate;
 	}
 
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
 	}
 
-	public int getParentseq() {
-		return parentseq;
+	public int getParentSeq() {
+		return parentSeq;
 	}
 
-	public void setParentseq(int parentseq) {
-		this.parentseq = parentseq;
+	public void setParentSeq(int parentSeq) {
+		this.parentSeq = parentSeq;
 	}
 
-	public String getFilename() {
-		return filename;
+	public String getFileName() {
+		return fileName;
 	}
 
-	public void setFilename(String filename) {
-		this.filename = filename;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
-	public String getOrgfilename() {
-		return orgfilename;
+	public String getOrgFileName() {
+		return orgFileName;
 	}
 
-	public void setOrgfilename(String orgfilename) {
-		this.orgfilename = orgfilename;
+	public void setOrgFileName(String orgFileName) {
+		this.orgFileName = orgFileName;
 	}
 
-	public String getFilesize() {
-		return filesize;
+	public String getFileSize() {
+		return fileSize;
 	}
 
-	public void setFilesize(String filesize) {
-		this.filesize = filesize;
+	public void setFileSize(String fileSize) {
+		this.fileSize = fileSize;
 	}
 
 	public MultipartFile getAttach0() {
@@ -181,12 +182,12 @@ public class ReviewVO {
 		this.attach0 = attach0;
 	}
 
-	public String getGroupno() {
-		return groupno;
+	public String getGroupNo() {
+		return groupNo;
 	}
 
-	public void setGroupno(String groupno) {
-		this.groupno = groupno;
+	public void setGroupNo(String groupNo) {
+		this.groupNo = groupNo;
 	}
 
 	public String getFk_seq() {
@@ -197,14 +198,15 @@ public class ReviewVO {
 		this.fk_seq = fk_seq;
 	}
 
-	public String getDepthno() {
-		return depthno;
+	public String getDepthNo() {
+		return depthNo;
 	}
 
-	public void setDepthno(String depthno) {
-		this.depthno = depthno;
+	public void setDepthNo(String depthNo) {
+		this.depthNo = depthNo;
 	}
-
+	
+	
 	
 	
 }

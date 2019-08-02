@@ -23,8 +23,8 @@ public class HotelRoomService implements InterHotelRoomService {
 	   }
 
 	   @Override // 검색어와 페이징을 포함한 리스트
-	   public List<Object> getTotalHotelList(HashMap<String, String> paramap) {
-	      List<Object> hotelList = dao.getTotalHotelList(paramap);
+	   public List<HotelRoomVO> getTotalHotelList(HashMap<String, String> paramap) {
+	      List<HotelRoomVO> hotelList = dao.getTotalHotelList(paramap);
 	      return hotelList;
 	   }
 

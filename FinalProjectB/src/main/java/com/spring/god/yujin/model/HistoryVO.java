@@ -2,57 +2,57 @@ package com.spring.god.yujin.model;
 
 public class HistoryVO {
 	
-	private int fk_productid;
+	private int fk_productId;
 	private int price;
-	private String reservedate;
-	private String checkin;
-	private String checkout;
-	private int nonight;
+	private String reserveDate;
+	private String checkIn;
+	private String checkOut;
+	private int noNight;
 	private String title;
 	private String content;
 	private double star;
-	private String regdate;
-	private String filename;
-	private String largecategoryontioncode;
+	private String regDate;
+	private String fileName;
+	private String largeCategoryOntionCode;
 	private String name;
-	private String businesstel;
+	private String businessTel;
 	private String address;
 	private String info;
 	private String img;
-	private String productname;
+	private String productName;
 	
 	public HistoryVO() {}
-	
-	public HistoryVO(int fk_productid, int price, String reservedate, String checkin, String checkout, int nonight,
-			String title, String content, double star, String regdate, String filename, String largecategoryontioncode, String name, String businesstel, String address, String info, String img,
-			String productname) {
+
+	public HistoryVO(int fk_productId, int price, String reserveDate, String checkIn, String checkOut, int noNight,
+			String title, String content, double star, String regDate, String fileName, String largeCategoryOntionCode,
+			String name, String businessTel, String address, String info, String img, String productName) {
 		super();
-		this.fk_productid = fk_productid;
+		this.fk_productId = fk_productId;
 		this.price = price;
-		this.reservedate = reservedate;
-		this.checkin = checkin;
-		this.checkout = checkout;
-		this.nonight = nonight;
+		this.reserveDate = reserveDate;
+		this.checkIn = checkIn;
+		this.checkOut = checkOut;
+		this.noNight = noNight;
 		this.title = title;
 		this.content = content;
 		this.star = star;
-		this.regdate = regdate;
-		this.filename = filename;
-		this.largecategoryontioncode = largecategoryontioncode;
+		this.regDate = regDate;
+		this.fileName = fileName;
+		this.largeCategoryOntionCode = largeCategoryOntionCode;
 		this.name = name;
-		this.businesstel = businesstel;
+		this.businessTel = businessTel;
 		this.address = address;
 		this.info = info;
 		this.img = img;
-		this.productname = productname;
+		this.productName = productName;
 	}
 
-	public int getFk_productid() {
-		return fk_productid;
+	public int getFk_productId() {
+		return fk_productId;
 	}
 
-	public void setFk_productid(int fk_productid) {
-		this.fk_productid = fk_productid;
+	public void setFk_productId(int fk_productId) {
+		this.fk_productId = fk_productId;
 	}
 
 	public int getPrice() {
@@ -63,36 +63,36 @@ public class HistoryVO {
 		this.price = price;
 	}
 
-	public String getReservedate() {
-		return reservedate;
+	public String getReserveDate() {
+		return reserveDate;
 	}
 
-	public void setReservedate(String reservedate) {
-		this.reservedate = reservedate;
+	public void setReserveDate(String reserveDate) {
+		this.reserveDate = reserveDate;
 	}
 
-	public String getCheckin() {
-		return checkin.substring(0,10);
+	public String getCheckIn() {
+		return checkIn;
 	}
 
-	public void setCheckin(String checkin) {
-		this.checkin = checkin;
+	public void setCheckIn(String checkIn) {
+		this.checkIn = checkIn;
 	}
 
-	public String getCheckout() {
-		return checkout.substring(0,10);
+	public String getCheckOut() {
+		return checkOut;
 	}
 
-	public void setCheckout(String checkout) {
-		this.checkout = checkout;
+	public void setCheckOut(String checkOut) {
+		this.checkOut = checkOut;
 	}
 
-	public int getNonight() {
-		return nonight;
+	public int getNoNight() {
+		return noNight;
 	}
 
-	public void setNonight(int nonight) {
-		this.nonight = nonight;
+	public void setNoNight(int noNight) {
+		this.noNight = noNight;
 	}
 
 	public String getTitle() {
@@ -119,28 +119,28 @@ public class HistoryVO {
 		this.star = star;
 	}
 
-	public String getRegdate() {
-		return regdate;
+	public String getRegDate() {
+		return regDate;
 	}
 
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
 	}
 
-	public String getFilename() {
-		return filename;
+	public String getFileName() {
+		return fileName;
 	}
 
-	public void setFilename(String filename) {
-		this.filename = filename;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
-	public String getLargecategoryontioncode() {
-		return largecategoryontioncode;
+	public String getLargeCategoryOntionCode() {
+		return largeCategoryOntionCode;
 	}
 
-	public void setLargecategoryontioncode(String largecategoryontioncode) {
-		this.largecategoryontioncode = largecategoryontioncode;
+	public void setLargeCategoryOntionCode(String largeCategoryOntionCode) {
+		this.largeCategoryOntionCode = largeCategoryOntionCode;
 	}
 
 	public String getName() {
@@ -151,16 +151,16 @@ public class HistoryVO {
 		this.name = name;
 	}
 
-	public String getBusinesstel() {
-		return businesstel;
+	public String getBusinessTel() {
+		return businessTel;
 	}
 
-	public void setBusinesstel(String businesstel) {
-		this.businesstel = businesstel;
+	public void setBusinessTel(String businessTel) {
+		this.businessTel = businessTel;
 	}
 
 	public String getAddress() {
-		return address.substring(8);
+		return address;
 	}
 
 	public void setAddress(String address) {
@@ -183,12 +183,12 @@ public class HistoryVO {
 		this.img = img;
 	}
 
-	public String getProductname() {
-		return productname;
+	public String getProductName() {
+		return productName;
 	}
 
-	public void setProductname(String productname) {
-		this.productname = productname;
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 	
 	

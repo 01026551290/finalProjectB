@@ -128,10 +128,10 @@ public class MemberController {
 					
 					newFileName = filemanager.doFileUpload(bytes, attach.getOriginalFilename(), path);
 					
-					rvo.setFilename(newFileName);
-					rvo.setOrgfilename(attach.getOriginalFilename());
+					rvo.setFileName(newFileName);
+					rvo.setOrgFileName(attach.getOriginalFilename());
 					fileSize = attach.getSize();
-					rvo.setFilesize(String.valueOf(fileSize));
+					rvo.setFileSize(String.valueOf(fileSize));
 					
 				} catch (Exception e) {
 					e.printStackTrace();

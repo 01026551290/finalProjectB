@@ -9,7 +9,7 @@ public interface InterHotelRoomService {
 
 	int getTotalCntHotel(HashMap<String, String> paramap);
 
-	List<Object> getTotalHotelList(HashMap<String, String> paramap);
+	List<HotelRoomVO> getTotalHotelList(HashMap<String, String> paramap);
 
 	List<HotelRoomVO> getlist(HashMap<String, String> paramap);
 
