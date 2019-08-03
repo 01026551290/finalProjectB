@@ -19,7 +19,7 @@ public interface InterHotelRoomService {
 	
 
 	// 체크인 체크아웃
-	HistoryVO getCheckInOut(String fk_reserveId); 
+	List<HotelRoomVO> getCheckInOutList(HashMap<String, String> paraMap); 
 
 	
 	// 리뷰 보여주기

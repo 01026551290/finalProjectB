@@ -1,5 +1,7 @@
 package com.spring.god.hyein.model;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class HotelRoomVO {
@@ -28,6 +30,8 @@ public class HotelRoomVO {
    private double star;							 // 평점
    private int starcnt;							 // 평점갯수
    
+   private List<String> imgList;
+   
    /*
 	=== 파일을 첨부하도록 VO 수정하기
 		먼저, 오라클에서 productpic 테이블에 
@@ -48,7 +52,7 @@ public class HotelRoomVO {
 		String address, String info, String ontionType, String img, String regDay, String productId,
 		String fk_LargeCategoryOntionCode, String roomType, String roomOption, String productName, String weekPrice,
 		String weekenPrice, String roomInfo, String productStatus, String productPeriod1, String productPeriod2,
-		double star, int starcnt, String fileName, String picture, String fileSize) {
+		double star, int starcnt, String fileName, String picture, String fileSize, List<String> imgList) {
 
 	this.largeCategoryontionCode = largeCategoryontionCode;
 	this.fk_LargeCategoryCode = fk_LargeCategoryCode;
@@ -75,7 +79,7 @@ public class HotelRoomVO {
 	this.fileName = fileName;
 	this.picture = picture;
 	this.fileSize = fileSize;
-	
+	this.imgList = imgList;
    }
 
 
@@ -335,6 +339,14 @@ public String getLargeCategoryontionCode() {
 
 	public void setFileSize(String fileSize) {
 		this.fileSize = fileSize;
+	}
+	
+	public List<String> getImgList() {
+		return imgList;
+	}
+	
+	public void setImgList(List<String> imgList) {
+		this.imgList = imgList;
 	}
 	
 }

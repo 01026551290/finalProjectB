@@ -34,12 +34,15 @@ public class HotelRoomDAO implements InterHotelRoomDAO{
 		return hotelroomList;
 	}
 
+
 	// 체크인 체크아웃
 	@Override
-	public HistoryVO getCheckInOut(String fk_reserveId) {
-		HistoryVO historyvo = sqlsession.selectOne("taeheedb.getCheckInOut", fk_reserveId);
-		return historyvo;
-	}	
+	public List<HotelRoomVO> getCheckInOutList(HashMap<String, String> paraMap) {
+		List<HotelRoomVO> checkinoutList = sqlsession.selectList("taeheedb.getCheckInOutList", paraMap);
+		return checkinoutList;
+	}
+
+
 		
 
 

@@ -21,17 +21,6 @@ select largecategoryontioncode, fk_largecategorycode
 from LONTION
 where largecategoryontioncode=#{largecategoryontioncode}
 </select>
-
-<!-- 객실정보 가져오기 -->	 
-<select id="getHotelroomList" parameterType="String" resultType="com.spring.god.hyein.model.HotelRoomVO">
-select productid ,fk_LargeCategoryOntionCode 
-	   ,roomType ,roomOption ,productName 
-	   ,weekPrice,weekenPrice
-	   ,roomInfo ,productStatus
-	   ,productPeriod1 ,productPeriod2
- from PRODUCT
-where fk_LargeCategoryOntionCode=#{largeCategoryontionCode}	   
-</select>
 	 
 <!-- 리뷰정보 가져오기 -->	
 <select id="getReviewList" parameterType="String" resultType="com.spring.god.yujin.model.ReviewVO">
@@ -43,10 +32,29 @@ where hotelidx=#{hotelidx}
 </select>
  
  <!-- 체크인체크아웃 가져오기 -->
- <select id="getCheckInOut" parameterType="String" resultType="com.spring.god.yujin.model.HistoryVO">
- select fk_reserveid ,checkin ,checkout  
- from reserve2
- where fk_reserveid=#{fk_reserveid}
+ <select id="getCheckInOutList" parameterType="HashMap" resultType="com.spring.god.hyein.model.HotelRoomVO">
+ select * from (
+ SELECT * 
+  FROM
+     (
+     SELECT FK_PRODUCTID
+     FROM RESERVE1 A JOIN RESERVE2 B
+     ON a.reserveid = B.FK_RESERVEID
+     <if test='!checkin_date.equals("") and !checkout_date.equals("")'>
+     WHERE #{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+       OR  #{checkout_date} BETWEEN CHECKIN+1 AND CHECKOUT-1 
+       OR (#{checkin_date} <![CDATA[<]]> CHECKIN+1 AND CHECKOUT-1 <![CDATA[>]]>#{checkout_date})
+        </if>   
+     ) A RIGHT JOIN PRODUCT B
+  ON a.fk_productid = B.PRODUCTID
+  WHERE a.fk_productid IS NULL
+         and fk_largecategoryontioncode=#{largeCategoryontionCode}
+          <if test="per!=0">
+         and  substr(roomtype,3)<![CDATA[>=]]>#{per}
+         </if>     
+      ) A join (select fk_productid, listagg(picture,',') within group(order by fk_productid) as picture from productpic
+	group by fk_productid) B
+	on A.productid = B.fk_productid
  </select>
    
 	 

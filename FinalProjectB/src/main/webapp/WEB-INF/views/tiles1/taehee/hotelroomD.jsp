@@ -22,7 +22,7 @@
    .custom_zoomcontrol span {display:block;width:36px;height:40px;text-align:center;cursor:pointer;}     
    .custom_zoomcontrol span img {width:15px;height:15px;padding:12px 0;border:none;}             
    .custom_zoomcontrol span:first-child{border-bottom:1px solid #bfbfbf;} 
-    
+   .display-4 {font-size: 2.1rem !important;  }
 ._gig1e7 {
     width: 100% !important;
     height: 100% !important;
@@ -65,13 +65,46 @@
     <script type="text/javascript">
 	$(document).ready(function(){
     
-    var container = document.getElementById('map');
-	var options = {
-		center: new kakao.maps.LatLng(33.450701, 126.570667),
-		level: 3
-	};
 
-	var map = new kakao.maps.Map(container, options);
+//////////////////////////////////////////////////////
+
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };  
+
+// 지도를 생성합니다    
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
+
+// 주소로 좌표를 검색합니다
+geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
+
+    // 정상적으로 검색이 완료됐으면 
+     if (status === kakao.maps.services.Status.OK) {
+
+        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+        // 결과값으로 받은 위치를 마커로 표시합니다
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: coords
+        });
+         
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(coords);
+    } 
+});    
+
+
+
+//////////////////////////////////////////////////////
+
+
+
     
 	var rangeDate = 31; // set limit day
 	var setSdate, setEdate;
@@ -222,7 +255,15 @@
 		
 
 		--%>
-	
+
+	// 이미지 split
+	/* 
+	 var imgString = '${hotelroomvo.picture}';
+     var imgSplit = jbString.split(',');
+     for ( var i in imgSplit ) {
+       document.write( '<a>' + imgSplit[i] + '</a>' );
+     }
+ */
 	
     </script>
        
@@ -303,19 +344,26 @@
                       <label for="adults" class="font-weight-bold text-black">Adults</label>
                       <div class="field-icon-wrap">
                         <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                        <select name="searchType adult" id="searchType adults" class="form-control">
-                         <c:if test="${adult!=null and adult!=''}">
-                                    <c:forEach var="i" begin="1" end="4">
-                                       <c:if test="${adult==i}">
-                                          <option value="${i}" selected>${i}</option>
-                                       </c:if>
-                                       <c:if test="${adult!=i}">
-                                          <option value="${i}" >${i}</option>
-                                       </c:if>
-                                    </c:forEach>
-                                 </c:if>
-                        </select>
-                      </div>
+							<select name="searchType adult" id="searchType adults"
+								class="form-control">
+								<c:if test="${adult!=null and adult!=''}">
+									<c:forEach var="i" begin="1" end="4">
+										<c:if test="${adult==i}">
+											<option value="${i}" selected>${i}</option>
+										</c:if>
+										<c:if test="${adult!=i}">
+											<option value="${i}">${i}</option>
+										</c:if>
+										<c:if test="${adult==null or adult==''}">
+											<option value="1" selected>1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4+</option>
+										</c:if>
+									</c:forEach>
+								</c:if>
+							</select>
+						</div>
                     </div>
                     <div class="col-md-6 mb-3 mb-md-0">
                       <label for="searchType children" class="font-weight-bold text-black">Children</label>
@@ -323,17 +371,23 @@
                         <div class="icon"><span class="ion-ios-arrow-down"></span></div>
                         <select name="children" id="searchType children" class="form-control">
                          <c:if test="${children!=null and children!=''}">
-                                    <c:forEach var="i" begin="0" end="3">
-                                       <c:if test="${children==i}">
-                                          <option value="${i}" selected>${i}</option>
-                                       </c:if>
-                                       <c:if test="${children!=i}">
-                                          <option value="${i}" >${i}</option>
-                                       </c:if>
-                                    </c:forEach>
-                                 </c:if>
-
-                        </select>
+								<c:forEach var="i" begin="0" end="3">
+									<c:if test="${children==i}">
+										<option value="${i}" selected>${i}</option>
+									</c:if>
+									<c:if test="${children!=i}">
+										<option value="${i}">${i}</option>
+									</c:if>
+									<c:if test="${children==null or children==''}">
+										<option value="0" selected>0</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+									</c:if>
+								</c:forEach>
+							</c:if>
+		
+						</select>
                       </div>
                     </div>
                   </div>
@@ -355,18 +409,24 @@
             <h2 class="heading aos-init aos-animate" data-aos="fade">Great Offers</h2>
             <p data-aos="fade" class="aos-init aos-animate">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
 	 -->
-	 <c:if test="${hotelroomList!=null}">
+	 <c:if test="${HotelRoomVO!=null}">
       <!-- 객실 뽑을 for문 -->
-      <c:forEach var="hotelroomvo" items="${hotelroomList}">
+      <c:forEach var="hotelroomvo" items="${HotelRoomVO}">
 <%--       <div  hidden="${historyvo.checkin}"></div>
       <div  hidden="${historyvo.checkout}"></div> --%>
         <div class="site-block-half d-block d-lg-flex bg-white  " >
-          <a href="#" class="image d-block bg-image-2" style="background-image: url('images/img_1.jpg');"></a>
+        나와야ㅐ
+        <c:if test="${hotelroomvo.imgList!=null}">
+        	<c:forEach var="list" items="${hotelroomvo.imgList}">
+        		<a href="#" class="image d-block bg-image-2" style="background-image: url('/god/resources/images/room/${list}');"></a>
+        	</c:forEach>
+        </c:if>
           <div class="text">
-            <span class="d-block mb-4"><span class="display-4 text-primary">${hotelroomvo.weekPrice}</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
-            <h2 class="mb-4">${hotelroomvo.roomType}</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-            <p><a href="#" class="btn btn-primary text-white" onclick="goReserve(${productid})">Book Now</a></p>
+            <span class="d-block mb-4"><span class="text-uppercase letter-spacing-2">주중가 : </span><span class="display-4 text-primary" >${hotelroomvo.weekPrice} ~</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
+            <span class="d-block mb-4"><span class="text-uppercase letter-spacing-2">주말가 : </span><span class="display-4 text-primary" >${hotelroomvo.weekenPrice} ~</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
+            <h5 class="mb-4">침대갯수 : ${hotelroomvo.roomType.substring(1,2)}개 / 수용인원 : ${hotelroomvo.roomType.substring(2)}명</h5>
+            <p class="mb-4">${hotelroomvo.roomInfo}</p>
+            <p><a href="#" class="btn btn-primary text-white" onclick="goReserve(${productid})">예약하기</a></p>
           </div>
         </div>
         </c:forEach>
@@ -374,7 +434,7 @@
 	</c:if>
     </section>
 	
-	
+		
     <section class="section contact-section" id="next">
       <div class="container">
         

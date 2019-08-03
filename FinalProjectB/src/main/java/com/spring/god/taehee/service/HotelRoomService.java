@@ -34,12 +34,13 @@ public class HotelRoomService implements InterHotelRoomService {
 			return getHotelroomList;
 		}
 
-
+		// 객실
+		
 		// 체크인 체크아웃
 		@Override
-		public HistoryVO getCheckInOut(String fk_reserveId) {
-			HistoryVO historyvo = dao.getCheckInOut(fk_reserveId);
-			return historyvo;
+		public List<HotelRoomVO> getCheckInOutList(HashMap<String, String> paraMap) {
+			List<HotelRoomVO> getCheckInOutList = dao.getCheckInOutList(paraMap);
+			return getCheckInOutList;
 		}
 
 
