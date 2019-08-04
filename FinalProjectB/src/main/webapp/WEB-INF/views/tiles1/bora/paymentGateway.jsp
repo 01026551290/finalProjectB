@@ -27,12 +27,12 @@ $(document).ready(function() {
        buyer_tel : '${sessionScope.loginuser.tel}',    			// 구매자 전화번호 (필수항목)
        buyer_addr : '',  
        buyer_postcode : '',
-       m_redirect_url : '192.168.50.47:9090/<%= request.getContextPath()%>/payEnd.go?idx=${sessionScope.loginuser.idx}&totalPrice=${totalPrice}'
+       m_redirect_url : '192.168.50.47:9090/<%= request.getContextPath()%>/goReserveInsert.go?idx=${sessionScope.loginuser.idx}&totalPrice=${totalPrice}'
    }, function(rsp) {
 
 		if ( rsp.success ) { // PC 데스크탑용
 			
-			window.opener.goReserveUpdate('${sessionScope.loginuser.idx}','${totalPrice}');
+			window.opener.goReserveInsert('${sessionScope.loginuser.idx}','${totalPrice}');
 		    self.close();
 			
         } else {

@@ -39,26 +39,36 @@
 		select count(*)
 		from
 		(
-		    select *
+		    select fk_reserveid, checkin, checkout, reserveid, fk_productid, price, reservedate, memberidx, status
+		         , nonight, productid, fk_largecategoryontioncode, roomoption, productname, weekprice, weekenprice, roominfo, productstatus, productperiod1, productperiod2, roomtype
 		    from
 		    (
 		        select fk_reserveid, checkin, checkout, reserveid, fk_productid, price, reservedate, memberidx, status
 		             , (checkout - checkin)+1 AS nonight
 		        from reserve2 R2 JOIN reserve1 R1
 		        on R2.fk_reserveid = R1.reserveid
-		        where ( ${checkIn} BETWEEN checkin+1 AND checkout-1
-		            OR  ${checkOut} BETWEEN checkin+1 AND checkout-1
-		            <!--[CDATA[ 
-                         OR (#{checkIn} < checkin+1 AND checkout-1 < #{checkOut})
-                    ]]-->
+		        where ( #{checkIn} BETWEEN checkin+1 AND checkout-1
+		            OR  #{checkOut} BETWEEN checkin+1 AND checkout-1
+		            OR (#{checkIn} <![CDATA[<]]> checkin+1 AND checkout-1 <![CDATA[<]]> #{checkOut}))
+		            and fk_productid=#{fk_productId}
 		    ) V RIGHT JOIN product P
 		    on V.fk_productid = P.productid
+		    where productid=#{fk_productId}
+   	 		and checkin is null
 		) P RIGHT JOIN LONTION L
 		on P.fk_largecategoryontioncode = L.largecategoryontioncode
-		where productid=${fk_productId}
-		and checkin is null	
+		where productid=#{fk_productId}
 	</select>
 	
+	<insert id="reserveAddInsert1" parameterType="com.spring.god.yujin.model.HistoryVO">
+		insert into reserve1(reserveid, fk_productid, price, memberidx)
+		values(seq_reserve1_reserveid.nextval, #{fk_productId}, #{price}, #{memberIdx})
+	</insert>
+	
+	<insert id="reserveAddInsert2" parameterType="com.spring.god.yujin.model.HistoryVO">
+		insert into reserve2(fk_reserveid,checkin,checkout)
+		values(seq_reserve1_reserveid.currval, #{checkIn}, #{checkOut})
+	</insert>
 
 
 

@@ -18,6 +18,18 @@ public class MemberDAO implements InterMemberDAO {
 		int n = sqlsession.selectOne("boradb.reserveAddSelect", hvo);
 		return n;
 	}
+
+	@Override
+	public int reserveAddInsert1(HistoryVO hvo) {
+		int n = sqlsession.insert("boradb.reserveAddInsert1", hvo);
+		return n;
+	}
+
+	@Override
+	public int reserveAddInsert2(HistoryVO hvo) {
+		int n = sqlsession.insert("boradb.reserveAddInsert2", hvo);
+		return n;
+	}
 	
 	
 	

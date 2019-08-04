@@ -81,27 +81,55 @@
 		
 	// === 결제하기(실제로 카드 결제) === //
 	function goPay(idx, totalPrice) {
-	
-		if( !$("input:checkbox[id=agree1]").is(":checked")) {
-			alert("이용약관 및 개인정보 처리방침에 동의하셔야 합니다.");
-			return;
-		}	
-
 		// 아임포트 결제금액 팝업창 띄우기
 		var url = "<%= request.getContextPath()%>/payEnd.go?idx="+idx+"&totalPrice="+totalPrice;
 		window.open(url, "payEnd", "left=350px, top=100px, width=820px, height=600px");
 		
 	}// end of function goPay(idx)----------------------
 	
-	function goReserveUpdate(idx, totalPrice) {
+	// 결제하기 전 예약가능 조회하기
+	function goReserveSelect(idx, totalPrice) {
 		
+		var frm = document.reserveHotelInfoFrm;
+		
+		if( !$("input:checkbox[id=agree1]").is(":checked")) {
+			alert("이용약관 및 개인정보 처리방침에 동의하셔야 합니다.");
+			return;
+		}
+		
+		var form_data = $("form[name=reserveHotelInfoFrm]").serialize();
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/reserveAddSelectLoginUser.go",
+			data:form_data,
+			type:"POST",
+			dataType:"JSON",
+			success:function(json){
+				alert("성공?");
+				if(json.msg == 'OK') {
+					alert('예약가능합니다!! 결제창으로 넘어갑니다.');
+					goPay(json.memberIdx, json.price);
+				}
+				else {
+					alert(json.msg);
+					// "예약가능한 방이 없습니다. 다른 날짜를 선택해 주세요!!\n숙박 상세페이지로 넘어갑니다."
+				}
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+	}// end of function goReserveSelect()---------
+	
+	
+	// 결제 후 예약하기
+	function goReserveInsert(idx, totalPrice) {
 		var frm = document.reserveHotelInfoFrm;
 		
 		frm.method = "POST";
 		frm.action = "<%= request.getContextPath()%>/reserveAddInsertLoginUser.go";
 		frm.submit();
-	}// end of function goReserveUpdate()---------
-
+	}// end of function goReserveInsert()---------
 </script>
 
 <!-- 예약정보 및 결제 페이지 -->
@@ -135,11 +163,11 @@
                             </p>
 							<p>
                                 <span class="d-block">체크인:</span><!-- 체크인 -->
-                                <span class="text-black">${paraMap.checkIn}</span>
+                                <span class="text-black">${paraMap.checkInView}</span>
                             </p>
 							<p>
                                 <span class="d-block">체크아웃:</span><!-- 체크아웃 -->
-                                <span class="text-black">${paraMap.checkOut}</span>
+                                <span class="text-black">${paraMap.checkOutView}</span>
                             </p>
 							<p class="b_detail_border">
                                 <span class="d-block">숙박일수:</span><!-- 숙박일수 -->
@@ -152,7 +180,7 @@
                             </p>
                             
 							<p>
-                                <span class="d-block">1 개 객실 x 1 박:</span>
+                                <span class="d-block">1 개 객실 x 1 박:(세금미포함)</span>
                                 <span class="text-black">
                                 	<fmt:formatNumber value="${paraMap.weekPrice}" pattern="###,###" /> 원
                                 </span><!-- 객실금액 -->
@@ -229,7 +257,7 @@
                     
                     <div class="bg-white p-md-3 p-4 mb-2">
                         <%-- <button id="btnPayment" class="btn btn-primary btn-block text-white" onClick="goPay(${(sessionScope.loginuser).idx}, ${paraMap.totalPrice});">결제하기</button> --%>
-                        <button id="btnPayment" class="btn btn-primary btn-block text-white" onClick="goReserveUpdate(${(sessionScope.loginuser).idx}, ${paraMap.totalPrice});">결제하기</button>
+                        <button id="btnPayment" class="btn btn-primary btn-block text-white" onClick="goReserveSelect(${(sessionScope.loginuser).idx}, ${paraMap.totalPrice});">예약확인 및 결제하기</button>
                     </div>
                     
                 </div>
@@ -244,7 +272,8 @@
     <!-- 호텔정보 보내는 폼 -->
     <form name="reserveHotelInfoFrm">
     	<input type="hidden" name="fk_productId" value="${paraMap.productId}" />
-    	
+    	<input type="hidden" name="memberIdx" value="${sessionScope.loginuser.idx}" />
+
     	<input type="hidden" name="img" value="${paraMap.img}" />
     	<input type="hidden" name="name" value="${paraMap.name}" />
     	<input type="hidden" name="address" value="${paraMap.address}" />
