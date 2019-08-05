@@ -28,7 +28,7 @@ public class FileManager {
 	// 리턴 : 서버에 저장된 새로운 파일명
 	public String doFileUpload(byte[] bytes, String originalFilename, String path) throws Exception {
 		String newFilename = null;
-
+                              
 		if(bytes == null)
 			return null;
 		
