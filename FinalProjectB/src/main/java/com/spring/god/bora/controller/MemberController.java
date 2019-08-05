@@ -120,7 +120,7 @@ public class MemberController {
 	public String LoginCK2_reserveAddSelectLoginUser(HttpServletRequest request, HttpServletResponse response, HistoryVO hvo) {
 		
 		int n = service.reserveAddSelect(hvo);
-		System.out.println(n);
+		System.out.println("n의값:" + n);
 		String result = "";
 		JSONObject jsonObj = new JSONObject();
 		
@@ -140,39 +140,52 @@ public class MemberController {
 	}
 
 	// === 결제하기 ===
-	@RequestMapping(value="/payEnd.go", method= {RequestMethod.GET})
+	@RequestMapping(value="/payEnd.go", method= {RequestMethod.POST})
 	public ModelAndView LoginCK2_payEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		
-		int totalPrice = Integer.parseInt(request.getParameter("totalPrice"));
+		mv.addObject("img", "Hno.jpg");
+		mv.addObject("name", "켄싱턴리조트 서귀포");
+		mv.addObject("address", "제주특별자치도 서귀포시 강정동 이어도로 684".substring(8));
+		mv.addObject("checkInView", "20190807".substring(0,4)+"년 "+"20190807".substring(4,6)+"월 "+"20190807".substring(6)+"일");
+		mv.addObject("checkOutView", "20190808".substring(0,4)+"년 "+"20190808".substring(4,6)+"월 "+"20190808".substring(6)+"일");
+		mv.addObject("checkIn", "20190807");
+		mv.addObject("checkOut", "20190808");
+		mv.addObject("noNight", String.valueOf(Integer.parseInt("20190808")-Integer.parseInt("20190807")+1));
+		mv.addObject("productId", "1001");
+		mv.addObject("productName", "트윈룸");
+		mv.addObject("roomType", "2");
+		mv.addObject("weekPrice", "100");
+		mv.addObject("svcPrice", String.valueOf((Integer.parseInt("100")/10)));
+		mv.addObject("totalPrice", String.valueOf((Integer.parseInt("100")+Integer.parseInt("100")/10)));
+		mv.addObject("point", String.valueOf(Integer.parseInt("100")/30));
 		
-		mv.addObject("totalPrice", totalPrice);
 		mv.setViewName("tiles1/bora/paymentGateway");
 		return mv;
+		
 	}
 
 	// === 결제 후 예약하기 ===
-	@RequestMapping(value="/reserveAddInsertLoginUser.go", method= {RequestMethod.POST})
+	@RequestMapping(value="/reserveAddInsertLoginUser.go", method= {RequestMethod.POST} , produces="text/plain;charset=UTF-8")
+	@ResponseBody
 	public String LoginCK2_reserveAddInsertLoginUser(HttpServletRequest request, HttpServletResponse response, HistoryVO hvo) {
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
 		int m = service.reserveAddInsert(hvo);
-		m=0;
-		String msg = "";
-		String loc = "";
+		String result = "";
+		JSONObject jsonObj = new JSONObject();
+		
 		if(m==1) {
-			msg = loginuser.getNickName()+"님"+hvo.getPrice()+"원이 결제가 완료되었습니다.";
-			loc = "/god/index.go";
+			jsonObj.put("msg", "결제 되었습니다.");
+			result = jsonObj.toString();
 		}
 		else {
-			msg = loginuser.getNickName()+"님"+hvo.getPrice()+"원이 결제가 실패되었습니다.\n관리자에게 문의하세요.";
-			loc = "/god/index.go";
-		}
-		
-		request.setAttribute("msg", msg);
-		request.setAttribute("loc", loc);
-		
-		return "tiles1/msg";
+			jsonObj.put("msg", "결제는 되었으나, 예약이 안되었으니 관리자에게 문의하세요.");
+		//	loc = "/god/product.go?largeCategoryontionCode="+hvo.getLargeCategoryOntionCode();
+			
+			result = jsonObj.toString();
+		}	
+		return result;
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

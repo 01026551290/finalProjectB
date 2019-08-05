@@ -27,13 +27,27 @@ $(document).ready(function() {
        buyer_tel : '${sessionScope.loginuser.tel}',    			// 구매자 전화번호 (필수항목)
        buyer_addr : '',  
        buyer_postcode : '',
-       m_redirect_url : '192.168.50.47:9090/<%= request.getContextPath()%>/goReserveInsert.go?idx=${sessionScope.loginuser.idx}&totalPrice=${totalPrice}'
+       m_redirect_url : '192.168.50.47:9090/<%= request.getContextPath()%>/reserveAddInsertLoginUser.go?idx=${sessionScope.loginuser.idx}&totalPrice=${totalPrice}'
    }, function(rsp) {
 
 		if ( rsp.success ) { // PC 데스크탑용
 			
-			window.opener.goReserveInsert('${sessionScope.loginuser.idx}','${totalPrice}');
-		    self.close();
+			var form_data = $("form[name=reserveHotelInfoFrm]").serialize();
+			
+			$.ajax({
+				url:"<%= request.getContextPath()%>/reserveAddInsertLoginUser.go",
+				data:form_data,
+				type:"POST",
+				dataType:"JSON",
+				success:function(json){
+					alert(json.msg);
+					window.opener.top.location.href="<%= request.getContextPath()%>/index.go"; 
+			        window.close(); 
+				},
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
 			
         } else {
             location.href="<%= request.getContextPath()%>/index.go";
@@ -41,12 +55,29 @@ $(document).ready(function() {
        }
 
    }); // end of IMP.request_pay()----------------------------
-
+	
+ 
 }); // end of $(document).ready()-----------------------------
 
 </script>
 </head>	
 
 <body>
+	<form name="reserveHotelInfoFrm">
+    	<input type="hidden" name="fk_productId" value="${productId}" />
+    	<input type="hidden" name="memberIdx" value="${sessionScope.loginuser.idx}" />
+
+    	<input type="hidden" name="img" value="${img}" />
+    	<input type="hidden" name="name" value="${name}" />
+    	<input type="hidden" name="address" value="${address}" />
+    	<input type="hidden" name="checkIn" value="${checkIn}" />
+    	<input type="hidden" name="checkOut" value="${checkOut}" />
+    	<input type="hidden" name="noNight" value="${noNight}" />
+    	<input type="hidden" name="productName" value="${productName}" />
+    	<input type="hidden" name="roomType" value="${roomType}" />
+    	<input type="hidden" name="weekPrice" value="${weekPrice}" />
+    	<input type="hidden" name="price" value="${totalPrice}" />
+    	<input type="hidden" name="point" value="${point}" />
+    </form>
 </body>
 </html>
