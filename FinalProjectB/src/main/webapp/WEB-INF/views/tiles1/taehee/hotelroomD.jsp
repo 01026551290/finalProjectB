@@ -412,7 +412,36 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
         </div>
       </div>
     </section>
-	
+	<section class="section slider-section bg-light">
+
+      <!-- 객실 뽑을 for문 -->
+    
+      <div class="container">
+
+        
+            <div class="home-slider major-caousel owl-carousel mb-5" data-aos="fade-up" data-aos-delay="200">
+              <div class="slider-item">
+
+               <c:if test="${hotelroomvo.imgList!=null}">
+        	<c:forEach var="list" items="${hotelroomvo.imgList}" varStatus="status">
+                <c:if test="${status.index}">
+                <a href="#" class="image d-block bg-image-2" style="background-image: url('/god/resources/images/room/${list}');"></a>
+              	</c:if>
+              </c:forEach>
+        </c:if>
+
+              </div>
+              <div class="slider-item">
+              <a href="#" class="image d-block bg-image-2" style="background-image: url('/god/resources/images/room/${list}');"></a>
+              </div>
+ 
+            </div>
+            <!-- END slider -->
+    
+      </div>
+
+    </section>
+    <!-- END section -->
 	<section class="section bg-light">
 	<!-- 
             <h2 class="heading aos-init aos-animate" data-aos="fade">Great Offers</h2>
@@ -424,14 +453,13 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
 <%--       <div  hidden="${historyvo.checkin}"></div>
       <div  hidden="${historyvo.checkout}"></div> --%>
         <div class="site-block-half d-block d-lg-flex bg-white  " >
-        나와야ㅐ
         <c:if test="${hotelroomvo.imgList!=null}">
         	<c:forEach var="list" items="${hotelroomvo.imgList}">
         		<a href="#" class="image d-block bg-image-2" style="background-image: url('/god/resources/images/room/${list}');"></a>
         	</c:forEach>
         </c:if>
           <div class="text">
-            <span class="d-block mb-4">${hotelroomvo.productName}</span>
+            <h5 class="mb-4" style="font-size: 25px;">${hotelroomvo.productName}</h5>
             <span class="d-block mb-4"><span class="text-uppercase letter-spacing-2">주중가 : </span><span class="display-4 text-primary" >${hotelroomvo.weekPrice} ~</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
             <span class="d-block mb-4"><span class="text-uppercase letter-spacing-2">주말가 : </span><span class="display-4 text-primary" >${hotelroomvo.weekenPrice} ~</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
             <h5 class="mb-4">침대갯수 : ${hotelroomvo.roomType.substring(1,2)}개 / 수용인원 : ${hotelroomvo.roomType.substring(2)}명</h5>
@@ -581,8 +609,7 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
         </div>
    
    	<form name="goView">
-		<input type="hidden" name="largecategoryontioncode" value="${hotelroomvo.largecategoryontioncode}"/>
-		
+   		
 		<input type="hidden" name="img" value="${hotelroomvo.imgList}"/>
 		<input type="hidden" name="name" value="${hotelroomvo.name}" />
 		<input type="hidden" name="address" value="${hotelroomvo.address}"/>
@@ -592,8 +619,8 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
 		
 		<input type="hidden" name="productName" value="${hotelroomvo.productName}"/>
 		
-		<input type="hidden" name="roomType2" value="${hotelroomvo.roomType.substring(1,2)}"/>
-		<input type="hidden" name="roomType3" value="${hotelroomvo.roomType.substring(2)}"/>
+		<input type="hidden" name="roomType2" value="${hotelroomvo.roomType.substring(1,2)}"/> <!-- 침대갯수 -->
+		<input type="hidden" name="roomType3" value="${hotelroomvo.roomType.substring(2)}"/>   <!-- 수용인원 -->
 		
 		<input type="hidden" name="roomType" value="${hotelroomvo.roomType}"/>
 		<input type="hidden" name="weekPrice" value="${hotelroomvo.weekPrice}"/>
