@@ -30,24 +30,47 @@ public class MemberController {
 	@RequestMapping(value="/accommodationInfo.go", method= {RequestMethod.GET})
 	public ModelAndView LoginCK_accommodationInfo(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		
+		String productId = request.getParameter("productId");
+		String img = request.getParameter("img");
+		String name = request.getParameter("name");
+		String address = request.getParameter("address");
+		String checkIn = request.getParameter("checkIn");
+		String checkOut = request.getParameter("checkOut");
+		String productName = request.getParameter("productName");
+		String roomType2 = request.getParameter("roomType2");
+		String roomType3 = request.getParameter("roomType3");
+		String weekPrice = request.getParameter("weekPrice");
+		
+		System.out.println("===================accommodationInfo 에서 확인=====================");
+		System.out.println(productId);	// 6001
+		System.out.println(img);		// Hno.jpg
+		System.out.println(name);		// 미도 호스텔
+		System.out.println(address);	// 제주특별자치도 서귀포시 서귀동 258-2
+		System.out.println(checkIn);	// 2019-08-07
+		System.out.println(checkOut);	// 2019-08-08
+		System.out.println(productName);// 4인실 2인
+		System.out.println(roomType2);	// 침대갯수 2
+		System.out.println(roomType3);	// 수용인원 2
+		System.out.println(weekPrice);	// 25000
+		System.out.println("===================accommodationInfo 에서 확인=====================");
+		
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		
-		paraMap.put("img", "Hno.jpg");
-		paraMap.put("name", "켄싱턴리조트 서귀포");
-		paraMap.put("address", "제주특별자치도 서귀포시 강정동 이어도로 684".substring(8));
-		paraMap.put("checkInView", "20190807".substring(0,4)+"년 "+"20190807".substring(4,6)+"월 "+"20190807".substring(6)+"일");
-		paraMap.put("checkOutView", "20190808".substring(0,4)+"년 "+"20190808".substring(4,6)+"월 "+"20190808".substring(6)+"일");
-		paraMap.put("checkIn", "20190807");
-		paraMap.put("checkOut", "20190808");
-		paraMap.put("noNight", String.valueOf(Integer.parseInt("20190808")-Integer.parseInt("20190807")+1));
-		
-		paraMap.put("productId", "1001");
-		paraMap.put("productName", "트윈룸");
-		paraMap.put("roomType", "2");
-		paraMap.put("weekPrice", "100");
-		paraMap.put("svcPrice", String.valueOf((Integer.parseInt("100")/10)));
-		paraMap.put("totalPrice", String.valueOf((Integer.parseInt("100")+Integer.parseInt("100")/10)));
-		paraMap.put("point", String.valueOf(Integer.parseInt("100")/30));
+		paraMap.put("img", img);
+		paraMap.put("name", name);
+		paraMap.put("address", address.substring(8));
+		paraMap.put("checkInView", checkIn.substring(0,4)+"년 "+checkIn.substring(5,7)+"월 "+checkIn.substring(8)+"일");
+		paraMap.put("checkOutView", checkOut.substring(0,4)+"년 "+checkOut.substring(5,7)+"월 "+checkOut.substring(8)+"일");
+		paraMap.put("checkIn", checkIn);
+		paraMap.put("checkOut", checkOut);
+		paraMap.put("noNight", String.valueOf(Integer.parseInt(checkOut.substring(0,4)+checkOut.substring(5,7)+checkOut.substring(8))-Integer.parseInt(checkIn.substring(0,4)+checkIn.substring(5,7)+checkIn.substring(8))+1));
+		paraMap.put("productId", productId);
+		paraMap.put("productName", productName);
+		paraMap.put("roomType", roomType3); // 수용인원 
+		paraMap.put("weekPrice", weekPrice);
+		paraMap.put("svcPrice", String.valueOf((Integer.parseInt(weekPrice)/10)));
+		paraMap.put("totalPrice", String.valueOf((Integer.parseInt(weekPrice)+Integer.parseInt(weekPrice)/10)));
+		paraMap.put("point", String.valueOf(Integer.parseInt(weekPrice)/30));
 		
 		
 		mv.addObject("paraMap", paraMap);
@@ -68,52 +91,6 @@ public class MemberController {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*
-	// === 결제완료 전 예약가능한지 조회 ===
-	@RequestMapping(value="/reserveAddSelectLoginUser.go", method= {RequestMethod.POST})
-	public String LoginCK2_reserveAddSelectLoginUser(HttpServletRequest request, HttpServletResponse response, HistoryVO hvo) {
-		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
-		int totalPrice = Integer.parseInt(request.getParameter("price"));
-		System.out.println(hvo.getNoNight());
-		System.out.println(hvo.getCheckIn());
-		System.out.println(hvo.getCheckOut());
-		
-		int n = service.reserveAddSelect(hvo);
-		System.out.println("n값:" + n);
-		String msg = "";
-		String loc = "";
-		
-		if(n==0) {
-			msg = "예약가능한 방이 없습니다. 다른 날짜를 선택해 주세요!!";
-		//	loc = "/god/product.go?largeCategoryontionCode="+hvo.getLargeCategoryOntionCode();
-			// 다른 날짜 선택할수 있도록 상세페이지로 넘어가게 해줘야 함.
-		}
-		else {
-			// 예약이 가능함
-			msg = "예약가능합니다!! 결제창으로 넘어갑니다.";
-			loc = "tiles1/bora/paymentConfirmPopup";
-			if(m==0) {
-				msg = "예약은 가능한데 실패했습니다!!!!(관리자에게 문의하세요.)";
-				loc = "javascript:history.back()";
-			}
-			else {
-				loc = request.getContextPath() + "/payEnd.go?idx="+loginuser.getIdx()+"&totalPrice="+totalPrice;
-				System.out.println(totalPrice);
-				
-				int m = service.reserveAddInsert(hvo);
-				msg = "예약 및 결제가 완료 되었습니다.";
-				loc = "/god/index.go";
-			}
-			
-		}
-		request.setAttribute("msg", msg);
-		request.setAttribute("loc", loc);
-		System.out.println(loc);
-		return "tiles1/msg";
-	}
-	*/
 	// === 결제완료 전 예약가능한지 조회 ===
 	@RequestMapping(value="/reserveAddSelectLoginUser.go", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	@ResponseBody
@@ -168,8 +145,6 @@ public class MemberController {
 	@RequestMapping(value="/reserveAddInsertLoginUser.go", method= {RequestMethod.POST} , produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String LoginCK2_reserveAddInsertLoginUser(HttpServletRequest request, HttpServletResponse response, HistoryVO hvo) {
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
 		int m = service.reserveAddInsert(hvo);
 		String result = "";

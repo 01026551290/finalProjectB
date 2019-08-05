@@ -97,7 +97,7 @@
 			type:"POST",
 			dataType:"JSON",
 			success:function(json){
-				alert("예약가능조회ajax");
+			//	alert("예약가능조회ajax");
 				if(json.msg == 'OK') {
 					alert('예약가능합니다!! 결제창으로 넘어갑니다.');
 					goPay(json.memberIdx, json.price);

@@ -219,10 +219,14 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
 
 	}
 	
-	function goView(productId) {
+	function goView(productId,productName,roomType2,roomType3,weekPrice) {
 		
 		 var frm = document.goViewFrm;		
-		 frm.productId.value = productId
+		 frm.productId.value = productId;
+		 frm.productName.value = productName;
+		 frm.roomType2.value = roomType2;
+		 frm.roomType3.value = roomType3;
+		 frm.weekPrice.value = weekPrice;
 		 frm.method = "GET";
 		 frm.action = "<%=request.getContextPath()%>/accommodationInfo.go";
 	     frm.submit();
@@ -464,7 +468,7 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
             <span class="d-block mb-4"><span class="text-uppercase letter-spacing-2">주말가 : </span><span class="display-4 text-primary" >${hotelroomvo.weekenPrice} ~</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
             <h5 class="mb-4">침대갯수 : ${hotelroomvo.roomType.substring(1,2)}개 / 수용인원 : ${hotelroomvo.roomType.substring(2)}명</h5>
             <p class="mb-4">${hotelroomvo.roomInfo}</p>
-            <p><a href="#" class="btn btn-primary text-white" onclick="goView('${hotelroomvo.productId}')" style="cursor: pointer;">예약하기</a></p>
+            <p><a href="#" class="btn btn-primary text-white" onclick="goView('${hotelroomvo.productId}','${hotelroomvo.productName}','${hotelroomvo.roomType.substring(1,2)}','${hotelroomvo.roomType.substring(2)}','${hotelroomvo.weekPrice}')" style="cursor: pointer;">예약하기</a></p>
           </div>
         </div>
         </c:forEach>
@@ -612,21 +616,20 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
    
    	<form name="goViewFrm">  		
    	
-		<input type="hidden" name="productId" value="${hotelroomvo.productId}"/>
-		<input type="hidden" name="img" value="${hotelroomvo.imgList}"/>
+		<input type="hidden" name="productId" value=""/>
+		<input type="hidden" name="img" value="${hotelroomvo.img}"/>
 		<input type="hidden" name="name" value="${hotelroomvo.name}" />
 		<input type="hidden" name="address" value="${hotelroomvo.address}"/>
 		
-		<input type="hidden" name="checkIn" value="${historyvo.checkIn}"/>
-		<input type="hidden" name="checkOut" value="${historyvo.checkOut}"/>
+		<input type="hidden" name="checkIn" value="${checkin_date}"/>
+		<input type="hidden" name="checkOut" value="${checkout_date}"/>
 		
-		<input type="hidden" name="productName" value="${hotelroomvo.productName}"/>
+		<input type="hidden" name="productName" value=""/>
 		
-		<input type="hidden" name="roomType2" value="${hotelroomvo.roomType.substring(1,2)}"/> <!-- 침대갯수 -->
-		<input type="hidden" name="roomType3" value="${hotelroomvo.roomType.substring(2)}"/>   <!-- 수용인원 -->
+		<input type="hidden" name="roomType2" value=""/> <!-- 침대갯수 -->
+		<input type="hidden" name="roomType3" value=""/>   <!-- 수용인원 -->
 		
-		<input type="hidden" name="roomType" value="${hotelroomvo.roomType}"/>
-		<input type="hidden" name="weekPrice" value="${hotelroomvo.weekPrice}"/>
+		<input type="hidden" name="weekPrice" value=""/>
 	</form>
    
    
