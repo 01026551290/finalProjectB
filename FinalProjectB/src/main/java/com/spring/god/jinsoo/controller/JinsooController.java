@@ -23,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.spring.board.model.CommentVO;
+
 import com.spring.god.common.FileManager;
 import com.spring.god.common.MyUtil;
 import com.spring.god.jinsoo.model.BoardVO;
@@ -32,7 +32,7 @@ import com.spring.god.jinsoo.model.JinsooadminVO;
 import com.spring.god.jinsoo.model.JinsoomemberVO;
 import com.spring.god.jinsoo.model.reserveVO;
 import com.spring.god.jinsoo.service.InterJinsooService;
-import com.spring.member.model.MemberVO;
+
 
 
 @Controller
@@ -967,21 +967,21 @@ public class JinsooController {
 		
 		
 		
-			boardvo = service.getView(seq,userid);
+	//		boardvo = service.getView(seq,userid);
 			session.removeAttribute("readCountPermisision");
 			// 중요함!! session 에 저장된 값을 삭제한다.
 		}
 		else {
 			
-			boardvo = service.getViewWithNoAddCount(seq); 
+//			boardvo = service.getViewWithNoAddCount(seq); 
 			
 		}
-		List<CommentVO> commentlist = service.getCommentList(seq);
+//		List<CommentVO> commentlist = service.getCommentList(seq);
 		
 		
 		
 		mv.addObject("boardvo" , boardvo);
-		mv.addObject("commentlist" , commentlist);
+//		mv.addObject("commentlist" , commentlist);
 		mv.setViewName("board/view.tiles1");
 		
 		return mv;
