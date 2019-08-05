@@ -18,6 +18,8 @@
 <meta name="author" content="" />
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR|Roboto&display=swap">
 
+<script src="https://kit.fontawesome.com/dc25e27438.js"></script>
+
 <link rel="stylesheet" href="<%=ctxPath%>/resources/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=ctxPath%>/resources/css/animate.css">
 <link rel="stylesheet" href="<%=ctxPath%>/resources/css/owl.carousel.min.css">
@@ -31,7 +33,20 @@
 
 <!-- Theme Style -->
 <link rel="stylesheet" href="<%=ctxPath%>/resources/css/style.css">
+<link rel="stylesheet" href="<%= ctxPath%>/resources/js/jquery-ui.min.css">
 
+
+<script src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
+
+<!-- 카카오지도 맵키 -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=62de2ce598e3b6a4e1ffe201c5604a5c&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=62de2ce598e3b6a4e1ffe201c5604a5c&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=62de2ce598e3b6a4e1ffe201c5604a5c"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<div id="mycontainer">

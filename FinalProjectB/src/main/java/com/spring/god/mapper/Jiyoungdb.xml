@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jiyoungdb">
+      
+<!-- DTO(VO)로 넘어온 값을 받아서 DB에서 처리해주는 것
+      이때 조심해야할 일은 사용자가 만든 클래스명은 반드시 전체 패키지명까지 기술해주어야 한다. -->
+   <insert id="register" parameterType="com.spring.god.jiyoung.model.MemberVO">
+      insert into MEMBER(IDX, NAME, MEMBERID, PWD, NICKNAME, EMAIL, GENDER, BRITHDAY, tel)
+      values(SEQ_MEMBER_IDX.nextval, #{name},#{memberId}, #{pwd}, #{nickName}, #{email}, #{gender}, #{brithDay}, #{tel})
+   </insert>    
+   
+   <insert id="register1" parameterType="com.spring.god.jiyoung.model.MemberVO">
+      insert into LOGIN_MEMBER(FK_MEMBERID, PWD, NICKNAME, FK_IDX)
+      values(#{memberId}, #{pwd}, #{nickName},SEQ_MEMBER_IDX.currval)
+   </insert>  
+   
+   <select id="isUseMEMBERID" parameterType="String" resultType="int">
+   	select count(*)
+   	from MEMBER
+   	where MEMBERID = #{memberId}
+   </select>
+   
+   <select id="isUseNICKNAME" parameterType="String" resultType="int">
+   	select count(*)
+   	from MEMBER
+   	where NICKNAME = #{nickName}
+   </select>
+   
+   <select id="isUseEMAIL" parameterType="String" resultType="int">
+   	select count(*)
+   	from MEMBER
+   	where EMAIL = #{email}
+   </select>
+   
+   <resultMap type="HASHMAP" id="loginMap">
+		<result property="FK_MEMBERID"  column="FK_MEMBERID" javaType="String"/>
+		<result property="PWD"  column="PWD" javaType="String"/>
+		<result property="NICKNAME"  column="NICKNAME" javaType="String"/>
+		<result property="FK_IDX"  column="FK_IDX" javaType="int"/>		
+	</resultMap>
+   
+   <select id="loginEnd" parameterType="HashMap" resultMap="loginMap">
+		SELECT FK_MEMBERID , PWD , NICKNAME , FK_IDX
+		from LOGIN_MEMBER
+		where FK_MEMBERID = #{userid} and PWD = #{pwd}  
+   </select>
+   
+    <select id="getLoginMember" parameterType="HashMap" resultType="com.spring.god.jiyoung.model.MemberVO">
+		SELECT *
+		from MEMBER
+		where MEMBERID = #{userid} and PWD = #{pwd}  
+   </select>
+   
+    <select id="getidFind" parameterType="HashMap" resultType="String">
+		SELECT MEMBERID
+		from MEMBER
+		where NAME = #{name} and EMAIL = #{email}
+   </select> 
+   
+   <select id="isUserExists" parameterType="HashMap" resultType="int">
+		SELECT count(*)
+		from MEMBER
+		where status = 1 and memberid = #{userid} and email = #{email}
+   </select>
+   
+  <update id="updatePwdUser" parameterType="HashMap">
+   UPDATE MEMBER SET PWD = #{pwd}
+   where status = 1 and memberid = #{userid}
+  </update>
+   
+   
+      
+</mapper>
