@@ -219,12 +219,12 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
 
 	}
 	
-	function goView() {
+	function goView(productId) {
 		
 		 var frm = document.goViewFrm;		
-		 
+		 frm.productId.value = productId
 		 frm.method = "GET";
-		 frm.action = "accomodationInfo.go";
+		 frm.action = "<%=request.getContextPath()%>/accommodationInfo.go";
 	     frm.submit();
 	 }
 	
@@ -275,7 +275,7 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
  */
 	
     </script>
-       
+
 
 
     <section class="site-hero inner-page overlay" style="background-image: url(images/hero_4.jpg)" data-stellar-background-ratio="0.5">
@@ -464,7 +464,7 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
             <span class="d-block mb-4"><span class="text-uppercase letter-spacing-2">주말가 : </span><span class="display-4 text-primary" >${hotelroomvo.weekenPrice} ~</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
             <h5 class="mb-4">침대갯수 : ${hotelroomvo.roomType.substring(1,2)}개 / 수용인원 : ${hotelroomvo.roomType.substring(2)}명</h5>
             <p class="mb-4">${hotelroomvo.roomInfo}</p>
-            <p><a href="#" class="btn btn-primary text-white" onclick="goReserve(${productid})">예약하기</a></p>
+            <p><a href="#" class="btn btn-primary text-white" onclick="goView('${hotelroomvo.productId}')" style="cursor: pointer;">예약하기</a></p>
           </div>
         </div>
         </c:forEach>
@@ -480,7 +480,7 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
     
                    <div class="col-md-12" style="border: 1px solid gray;">
             <div class="row">
-    		<div id="map" style="width:790px;height:500px; margin: 0 auto;"></div>
+    		<div id="map" style="width:790px; height:500px; margin: 0 auto;"></div>
             </div>
           </div>
        
@@ -608,14 +608,17 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
           </div>
         </div>
    
-   	<form name="goView">
-   		
+  
+   
+   	<form name="goViewFrm">  		
+   	
+		<input type="hidden" name="productId" value="${hotelroomvo.productId}"/>
 		<input type="hidden" name="img" value="${hotelroomvo.imgList}"/>
 		<input type="hidden" name="name" value="${hotelroomvo.name}" />
 		<input type="hidden" name="address" value="${hotelroomvo.address}"/>
 		
-		<input type="hidden" name="checkIn" value="${checkin_date}"/>
-		<input type="hidden" name="checkOut" value="${checkout_date}"/>
+		<input type="hidden" name="checkIn" value="${historyvo.checkIn}"/>
+		<input type="hidden" name="checkOut" value="${historyvo.checkOut}"/>
 		
 		<input type="hidden" name="productName" value="${hotelroomvo.productName}"/>
 		
