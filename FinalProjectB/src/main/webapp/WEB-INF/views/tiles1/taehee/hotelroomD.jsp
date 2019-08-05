@@ -216,10 +216,19 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 			}			
 		});//end of $.ajax
-		
 
-		
 	}
+	
+	function goView() {
+		
+		 var frm = document.goViewFrm;		
+		 
+		 frm.method = "GET";
+		 frm.action = "accomodationInfo.go";
+	     frm.submit();
+	 }
+	
+	
 	
 <%-- 	function goShowReview() {
 
@@ -422,6 +431,7 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
         	</c:forEach>
         </c:if>
           <div class="text">
+            <span class="d-block mb-4">${hotelroomvo.productName}</span>
             <span class="d-block mb-4"><span class="text-uppercase letter-spacing-2">주중가 : </span><span class="display-4 text-primary" >${hotelroomvo.weekPrice} ~</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
             <span class="d-block mb-4"><span class="text-uppercase letter-spacing-2">주말가 : </span><span class="display-4 text-primary" >${hotelroomvo.weekenPrice} ~</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
             <h5 class="mb-4">침대갯수 : ${hotelroomvo.roomType.substring(1,2)}개 / 수용인원 : ${hotelroomvo.roomType.substring(2)}명</h5>
@@ -569,5 +579,26 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
             </div> 
           </div>
         </div>
+   
+   	<form name="goView">
+		<input type="hidden" name="largecategoryontioncode" value="${hotelroomvo.largecategoryontioncode}"/>
+		
+		<input type="hidden" name="img" value="${hotelroomvo.imgList}"/>
+		<input type="hidden" name="name" value="${hotelroomvo.name}" />
+		<input type="hidden" name="address" value="${hotelroomvo.address}"/>
+		
+		<input type="hidden" name="checkIn" value="${checkin_date}"/>
+		<input type="hidden" name="checkOut" value="${checkout_date}"/>
+		
+		<input type="hidden" name="productName" value="${hotelroomvo.productName}"/>
+		
+		<input type="hidden" name="roomType2" value="${hotelroomvo.roomType.substring(1,2)}"/>
+		<input type="hidden" name="roomType3" value="${hotelroomvo.roomType.substring(2)}"/>
+		
+		<input type="hidden" name="roomType" value="${hotelroomvo.roomType}"/>
+		<input type="hidden" name="weekPrice" value="${hotelroomvo.weekPrice}"/>
+	</form>
+   
+   
    
     </section>
