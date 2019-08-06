@@ -23,15 +23,13 @@
 				      <if test='!checkin_date.equals("") and !checkout_date.equals("")'>
 				      WHERE #{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
 				        OR  #{checkout_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
-				      <!--[CDATA[ 
-				          	OR (#{checkin_date} < CHECKIN+1 AND CHECKOUT-1 < #{checkout_date})
-				       ]]-->
+				        OR (#{checkin_date} <![CDATA[<]]> checkin+1 AND checkout-1 <![CDATA[<]]> #{checkout_date})
 				      </if>
 				      ) A RIGHT JOIN PRODUCT B
 			      ON a.fk_productid = B.PRODUCTID
 			      WHERE a.fk_productid IS NULL
 			      <if test="per!=0">
-			          and  substr(roomtype,3)=#{per}
+			          and  to_number(substr(B.roomtype,3)) <![CDATA[>=]]>to_number(#{per})
 			      </if>
 			      )
 		      group by fk_largecategoryontioncode
@@ -48,99 +46,58 @@
    </select>
    
    <select id="getTotalHotelList" parameterType="HashMap" resultType="com.spring.god.hyein.model.HotelRoomVO">
-      select * from
-      (
-      select ROW_NUMBER() OVER(ORDER BY a.name) NUM,a.*,b.star as star,b.starcnt as starcnt 
-	  from
-		  (
-	 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
-	      from
-		      (
-		      select distinct fk_largecategoryontioncode,min(weekprice) as week,min(weekenprice) as weekend
+	   <if test='memberid==null or "".equals(memberid)'>
+	      select * from
+	      (
+	      select ROW_NUMBER() OVER(ORDER BY a.name) NUM,a.*,b.star as star,b.starcnt as starcnt 
+		  from
+			  (
+		 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
 		      from
 			      (
-			      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice
-			      FROM
+			      select distinct fk_largecategoryontioncode,min(weekprice) as week,min(weekenprice) as weekend
+			      from
 				      (
-				      SELECT FK_PRODUCTID,b.checkin,b.checkout
-				      FROM RESERVE1 A JOIN RESERVE2 B
-				      ON a.reserveid = B.FK_RESERVEID
-				      <if test='!checkin_date.equals("") and !checkout_date.equals("")'>
-				      WHERE #{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
-				        OR  #{checkout_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
-				      <!--[CDATA[ 
-				          	OR (#{checkin_date} < CHECKIN+1 AND CHECKOUT-1 < #{checkout_date})
-				       ]]-->
-				      </if>
-				      ) A RIGHT JOIN PRODUCT B
-			      ON a.fk_productid = B.PRODUCTID
-			      WHERE a.fk_productid IS NULL
-			      <if test="per!=0">
-			          and  substr(roomtype,3)=#{per}
+				      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice
+				      FROM
+					      (
+					      SELECT FK_PRODUCTID,b.checkin,b.checkout
+					      FROM RESERVE1 A JOIN RESERVE2 B
+					      ON a.reserveid = B.FK_RESERVEID
+					      <if test='!checkin_date.equals("") and !checkout_date.equals("")'>
+					      WHERE #{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+					        OR  #{checkout_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+  					        OR (#{checkin_date} <![CDATA[<]]> checkin+1 AND checkout-1 <![CDATA[<]]> #{checkout_date})
+					      </if>
+					      ) A RIGHT JOIN PRODUCT B
+				      ON a.fk_productid = B.PRODUCTID
+				      WHERE a.fk_productid IS NULL
+				      <if test="per!=0">
+			          	and  to_number(substr(B.roomtype,3)) <![CDATA[>=]]>to_number(#{per})
+			          </if>
+				      )
+			      group by fk_largecategoryontioncode
+			      ) a join lontion b
+			      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE   
+			      <if test='searchWord!=""'>
+			      where b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%'   
 			      </if>
-			      )
-		      group by fk_largecategoryontioncode
-		      ) a join lontion b
-		      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE   
-		      <if test='searchWord!=""'>
-		      where b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%'   
-		      </if>
-	      ) a left join 
-		      (select hotelidx,avg(star) as star,count(*) as starcnt
-			  from review
-			  group by hotelidx) b
-      on a.largecategoryontioncode=b.hotelidx
-      ) where num between #{startRno} and #{endRno}
-   </select>
-
-   <select id="getlist" parameterType="HashMap" resultType="com.spring.god.hyein.model.HotelRoomVO">
-   <if test='memberid==null or "".equals(memberid)'>
-	  select a.*,b.star as star,b.starcnt as starcnt 
-	  from
-		  (
-	 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
-	      from
-		      (
-		      select distinct fk_largecategoryontioncode,min(weekprice) as week,min(weekenprice) as weekend
-		      from
-			      (
-			      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice
-			      FROM
-				      (
-				      SELECT FK_PRODUCTID,b.checkin,b.checkout
-				      FROM RESERVE1 A JOIN RESERVE2 B
-				      ON a.reserveid = B.FK_RESERVEID
-				      <if test='!CHECKIN.equals("") and !CHECKOUT.equals("")'>
-				      WHERE #{CHECKIN} BETWEEN CHECKIN+1 AND CHECKOUT-1
-				        OR  #{CHECKOUT} BETWEEN CHECKIN+1 AND CHECKOUT-1
-				      <!--[CDATA[ 
-				          	OR (#{CHECKIN} < CHECKIN+1 AND CHECKOUT-1 < #{CHECKOUT})
-				       ]]-->
-				      </if>
-				      ) A RIGHT JOIN PRODUCT B
-			      ON a.fk_productid = B.PRODUCTID
-			      WHERE a.fk_productid IS NULL
-			      <if test="per!=0">
-			          and  substr(roomtype,3)=#{per}
-			      </if>
-			      )
-		      group by fk_largecategoryontioncode
-		      ) a join lontion b
-		      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE   
-		      <if test='searchWord!=""'>
-		      where b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%'   
-		      </if>
-	      ) a left join 
-		      (select hotelidx,avg(star) as star,count(*) as starcnt
-			  from review
-			  group by hotelidx) b
-      on a.largecategoryontioncode=b.hotelidx
-   </if>
+		      ) a left join 
+			      (select hotelidx,avg(star) as star,count(*) as starcnt
+				  from review
+				  group by hotelidx) b
+	      on a.largecategoryontioncode=b.hotelidx
+	      ) 
+	      where num between #{startRno} and #{endRno}
+	      order by ${sort}
+      </if>
       
-   <if test='memberid!=null and !"".equals(memberid)'>
-      select a.*,b.fk_memberid as regDay from 
-		(
-		select a.*,b.star as star,b.starcnt as starcnt 
+	   <if test='memberid!=null and !"".equals(memberid)'>
+	      select a.*,b.fk_memberid as regDay from 
+			(
+		      select * from
+		      (
+		      select ROW_NUMBER() OVER(ORDER BY a.name) NUM,a.*,b.star as star,b.starcnt as starcnt 
 			  from
 				  (
 			 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
@@ -155,19 +112,17 @@
 						      SELECT FK_PRODUCTID,b.checkin,b.checkout
 						      FROM RESERVE1 A JOIN RESERVE2 B
 						      ON a.reserveid = B.FK_RESERVEID
-						      <if test='!CHECKIN.equals("") and !CHECKOUT.equals("")'>
-						      WHERE #{CHECKIN} BETWEEN CHECKIN+1 AND CHECKOUT-1
-						        OR  #{CHECKOUT} BETWEEN CHECKIN+1 AND CHECKOUT-1
-						      <!--[CDATA[ 
-						          	OR (#{CHECKIN} < CHECKIN+1 AND CHECKOUT-1 < #{CHECKOUT})
-						       ]]-->
+						      <if test='!checkin_date.equals("") and !checkout_date.equals("")'>
+						      WHERE #{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+						        OR  #{checkout_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+						        OR (#{checkin_date} <![CDATA[<]]> checkin+1 AND checkout-1 <![CDATA[<]]> #{checkout_date})
 						      </if>
 						      ) A RIGHT JOIN PRODUCT B
 					      ON a.fk_productid = B.PRODUCTID
 					      WHERE a.fk_productid IS NULL
-					      <if test="per!=0">
-					          and  substr(roomtype,3)=#{per}
-					      </if>
+						  <if test="per!=0">
+				          	and  to_number(substr(B.roomtype,3)) <![CDATA[>=]]>to_number(#{per})
+				          </if>
 					      )
 				      group by fk_largecategoryontioncode
 				      ) a join lontion b
@@ -180,12 +135,14 @@
 					  from review
 					  group by hotelidx) b
 		      on a.largecategoryontioncode=b.hotelidx
-		 ) a left join (     
-		      select * from likelist where fk_memberid=#{memberid} and status=1) b
-		      on a.largecategoryontioncode = b.fk_hotelid
-   </if>
+		      ) where num between #{startRno} and #{endRno}
+			 ) a left join (     
+	      select * from likelist where fk_memberid=#{memberid} and status=1) b
+	      on a.largecategoryontioncode = b.fk_hotelid
+	      order by a.${sort}
+      </if>
    </select>
-   
+
    <select id="findHeart" parameterType="HashMap" resultType="int">
       SELECT COUNT(*)
       FROM LIKELIST
@@ -253,5 +210,43 @@
 		b
 		on a.fk_productid = b.productid
    </select>
+   
+   <select id="getRangePrice" resultType="com.spring.god.yujin.model.SubSearchVO">
+   		select min,max
+   		from(select 1,min(weekprice) as min, max(weekprice) as max 
+   		from product 
+   		group by 1)
+   </select>
+
+   <select id="getLargeCategoryCode" resultType="com.spring.god.yujin.model.SubSearchVO">
+   		select * from LCATEGORY
+   </select>
+
+   <select id="getLontion" resultType="com.spring.god.yujin.model.SubSearchVO">
+		select distinct col as lontion
+		from(
+			Select Regexp_Substr((select ontiontype from (select listagg(ontiontype||',')within group (order by ontiontype) as ontiontype
+			from (select 1,ontiontype from lontion)
+			group by 1)),'[^,]+', 1, Level) COL From Dual
+			Connect By Regexp_Substr((select ontiontype from (select listagg(ontiontype||',')within group (order by ontiontype) as ontiontype
+			from (select 1,ontiontype from lontion)
+			group by 1)), '[^,]+', 1, Level) Is Not Null
+		)
+   </select>
+
+   <select id="getPontion" resultType="com.spring.god.yujin.model.SubSearchVO">
+		select distinct col as Pontion
+		from(
+			Select Regexp_Substr((select roomoption from (select listagg(roomoption||',')within group (order by roomoption) as roomoption
+			from (select 1,roomoption from product)
+			group by 1)),'[^,]+', 1, Level) COL From Dual
+			Connect By Regexp_Substr((select roomoption from (select listagg(roomoption||',')within group (order by roomoption) as roomoption
+			from (select 1,roomoption from product)
+			group by 1)), '[^,]+', 1, Level) Is Not Null
+		)
+   </select>
+   
+   
+   
    
 </mapper>

@@ -256,7 +256,7 @@
   </a>
 </section>
 
-
+<img src="/god/resources/imgages/romm/">
     <section class="section bg-light">
     
     
@@ -278,8 +278,8 @@
           <div class="col-md-8">
 		<c:if test="${hvo!=null }">
 		<c:forEach var="vo" items="${hvo}">
-            <div class="timeline-item aos-init" date-is="${vo.checkin}-${vo.checkout} / ${vo.nonight}일" data-aos="fade">
-              <h3 >${vo.name}&nbsp;/&nbsp;${vo.productname}</h3>
+            <div class="timeline-item aos-init" date-is="${vo.checkIn}-${vo.checkOut} / ${vo.noNight}일" data-aos="fade">
+              <h3 >${vo.name}&nbsp;/&nbsp;${vo.productName}</h3>
               <p>${vo.address}</p>
               <p>${vo.info}</p>
               <c:if test="${vo.title!=null}">

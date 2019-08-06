@@ -97,7 +97,7 @@
    map = null;
    
    $(document).ready(function(){
-      
+      console.log($("#starAmount").val());
       var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
        mapOption = {
            center: new kakao.maps.LatLng(33.510485, 126.491321), // 지도의 중심좌표
@@ -106,6 +106,81 @@
       
       var map = new kakao.maps.Map(mapContainer, mapOption); 
       var geocoder = new kakao.maps.services.Geocoder();
+      
+      $.ajax({
+          url:"/god/searchRoomOption.go",
+          type:"GET",
+          dataType:"JSON",
+          success:function(json){
+            if(json.length > 0) { 
+		   		
+            	largeCategoryCodeDiv = "";
+            	lontionDiv = "";
+            	pontionDiv = "";
+		   		
+            	$.each(json, function(entryIndex, item){
+            		min = item.min;
+            		max = item.max;
+            		largeCategoryCode = item.largeCategoryCode;
+            		largeCategoryName = item.largeCategoryName;
+            		lontion = item.lontion;
+            		pontion = item.pontion;
+            		
+            	
+            		if(min != null && max != null) {
+            			$("#minPrice").val(min);
+        	 			$("#maxPrice").val(max);
+            			
+            			 $("#price-range").slider({
+         	                range: true,
+          	                min: Number(min),
+         	                max: Number(max),
+         	                values: [Number(min), Number(max)],
+         	                slide: function(event, ui) {
+         	                    $("#priceAmount").val("￦" + ui.values[0] + " - ￦" + ui.values[1]);
+		        	 			$("#minPrice").val(ui.values[0]);
+		        	 			$("#maxPrice").val(ui.values[1]);
+         	                } 
+         	            });
+        	 			$("#priceAmount").val("￦" + $("#price-range").slider("values", 0) + " - ￦" + $("#price-range").slider("values", 1));
+        	 			
+            		}
+            		
+            		if(largeCategoryCode != null && largeCategoryCode.length > 0) {
+            			largeCategoryCodeDiv += '<li class="">'+
+							                    '       <input type="checkbox" name="largeCategoryCode" value="'+largeCategoryCode+'" id="'+largeCategoryCode+'" >'+
+							                    '   <label for="'+largeCategoryCode+'" >'+largeCategoryName+'</label>'+
+							                    '</li>';
+            		}
+            		
+            		if(lontion != null && lontion.length > 0) {
+            			lontionDiv += '<li class="">'+
+							                    '       <input type="checkbox" name="lontion" value="'+lontion+'" id="'+lontion+'" >'+
+							                    '   <label for="'+lontion+'" >'+lontion+'</label>'+
+							                    '</li>';
+            		}
+            		
+            		if(pontion != null && pontion.length > 0) {
+            			pontionDiv += '<li class="">'+
+							                    '       <input type="checkbox" name="pontion" value="'+pontion+'" id="'+pontion+'" >'+
+							                    '   <label for="'+pontion+'" >'+pontion+'</label>'+
+							                    '</li>';
+            		}
+            		
+            		$("#largeCategoryCodeAjax").html(largeCategoryCodeDiv);
+            		$("#lontionAjax").html(lontionDiv);
+            		$("#pontionAjax").html(pontionDiv);
+            		
+            	
+            	})
+            }	
+          },
+          error: function(request, status, error){
+             alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+          }
+       });//ajax
+	  
+    	  
 
       
       $.ajax({
@@ -191,7 +266,6 @@
                            
                   }); 
                   
-                  console.log(addr);
                });
                
                
@@ -202,6 +276,7 @@
          }
       });//ajax
 
+      
       function closeOverlay() {
   	    overlay.setMap(null);     
   	}         
@@ -373,7 +448,6 @@
 		            beforeShow : function () {
 		                $("#checkout_date").datepicker( "option", "maxDate", edate );                
 		                setSdate = selectDate;
-		                console.log(setSdate)
 		        }});
 		        //checkout_date 설정
 		    }
@@ -384,7 +458,6 @@
 		    dateFormat: 'yy-mm-dd',
 		    onSelect : function(selectDate){
 		        setEdate = selectDate;
-		        console.log(setEdate)
 		    }
 		});
 		$("#btnSearch").on("click", function(e){
@@ -422,18 +495,36 @@
 		});
 		//조회 버튼 클릭
 		
+		
 		///////////////////////////////////////////////////////////////////////////////////
-		
-		
-		
-        
+
+		$("#star-range").slider({
+                range: true,
+                min: 0,
+                max: 10,
+                values: [0, 10],
+                slide: function(event, ui) {
+                    $("#starAmount").val(ui.values[0]/2 + "점 - " + ui.values[1]/2+"점");
+					$("#minStar").val(ui.values[0]/2);
+					$("#maxStar").val(ui.values[1]/2);
+                }
+            });
+            $("#starAmount").val($("#star-range").slider("values", 0)/2 + "점 - " + $("#star-range").slider("values", 1)/2+"점");
+
+
    });//document.ready
+   
+   function changeSort(val){
+	   document.infoSearchFrm.sort.value=val;
+	   goSearch();
+   }
 
 	function goSearch() {
 		var frm = document.infoSearchFrm;
 		frm.method = "GET";
+		
 		frm.action = "<%=request.getContextPath()%>/search.go";
-		//	frm.submit();
+		frm.submit();
 	}
    
    function goProduct(largeCategoryontionCode){
@@ -445,16 +536,27 @@
 	   frm.action = "<%=request.getContextPath()%>/product.go";
 	   frm.submit();
    }
-	
+   
+   function goSubSearch(){<%-- 
+	   var frm = document.subSearchFrm;
+	   frm.method = "GET";
+	   frm.action = "<%=request.getContextPath()%>/search.go";
+	   //frm.submit(); --%>
+	   
+	   $("input[name=largeCategoryCode]:checked").each(function(){
+		   test.push($(this).val());
+		   alert(test.push($(this).val()));
+   		});
+   }
        
 </script> 
 
 <form name="goPFrm">
-<input type="hidden" name="largeCategoryontionCode" value="" >
 <input type="hidden" name="checkout_date" value="${checkout_date}" >
 <input type="hidden" name="checkin_date" value="${checkin_date}" >
 <input type="hidden" name="children" value="${children}" >
 <input type="hidden" name="adult" value="${adult}" >
+<input type="hidden" name="largeCategoryontionCode" value="" >
 </form>
 
 
@@ -486,6 +588,7 @@
 			<div class="block-32" data-aos="fade-up" data-aos-offset="-200">
 
 				<form name="infoSearchFrm">
+				<input type="hidden" name="sort" value="" >
 					<div class="row">
 						<div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
 							<label for="text" class="font-weight-bold text-black">목적지</label>
@@ -518,6 +621,12 @@
 													</c:if>
 												</c:forEach>
 											</c:if>
+											<c:if test="${adult==null or adult==''}">
+												<option value="1" selected>1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4+</option>
+											</c:if>
 										</select>
 									</div>
 								</div>
@@ -537,6 +646,12 @@
 														<option value="${i}" >${i}</option>
 													</c:if>
 												</c:forEach>
+											</c:if>
+											<c:if test="${children==null or children==''}">
+												<option value="0" selected>0</option>
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
 											</c:if>
 										</select>
 									</div>
@@ -562,7 +677,7 @@
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-2 align-self-end">
-							<button id="btnSearch" class="btn btn-primary btn-block text-white">검색</button>
+							<button id="btnSubSearch" class="btn btn-primary btn-block text-white">검색</button>
 						</div>
 					</div>
 				</form>
@@ -584,21 +699,38 @@
     </section>
         
     <section class="section bg-light">
+
+      <div class="container" >
+         <div class="row">
+	    	<select name="sort" id="sort" class="form-control col-md-3 col-sm-3" style="margin-left: 68.3%;" onchange="changeSort(this.value)">
+		    	<c:if test="${sort!=null}">
+			    	<c:if test="${sort=='largecategoryontioncode'}">
+						<option value="largecategoryontioncode" selected>상품목록순</option>
+						<option value="weekPrice">가격순정렬</option>
+						<option value="star">별점순정렬</option>
+			    	</c:if>
+			    	<c:if test="${sort=='weekPrice'}">
+						<option value="largecategoryontioncode" >상품목록순</option>
+						<option value="weekPrice" selected>가격순정렬</option>
+						<option value="star">별점순정렬</option>
+			    	</c:if>
+			    	<c:if test="${sort=='star'}">
+						<option value="largecategoryontioncode" >상품목록순</option>
+						<option value="weekPrice" selected>가격순정렬</option>
+						<option value="star" selected>별점순정렬</option>
+			    	</c:if>
+		    	</c:if>
+			</select>
+		</div>
+	  </div>	
+
       <div class="container">
-      <!-- 
-         <div class="row justify-content-center text-center mb-9">
-          <div class="col-md-9">
-            <h2 class="heading aos-animate">Great Offers</h2>
-            <p class="aos-init aos-animate">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-          </div>
-        </div>
-         -->
          <div class="row">
          <div class="col-md-3 col-sm-5">
               <div>
-               <form>
+               <form name="subSearchFrm">
                <fieldset>
-                  <h3 aria-expanded="true" role="button" tabindex="0" style="margin-bottom: 15px;">옵션으로 검색</h3>
+                  <h4 aria-expanded="true" role="button" tabindex="0" style="margin-bottom: 15px;">옵션으로 검색</h4>
                   <div>
                      <span>
                      	<input type="text" id="hotelName" class="form-control" name="hotelName" value="${hotelName}"
@@ -613,13 +745,13 @@
                <div data-field-collection="non-name">
                   <fieldset class="checkbox-filters" data-filter-name="popular" id="filter-popular">
                      <legend class="filter-legend">
-                        <h3 aria-expanded="true" role="button" tabindex="0">인기 필터</h3>
+                        <h4 aria-expanded="true" role="button" tabindex="0">인기 필터</h4>
                      </legend>
                      <div id="filter-popular-contents" class="filter-contents">
                         <ul class="list-unstyled link">
                            <input type="hidden" name="vrFilterApplied" value="">
                            <li class="">
-                              <input type="checkbox" value="2048" data-id="f-facilities-2048" id="f-popular-2048" aria-labelledby="f-label-popular-2048" name="f-amid">
+                              <input type="checkbox" value="조식포함" id="f-popular-2048" name="ontion">
                               <label for="f-popular-2048" id="f-label-popular-2048">무료 아침 식사</label>
                            </li>
                            <li class="">
@@ -643,194 +775,52 @@
                   </fieldset>
                   <fieldset class="widget-slider-enabled" data-filter-name="price" id="filter-price">
                      <legend class="filter-legend">
-                        <h3 aria-expanded="true" role="button" tabindex="0">1박 요금</h3>
+                        <h4 aria-expanded="true" role="button" tabindex="0">1박 요금</h4>
                      </legend>
                      <div id="filter-price-contents" class="filter-contents">
-                        <input name="f-price-currency-code" type="hidden" value="KRW">
-                        <input name="f-price-multiplier" type="hidden" value="1">
-                        <div class="input-wrapper">
-                           <label for="f-price-min" id="f-price-min-label">최저 (₩)</label>
-                           <input type="text" aria-labelledby="f-price-min-label" value="" name="f-price-min" id="f-price-min" placeholder="0" data-range-value="0" tabindex="-1">
-                        </div>
-                        <div class="input-wrapper">
-                           <label for="f-price-max" id="f-price-max-label">최고 (₩)</label>
-                           <input type="text" aria-labelledby="f-price-max-label" value="" name="f-price-max" id="f-price-max" placeholder="1000000+" data-range-value="1000000" tabindex="-1">
-                        </div>
-                     </div>
-                     <div class="filter-contents">
-                        <div class="widget-slider">
-                           <div class="widget-slider-current-values">
-                              <span class="min">₩0</span> ~ <span class="max">₩1,000,000+</span>
-                           </div>
-                        </div>
-                     </div>
+					    <div id="price-range"></div>
+					    <input type="text" id="minPrice" value="" name="minPrice">
+					    <input type="text" id="maxPrice" value="" name="maxPrice">
+				        <input type="text" id="priceAmount" readonly name="priceRange" style="border:0; color:#f6931f; font-weight:bold; background: transparent;">
+				     </div>
                   </fieldset>
                   <fieldset class="widget-slider-enabled" data-filter-name="guest-rating" id="filter-guest-rating">
-                     <h3 aria-expanded="true" role="button" tabindex="0" aria-controls="filter-guest-rating-contents">고객 평점</h3>
+                     <h4 aria-expanded="true" role="button" tabindex="0" aria-controls="filter-guest-rating-contents">고객 평점</h4>
                      <div id="filter-guest-rating-contents" class="filter-contents">
-                        <div class="input-wrapper">
-                           <label for="f-guest-rating-min" id="f-guest-rating-min-label">최저</label>
-                           <input type="number" value="" name="f-guest-rating-min" id="f-guest-rating-min" placeholder="0" data-range-value="0" min="0" max="10" step="0.5" tabindex="-1">
-                        </div>
-                           <div class="input-wrapper">
-                           <label for="f-guest-rating-max" id="f-guest-rating-max-label">최고</label>
-                           <input type="number" value="" name="f-guest-rating-max" id="f-guest-rating-max" placeholder="10" data-range-value="10" min="0" max="10" step="0.5" tabindex="-1">
-                        </div>
-                     </div>
-                     <div class="filter-contents">
-                        <div class="widget-slider">
-                           <div class="widget-slider-current-values">
-                              <span class="min">0</span> ~ <span class="max">10</span>
-                           </div>
-                           <div class="widget-slider-cont">
-                              <div class="widget-slider-highlight" style="margin-left: 0%; margin-right: 0%;"></div>
-                              <div tabindex="0" class="cta cta-control widget-slider-handle widget-slider-handle-min" role="slider" aria-valuemin="0" aria-valuemax="10" aria-labelledby="f-guest-rating-min-label" aria-controls="f-guest-rating-min" aria-valuenow="0" style="left: 0%;"> </div>
-                              <div tabindex="0" class="cta cta-control widget-slider-handle widget-slider-handle-max" role="slider" aria-valuemin="0" aria-valuemax="10" aria-labelledby="f-guest-rating-max-label" aria-controls="f-guest-rating-max" aria-valuenow="10" style="left: 100%;"> </div>
-                           </div>
-                        </div>
+					    <div id="star-range"></div>
+					    <input type="text" id="minStar" value="" name="minStar">
+					    <input type="text" id="maxStar" value="" name="maxStar">
+				        <input type="text" id="starAmount" name="starRange" readonly style="border:0; color:#f6931f; font-weight:bold; background: transparent;">
                      </div>
                   </fieldset>
                   <fieldset class="checkbox-filters filter-collapsed" data-filter-name="accommodation-type" id="filter-accommodation-type">
                      <legend class="filter-legend">
-                        <h3 aria-expanded="false" role="button" tabindex="0">숙박 시설 유형</h3>
+                        <h4 aria-expanded="false" role="button" tabindex="0">숙박 시설 유형</h4>
                      </legend>
-                     <div id="filter-accommodation-type-contents" class="filter-contents">
-                       <ul class="list-unstyled link">
-                           <li class="">
-                              <input type="checkbox" name="f-accid" value="30" id="f-accid-30" aria-labelledby="f-label-accid-30">
-                              <label for="f-accid-30" id="f-label-accid-30">게스트하우스</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-accid" value="3" id="f-accid-3" aria-labelledby="f-label-accid-3">
-                              <label for="f-accid-3" id="f-label-accid-3">리조트</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-accid" value="7" id="f-accid-7" aria-labelledby="f-label-accid-7">
-                              <label for="f-accid-7" id="f-label-accid-7">모텔</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-accid" value="25" id="f-accid-25" aria-labelledby="f-label-accid-25">
-                              <label for="f-accid-25" id="f-label-accid-25">펜션</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-accid" value="12" id="f-accid-12" aria-labelledby="f-label-accid-12">
-                              <label for="f-accid-12" id="f-label-accid-12">호스텔</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-accid" value="1" id="f-accid-1" aria-labelledby="f-label-accid-1">
-                              <label for="f-accid-1" id="f-label-accid-1">호텔</label>
-                           </li>
-                        </ul>
+                     <div>
+                       <ul class="list-unstyled link" id="largeCategoryCodeAjax"></ul>
                      </div>
                   </fieldset>
                   <fieldset class="checkbox-filters filter-collapsed" data-filter-name="facilities" id="filter-facilities">
                      <legend class="filter-legend">
-                     <h3 aria-expanded="false" role="button" tabindex="0">시설</h3>
+                     <h4 aria-expanded="false" role="button" tabindex="0">숙박시설</h4>
                      </legend>
-                     <div id="filter-facilities-contents" class="filter-contents">
-                        <ul class="list-unstyled link">
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="517" id="f-facilities-517" aria-labelledby="f-label-facilities-517">
-                              <label for="f-facilities-517" id="f-label-facilities-517">객실 내 욕조</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="523" id="f-facilities-523" aria-labelledby="f-label-facilities-523">
-                              <label for="f-facilities-523" id="f-label-facilities-523">객실 연결 가능</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="513" id="f-facilities-513" aria-labelledby="f-label-facilities-513">
-                              <label for="f-facilities-513" id="f-label-facilities-513">공항 교통편</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="529" id="f-facilities-529" aria-labelledby="f-label-facilities-529">
-                              <label for="f-facilities-529" id="f-label-facilities-529">금연</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="256" id="f-facilities-256" aria-labelledby="f-label-facilities-256">
-                              <label for="f-facilities-256" id="f-label-facilities-256">레스토랑</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="527" id="f-facilities-527" aria-labelledby="f-label-facilities-527">
-                              <label for="f-facilities-527" id="f-label-facilities-527">무료 WiFi</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="2048" id="f-facilities-2048" aria-labelledby="f-label-facilities-2048">
-                              <label for="f-facilities-2048" id="f-label-facilities-2048">무료 아침 식사</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="515" id="f-facilities-515" aria-labelledby="f-label-facilities-515">
-                              <label for="f-facilities-515" id="f-label-facilities-515">바</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="519" id="f-facilities-519" aria-labelledby="f-label-facilities-519">
-                              <label for="f-facilities-519" id="f-label-facilities-519">비즈니스 시설</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="128" id="f-facilities-128" aria-labelledby="f-label-facilities-128">
-                              <label for="f-facilities-128" id="f-label-facilities-128">수영장</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="531" id="f-facilities-531" aria-labelledby="f-label-facilities-531">
-                              <label for="f-facilities-531" id="f-label-facilities-531">스키 셔틀</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="535" id="f-facilities-535" aria-labelledby="f-label-facilities-535">
-                              <label for="f-facilities-535" id="f-label-facilities-535">스키 타고 출입 가능</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="539" id="f-facilities-539" aria-labelledby="f-label-facilities-539">
-                              <label for="f-facilities-539" id="f-label-facilities-539">스파</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="64" id="f-facilities-64" aria-labelledby="f-label-facilities-64">
-                              <label for="f-facilities-64" id="f-label-facilities-64">애완동물 동반 가능</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="525" id="f-facilities-525" aria-labelledby="f-label-facilities-525">
-                              <label for="f-facilities-525" id="f-label-facilities-525">유아용 침대 제공</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="8" id="f-facilities-8" aria-labelledby="f-label-facilities-8">
-                              <label for="f-facilities-8" id="f-label-facilities-8">인터넷</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="1073743315" id="f-facilities-1073743315" aria-labelledby="f-label-facilities-1073743315">
-                              <label for="f-facilities-1073743315" id="f-label-facilities-1073743315">전기차 충전소</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="32" id="f-facilities-32" aria-labelledby="f-label-facilities-32">
-                              <label for="f-facilities-32" id="f-label-facilities-32">주방</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="134234112" id="f-facilities-134234112" aria-labelledby="f-label-facilities-134234112">
-                              <label for="f-facilities-134234112" id="f-label-facilities-134234112">주차(무료)</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="16384" id="f-facilities-16384" aria-labelledby="f-label-facilities-16384">
-                              <label for="f-facilities-16384" id="f-label-facilities-16384">주차 가능</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="521" id="f-facilities-521" aria-labelledby="f-label-facilities-521">
-                              <label for="f-facilities-521" id="f-label-facilities-521">탁아서비스</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="2" id="f-facilities-2" aria-labelledby="f-label-facilities-2">
-                              <label for="f-facilities-2" id="f-label-facilities-2">피트니스</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="1" id="f-facilities-1" aria-labelledby="f-label-facilities-1">
-                              <label for="f-facilities-1" id="f-label-facilities-1">회의 시설</label>
-                           </li>
-                           <li class="">
-                              <input type="checkbox" name="f-amid" value="537" id="f-facilities-537" aria-labelledby="f-label-facilities-537">
-                              <label for="f-facilities-537" id="f-label-facilities-537">흡연 가능</label>
-                           </li>
-                        </ul>
+                     <div >
+                        <ul id="lontionAjax" class="list-unstyled link"></ul>
+                     </div>
+                  </fieldset>
+                  <fieldset class="checkbox-filters filter-collapsed" data-filter-name="facilities" id="filter-facilities">
+                     <legend class="filter-legend">
+                     <h4 aria-expanded="false" role="button" tabindex="0">객실시설</h4>
+                     </legend>
+                     
+                     <div >
+                        <ul id="pontionAjax" class="list-unstyled link"></ul>
                      </div>
                   </fieldset>
                </div>
                <div class="filters-submit-row">
-                   <button id="optionSearch" class="btn btn-primary btn-block text-white" style="margin-top: 8px; margin-bottom: 16px;">옵션으로 검색</button>
+                   <button id="optionSearch" onclick="goSubSearch()" class="btn btn-primary btn-block text-white" style="margin-top: 8px; margin-bottom: 16px;">옵션으로 검색</button>
                </div>
             </form>
          </div>
