@@ -8,7 +8,7 @@
 <script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 <title>관리자 로그인</title>
 <script type="text/javascript">
-
+    
 function adminlogin() {
 	
 	 var seq = $("#seq").val(); 

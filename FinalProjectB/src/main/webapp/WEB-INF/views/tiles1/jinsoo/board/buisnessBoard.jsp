@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
-
+   
 <style type="text/css">
 	table, th, td, input, textarea {border: solid gray 1px;}
 	

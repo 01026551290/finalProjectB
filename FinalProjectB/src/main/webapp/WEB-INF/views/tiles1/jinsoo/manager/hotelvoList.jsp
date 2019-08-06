@@ -4,7 +4,7 @@
 <% String ctxPath = request.getContextPath(); %>    
 <script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 <style type="text/css">
-	
+	    
 	table, th, td { border: solid 1px gray; }
 
 	#table {width: 1800px; border-collapse: collapse;}
