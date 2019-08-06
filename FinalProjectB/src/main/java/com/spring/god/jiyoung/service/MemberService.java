@@ -94,11 +94,11 @@ public class MemberService implements InterMemberService {
 		return updatePwdUser;
 	}
 
-/*
+
 	@Override
 	public MemberVO memberEdit(int idx) {
 		MemberVO memberEdit = dao.memberEdit(idx);
 		return memberEdit;
 	}
-	*/
+	
 }

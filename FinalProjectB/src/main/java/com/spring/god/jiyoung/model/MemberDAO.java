@@ -85,13 +85,13 @@ public class MemberDAO implements InterMemberDAO {
 		int updatePwdUser = sqlsession.update("jiyoungdb.updatePwdUser",paraMap);			
 		return updatePwdUser;
 	}
-/*
+
 	@Override
 	public MemberVO memberEdit(int idx) {
 		MemberVO memberEdit = sqlsession.selectOne("jiyoungdb.memberEdit",idx);			
 		return memberEdit;
 	}
-*/
+
 	
 	
 		

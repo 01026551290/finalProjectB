@@ -22,4 +22,6 @@ public interface InterMemberDAO {
 
 	int updatePwdUser(HashMap<String, String> paraMap);
 
+	MemberVO memberEdit(int idx);
+
 }

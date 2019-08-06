@@ -6,7 +6,7 @@
 <style type="text/css">
 	
 	table, th, td { border: solid 1px gray; }
-
+    
 	#table {width: 1800px; border-collapse: collapse;}
 	#table th, #table td {padding: 5px;}
 	#table th { background-color: #DDD; }

@@ -449,7 +449,7 @@ public class MemberController {
 			return mv;
 		}
 		
-/*		
+		
 		@RequestMapping(value="/memberedit.go")
 		public ModelAndView memberEdit(ModelAndView mv,HttpServletRequest request,MemberVO vo) {
 			HttpSession session = request.getSession();
@@ -478,7 +478,7 @@ public class MemberController {
 			return mv;
 		}
 		
-		*/
+		
 		
 	}
 

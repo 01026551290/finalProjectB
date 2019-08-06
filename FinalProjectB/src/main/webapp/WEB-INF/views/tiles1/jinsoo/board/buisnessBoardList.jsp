@@ -4,7 +4,7 @@
 <% String ctxPath = request.getContextPath(); %>
 
 <style type="text/css">
-	
+	     
 	table, th, td { border: solid 1px gray; }
 
 	#table {width: 970px; border-collapse: collapse;}
