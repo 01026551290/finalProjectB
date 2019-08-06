@@ -21,5 +21,244 @@
 				SELECT SEQ , PWD , NAME FROM ADMIN WHERE SEQ = #{seq} AND PWD = #{pwd}
 		</select>
 		
+		<select id="allMember" resultType="int">
+			SELECT COUNT(*) AS CNT
+			FROM MEMBER
+			WHERE STATUS = 1
+		</select>
+		
+		<select id="todayStartmember" resultType="int">
+			SELECT COUNT(*) AS CNT
+			FROM MEMBER
+			WHERE STATUS = 1 AND TO_CHAR(REGISTERDAY, 'YYYY-DD-MM') = TO_CHAR(SYSDATE, 'YYYY-DD-MM')
+		</select>
+		
+		<select id="todayEndmember" resultType="int">
+			SELECT COUNT(*) AS CNT
+			FROM MEMBER 
+			WHERE DELETEDAYE = SYSDATE
+		</select>		
+		
+		<resultMap type="HASHMAP" id="AGECNT">
+			<result property="AGE" column="AGE" javaType="STRING" />
+			<result property="CNT" column="CNT" javaType="STRING" />
+			<result property="PERCNT" column="PERCNT" javaType="STRING" />
+		</resultMap>
+		
+		<select id="ageMemberList" resultMap="AGECNT" >
+			SELECT AGE , COUNT(*) AS CNT , ROUND(COUNT(*) /(SELECT COUNT(*) FROM MEMBER)*100 ,2) AS PERCNT
+			FROM
+			 (
+				SELECT TRUNC(TO_NUMBER( TO_CHAR(SYSDATE, 'YYYY') ) - SUBSTR(BRITHDAY,0,4),-1) AS AGE
+				FROM MEMBER
+			 )V
+			GROUP BY AGE
+			ORDER BY AGE ASC
+		</select>
+		
+		<select id="ageGenderList" resultMap="GENDERCNTPERCNT" parameterType="String">
+			SELECT GENDER , COUNT(*) AS CNT , ROUND(COUNT(*) /(SELECT COUNT(*) FROM MEMBER)*100 ,2) AS PERCNT
+			FROM
+			 (
+				SELECT TRUNC(TO_NUMBER( TO_CHAR(SYSDATE, 'yyyy') ) - SUBSTR(BRITHDAY,0,4),-1) AS AGE  , GENDER
+				FROM MEMBER
+			 )V
+			WHERE AGE = #{age}
+			GROUP BY GENDER
+		</select>
+		
+		<select id="getTotalCountWithSearch" resultType="int" parameterType="HashMap">
+			SELECT COUNT(*) AS CNT
+			FROM MEMBER
+			WHERE STATUS = 1 AND LOWER(${searchType}) LIKE '%'||LOWER(#{searchWord})||'%'
+		</select>
+		
+		<select id="getMemberList" resultType="com.spring.god.jinsoo.model.JinsoomemberVO" parameterType="HashMap" >
+			SELECT RNO , IDX , MEMBERID , NICKNAME , NAME , EMAIL , BRITHDAY , TEL , GENDER , REGISTERDAY , GRADE , POINT , PICTURE , FINALLOGINDATE , FINALPWDATE
+				FROM
+				(
+					SELECT ROWNUM AS RNO , IDX , MEMBERID , NICKNAME , NAME , EMAIL , BRITHDAY , TEL , GENDER , REGISTERDAY , GRADE , POINT , PICTURE , FINALLOGINDATE , FINALPWDATE
+					FROM MEMBER
+					<if test='searchWord !=""'>
+						WHERE STATUS = 1 AND LOWER(${searchType}) LIKE '%'||LOWER(#{searchWord})||'%'
+					</if>
+					<if test="range != null">
+						ORDER BY ${range} DESC
+					</if>
+					<if test="range == null">
+						ORDER BY IDX DESC
+					</if>
+				)V
+			WHERE RNO BETWEEN #{startRno} AND #{endRno} 
+		</select>
+		
+		<select id="wordSearchShow" resultType="String" parameterType="HashMap" >
+			SELECT ${searchType}
+			FROM MEMBER
+			WHERE LOWER(${searchType}) LIKE '%'||LOWER(#{searchWord})||'%'	
+		</select>
+		
+		<select id="allReserve" resultType="int">			
+			SELECT COUNT(*)
+			FROM RESERVE1
+		</select>
+		
+		<select id="todayStartReserve" resultType="String"  >
+			SELECT COUNT(*)
+			FROM RESERVE1
+			WHERE RESERVEDATE = SYSDATE
+		</select>
+		
+		<!-- <select id="todayEndReserve">
+			SELECT COUNT(*)
+			FROM RESERVE1
+			WHERE CANCELDATE = SYSDATE
+		</select> -->
+		
+		<select id="ageReserveList" resultMap="AGECNT" >
+			SELECT AGE , COUNT(*) AS CNT , ROUND(COUNT(*) /(SELECT COUNT(*) FROM RESERVE1)*100 ,2) AS PERCNT
+			FROM
+			(
+			    SELECT TRUNC(TO_NUMBER( TO_CHAR(SYSDATE, 'YYYY') ) - SUBSTR(C.BRITHDAY,0,4),-1) AS AGE
+			    FROM RESERVE1 A JOIN RESERVE2 B
+			    ON A.RESERVEID = B.FK_RESERVEID
+			    JOIN MEMBER C
+			    ON A.MEMBERIDX = C.IDX 
+			)V
+			GROUP BY AGE
+			ORDER BY AGE ASC
+		</select>
+				
+		<select id="ageGenderReserveList" resultMap="GENDERCNTPERCNT" parameterType="String" >			
+			SELECT GENDER , COUNT(*) AS CNT , ROUND(COUNT(*) /(SELECT COUNT(*) FROM RESERVE1)*100 ,2) AS PERCNT
+			FROM
+			 (
+				SELECT TRUNC(TO_NUMBER( TO_CHAR(SYSDATE, 'YYYY') ) - SUBSTR(C.BRITHDAY,0,4),-1) AS AGE , C.gender
+			    FROM RESERVE1 A JOIN RESERVE2 B
+			    ON A.RESERVEID = B.FK_RESERVEID
+			    JOIN MEMBER C
+			    ON A.MEMBERIDX = C.IDX 
+			 )V
+			WHERE AGE = #{age}
+			GROUP BY GENDER
+		</select>	
+		
+		<resultMap type="HASHMAP" id="CATEGORYRESERVEPERCNT">
+			<result property="LARGECATEGORYNAME" column="LARGECATEGORYNAME" javaType="STRING" />
+			<result property="CNT" column="CNT" javaType="STRING" />
+			<result property="PERCNT" column="PERCNT" javaType="STRING" />
+		</resultMap>
+		
+		<select id="categoryReserveList" resultMap="CATEGORYRESERVEPERCNT" >
+			SELECT LARGECATEGORYNAME , COUNT(*) AS CNT , ROUND(COUNT(*) /(SELECT COUNT(*) FROM RESERVE1)*100 ,2) AS PERCNT
+			FROM RESERVE1 A JOIN PRODUCT B
+			ON A.FK_PRODUCTID = B.PRODUCTID
+			JOIN LONTION C
+			ON B.FK_LARGECATEGORYONTIONCODE = C.LARGECATEGORYONTIONCODE
+			JOIN LCATEGORY D 
+			ON C.FK_LARGECATEGORYCODE = D.LARGECATEGORYCODE
+			GROUP BY LARGECATEGORYNAME
+		</select>	
+		
+		<select id="getReserveTotalCountWithSearch" resultType="int" parameterType="HashMap" >
+			SELECT COUNT(*) AS CNT
+			FROM RESERVE1
+			WHERE STATUS = 1 AND LOWER(${searchType}) LIKE '%'||LOWER(#{searchWord})||'%'
+		</select>
+		
+		<select id="getReserveList" resultType="com.spring.god.jinsoo.model.reserveVO" parameterType="HashMap"  >
+			SELECT RESERVEID,  PRICE,  RESERVEDATE,  MEMBERIDX,  CHECKIN,
+			 CHECKOUT,  PRODUCTNAME,  WEEKPRICE,  NAME,  BUSINESSTEL
+			FROM RESERVE1 A JOIN RESERVE2 B
+			ON A.RESERVEID  = B.FK_RESERVEID
+			JOIN PRODUCT C
+			ON A.FK_PRODUCTID = C.PRODUCTID
+			JOIN LONTION D
+			ON C.FK_LARGECATEGORYONTIONCODE = D.LARGECATEGORYONTIONCODE
+		</select>
+		
+		<select id="allProduct" resultType="int">
+			SELECT COUNT(*) AS CNT
+			FROM PRODUCT
+			WHERE PRODUCTSTATUS = 1
+		</select>
+		
+		<select id="categoryProductList" resultMap="CATEGORYRESERVEPERCNT">
+			SELECT LARGECATEGORYNAME , COUNT(*) AS CNT ,  ROUND(COUNT(*) /(SELECT COUNT(*) FROM PRODUCT)*100 ,2) AS PERCNT
+			FROM PRODUCT A JOIN LONTION B
+			ON A.FK_LARGECATEGORYONTIONCODE = B.LARGECATEGORYONTIONCODE
+			JOIN LCATEGORY C
+			ON B.FK_LARGECATEGORYCODE = C.LARGECATEGORYCODE
+			WHERE PRODUCTSTATUS = 1
+			GROUP BY LARGECATEGORYNAME
+		</select>
+		
+		<select id="allHotel" resultType="int">
+			SELECT COUNT(*) 
+			FROM LONTION
+		</select>
+		
+		<select id="getHotelTotalCountWithSearch" resultType="int">
+			SELECT COUNT(*) AS CNT
+			FROM LONTION
+			WHERE STATUS = 1 AND LOWER(${searchType}) LIKE '%'||LOWER(#{searchWord})||'%'
+		</select>
+		
+		<select id="getHotelList"  resultType="com.spring.god.jinsoo.model.HotelVO" parameterType="HashMap" >
+			SELECT FK_LARGECATEGORYCODE , NAME , BUSINESSTEL , ADDRESS , INFO , ONTIONTYPE , REGDAY
+			FROM LONTION
+		</select>
+		
+		<select id="getGroupnoMax" resultType="int">
+		SELECT NVL(MAX(GROUPNO),0)
+		FROM BUISNESSBOARD		
+		</select>
+		
+		<insert id="addBoard" parameterType="com.spring.god.jinsoo.model.BoardVO" >
+			<if test='fk_seq.equals("")'>   
+			INSERT INTO BUISNESSBOARD (SEQ,FK_MEMBER,NAME,SUBJECT,CONTENT,PW,READCOUNT,REGDATE,STATUS,GROUPNO,FK_SEQ,DEPTHNO)
+			VALUES(BUISNESSBOARDSEQ.NEXTVAL,#{fk_member},#{name},#{subject},#{content},#{pw},DEFAULT,DEFAULT,DEFAULT,#{groupNo},DEFAULT,DEFAULT)
+		</if>
+		
+		<if test='!fk_seq.equals("")'>
+			INSERT INTO BUISNESSBOARD (SEQ,FK_MEMBER,NAME,SUBJECT,CONTENT,PW,READCOUNT,REGDATE,STATUS,GROUPNO,FK_SEQ,DEPTHNO)
+			VALUES(BUISNESSBOARDSEQ.NEXTVAL,#{fk_member},#{name},#{subject},#{content},#{pw},DEFAULT,DEFAULT,DEFAULT,#{groupNo},#{fk_seq},#{depthNo}+1)
+		</if>
+		</insert>
+		
+		<insert id="add_withFile" parameterType="com.spring.god.jinsoo.model.BoardVO" >
+		<if test='fk_seq.equals("")'>   
+			INSERT INTO BUISNESSBOARD (SEQ,FK_MEMBER,NAME,SUBJECT,CONTENT,PW,READCOUNT,REGDATE,STATUS,GROUPNO,FK_SEQ,DEPTHNO,FILENAME,ORGFILENAME,FILESIZE)
+			VALUES(BUISNESSBOARDSEQ.NEXTVAL,#{fk_member},#{name},#{subject},#{content},#{pw},default,default,default,#{groupNo},default,default,#{fileName},#{orgFilename},#{fileSize})
+		</if>
+		
+		<if test='!fk_seq.equals("")'>
+			INSERT INTO BUISNESSBOARD (SEQ,FK_MEMBER,NAME,SUBJECT,CONTENT,PW,READCOUNT,REGDATE,STATUS,GROUPNO,FK_SEQ,DEPTHNO,FILENAME,ORGFILENAME,FILESIZE)
+			VALUES(BUISNESSBOARDSEQ.NEXTVAL,#{fk_member},#{name},#{subject},#{content},#{pw},default,default,default,#{groupNo},#{fk_seq},#{depthNo}+1,#{fileName},#{orgFilename},#{fileSize})
+		</if>
+	</insert>
+	
+	<select id="allbuisnessBoardList" resultType="int">
+		SELECT COUNT(*)
+		FROM BUISNESSBOARD
+	</select>
+	
+	<select id="getbuisnessBoardListTotalCountWithSearch" resultType="int" parameterType="HashMap" >
+		SELECT COUNT(*)
+		FROM BUISNESSBOARD
+		WHERE LOWER(${searchType}) LIKE '%'||LOWER(#{searchWord})||'%'
+	</select>
+	
+	<select id="getbuisnessBoardList"  resultType="com.spring.god.jinsoo.model.BoardVO" parameterType="HashMap" >
+		SELECT SEQ , FK_MEMBER , NAME , SUBJECT , CONTENT , PW , READCOUNT , TO_CHAR(REGDATE,'YYYY-MM-DD HH24:MI:SS') AS REGDATE , STATUS , DELETEDAY 
+		, COMMENTCOUNT , GROUPNO , FK_SEQ , DEPTHNO , FILENAME , ORGFILENAME , FILESIZE
+		FROM BUISNESSBOARD
+		WHERE STATUS = 1
+		<if test='searchWord !=""'>
+			AND ${searchtype} LIKE '%'||#{searchword}||'%'
+		</if>
+		ORDER BY SEQ DESC
+	</select>
+		
 </mapper>
 
