@@ -79,6 +79,14 @@
 	});// end of $(document).ready()--------------------
 	
 		
+	// === 결제하기(실제로 카드 결제) === //
+	function goPay(idx, totalPrice) {
+		// 아임포트 결제금액 팝업창 띄우기
+		var url = "<%= request.getContextPath()%>/payEnd.go?idx="+idx+"&totalPrice="+totalPrice;
+		window.open(url, "payEnd", "left=350px, top=100px, width=820px, height=600px");
+		
+	}// end of function goPay(idx)----------------------
+	
 	// 결제하기 전 예약가능 조회하기
 	function goReserveSelect(idx, totalPrice) {
 		
@@ -97,7 +105,7 @@
 			type:"POST",
 			dataType:"JSON",
 			success:function(json){
-			//	alert("예약가능조회ajax");
+				alert("성공?");
 				if(json.msg == 'OK') {
 					alert('예약가능합니다!! 결제창으로 넘어갑니다.');
 					goPay(json.memberIdx, json.price);
@@ -113,18 +121,15 @@
 		});
 	}// end of function goReserveSelect()---------
 	
-	// === 결제하기(실제로 카드 결제) === //
-	function goPay(idx, totalPrice) {
-		// 아임포트 결제금액 팝업창 띄우기
-		var frm = document.reserveHotelInfoFrm;
-		window.open("", "payEnd", "left=350px, top=100px, width=820px, height=600px");
-		frm.method = "POST";
-		frm.action = "<%= request.getContextPath()%>/payEnd.go";
-		frm.target = "payEnd";
-		frm.submit();
-		
-	}// end of function goPay(idx)----------------------
 	
+	// 결제 후 예약하기
+	function goReserveInsert(idx, totalPrice) {
+		var frm = document.reserveHotelInfoFrm;
+		
+		frm.method = "POST";
+		frm.action = "<%= request.getContextPath()%>/reserveAddInsertLoginUser.go";
+		frm.submit();
+	}// end of function goReserveInsert()---------
 </script>
 
 <!-- 예약정보 및 결제 페이지 -->

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boradb">
+	<!-- === 검색어 입력시 자동글 완성하기 6 === -->
+    <select id="wordNameSearchView" parameterType="String" resultType="String">
+		select NAME
+		from LONTION
+		where lower(NAME) like '%'||lower(#{searchWord})||'%'
+    </select>
+	<select id="wordAddrSearchView" parameterType="String" resultType="String">
+		select ADDRESS
+		from LONTION
+		where lower(ADDRESS) like '%'||lower(#{searchWord})||'%'
+    </select>
+
+	<select id="getlist" resultType="com.spring.god.bora.model.HotelRoomVO">
+		select name, address
+		     , img, regDay
+		     , star, starcnt
+		    from
+		    (
+		        select rownum AS rno, largecategoryontioncode, name, address, ontionType, img, regDay, hotelidx, star, starcnt
+		        from
+		        (
+		            select name, largecategoryontioncode, address, ontionType, img
+		                 , to_char(regDay, 'yyyy-mm-dd') as regDay
+		            from lontion
+		        ) V LEFT JOIN ( select hotelidx,avg(star) AS STAR,count(*) AS starcnt
+		                            from review
+		                            group by hotelidx
+		                       ) R 
+		        on V.largecategoryontioncode = R.hotelidx
+		    ) T
+		where rno between 1 and 9
+	</select>
+	
+	<select id="reserveAddSelect" parameterType="com.spring.god.yujin.model.HistoryVO" resultType="int">
+		select count(*)
+		from
+		(
+		    select fk_reserveid, checkin, checkout, reserveid, fk_productid, price, reservedate, memberidx, status
+		         , nonight, productid, fk_largecategoryontioncode, roomoption, productname, weekprice, weekenprice, roominfo, productstatus, productperiod1, productperiod2, roomtype
+		    from
+		    (
+		        select fk_reserveid, checkin, checkout, reserveid, fk_productid, price, reservedate, memberidx, status
+		             , (checkout - checkin)+1 AS nonight
+		        from reserve2 R2 JOIN reserve1 R1
+		        on R2.fk_reserveid = R1.reserveid
+		        where ( #{checkIn} BETWEEN checkin+1 AND checkout-1
+		            OR  #{checkOut} BETWEEN checkin+1 AND checkout-1
+		            OR (#{checkIn} <![CDATA[<]]> checkin+1 AND checkout-1 <![CDATA[<]]> #{checkOut}))
+		            and fk_productid=#{fk_productId}
+		    ) V RIGHT JOIN product P
+		    on V.fk_productid = P.productid
+		    where productid=#{fk_productId}
+   	 		and checkin is null
+		) P RIGHT JOIN LONTION L
+		on P.fk_largecategoryontioncode = L.largecategoryontioncode
+		where productid=#{fk_productId}
+	</select>
+	
+	<insert id="reserveAddInsert1" parameterType="com.spring.god.yujin.model.HistoryVO">
+		insert into reserve1(reserveid, fk_productid, price, memberidx)
+		values(seq_reserve1_reserveid.nextval, #{fk_productId}, #{price}, #{memberIdx})
+	</insert>
+	
+	<insert id="reserveAddInsert2" parameterType="com.spring.god.yujin.model.HistoryVO">
+		insert into reserve2(fk_reserveid,checkin,checkout)
+		values(seq_reserve1_reserveid.currval, #{checkIn}, #{checkOut})
+	</insert>
+
+
+
+</mapper>

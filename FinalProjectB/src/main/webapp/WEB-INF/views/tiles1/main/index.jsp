@@ -101,7 +101,7 @@
 			
 			$("#displayList").hide();
 			
-		//	goSearch();
+			goSearch();
 		});
 		
 		///////////////////////////////////////////////////////////////////////////////////
@@ -184,7 +184,7 @@
 		var frm = document.infoSearchFrm;
 		frm.method = "GET";
 		frm.action = "<%=request.getContextPath()%>/search.go";
-		frm.submit();
+		//	frm.submit();
 	}
 	
 </script>
@@ -223,7 +223,8 @@
 						<div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
 							<label for="text" class="font-weight-bold text-black">목적지</label>
 							<div class="field-icon-wrap">
-								<input type="text" name="searchWord" id="searchWord" class="form-control" placeholder="숙박명 또는 지역명을 검색" autocomplete="off">
+								<input type="text" name="searchWord" id="searchWord" class="form-control"
+									placeholder="숙박명 또는 지역명을 검색" autocomplete="off">
 
 								<!-- === 검색어 입력시 자동글 완성하기 1 === -->
 								<div id="displayList"></div>
@@ -282,7 +283,7 @@
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-2 align-self-end">
-							<button id="btnSearch" class="btn btn-primary btn-block text-white" onclick="goSearch();">검색</button>
+							<button id="btnSearch" class="btn btn-primary btn-block text-white">검색</button>
 						</div>
 					</div>
 				</form>

@@ -2,9 +2,7 @@ package com.spring.god.jinsoo.model;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.Data;
 
-@Data
 public class BoardVO {
 
 	private String seq;			// 글번호

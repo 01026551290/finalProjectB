@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yujindb">
+   
+   <select id="getTotalCntHotel" parameterType="HashMap" resultType="int">
+      select count(*)
+	  from
+		  (
+	 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
+	      from
+		      (
+		      select distinct fk_largecategoryontioncode,min(weekprice) as week,min(weekenprice) as weekend
+		      from
+			      (
+			      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice
+			      FROM
+				      (
+				      SELECT FK_PRODUCTID,b.checkin,b.checkout
+				      FROM RESERVE1 A JOIN RESERVE2 B
+				      ON a.reserveid = B.FK_RESERVEID
+				      <if test='!checkin_date.equals("") and !checkout_date.equals("")'>
+				      WHERE #{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				        OR  #{checkout_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				      <!--[CDATA[ 
+				          	OR (#{checkin_date} < CHECKIN+1 AND CHECKOUT-1 < #{checkout_date})
+				       ]]-->
+				      </if>
+				      ) A RIGHT JOIN PRODUCT B
+			      ON a.fk_productid = B.PRODUCTID
+			      WHERE a.fk_productid IS NULL
+			      <if test="per!=0">
+			          and  substr(roomtype,3)=#{per}
+			      </if>
+			      )
+		      group by fk_largecategoryontioncode
+		      ) a join lontion b
+		      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE   
+		      <if test='searchWord!=""'>
+		      where b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%'   
+		      </if>
+	      ) a left join 
+		      (select hotelidx,avg(star) as star,count(*) as starcnt
+			  from review
+			  group by hotelidx) b
+      on a.largecategoryontioncode=b.hotelidx
+   </select>
+   
+   <select id="getTotalHotelList" parameterType="HashMap" resultType="com.spring.god.hyein.model.HotelRoomVO">
+      select * from
+      (
+      select ROW_NUMBER() OVER(ORDER BY a.name) NUM,a.*,b.star as star,b.starcnt as starcnt 
+	  from
+		  (
+	 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
+	      from
+		      (
+		      select distinct fk_largecategoryontioncode,min(weekprice) as week,min(weekenprice) as weekend
+		      from
+			      (
+			      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice
+			      FROM
+				      (
+				      SELECT FK_PRODUCTID,b.checkin,b.checkout
+				      FROM RESERVE1 A JOIN RESERVE2 B
+				      ON a.reserveid = B.FK_RESERVEID
+				      <if test='!checkin_date.equals("") and !checkout_date.equals("")'>
+				      WHERE #{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				        OR  #{checkout_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				      <!--[CDATA[ 
+				          	OR (#{checkin_date} < CHECKIN+1 AND CHECKOUT-1 < #{checkout_date})
+				       ]]-->
+				      </if>
+				      ) A RIGHT JOIN PRODUCT B
+			      ON a.fk_productid = B.PRODUCTID
+			      WHERE a.fk_productid IS NULL
+			      <if test="per!=0">
+			          and  substr(roomtype,3)=#{per}
+			      </if>
+			      )
+		      group by fk_largecategoryontioncode
+		      ) a join lontion b
+		      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE   
+		      <if test='searchWord!=""'>
+		      where b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%'   
+		      </if>
+	      ) a left join 
+		      (select hotelidx,avg(star) as star,count(*) as starcnt
+			  from review
+			  group by hotelidx) b
+      on a.largecategoryontioncode=b.hotelidx
+      ) where num between #{startRno} and #{endRno}
+   </select>
+
+   <select id="getlist" parameterType="HashMap" resultType="com.spring.god.hyein.model.HotelRoomVO">
+   <if test='memberid==null or "".equals(memberid)'>
+	  select a.*,b.star as star,b.starcnt as starcnt 
+	  from
+		  (
+	 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
+	      from
+		      (
+		      select distinct fk_largecategoryontioncode,min(weekprice) as week,min(weekenprice) as weekend
+		      from
+			      (
+			      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice
+			      FROM
+				      (
+				      SELECT FK_PRODUCTID,b.checkin,b.checkout
+				      FROM RESERVE1 A JOIN RESERVE2 B
+				      ON a.reserveid = B.FK_RESERVEID
+				      <if test='!CHECKIN.equals("") and !CHECKOUT.equals("")'>
+				      WHERE #{CHECKIN} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				        OR  #{CHECKOUT} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				      <!--[CDATA[ 
+				          	OR (#{CHECKIN} < CHECKIN+1 AND CHECKOUT-1 < #{CHECKOUT})
+				       ]]-->
+				      </if>
+				      ) A RIGHT JOIN PRODUCT B
+			      ON a.fk_productid = B.PRODUCTID
+			      WHERE a.fk_productid IS NULL
+			      <if test="per!=0">
+			          and  substr(roomtype,3)=#{per}
+			      </if>
+			      )
+		      group by fk_largecategoryontioncode
+		      ) a join lontion b
+		      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE   
+		      <if test='searchWord!=""'>
+		      where b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%'   
+		      </if>
+	      ) a left join 
+		      (select hotelidx,avg(star) as star,count(*) as starcnt
+			  from review
+			  group by hotelidx) b
+      on a.largecategoryontioncode=b.hotelidx
+   </if>
+      
+   <if test='memberid!=null and !"".equals(memberid)'>
+      select a.*,b.fk_memberid as regDay from 
+		(
+		select a.*,b.star as star,b.starcnt as starcnt 
+			  from
+				  (
+			 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
+			      from
+				      (
+				      select distinct fk_largecategoryontioncode,min(weekprice) as week,min(weekenprice) as weekend
+				      from
+					      (
+					      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice
+					      FROM
+						      (
+						      SELECT FK_PRODUCTID,b.checkin,b.checkout
+						      FROM RESERVE1 A JOIN RESERVE2 B
+						      ON a.reserveid = B.FK_RESERVEID
+						      <if test='!CHECKIN.equals("") and !CHECKOUT.equals("")'>
+						      WHERE #{CHECKIN} BETWEEN CHECKIN+1 AND CHECKOUT-1
+						        OR  #{CHECKOUT} BETWEEN CHECKIN+1 AND CHECKOUT-1
+						      <!--[CDATA[ 
+						          	OR (#{CHECKIN} < CHECKIN+1 AND CHECKOUT-1 < #{CHECKOUT})
+						       ]]-->
+						      </if>
+						      ) A RIGHT JOIN PRODUCT B
+					      ON a.fk_productid = B.PRODUCTID
+					      WHERE a.fk_productid IS NULL
+					      <if test="per!=0">
+					          and  substr(roomtype,3)=#{per}
+					      </if>
+					      )
+				      group by fk_largecategoryontioncode
+				      ) a join lontion b
+				      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE   
+				      <if test='searchWord!=""'>
+				      where b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%'   
+				      </if>
+			      ) a left join 
+				      (select hotelidx,avg(star) as star,count(*) as starcnt
+					  from review
+					  group by hotelidx) b
+		      on a.largecategoryontioncode=b.hotelidx
+		 ) a left join (     
+		      select * from likelist where fk_memberid=#{memberid} and status=1) b
+		      on a.largecategoryontioncode = b.fk_hotelid
+   </if>
+   </select>
+   
+   <select id="findHeart" parameterType="HashMap" resultType="int">
+      SELECT COUNT(*)
+      FROM LIKELIST
+      WHERE FK_HOTELID = #{largeCategoryontionCode} AND FK_MEMBERID = #{memberId} AND STATUS = 1
+   </select>
+   
+   <insert id="addHeart" parameterType="HashMap">
+      INSERT INTO LIKELIST(LIKELISTID,FK_MEMBERID,FK_HOTELID)
+      VALUES(SEQ_LIKELIST_LIKELISTID.NEXTVAL,#{memberId},#{largeCategoryontionCode})
+   </insert>
+   
+   <update id="delHeart" parameterType="HashMap">
+      UPDATE LIKELIST SET STATUS = 0
+      WHERE FK_HOTELID = #{largeCategoryontionCode} AND FK_MEMBERID = #{memberId}
+   </update>
+   
+   <select id="getHeartList" parameterType="String" resultType="com.spring.god.hyein.model.HotelRoomVO">
+	select address, name, img, largeCategoryontionCode, fk_hotelid as fk_LargeCategoryCode
+	from lontion a join (
+						 select fk_hotelid from likelist where status=1 and fk_memberid=#{memberId}
+						 ) b
+	on a.largeCategoryontionCode=b.fk_hotelid   
+   </select>
+   
+   <select id="getHeartNo" parameterType="String" resultType="String">
+   	  SELECT fk_hotelid
+   	  FROM LIKELIST
+   	  WHERE STATUS=1 AND fk_memberid=#{memberId}
+   </select>
+   
+   <insert id="addReview" parameterType="com.spring.god.yujin.model.ReviewVO">
+      INSERT INTO review(reviewidx,memberidx,hotelidx,roomidx,reserveidx,title,content,star,GROUPNO)
+      VALUES(seq_review.nextval,5,1002,1001,11,#{title},#{content},#{star},0)
+   </insert>
+   
+   <insert id="addReview_withfile" parameterType="com.spring.god.yujin.model.ReviewVO">
+      INSERT INTO review(reviewidx,memberidx,hotelidx,roomidx,reserveidx,title,content,star,GROUPNO,imgidx)
+      VALUES(seq_review.nextval,5,1002,1001,11,#{title},#{content},#{star},0,SEQ_REVIEW_IMG.nextval)
+   </insert>
+   
+   <insert id="addReviewFile" parameterType="com.spring.god.yujin.model.ReviewVO">
+      INSERT INTO REVIEW_IMG(imgidx,reviewidx,filename,orgfilename,filesize)
+      VALUES(SEQ_REVIEW_IMG.currval,seq_review.currval,#{fileName},#{orgFileName},#{fileSize})
+   </insert>
+   
+   <select id="getHistory" parameterType="int" resultType="com.spring.god.yujin.model.HistoryVO">
+   		select fk_productId,price,reserveDate,checkIn,checkOut,noNight,title,content,star,regDate,fileName, b.* from
+   		(select a.fk_productid,price,reservedate,checkin,checkout,checkout-checkin+1 as nonight,b.title,b.content,b.star,b.regdate,b.filename from
+		(select reserveid,fk_productid,price,reservedate,b.* from reserve1 a join reserve2 b
+		on a.reserveid=b.fk_reserveid
+		where a.status=1 and a.memberidx=#{memberIdx}) 
+		a left join 
+		(select a.reserveidx,a.title,a.content,a.star,a.regdate,b.filename
+		from review a left join (select reviewidx, listagg(filename,',') within group(order by reviewidx) as filename
+		from review_img
+		group by reviewidx) b
+		on a.reviewidx=b.reviewidx
+		where a.status=1 and a.memberidx=#{memberIdx}) 
+		b
+		on a.reserveid = b.reserveidx) 
+		a left join
+		(select a.largecategoryontioncode,a.name,a.businesstel,a.address,a.info,a.img,b.productid,b.productname
+		from lontion a join product b
+		on a.largecategoryontioncode = b.fk_largecategoryontioncode)
+		b
+		on a.fk_productid = b.productid
+   </select>
+   
+</mapper>

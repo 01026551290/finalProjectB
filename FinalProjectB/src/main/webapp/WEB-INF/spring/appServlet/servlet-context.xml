@@ -29,11 +29,7 @@
 		<beans:property name="order" value="2"/>
 	</beans:bean>
 	
-<<<<<<< HEAD
-	<context:component-scan base-package="com.spring.god.*" name-generator="com.spring.god.common.FullBeanNameGenerator" />
-=======
 	<context:component-scan base-package="com.spring.god.*" name-generator="com.spring.god.common.FullBeanNameGenerator"/>
->>>>>>> branch 'master' of https://github.com/01026551290/finalProjectB.git
 	
 	
 	<aop:aspectj-autoproxy />
@@ -69,9 +65,5 @@
       <beans:property name="maxUploadSize" value="10485760" />
    </beans:bean> 
 	
-		<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">   
-        <beans:property name="defaultEncoding" value="utf-8" />
-		<beans:property name="maxUploadSize" value="10485760" />
-	</beans:bean> 
 	
 </beans:beans>

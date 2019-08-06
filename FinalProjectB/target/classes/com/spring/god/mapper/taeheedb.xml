@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="taeheedb">
+
+<!--  상세 페이지용 이미지 파일을 가져오기 === 
+	 <select id="getPictureList" resultType="String">
+		 select picture
+		 from productpic
+		 order by productpicid 
+	 </select>
+ -->
+ 
+<!-- 호텔정보 가져오기 -->	
+<select id="getViewHotel" parameterType="String" resultType="com.spring.god.hyein.model.HotelRoomVO">
+select largecategoryontioncode, fk_largecategorycode
+	   ,name ,businesstel ,address
+	   ,info ,ontionType, img, regday 	 
+	    
+from LONTION
+where largecategoryontioncode=#{largecategoryontioncode}
+</select>
+	 
+<!-- 리뷰정보 가져오기 -->	
+<select id="getReviewList" parameterType="String" resultType="com.spring.god.yujin.model.ReviewVO">
+select reviewidx, memberidx, hotelidx  ,roomidx, reserveidx
+	  ,title, content ,imgidx, status, star
+	  ,regdate  ,groupno, fk_seq, depthno
+ from review	  
+where hotelidx=#{hotelidx}
+</select>
+ 
+ <!-- 체크인체크아웃 가져오기 -->
+ <select id="getCheckInOutList" parameterType="HashMap" resultType="com.spring.god.hyein.model.HotelRoomVO">
+ select * from (
+ SELECT * 
+  FROM
+     (
+     SELECT FK_PRODUCTID
+     FROM RESERVE1 A JOIN RESERVE2 B
+     ON a.reserveid = B.FK_RESERVEID
+     <if test='!checkin_date.equals("") and !checkout_date.equals("")'>
+     WHERE #{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+       OR  #{checkout_date} BETWEEN CHECKIN+1 AND CHECKOUT-1 
+       OR (#{checkin_date} <![CDATA[<]]> CHECKIN+1 AND CHECKOUT-1 <![CDATA[>]]>#{checkout_date})
+        </if>   
+     ) A RIGHT JOIN PRODUCT B
+  ON a.fk_productid = B.PRODUCTID
+  WHERE a.fk_productid IS NULL
+         and fk_largecategoryontioncode=#{largeCategoryontionCode}
+          <if test="per!=0">
+         and  substr(roomtype,3)<![CDATA[>=]]>#{per}
+         </if>     
+      ) A join (select fk_productid, listagg(picture,',') within group(order by fk_productid) as picture from productpic
+	group by fk_productid) B
+	on A.productid = B.fk_productid
+ </select>
+   
+	 
+</mapper>
