@@ -27,10 +27,29 @@ public class HotelRoomDAO implements InterHotelRoomDAO {
 	      return list;
 	   }
 
-	   @Override
-	   public List<HotelRoomVO> getlist(HashMap<String, String> paramap) {
-	      List<HotelRoomVO> list = sqlsession.selectList("yujindb.getlist",paramap);
-	      return list;
-	   }
+	@Override // 서브서치를 위한 가격범위
+	public SubSearchVO getRangePrice() {
+		SubSearchVO rangePrice = sqlsession.selectOne("yujindb.getRangePrice");
+		return rangePrice;
+	}
+
+	@Override // 서브서치를 위한 숙박유형
+	public List<SubSearchVO> getLargeCategoryCode() {
+		List<SubSearchVO>  largeCateGoryCode = sqlsession.selectList("yujindb.getLargeCategoryCode");
+		return largeCateGoryCode;
+	}
+
+	@Override // 서브서치를 위한 숙박옵션
+	public List<SubSearchVO> getLontion() {
+		List<SubSearchVO> lontion = sqlsession.selectList("yujindb.getLontion");
+		return lontion;
+	}
+ 
+	@Override // 서브서치를 위한 객실옵션
+	public List<SubSearchVO> getPontion() {
+		List<SubSearchVO> pontion = sqlsession.selectList("yujindb.getPontion");
+		return pontion;
+	}
+
 
 }

@@ -1,5 +1,6 @@
 package com.spring.god.yujin.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,7 +22,10 @@ import com.spring.god.common.MyUtil;
 import com.spring.god.hyein.model.HotelRoomVO;
 import com.spring.god.jiyoung.model.MemberVO;
 import com.spring.god.yujin.model.HistoryVO;
+import com.spring.god.yujin.model.SubSearchVO;
 import com.spring.god.yujin.service.InterHotelRoomService;
+
+import oracle.net.aso.s;
 
 @Component
 @Controller
@@ -29,28 +33,48 @@ public class HotelRoomController {
 	 @Autowired
 	   private InterHotelRoomService service;
 	 
-
+	   // 서치리스트
 	   @RequestMapping(value="/search.go", method= {RequestMethod.GET})
 	   public ModelAndView roomSearch(HttpServletRequest request,ModelAndView mv) {
 		   
 	      String searchWord = request.getParameter("searchWord")!=null?request.getParameter("searchWord"):"";
 	      if(searchWord.trim().isEmpty())   
 	         searchWord="";
-	      String hotelName = request.getParameter("hotelName")!=null?request.getParameter("hotelName"):"";
-	      if(hotelName.trim().isEmpty())   
-	    	  hotelName="";
 	      String checkin_date = request.getParameter("checkin_date")!=null?request.getParameter("checkin_date"):"";
 	      String checkout_date = request.getParameter("checkout_date")!=null?request.getParameter("checkout_date"):"";
 	      String adult = request.getParameter("adult")!=null?request.getParameter("adult"):"0";
 	      String children = request.getParameter("children")!=null?request.getParameter("children"):"0";
+	      
+	      String sort = request.getParameter("sort")!=null?request.getParameter("sort"):"largecategoryontioncode";
+	      
+	      //subSearch
+	      String hotelName = request.getParameter("hotelName")!=null?request.getParameter("hotelName"):"";
+	      if(hotelName.trim().isEmpty())   
+	    	  hotelName="";
+//	      int minPrice = Integer.parseInt(request.getParameter("minPrice")!=null?request.getParameter("minPrice"):"0");
+//	      int maxPrice = Integer.parseInt(request.getParameter("maxPrice")!=null?request.getParameter("maxPrice"):"0");
+//	      double minStar = Double.parseDouble(request.getParameter("minStar")!=null?request.getParameter("minStar"):"0.0");
+//	      double maxStar = Double.parseDouble(request.getParameter("maxStar")!=null?request.getParameter("maxStar"):"5.0");
+//	      String[] largeCategoryCode = request.getParameterValues("largeCategoryCode");
+//	      String[] lontion = request.getParameterValues("lontion");
+//	      String[] pontion = request.getParameterValues("pontion");
+//	      
+//	      System.out.println(largeCategoryCode);
+//	      System.out.println(lontion);
+//	      System.out.println(pontion);
+	      // List<String> largeCategoryCode = request.getParameter("largeCategoryCode");
+	      
+	      
+	      
 	      int per = 0;
 	      try {
 	         per = Integer.parseInt(adult)+(Integer.parseInt(children)/2);
 	      } catch (NumberFormatException e) {
 	         per = 2;
 	      }
-	      
+
 	      mv.addObject("searchWord",searchWord);
+	      mv.addObject("sort",sort);
 	      mv.addObject("hotelName",hotelName);
 	      mv.addObject("checkin_date",checkin_date);
 	      mv.addObject("checkout_date",checkout_date);
@@ -61,6 +85,7 @@ public class HotelRoomController {
 	      paramap.put("searchWord", searchWord);
 	      paramap.put("checkin_date", checkin_date);
 	      paramap.put("checkout_date", checkout_date);
+	      paramap.put("sort", sort);
 	      paramap.put("per", String.valueOf(per));
 	      
 	      
@@ -111,24 +136,19 @@ public class HotelRoomController {
 	      
 	      session.setAttribute("listUrl", listUrl);
 	      
-	      mv.addObject("paramap",paramap); //나중에 오류시 if문으로 !"".equals(searchWord)조건주기
-//	      mv.addObject("hotelList",hotelList);
 	      mv.addObject("pagebar",pagebar);
 	
 //	      List<HotelRoomVO> hotelRoomVOList = service.getlist(paramap);
 	      
 	      session.setAttribute("hotelRoomVOList", hotelRoomVOList);
 	      
-//	      for(HotelRoomVO hotelvo : hotelRoomVOList) {
-//	         System.out.println(hotelvo.getName()+", "+hotelvo.getAddress()+", "+hotelvo.getImg()+", "+hotelvo.getWeekPrice());
-//	      }
-	      
 	      mv.setViewName("yujin/roomSearch.tiles1");
 	      return mv;
 	   }
 	   
+	   // 지도 마커용 ajax
 	   @SuppressWarnings("unchecked")
-	@RequestMapping(value="/searchRoomMap.go", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
+	   @RequestMapping(value="/searchRoomMap.go", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
 	   @ResponseBody
 	   public String hotelMap(HttpServletRequest request) {
 
@@ -174,5 +194,59 @@ public class HotelRoomController {
 	         
 	         return result;
 	      }
+	   
+	   //서브서치 리스트 ajax
+	   @RequestMapping(value="/searchRoomOption.go", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
+	   @ResponseBody
+	   public String searchRoomOption(HttpServletRequest request) {
+		   
+		   JSONArray jsonArr = new JSONArray();
+		   
+		   SubSearchVO rangePrice = service.getRangePrice();
+		   List<SubSearchVO> largeCategoryCode = service.getLargeCategoryCode();
+		   List<SubSearchVO> Lontion = service.getLontion();
+		   List<SubSearchVO> Pontion = service.getPontion();
+
+		   if(rangePrice!=null) {
+			   JSONObject jsonObj = new JSONObject();
+			   jsonObj.put("min", rangePrice.getMin());
+			   jsonObj.put("max", rangePrice.getMax());
+			   System.out.println(rangePrice.getMin());
+			   System.out.println(rangePrice.getMax());
+			   jsonArr.put(jsonObj);
+		   }
+		   
+		   if(largeCategoryCode!=null) {
+			   for(SubSearchVO vo : largeCategoryCode) {
+				   JSONObject jsonObj = new JSONObject();
+				   jsonObj.put("largeCategoryCode", vo.getLargeCategoryCode());
+				   jsonObj.put("largeCategoryName", vo.getLargeCategoryName());
+
+				   jsonArr.put(jsonObj);
+			   }
+		   }
+
+		   if(Lontion!=null) {
+			   for(SubSearchVO vo : Lontion) {
+				   JSONObject jsonObj = new JSONObject();
+				   jsonObj.put("lontion", vo.getLontion());
+				   
+				   jsonArr.put(jsonObj);
+			   }
+		   }
+		   
+		   if(Pontion!=null) {
+			   for(SubSearchVO vo : Pontion) {
+				   JSONObject jsonObj = new JSONObject();
+				   jsonObj.put("pontion", vo.getPontion());
+				   
+				   jsonArr.put(jsonObj);
+			   }
+			}
+		   
+		   
+		   String result = jsonArr.toString();
+		   return result;
+	   }
 
 }
