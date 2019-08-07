@@ -3,6 +3,8 @@ package com.spring.god.taehee.model;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.Session;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -41,6 +43,26 @@ public class HotelRoomDAO implements InterHotelRoomDAO{
 		List<HotelRoomVO> checkinoutList = sqlsession.selectList("taeheedb.getCheckInOutList", paraMap);
 		return checkinoutList;
 	}
+
+	//조회수 보여주기	
+	@Override
+	public int addViewCnt(HashMap<String, String> idxmap) {
+		int hotelcnt = sqlsession.insert("taeheedb.addViewCnt", idxmap);
+		return hotelcnt;
+	}
+
+
+	public int getViewCnt(HashMap<String, String> idxmap) {
+		int n = sqlsession.selectOne("taeheedb.getViewCnt", idxmap);
+		
+		return n;
+		
+	}
+
+
+	
+	
+	
 
 
 		

@@ -1,14 +1,11 @@
 package com.spring.god.taehee.controller;
 
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.god.hyein.model.HotelRoomVO;
+import com.spring.god.jiyoung.model.MemberVO;
+import com.spring.god.taehee.service.HotelRoomService;
 import com.spring.god.taehee.service.InterHotelRoomService;
 import com.spring.god.yujin.model.HistoryVO;
 import com.spring.god.yujin.model.ReviewVO;
@@ -31,7 +30,7 @@ public class HotelRoomController {
 		
 		
 		@RequestMapping(value="/product.go", method= {RequestMethod.GET})
-		public ModelAndView product(HttpServletRequest request, ModelAndView mv) {
+		public ModelAndView product(HttpServletRequest request, ModelAndView mv) throws Exception {
 			
 				
 		     
@@ -53,6 +52,7 @@ public class HotelRoomController {
 	         mv.addObject("adult",Integer.parseInt(adult));
 	         mv.addObject("children",Integer.parseInt(children));
 			
+	   
 	         
 	        HashMap<String, String> paraMap = new HashMap<String,String>();
 	        paraMap.put("largeCategoryontionCode", largeCategoryontionCode);
@@ -61,17 +61,18 @@ public class HotelRoomController {
 	        paraMap.put("per", String.valueOf(per));
 	        
 	        
-	        List<HotelRoomVO> HotelRoomVO = service.getCheckInOutList(paraMap);
-	        System.out.println(HotelRoomVO.size());
-	        for(int i=0;i<HotelRoomVO.size();i++) {
-	        	System.out.println(HotelRoomVO.get(i).getPicture());
-	        	List<String> list = Arrays.asList(HotelRoomVO.get(i).getPicture().split(","));
-	        	HotelRoomVO.get(i).setImgList(list);
+	        // 객실정보뽑아오기
+	        List<HotelRoomVO> roomvo = service.getCheckInOutList(paraMap);
+	        System.out.println(roomvo.size());
+	        for(int i=0;i<roomvo.size();i++) {
+	        	System.out.println(roomvo.get(i).getPicture());
+	        	List<String> list = Arrays.asList(roomvo.get(i).getPicture().split(","));
+	        	roomvo.get(i).setImgList(list);
 	        }
 	        
 	        
 	         
-			HotelRoomVO hotelroomvo = null;
+			HotelRoomVO hotelvo = null;
 			HistoryVO historyvo = null;
 //			List<HotelRoomVO> hotelroomList = null;
 //			List<ReviewVO> reviewList = null;
@@ -82,24 +83,38 @@ public class HotelRoomController {
 			// -> 호텔정보 뿌려주기
 			
 			largeCategoryontionCode = request.getParameter("largeCategoryontionCode");
-			hotelroomvo = service.getViewHotel(largeCategoryontionCode);
+			hotelvo = service.getViewHotel(largeCategoryontionCode);
 						
-			mv.addObject("hotelroomvo", hotelroomvo);	
-			
-			// 리스트페이지에서 호텔고유번호 largecategoryontioncode 을 가지고 숙소소유의 객실 조회
-			// -> 객실정보 //리스트 (한 호텔이 소유한 모든 객실이 들어와야해서)
-	//		String FK_LARGECATEGORYCODE = request.getParameter("FK_LARGECATEGORYCODE");
-			
-//			hotelroomList = service.getHotelroomList(largeCategoryontionCode);
-					
-//			mv.addObject("hotelroomList", hotelroomList);		
-			
-//		    mv.addObject("historyvo", historyvo); 
-		    mv.addObject("HotelRoomVO", HotelRoomVO); 
+			mv.addObject("HotelVO", hotelvo);	// 호텔정보 --> mv.addObject("hotelroomvo", hotelroomvo);
+		    mv.addObject("RoomVO", roomvo); 	// 객실정보 --> mv.addObject("HotelRoomVO", HotelRoomVO);
 		     
-
-		
+		    HttpSession session = request.getSession();
 		    
+		    // 조회수 보내기
+		    String hotelidx = largeCategoryontionCode;
+		    HashMap<String,String> idxmap = new HashMap<String,String>();
+		    if(session.getAttribute("loginuser")!=null) {
+		    	  int idx =(int)((MemberVO)session.getAttribute("loginuser")).getIdx(); 
+		    	 String memberidx = String.valueOf(idx);
+		    	 		    	 
+		    	 idxmap.put("hotelidx", hotelidx);
+				    idxmap.put("memberidx", memberidx);
+				    int hotelcnt = service.addViewCnt(idxmap);
+			
+		      }
+		    
+		      
+		      
+		    MemberVO memberVO = new MemberVO();
+		    
+
+		    
+		      if(session.getAttribute("loginuser")!=null) {
+		    	  String memberid =(String)((MemberVO)session.getAttribute("loginuser")).getMemberId(); 
+		    	  paraMap.put("memberid", memberid);
+		      }
+
+   
 		     
 			/*
 			// 리뷰 보여주기

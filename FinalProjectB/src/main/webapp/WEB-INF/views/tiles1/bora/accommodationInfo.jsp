@@ -105,7 +105,6 @@
 			type:"POST",
 			dataType:"JSON",
 			success:function(json){
-				alert("성공?");
 				if(json.msg == 'OK') {
 					alert('예약가능합니다!! 결제창으로 넘어갑니다.');
 					goPay(json.memberIdx, json.price);
@@ -113,6 +112,7 @@
 				else {
 					alert(json.msg);
 					// "예약가능한 방이 없습니다. 다른 날짜를 선택해 주세요!!\n숙박 상세페이지로 넘어갑니다."
+					location.href="<%= request.getContextPath()%>/product.go?largeCategoryontionCode=${paraMap.largeCategoryontionCode}";
 				}
 			},
 			error: function(request, status, error){
@@ -122,14 +122,16 @@
 	}// end of function goReserveSelect()---------
 	
 	
-	// 결제 후 예약하기
-	function goReserveInsert(idx, totalPrice) {
+	// === 결제하기(실제로 카드 결제) === //
+	function goPay(idx, totalPrice) {
+		// 아임포트 결제금액 팝업창 띄우기
 		var frm = document.reserveHotelInfoFrm;
-		
+		window.open("", "payEnd", "left=350px, top=100px, width=820px, height=600px");
 		frm.method = "POST";
-		frm.action = "<%= request.getContextPath()%>/reserveAddInsertLoginUser.go";
+		frm.action = "<%= request.getContextPath()%>/payEnd.go";
+		frm.target = "payEnd";
 		frm.submit();
-	}// end of function goReserveInsert()---------
+	}// end of function goPay(idx)----------------------
 </script>
 
 <!-- 예약정보 및 결제 페이지 -->
@@ -256,7 +258,6 @@
                     </div>
                     
                     <div class="bg-white p-md-3 p-4 mb-2">
-                        <%-- <button id="btnPayment" class="btn btn-primary btn-block text-white" onClick="goPay(${(sessionScope.loginuser).idx}, ${paraMap.totalPrice});">결제하기</button> --%>
                         <button id="btnPayment" class="btn btn-primary btn-block text-white" onClick="goReserveSelect(${(sessionScope.loginuser).idx}, ${paraMap.totalPrice});">예약확인 및 결제하기</button>
                     </div>
                     
@@ -271,18 +272,18 @@
     
     <!-- 호텔정보 보내는 폼 -->
     <form name="reserveHotelInfoFrm">
-    	<input type="hidden" name="fk_productId" value="${paraMap.productId}" />
-    	<input type="hidden" name="memberIdx" value="${sessionScope.loginuser.idx}" />
-
-    	<input type="hidden" name="img" value="${paraMap.img}" />
-    	<input type="hidden" name="name" value="${paraMap.name}" />
-    	<input type="hidden" name="address" value="${paraMap.address}" />
-    	<input type="hidden" name="checkIn" value="${paraMap.checkIn}" />
-    	<input type="hidden" name="checkOut" value="${paraMap.checkOut}" />
-    	<input type="hidden" name="noNight" value="${paraMap.noNight}" />
-    	<input type="hidden" name="productName" value="${paraMap.productName}" />
-    	<input type="hidden" name="roomType" value="${paraMap.roomType}" />
-    	<input type="hidden" name="weekPrice" value="${paraMap.weekPrice}" />
-    	<input type="hidden" name="price" value="${paraMap.totalPrice}" />
-    	<input type="hidden" name="point" value="${paraMap.point}" />
+    	<input type="text" name="largeCategoryontionCode" value="${paraMap.largeCategoryontionCode}" />
+    	<input type="text" name="fk_productId" value="${paraMap.productId}" />
+    	<input type="text" name="memberIdx" value="${sessionScope.loginuser.idx}" />
+    	<input type="text" name="img" value="${paraMap.img}" />
+    	<input type="text" name="name" value="${paraMap.name}" />
+    	<input type="text" name="address" value="${paraMap.address}" />
+    	<input type="text" name="checkIn" value="${paraMap.checkIn}" />
+    	<input type="text" name="checkOut" value="${paraMap.checkOut}" />
+    	<input type="text" name="noNight" value="${paraMap.noNight}" />
+    	<input type="text" name="productName" value="${paraMap.productName}" />
+    	<input type="text" name="roomType" value="${paraMap.roomType}" />
+    	<input type="text" name="weekPrice" value="${paraMap.weekPrice}" />
+    	<input type="text" name="price" value="${paraMap.totalPrice}" />
+    	<input type="text" name="point" value="${paraMap.point}" />
     </form>

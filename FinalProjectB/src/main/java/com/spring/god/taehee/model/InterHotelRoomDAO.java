@@ -18,6 +18,13 @@ public interface InterHotelRoomDAO {
 	// 체크인 체크아웃
 	List<HotelRoomVO> getCheckInOutList(HashMap<String, String> paraMap);
 	
+
+	// 조회수 증가
+	int addViewCnt(HashMap<String, String> idxmap);
+	
+	// 조회수 넣기
+	int getViewCnt(HashMap<String, String> idxmap);
+	
 	// 리뷰 보여주기
 //	List<ReviewVO> getReviewList(String hotelidx);
 

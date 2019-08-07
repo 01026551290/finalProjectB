@@ -44,7 +44,28 @@ public class HotelRoomService implements InterHotelRoomService {
 		}
 
 
+		// 조회수 증가
+		@Override
+		public int addViewCnt(HashMap<String, String> idxmap) {
+			
+			
+			int hotelcnt = 0;
+			int n = 0;
+			
+			n = dao.getViewCnt(idxmap);
+		
+			// 값이 없을 때만 조회수 증가
+			if(n==0)	{	
+			hotelcnt = dao.addViewCnt(idxmap);
+			}
+			
+			return hotelcnt;
+		}
+
+
 	
+
+
 
 
 

@@ -57,5 +57,28 @@ where hotelidx=#{hotelidx}
 	on A.productid = B.fk_productid
  </select>
    
-	 
+ <!-- 조회수 증가 -->
+ <insert id="addViewCnt" parameterType="HashMap">
+ insert into HOTELVIEWS (memberidx, hotelidx , viewsdate) values(#{memberidx}, #{hotelidx}, sysdate)
+ </insert>
+  
+ <!-- 조회수 가져오기 --> 
+  <select id="getViewCnt" parameterType="HashMap" resultType="int">
+  select count(*)
+from hotelviews
+where memberidx = #{memberidx} 
+	and hotelidx = #{hotelidx} 
+	and to_char(viewsdate,'yyyy-mm-dd') = to_char(sysdate , 'yyyy-mm-dd') 
+  </select>
+  
+<!--  조회수 보여주기 -->
+<!--  <select id="getViewCnt">
+   select HOTELIDX , count(*) as viewcnt
+  from HOTELVIEWS
+  where HOTELIDX = ${HOTELIDX}
+  group by HOTELIDX
+ </select> -->
+  
+  
+  
 </mapper>
