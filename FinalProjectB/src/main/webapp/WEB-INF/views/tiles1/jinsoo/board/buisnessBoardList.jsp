@@ -111,7 +111,7 @@ function goView(seq){
 	var frm = document.goViewFrm;
 	frm.seq.value = seq
 	frm.method = "GET";
-	frm.action = "<%= request.getContextPath()%>/jinsoo/buisnessBoard.go"
+	frm.action = "<%= request.getContextPath()%>/jinsoo/buisnessBoardView.go"
 	frm.submit();
 	
 }

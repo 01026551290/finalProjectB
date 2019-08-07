@@ -954,13 +954,10 @@ public class JinsooController {
 		String userid = null;
 		
 		if(loginuser != null && adminvo != null ) {
-		//	userid = loginuser.getUserid();  // 로그인 되어진 사용자의 userid
+	//		userid = loginuser.getFk_MemberId()();  // 로그인 되어진 사용자의 userid
 			userid = adminvo.getName();
 		}
-		// === !!! 글 1개를 보여주는 페이지 요청은 select  와 함께 DML 문(지금은 글조회수 증가인 update문)이 포함되어져 있다. 이럴경우 웹브라우저에서
-				// 페이지 새로고침을 했을때 DML문이 실행되어 매번 글 조회수 증가가 발생한다. 그래서 안되게 해야한다 !!! === //
 		
-		// #68 에서 session.setAttribute("readCountPermisision", "yes"); 해두었던
 		
 		BoardVO boardvo = null;
 		
@@ -975,20 +972,148 @@ public class JinsooController {
 		}
 		else {
 			
-//			boardvo = service.getViewWithNoAddCount(seq); 
+			boardvo = service.getViewWithNoAddCount(seq); 
 			
 		}
-//		List<CommentVO> commentlist = service.getCommentList(seq);
-		
-		
+		List<CommentVO> commentlist = service.getCommentList(seq);				
 		
 		mv.addObject("boardvo" , boardvo);
-//		mv.addObject("commentlist" , commentlist);
-		mv.setViewName("board/view.tiles1");
+		mv.addObject("commentlist" , commentlist);
+		mv.setViewName("jinsoo/board/buisnessBoardview.tiles1");
 		
 		return mv;
 	}
 	
+	@RequestMapping(value="/addComment.go" , method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8" )
+	@ResponseBody
+	public String addComment(HttpServletRequest request , CommentVO commentvo) {
+		
+		
+		String jsonStr = "";
+		
+		//댓글쓰기 (ajax 처리)
+		int n;
+		try {
+			n = service.addComment(commentvo);
+			
+			if(n==1) {
+				// 댓글쓰기 및 원게시물(tblBoard 테이블)에 댓글의 갯수(1씩 증가) 증가가 성공했다라면 
+				List<CommentVO> commentlist = service.getCommentList(commentvo.getParentSeq());
+				// 원게시물에 딸린 댓글 조회해오기
+				
+				JSONArray jsArr = new JSONArray();
+				
+				for(CommentVO cvo :commentlist) {
+					JSONObject jobj =  new JSONObject();	
+					jobj.put("name", cvo.getName());
+					jobj.put("content", cvo.getContent());
+					jobj.put("regDate", cvo.getRegDate());
+		
+					jsArr.put(jobj);
+				}
+				jsonStr = jsArr.toString();
+				
+			}
+		} catch (Throwable e) {
+			
+			e.printStackTrace();
+		}
+
+		return jsonStr;
+	}
+	
+	@RequestMapping(value="/jinsoo/buisnessBoardedit.go" , method= {RequestMethod.GET})
+	public ModelAndView buisnessBoardedit(ModelAndView mv , HttpServletRequest request) {
+		// 글 수정 해야할 글 번호 가져오기
+		String seq = request.getParameter("seq");
+		
+		// 글 수정해야할 글 1개 내용 가져오기 
+		BoardVO boardvo = service.getViewWithNoAddCount(seq); 
+		
+		HttpSession session =  request.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		JinsooadminVO adminvo = (JinsooadminVO)session.getAttribute("adminvo");
+		
+		if(session.getAttribute("loginuser") != null) {
+			if(!( loginuser.getFk_MemberId().equals(boardvo.getFk_member())) || !( adminvo.getName().equals(boardvo.getFk_member())) ) {
+				String msg = "다른 사용자의 글은 수정이 불가합니다.";
+				String loc = "javascript:history.back()";
+				mv.addObject("msg", msg);
+				mv.addObject("loc", loc);
+				
+				mv.setViewName("tiles1/jinsoo/msg");
+			}
+			else {
+				// 자신의 글을 수정할 경우
+				// 가져온 1개글을 글수정할 폼이 있는 view 단으로 보내준다.
+				mv.addObject("boardvo", boardvo);
+				
+				mv.setViewName("jinsoo/board/buisnessBoardedit.tiles1");
+			}
+		}
+		if(session.getAttribute("adminvo") != null) {
+			if(!( adminvo.getName().equals(boardvo.getFk_member())) ) {
+				String msg = "다른 사용자의 글은 수정이 불가합니다.";
+				String loc = "javascript:history.back()";
+				mv.addObject("msg", msg);
+				mv.addObject("loc", loc);
+				
+				mv.setViewName("tiles1/jinsoo/msg");
+			}
+			else {
+				// 자신의 글을 수정할 경우
+				// 가져온 1개글을 글수정할 폼이 있는 view 단으로 보내준다.
+				mv.addObject("boardvo", boardvo);
+				
+				mv.setViewName("jinsoo/board/buisnessBoardedit.tiles1");
+			}
+		}
+		return mv;
+		
+		/*글 삭제 하기 */
+	}
 	
 	
+	// 차트:  매출 통계 JSON으로 얻어오기
+		@RequestMapping(value="/jinsoo/revenueStatusJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+		@ResponseBody
+		public String revenueStatusJSON() {
+			
+			
+			String yearRevenue =  service.yearRevenue(); // 연 매출 현황
+			String monthRevenue =  service.monthRevenue(); // 연 매출 현황 
+			String todayRevenue =  service.todayRevenue(); // 일 매출 현황
+			
+			JsonObject jsonObj = new JsonObject();
+			jsonObj.addProperty("yearRevenue", yearRevenue);
+			jsonObj.addProperty("monthRevenue", monthRevenue);
+			jsonObj.addProperty("todayRevenue", todayRevenue);
+			
+			String result = jsonObj.toString();
+			
+			return result;
+			
+		}
+	
+		// 차트: 종류별 매출 통계 JSON으로 얻어오기
+		@RequestMapping(value="/jinsoo/categoryRevenueJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+		@ResponseBody
+		public String categoryRevenueJSON() {
+			
+			List<HashMap<String,String>> categoryRevenueList =  service.categoryRevenueList();
+			
+			JsonArray jsonArr = new JsonArray();
+			
+			if(categoryRevenueList != null) {
+				for(HashMap<String,String> map :categoryRevenueList) {
+					JsonObject jsonObj = new JsonObject();
+					jsonObj.addProperty("largecategoryname", map.get("LARGECATEGORYNAME"));
+					jsonObj.addProperty("allprice", map.get("ALLPRICE"));																				
+					jsonArr.add(jsonObj);
+				}
+			}
+			return new Gson().toJson(jsonArr);
+			
+		}
+		
 }

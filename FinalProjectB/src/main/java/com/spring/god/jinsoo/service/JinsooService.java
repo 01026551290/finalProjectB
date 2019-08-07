@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.god.jinsoo.model.BoardVO;
+import com.spring.god.jinsoo.model.CommentVO;
 import com.spring.god.jinsoo.model.HotelVO;
 import com.spring.god.jinsoo.model.InterJinsooDAO;
 import com.spring.god.jinsoo.model.JinsooadminVO;
@@ -234,15 +235,72 @@ public class JinsooService implements InterJinsooService {
 	@Override
 	public BoardVO getbuisnessBoardView(String seq, String userid) {
 		
-		BoardVO boardvo = dao.getView(seq);
+		BoardVO boardvo = dao.getbuisnessBoardView(seq);
 
-		if(userid != null && !(boardvo.getFk_userid().equals(userid))) {
+		if(userid != null && !(boardvo.getFk_member().equals(userid))) {
 			// 글조회수 증가는 다른 사람의 글을 읽을때만 증가하도록 해야 한다. 로그인 하지 않은 성태에서는 글을 읽을수가 없다.
 			dao.setAddReadCount(seq); // 글 조회수 증가하기
-			boardvo = dao.getView(seq);
+			boardvo = dao.getbuisnessBoardView(seq);
 		}
 		
 		return boardvo;
+	}
+
+	// 글 조횟수 증가 안되게 글 보기
+	@Override
+	public BoardVO getViewWithNoAddCount(String seq) {
+		BoardVO boardvo = dao.getbuisnessBoardView(seq);	
+		return boardvo;
+	}
+
+	// 코멘트 보이기
+	@Override
+	public List<CommentVO> getCommentList(String parentSeq) {
+		List<CommentVO> commentlist = dao.getCommentList(parentSeq);
+		return commentlist;
+	}
+
+	// 코멘트 추가하기
+	@Override
+	public int addComment(CommentVO commentvo) {
+		
+		int result = 0;
+		int n = 0; 
+		
+		n = dao.addComment(commentvo);		
+		if(n==1) {
+			result = dao.updateCommentCount(commentvo.getParentSeq());			
+		}
+		
+		return result;
+	}
+
+	// 통계: 연 매출 현황
+	@Override
+	public String yearRevenue() {
+		String yearRevenue =  dao.yearRevenue();
+		return yearRevenue;
+	}
+
+	// 통계: 월 매출 현황
+	@Override
+	public String monthRevenue() {
+		String monthRevenue =  dao.monthRevenue();
+		return monthRevenue;
+	}
+
+	// 통계: 일 매출 현황
+	@Override
+	public String todayRevenue() {
+		String todayRevenue =  dao.todayRevenue();
+		return todayRevenue;
+	}
+
+	// 차트: 종류별 매출 통계 JSON으로 얻어오기
+	@Override
+	public List<HashMap<String, String>> categoryRevenueList() {
+		List<HashMap<String,String>> categoryRevenueList =  dao.categoryRevenueList();
+		return categoryRevenueList;
 	}
 
 

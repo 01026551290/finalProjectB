@@ -92,6 +92,33 @@ public interface InterJinsooDAO {
 	// 검색 조건이 있는 게시물리스트 가져오기
 	List<BoardVO> getbuisnessBoardList(HashMap<String, String> paramap);
 
+	// 1개 글 보여주기 
+	BoardVO getbuisnessBoardView(String seq);
+
+	// 글조회수 증가는 다른 사람의 글을 읽을 때만 증가하도록 한다. 로그인 하지 않은 상태에서 글을 읽을때 조회수 증가가 일어나지 않도록 해야한다.
+	void setAddReadCount(String seq);
+
+	// 코멘트 보이기
+	List<CommentVO> getCommentList(String parentSeq);
+
+	// 코멘트 추가하기
+	int addComment(CommentVO commentvo);
+
+	// 보드테이블 카운트증가하기
+	int updateCommentCount(String parentSeq);
+
+	// 통계: 연 매출 현황
+	String yearRevenue();
+
+	// 통계: 월 매출 현황
+	String monthRevenue();
+
+	// 통계: 일 매출 현황
+	String todayRevenue();
+
+	// 차트: 종류별 매출 통계 JSON으로 얻어오기
+	List<HashMap<String, String>> categoryRevenueList();
+
 
 
 	

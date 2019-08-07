@@ -542,3 +542,159 @@ ALTER TABLE RESERVE1 ADD CONSTRAINT FK_RESERVE1_MEMBERIDX FOREIGN KEY(MEMBERIDX)
 ALTER TABLE REVIEW ADD (STAR NUMBER(2));
 
 
+
+
+create table buisnessBoard
+(seq            number                not null   -- 글번호
+,fk_member      varchar2(20)          not null   -- 사용자ID
+,name           Nvarchar2(20)         not null   -- 글쓴이
+,subject        Nvarchar2(200)        not null   -- 글제목
+,content        clob       not null   -- 글내용    -- clob
+,pw             varchar2(20)          not null   -- 글암호
+,readCount      number default 0      not null   -- 글조회수
+,regDate        date default sysdate  not null   -- 글쓴시간
+,status         number(1) default 1   not null   -- 글삭제여부  1:사용가능한글,  0:삭제된글 
+,deleteDay      date                             -- 글삭제시간
+,commentCount   number default 0      not null   -- 댓글의 갯수
+,groupno        number                not null   -- 답변글쓰기에 있는 그룹번호  원글(부모글)과 답변글은 동일한 groupno 를 가진다. 답변글이 아닌 원글인 경우 groupno 의 값는 groupno 컬럼의 최대값(max)+1 로 한다.
+,fk_seq         number default 0      not null   -- fk_seq 컬럼 절대로 foreign key 가 아니다.!!!!!  fk_seq 컬럼은 자신의 글(답변글)에 있어서 원글(부모글)이 누구인지에 대한 정보 값이다. 답변글쓰기에 있어서 답변글이라면 fk_seq 컬럼의 값은 원글의 seq 컬럼의 값을 가지게 되며 답변글이 아닌 원글일 경우 0을 가지도록 한다.
+,depthno        number default 0      not null   -- 답변글쓰기에 있어서 답변글이라면 원글의 depthno + 1 을 가지게 되며, 답변글이 아닌 원글일 경우 0을 가지게 한다.
+,fileName       varchar2(255)                    -- WAS(톰캣)에 저장될 파일명()
+,orgFilename    varchar2(255)                   -- 진짜 파일명(강아지,png) // 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
+,fileSize       number                          -- 파일크기
+,constraint  PK_buisnessBoard_seq primary key(seq)
+,constraint  FK_buisnessBoard_member foreign key(fk_member) references member(memberid)
+,constraint  CK_buisnessBoard_status check( status in(0,1) )
+);
+
+
+create sequence buisnessBoardSeq
+start with 1
+increment by 1
+nomaxvalue 
+nominvalue
+nocycle
+nocache;
+
+
+commit;
+
+select *
+from member
+
+create table  buisnessBoardComment
+(seq           number               not null   
+,fk_memberid     varchar2(20)         not null   
+,name          varchar2(20)         not null  
+,content       varchar2(1000)       not null  
+,regDate       date default sysdate not null 
+,parentSeq     number               not null   
+,status        number(1) default 1  not null                                                
+,constraint PK_buiboardComment_seq primary key(seq)
+,constraint FK_buiboardComment_parentSeq foreign key(parentSeq) 
+                                      references buisnessBoard(seq) on delete cascade
+,constraint CK_buiboardComment_status check( status in(1,0) ) 
+);
+
+create sequence buisnessCommentSeq
+start with 1
+increment by 1
+nomaxvalue 
+nominvalue
+nocycle
+nocache;
+
+
+
+
+SELECT  PREVIOUSSEQ ,PREVIOUSSUBJECT , SEQ,fk_member,NAME,SUBJECT,CONTENT,READCOUNT, REGDATE , NEXTSEQ , NEXTSUBJECT ,COMMENTCOUNT , GROUPNO , FK_SEQ ,  DEPTHNO
+		, FILENAME , ORGFILENAME , FILESIZE
+		FROM
+		 (
+			 SELECT LAG(SEQ, 1) OVER(ORDER BY SEQ DESC) AS PREVIOUSSEQ
+			 , LAG(SUBJECT, 1) OVER(ORDER BY SEQ DESC) AS PREVIOUSSUBJECT
+			 , SEQ,fk_member,NAME,SUBJECT,CONTENT,READCOUNT,TO_CHAR(REGDATE,'YYYY-MM-DD HH24:MI:SS') AS REGDATE ,COMMENTCOUNT 
+			 , LEAD(SEQ, 1) OVER(ORDER BY SEQ DESC) AS NEXTSEQ
+			 , LEAD(SUBJECT, 1) OVER(ORDER BY SEQ DESC) AS NEXTSUBJECT
+			 , GROUPNO , FK_SEQ ,  DEPTHNO , FILENAME , ORGFILENAME , FILESIZE
+			 FROM buisnessBoard
+			 WHERE STATUS = 1 
+		 )V
+		WHERE V.SEQ = #{seq}
+
+
+select count(*)
+from hotelviews
+where memberidx = #{memberidx} and hotelidx = #{hotelidx} and to_char(viewsdate,'yyyy-mm-dd') = to_char(sysdate , 'yyyy-mm-dd')
+
+
+select *
+from reserve1
+
+select *
+from product
+
+
+SELECT LARGECATEGORYNAME , COUNT(*) AS CNT ,  ROUND(COUNT(*) /(SELECT COUNT(*) FROM PRODUCT)*100 ,2) AS PERCNT
+			FROM PRODUCT A JOIN LONTION B
+			ON A.FK_LARGECATEGORYONTIONCODE = B.LARGECATEGORYONTIONCODE
+			JOIN LCATEGORY C
+			ON B.FK_LARGECATEGORYCODE = C.LARGECATEGORYCODE
+			WHERE PRODUCTSTATUS = 1
+			GROUP BY LARGECATEGORYNAME
+            
+   -- 종류별 매출 현황         
+select LARGECATEGORYNAME , allprice  
+from
+(
+    select LARGECATEGORYNAME, to_char(sum(day * price) , '999,999,999,999') as allprice
+    from 
+    (
+        select LARGECATEGORYNAME,  TO_DATE(checkout, 'YYYY-MM-DD') - TO_DATE(checkin,'YYYY-MM-DD') as day , price 
+        from reserve1 A join product B
+        on A.fk_productid = B.productid
+        join lontion C 
+        on B.FK_LARGECATEGORYONTIONCODE = C.LARGECATEGORYONTIONCODE
+        JOIN LCATEGORY D
+        ON C.FK_LARGECATEGORYCODE = D.LARGECATEGORYCODE
+        JOIN reserve2 E
+        on A.reserveid = E.fk_reserveid
+    )V
+   GROUP BY LARGECATEGORYNAME 
+)T
+
+
+select *
+from reserve2
+
+select  TO_DATE(checkout, 'YYYY-MM-DD') - TO_DATE(checkin,'YYYY-MM-DD') as day
+from reserve2
+
+, 
+(day * price) as allprice ,
+
+
+select  to_char(sum(day * price) , '999,999,999,999') as allprice
+from
+(
+select TO_DATE(checkout, 'YYYY-MM-DD') - TO_DATE(checkin,'YYYY-MM-DD') as day , price 
+from reserve1 A join reserve2 B
+on A.reserveid = b.fk_reserveid
+where to_char(reservedate , 'yyyy-mm-DD') = to_char(sysdate , 'yyyy-mm-DD')
+)V
+
+
+
+
+select GEN_DATE
+from
+(
+SELECT distinct(TO_CHAR(TO_DATE('2014-01-01') + LEVEL - 1, 'YYYY-MM')) AS GEN_DATE
+FROM DUAL
+CONNECT BY LEVEL <= (TO_DATE('2014-02-12') - TO_DATE('2013-01-01') + 1)
+)V
+order by GEN_DATE
+
+
+
+

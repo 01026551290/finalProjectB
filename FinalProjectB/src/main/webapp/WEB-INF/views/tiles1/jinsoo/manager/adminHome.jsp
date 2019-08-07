@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
    
 <%
 	String ctxPath = request.getContextPath();
@@ -26,9 +27,10 @@
 
 <div>게시판</div>
 
-<div style="height: 500px; width: 500px; display: inline-block;" >
+<div style="height: 2000px; width: 500px; display: inline-block;" >
 	 <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin-top: 400px;  "><jsp:include page="adminGengerJSON.jsp" /></div>     
 	<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin-top: 400px; position: absolute; top:-4px; right: 1000px; "><jsp:include page="adminReserve.jsp" /></div>    
 	<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin-top: 400px; position: absolute; top:-4px; right: 500px; "><jsp:include page="adminProduct.jsp" /></div>    
+	<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin-top: 1000px; position: absolute; top:-4px; right: 500px; padding-bottom: 500px; "><jsp:include page="adminRevenue.jsp" /></div>    
 </div>
 
