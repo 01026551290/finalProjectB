@@ -47,6 +47,7 @@ public class MemberService implements InterMemberService {
 			List<HotelRoomVO> list = dao.getHeartList(svo);
 			return list;
 		}
+		
 
 		@Override
 		public int add(ReviewVO rvo) {
@@ -65,4 +66,11 @@ public class MemberService implements InterMemberService {
 			List<HistoryVO> list = dao.getHistory(memberidx);
 			return list;
 		}
+		
+		@Override
+		public List<HistoryVO> getPurchaseHistory(int memberidx) {
+			List<HistoryVO> list = dao.getPurchaseHistory(memberidx);
+			return list;
+		}
+		
 }

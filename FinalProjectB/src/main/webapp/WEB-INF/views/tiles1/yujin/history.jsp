@@ -256,8 +256,7 @@
   </a>
 </section>
 
-<img src="/god/resources/imgages/romm/">
-    <section class="section bg-light">
+<section class="section bg-light">
     
     
       <div class="container">

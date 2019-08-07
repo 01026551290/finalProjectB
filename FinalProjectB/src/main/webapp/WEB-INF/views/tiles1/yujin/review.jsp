@@ -19,6 +19,8 @@
 	  });
 	   */
 	   
+	   if(${})
+	   
 		$("#spinnerPqty").spinner({
 			spin: function(event, ui){
 				if(ui.value > 100) {

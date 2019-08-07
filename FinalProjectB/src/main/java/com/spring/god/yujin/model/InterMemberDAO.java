@@ -18,5 +18,6 @@ public interface InterMemberDAO {
 	int add_withFile(ReviewVO rvo);
 
 	List<HistoryVO> getHistory(int memberidx);
+	List<HistoryVO> getPurchaseHistory(int memberidx);
 
 }

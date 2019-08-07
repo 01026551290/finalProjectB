@@ -267,6 +267,19 @@
 	where num between #{startRno} and #{endRno}
    </select>
    
+   <select id="getPurchaseHistory" parameterType="int" resultType="com.spring.god.yujin.model.HistoryVO">
+	select a.price,a.reserveDate,a.checkIn,a.checkOut,a.checkin-a.checkout+1 as noNight,a.productName,a.roomType,b.name,b.address,b.img 
+	from
+		(select a.price,a.reservedate,a.checkin,a.checkout,b.fk_largecategoryontioncode,b.productname,b.roomtype 
+		from
+			(select a.fk_productid,a.price,a.reservedate,b.checkin,b.checkout 
+			from reserve1 a join reserve2 b
+			on a.reserveid=b.fk_reserveid
+			where status=1 and a.memberidx=#{memberidx}) a join product b
+		on a.fk_productid=b.productid) a join lontion b
+	on a.fk_largecategoryontioncode=largecategoryontioncode
+   </select>
+   
    <insert id="addReview" parameterType="com.spring.god.yujin.model.ReviewVO">
       INSERT INTO review(reviewidx,memberidx,hotelidx,roomidx,reserveidx,title,content,star,GROUPNO)
       VALUES(seq_review.nextval,5,1002,1001,11,#{title},#{content},#{star},0)

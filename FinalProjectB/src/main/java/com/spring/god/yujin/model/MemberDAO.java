@@ -67,4 +67,10 @@ public class MemberDAO implements InterMemberDAO {
 			return list;
 		}
 
+		@Override
+		public List<HistoryVO> getPurchaseHistory(int memberidx) {
+			List<HistoryVO> list = sqlsession.selectList("yujindb.getPurchaseHistory",memberidx);
+			return list;
+		}
+
 }

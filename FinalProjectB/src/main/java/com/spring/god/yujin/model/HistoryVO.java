@@ -20,13 +20,14 @@ public class HistoryVO {
 	private String info;
 	private String img;
 	private String productName;
+	private String roomType;
 	private int memberIdx;
 	
 	public HistoryVO() {}
 
 	public HistoryVO(int fk_productId, int price, String reserveDate, String checkIn, String checkOut, int noNight,
 			String title, String content, double star, String regDate, String fileName, String largeCategoryOntionCode,
-			String name, String businessTel, String address, String info, String img, String productName, int memberIdx) {
+			String name, String businessTel, String address, String info, String img, String productName, String roomType, int memberIdx) {
 		super();
 		this.fk_productId = fk_productId;
 		this.price = price;
@@ -46,6 +47,7 @@ public class HistoryVO {
 		this.info = info;
 		this.img = img;
 		this.productName = productName;
+		this.roomType = roomType;
 		this.memberIdx = memberIdx;
 	}
 
@@ -191,6 +193,14 @@ public class HistoryVO {
 
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+	
+	public String getRoomType() {
+		return roomType;
+	}
+	
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
 	}
 
 	public int getMemberIdx() {

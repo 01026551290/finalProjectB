@@ -120,7 +120,19 @@ public class MemberController {
 		   return mv;
 	   }
 	   
-	   @RequestMapping(value="/review.go", method= {RequestMethod.GET})
+	   
+	   @RequestMapping(value="/purchasehistory.go", method= {RequestMethod.GET})
+	   public ModelAndView LoginCK_purchaseHistory(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+		   HttpSession session = request.getSession(); 
+		   int memberidx = ((MemberVO)session.getAttribute("loginuser")).getIdx();
+		   List<HistoryVO> hvo = service.getPurchaseHistory(memberidx);
+		   
+		   mv.addObject("purchaseList",hvo);
+		   mv.setViewName("yujin/purchaseHistory.tiles1");
+		   return mv;
+	   }
+
+		   @RequestMapping(value="/review.go", method= {RequestMethod.GET})
 	   public ModelAndView LoginCK_review(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
 	   
 		   HttpSession session = request.getSession(); 
