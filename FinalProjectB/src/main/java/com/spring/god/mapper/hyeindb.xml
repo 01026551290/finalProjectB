@@ -4,10 +4,12 @@
 
 <mapper namespace="hyeindb">
 
+	<!-- ///////////////////// 숙소, 객실 등록 //////////////////////// -->
+
 	<!-- 숙소 등록하기 -->
 	<insert id="hotelAdd" parameterType="com.spring.god.hyein.model.HotelRoomVO"> 
 	 	insert into LONTION (largeCategoryontionCode, fk_LargeCategoryCode, name, businessTel, address, info, ontionType, regDay, img) 
-		values(${lseq}.nextval, #{fk_LargeCategoryCode}, #{name}, #{businessTel}, #{address}, #{info}, #{ontionType}, default, #{fileName})
+		values(${lseq}.nextval, #{fk_LargeCategoryCode}, #{name}, #{businessTel}, #{address}, #{info}, #{ontionType}, default, #{orgFileName})
 	 </insert>
 	 
 	 <!-- 객실 등록의 숙소명 검색어 자동완성하기 -->
@@ -24,18 +26,123 @@
 		where lower(name) like lower(#{searchWord})
      </select>
      
+     <!-- 자동완성 검색어의 대분류 카테고리 넘버 가져오기 2 -->
+	 <select id="getLargeCategoryNum" parameterType="String" resultType="String">
+		select fk_LargeCategoryCode
+		from LONTION
+		where lower(name) like lower(#{searchWord})
+     </select>
+     
 	 <!-- 룸 등록하기 -->
-	 <insert id="roomAdd" parameterType="com.spring.god.hyein.model.HotelRoomVO">
-		 insert into PRODUCT (productId, fk_LargeCategoryOntionCode, roomType, roomOption, productName, roomInfo, weekPrice, weekenPrice) 
-		 values (${pseq}.nextval, #{largeCategoryontionCode}, #{roomType}, #{roomOption}, #{productName}, #{roomInfo}, #{weekPrice}, #{weekenPrice})
+	 <insert id="roomAdd" parameterType="HashMap">
+		 insert into PRODUCT (productId, fk_LargeCategoryOntionCode, roomOption, productName, weekPrice, weekenPrice, roomInfo, productPeriod1, productPeriod2, roomType) 
+		 values(#{productid}, #{largeCategoryontionCode}, #{roomOption}, #{productName}, #{weekPrice}, #{weekenPrice}, #{roomInfo}, #{productPeriod1}, #{productPeriod2}, #{roomType}) 
 	 </insert>
 	 <!-- 이미지 등록하기 -->
-	 <insert id="photoaddimg" parameterType="List">
+	 <insert id="imgAdd" parameterType="HashMap">
+		 insert into PRODUCTPIC (productPicId, fk_productId, picture, uploaded_picture) 
+		 values(SEQ_PRODUCTPIC.nextval, to_number(#{fk_productid}), #{picture}, #{uploaded_picture})
+	 </insert>
+	 
+	 <!-- <insert id="photoaddimg" parameterType="List">
 	  	 insert into PRODUCTPIC (productPicId, fk_productId, picture)
 		 values
 		 <foreach collection="photoList" item="vo" separator=",">
 		    (seq_productPic.nextval, ${vo.pseq}.currval, #{vo.fileName})	 
 		 </foreach>
-	 </insert>
+	 </insert> -->
 	 
+	 <!-- 새로이 입력할 제품번호(시퀀스) 가져오기 -->
+	 <select id="getProdseq" parameterType="HashMap" resultType="int">
+		<if test="fk_LargeCategoryCode == 10">
+			select SEQ_PRODUCT_10.nextval
+			from dual
+		</if>
+		<if test="fk_LargeCategoryCode == 20">
+			select SEQ_PRODUCT_20.nextval
+			from dual
+		</if>
+		<if test="fk_LargeCategoryCode == 30">
+			select SEQ_PRODUCT_30.nextval
+			from dual
+		</if>
+		<if test="fk_LargeCategoryCode == 40">
+			select SEQ_PRODUCT_40.nextval
+			from dual
+		</if>
+		<if test="fk_LargeCategoryCode == 50">
+			select SEQ_PRODUCT_50.nextval
+			from dual
+		</if>
+		<if test="fk_LargeCategoryCode == 60">
+			select SEQ_PRODUCT_60.nextval
+			from dual
+		</if>
+	 </select>
+	
+	<!-- ///////////////////// 공지사항 게시판 //////////////////////// -->
+	
+	<!-- === 검색조건이 없을 경우의 총 게시물 건수(totalCount) === -->
+	<select id="getTotalCountWithNOsearch" resultType="int">
+		select count(*)
+		from tblNoticeBoard
+		where status = 1
+	</select>
+	
+	<!-- === 검색조건이 있을 경우의 총 게시물 건수(totalCount) === -->
+	<select id="getTotalCountWithSearch" parameterType="HashMap" resultType="int">
+		select count(*)
+		from tblNoticeBoard
+		where status = 1
+		and ${searchType} like '%'|| #{searchWord} ||'%'
+	</select>
+	
+	<!-- === #142. 답변형 게시판의 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 다 포함한 것) === 
+				      먼저, #130. 을 주석처리한 이후 아래처럼 해야 한다.
+	-->
+	<select id="boardListWithPaging" parameterType="HashMap" resultType="com.spring.god.hyein.model.BoardVO">
+		select seq, fk_memberid, name, subject
+			   , readcount, regDate
+		       , commentCount
+		       , fileName, orgFilename
+		from
+	    (
+	        select rownum AS RNO
+	               , seq, fk_memberid, name, subject
+	               , readcount, regDate
+	               , commentCount
+	               , fileName, orgFilename
+	        from
+	        (
+	            select seq, fk_memberid, name, subject  
+	                   , readcount, to_char(regDate, 'yyyy-mm-dd hh24:mi:ss') as regDate
+	                   , commentCount
+	                   , fileName, orgFilename
+	            from tblNoticeBoard
+	            where status = 1
+	         <if test='searchWord != "" '>
+	            and ${searchType} like '%'|| #{searchWord} ||'%'
+	         </if>
+	         	<!-- start with fk_seq = 0
+	         	connect by prior seq = fk_seq
+	            order siblings by groupno desc, seq asc siblings ==> 계층 구조를 유지하면서 정렬//  그룹넘버끼리 내림차순하고 글번호 순으로 오름차순을 시킨다
+	            order siblings by 를 사용하는 이유는 
+	            	  그냥 정렬(order by)하면 계층구조가 깨진다.
+	            	  그래서 계층구조를 그대로 유지하면서 
+	            	  동일한 groupno 를 가진 행끼리 정렬을 하려면
+	            	 siblings 를 써야한다.
+	            -->
+	        ) V
+	    )T
+		where T.RNO between #{startRno} and #{endRno}
+	</select>
+	
+	<!-- === 글 조회수 1증가 하기 === --> 
+	 <update id="setAddReadCount" parameterType="String">
+	 	update tblNoticeBoard set readCount = readCount + 1 
+	 	where status = 1 and seq = #{seq}
+	 </update>
+	
+	
+	
 </mapper>

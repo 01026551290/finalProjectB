@@ -1,5 +1,6 @@
 package com.spring.god.hyein.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +33,19 @@ public class AdminService implements InterAdminService {
 		return wordList;
 	}
 
-	// 룸 등록하기
+	// 객실 등록하기
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor={Throwable.class})  
-	public int roomAdd(HotelRoomVO hotelroomvo) {
-		int n = dao.roomAdd(hotelroomvo);
-//		int m = dao.imgAdd(hotelroomvo);
-		return (n);
+//	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor={Throwable.class})  
+	public int roomAdd(HashMap<String, String> productMap) {
+		int n = dao.roomAdd(productMap);
+		return n;
+	}
+	
+	// 객실 이미지 넣기
+	@Override
+	public int imgAdd(HashMap<String, String> hashMap) {
+		int n = dao.imgAdd(hashMap);
+		return n;
 	}
 
 	// 자동완성 검색어의 대분류 카테고리 넘버 가져오기
@@ -48,9 +55,23 @@ public class AdminService implements InterAdminService {
 		return largeCodeList;
 	}
 
+//	@Override
+//	public int photoaddimg(List<PhotoVO> photovo) {
+//		int m = dao.photoaddimg(photovo);
+//		return m;
+//	}
+
+	// 새로이 입력할 제품번호(시퀀스) 가져오기
 	@Override
-	public int photoaddimg(List<PhotoVO> photovo) {
-		int m = dao.photoaddimg(photovo);
-		return m;
+	public int getProdseq(HashMap<String,String> hashMap) {
+			int prodseq = dao.getProdseq(hashMap);
+			return prodseq;
 	}
+
+	@Override
+	public String getLargeCategoryNum(String clickWord) {
+		String largeCategoryList = dao.getLargeCategoryNum(clickWord);
+		return largeCategoryList;
+	}
+	
 }

@@ -1,5 +1,6 @@
 package com.spring.god.hyein.model;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -35,26 +36,35 @@ public class AdminDAO implements InterAdminDAO {
 	
 	// 룸 등록하기
 	@Override
-	public int roomAdd(HotelRoomVO hotelroomvo) {
-		int n = sqlsession.insert("hyeindb.roomAdd", hotelroomvo);
+	public int roomAdd(HashMap<String, String> productMap) {
+		int n = sqlsession.insert("hyeindb.roomAdd", productMap);
 		return n;
 	}
 
-	// 이미지 등록하기
+//	@Override
+//	public int photoaddimg(List<PhotoVO> photovo) {
+//		int n = sqlsession.insert("hyeindb.photoaddimg", photovo);
+//		return n;
+//	}
+
+	// 새로이 입력할 제품번호(시퀀스) 가져오기
 	@Override
-	public int imgAdd(HotelRoomVO hotelroomvo) {
-		int n = sqlsession.insert("hyeindb.imgAdd", hotelroomvo);
-		return n;
+	public int getProdseq(HashMap<String,String> hashMap) {
+		int prodseq = sqlsession.selectOne("hyeindb.getProdseq", hashMap);
+		return prodseq;
 	}
 
 	@Override
-	public int photoaddimg(List<PhotoVO> photovo) {
-		int n = sqlsession.insert("hyeindb.photoaddimg", photovo);
+	public int imgAdd(HashMap<String, String> hashMap) {
+		int n = sqlsession.insert("hyeindb.imgAdd", hashMap);
 		return n;
 	}
 
-	
-	
-	
+	// 자동완성 검색어의 대분류 카테고리 넘버 가져오기 2
+	@Override
+	public String getLargeCategoryNum(String clickWord) {
+		String largeCategoryList = sqlsession.selectOne("hyeindb.getLargeCategoryNum", clickWord);
+		return largeCategoryList;
+	}
 	
 }
