@@ -101,7 +101,7 @@
 			
 			$("#displayList").hide();
 			
-			goSearch();
+		//	goSearch();
 		});
 		
 		///////////////////////////////////////////////////////////////////////////////////
@@ -184,7 +184,7 @@
 		var frm = document.infoSearchFrm;
 		frm.method = "GET";
 		frm.action = "<%=request.getContextPath()%>/search.go";
-		//	frm.submit();
+		frm.submit();
 	}
 	
 </script>
@@ -283,7 +283,7 @@
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-2 align-self-end">
-							<button id="btnSearch" class="btn btn-primary btn-block text-white">검색</button>
+							<button id="btnSearch" class="btn btn-primary btn-block text-white" onclick="goSearch();">검색</button>
 						</div>
 					</div>
 				</form>
