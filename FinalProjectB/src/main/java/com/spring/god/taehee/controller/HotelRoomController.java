@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.god.hyein.model.HotelRoomVO;
+import com.spring.god.jiyoung.model.MemberVO;
+import com.spring.god.taehee.service.HotelRoomService;
 import com.spring.god.taehee.service.InterHotelRoomService;
 import com.spring.god.yujin.model.HistoryVO;
 import com.spring.god.yujin.model.ReviewVO;
@@ -85,19 +88,33 @@ public class HotelRoomController {
 			mv.addObject("HotelVO", hotelvo);	// 호텔정보 --> mv.addObject("hotelroomvo", hotelroomvo);
 		    mv.addObject("RoomVO", roomvo); 	// 객실정보 --> mv.addObject("HotelRoomVO", HotelRoomVO);
 		     
-/*
-		    // 조회수 보내기
-		    String hotelIdx = request.getParameter("hotelIdx");
-		    hotelIdx = service.getViewCnt(hotelIdx);
-		    mv.addObject("hotelIdx", hotelIdx);
-		      
 		    HttpSession session = request.getSession();
+		    
+		    // 조회수 보내기
+		    String hotelidx = largeCategoryontionCode;
+		    HashMap<String,String> idxmap = new HashMap<String,String>();
+		    if(session.getAttribute("loginuser")!=null) {
+		    	  int idx =(int)((MemberVO)session.getAttribute("loginuser")).getIdx(); 
+		    	 String memberidx = String.valueOf(idx);
+		    	 		    	 
+		    	 idxmap.put("hotelidx", hotelidx);
+				    idxmap.put("memberidx", memberidx);
+				    int hotelcnt = service.addViewCnt(idxmap);
+			
+		      }
+		    
+		      
+		      
+		    MemberVO memberVO = new MemberVO();
+		    
+
+		    
 		      if(session.getAttribute("loginuser")!=null) {
 		    	  String memberid =(String)((MemberVO)session.getAttribute("loginuser")).getMemberId(); 
 		    	  paraMap.put("memberid", memberid);
 		      }
-	*/
-		    
+
+   
 		     
 			/*
 			// 리뷰 보여주기

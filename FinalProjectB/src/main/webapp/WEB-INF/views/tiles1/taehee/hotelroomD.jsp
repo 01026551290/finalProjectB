@@ -464,7 +464,7 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
 											<span class="ion-ios-arrow-down"></span>
 										</div>
 										<select name="searchType adult" id="searchType adults" class="form-control">
-											<c:if test="${adult!=null and adult!=''}">
+											<c:if test="${adult!=null and adult!=''}"> 
 												<c:forEach var="i" begin="1" end="4">
 													<c:if test="${adult==i}">
 														<option value="${i}" selected>${i}</option>
@@ -472,14 +472,15 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
 													<c:if test="${adult!=i}">
 														<option value="${i}">${i}</option>
 													</c:if>
+													</c:forEach>
+													</c:if>
 													<c:if test="${adult==null or adult==''}">
 														<option value="1" selected>1</option>
 														<option value="2">2</option>
 														<option value="3">3</option>
 														<option value="4">4+</option>
 													</c:if>
-												</c:forEach>
-											</c:if>
+											
 										</select>
 									</div>
 								</div>
@@ -499,14 +500,16 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
 													<c:if test="${children!=i}">
 														<option value="${i}">${i}</option>
 													</c:if>
+													</c:forEach>
+													</c:if>
 													<c:if test="${children==null or children==''}">
 														<option value="0" selected>0</option>
 														<option value="1">1</option>
 														<option value="2">2</option>
 														<option value="3">3</option>
 													</c:if>
-												</c:forEach>
-											</c:if>
+												
+								
 
 										</select>
 									</div>
@@ -522,30 +525,7 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
 		</div>
 	</div>
 </section>
-<section class="section slider-section bg-light">
-	<div class="container">
 
-		<div class="home-slider major-caousel owl-carousel mb-5"
-			data-aos="fade-up" data-aos-delay="200">
-			<div class="slider-item">
-				<c:if test="${HotelVO.imgList!=null}">
-					<c:forEach var="list" items="${HotelVO.imgList}"
-						varStatus="status">
-						<c:if test="${status.index}">
-							<a href="#" class="image d-block bg-image-2" style="background-image: url('/god/resources/images/room/${list}');"></a>
-						</c:if>
-					</c:forEach>
-				</c:if>
-			</div>
-			<div class="slider-item">
-				<a href="#" class="image d-block bg-image-2" style="background-image: url('/god/resources/images/room/${list}');"></a>
-			</div>
-
-		</div>
-		<!-- END slider -->
-
-	</div>
-</section>
 <!-- END section -->
 <section class="section bg-light">
 	<c:if test="${RoomVO!=null}">
@@ -562,10 +542,10 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
 					<h5 class="mb-4" style="font-size: 25px;">${RoomVO.productName}</h5>
 					<span class="d-block mb-4">
 					<span class="text-uppercase letter-spacing-2">주중가 : </span>
-					<span class="display-4 text-primary">${hotelroomvo.weekPrice} ~</span>
+					<span class="display-4 text-primary">${RoomVO.weekPrice} ~</span>
 					<span class="text-uppercase letter-spacing-2">/ per night</span> </span>
 					<span class="d-block mb-4"><span class="text-uppercase letter-spacing-2">주말가 : </span>
-					<span class="display-4 text-primary">${hotelroomvo.weekenPrice}	~</span> 
+					<span class="display-4 text-primary">${RoomVO.weekenPrice}	~</span> 
 					<span class="text-uppercase letter-spacing-2">/ per	night</span> </span>
 					<h5 class="mb-4">침대갯수 :
 						${RoomVO.roomType.substring(1,2)}개 / 수용인원 :
