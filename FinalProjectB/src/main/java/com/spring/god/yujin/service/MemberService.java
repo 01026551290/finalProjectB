@@ -10,6 +10,7 @@ import com.spring.god.hyein.model.HotelRoomVO;
 import com.spring.god.yujin.model.HistoryVO;
 import com.spring.god.yujin.model.InterMemberDAO;
 import com.spring.god.yujin.model.ReviewVO;
+import com.spring.god.yujin.model.SearchVO;
 
 @Service
 public class MemberService implements InterMemberService {
@@ -34,16 +35,16 @@ public class MemberService implements InterMemberService {
 			int n = dao.delHeart(paramap);
 			return n;
 		}
-
+		
 		@Override
-		public List<HotelRoomVO> heartList(String memberId) {
-			List<HotelRoomVO> list = dao.getHeartList(memberId);
-			return list;
+		public int getTotalCntHotel(SearchVO svo) {
+			int totalCnt = dao.getTotalCntHotel(svo);
+		    return totalCnt;
 		}
 
 		@Override
-		public List<String> heartNo(String memberId) {
-			List<String> list = dao.getHeartNo(memberId);
+		public List<HotelRoomVO> heartList(SearchVO svo) {
+			List<HotelRoomVO> list = dao.getHeartList(svo);
 			return list;
 		}
 

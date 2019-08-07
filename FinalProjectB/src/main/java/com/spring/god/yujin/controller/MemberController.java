@@ -24,6 +24,7 @@ import com.spring.god.jiyoung.model.MemberVO;
 import com.spring.god.yujin.model.HistoryVO;
 import com.spring.god.yujin.model.ReviewImgVO;
 import com.spring.god.yujin.model.ReviewVO;
+import com.spring.god.yujin.model.SearchVO;
 import com.spring.god.yujin.service.InterMemberService;
 
 @Component
@@ -81,16 +82,40 @@ public class MemberController {
 	   }
 	   
 	   @RequestMapping(value="/heartList.go", method= {RequestMethod.GET})
-	   public ModelAndView LoginCK_heartList(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+	   public ModelAndView LoginCK_heartList(HttpServletRequest request,HttpServletResponse response,ModelAndView mv, SearchVO svo) {
 
 		  HttpSession session = request.getSession(); 
-		  String memberidx = ((MemberVO)session.getAttribute("loginuser")).getMemberId();	
+		  svo.setMemberid(((MemberVO)session.getAttribute("loginuser")).getMemberId());	
+		  
+		  if(svo.getCurrentShowPage()==0)
+	         svo.setCurrentShowPage(1);
+	      else {
+	         try {
+	        	 svo.setCurrentShowPage(Integer.parseInt(request.getParameter("currentShowPage")));
+	         } catch (NumberFormatException e) {
+	        	 svo.setCurrentShowPage(1);
+	         }
+	      }
+
+	      svo.setTotalCnt(service.getTotalCntHotel(svo));
+	      svo.setTotalPage((int)Math.ceil((double)svo.getTotalCnt()/svo.getSizePerPageHeartList()));
+	      svo.setStartRno(((svo.getCurrentShowPage()-1)*svo.getSizePerPageHeartList())+1);
+	      svo.setEndRno(svo.getStartRno()+svo.getSizePerPageHeartList()-1);
 		      
-		  List<HotelRoomVO> hotelRoomVOList = service.heartList(memberidx);
-//	      List<String> heartNoList = service.heartNo(memberidx);
-//	      mv.addObject("heartNoList",heartNoList);
+		  List<HotelRoomVO> hotelRoomVOList = service.heartList(svo);
 	      session.setAttribute("hotelRoomVOList", hotelRoomVOList);
 	      
+	      String pagebar = "<ul>";
+	      String url = "/god/heartList.go?";
+	      int blockSize = 3;
+	      
+	      pagebar += MyUtil.makePageBarHeartList(url, svo.getCurrentShowPage(), svo.getSizePerPageSearchList(), svo.getTotalPage(), blockSize);
+	      pagebar += "</ul>";
+	      
+	      String listUrl = MyUtil.getCurrentURL(request);
+	      
+	      session.setAttribute("listUrl", listUrl);
+	      mv.addObject("pagebar",pagebar);
 		   mv.setViewName("yujin/heartList.tiles1");
 		   return mv;
 	   }

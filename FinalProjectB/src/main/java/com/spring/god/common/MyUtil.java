@@ -2,6 +2,8 @@ package com.spring.god.common;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.spring.god.yujin.model.SearchVO;
+
 public class MyUtil {
 
 	// *** 1. ? 전의 데이터까지 포함한 현재 URL주소를 알려주는 메소드 *** //
@@ -193,6 +195,119 @@ public class MyUtil {
 		}
 		
 		return pageBar;
+	}
+	
+	public static String makePageBarHeartList(String url, int currentShowPage, int sizePerPage, int totalPage, int blockSize) {
+		String pageBar = "";
+		
+		int loop = 1;
+		
+		int pageNo = ((currentShowPage - 1)/blockSize) * blockSize + 1;
+		
+		if(pageNo != 1) {
+			pageBar += "<li><a href='"+url+"currentShowPage="+(pageNo-1)+"&sizePerPage="+sizePerPage+"'><<</a></li>";
+		}
+		
+		while( !(loop>blockSize || pageNo>totalPage) ) {
+			
+			if(pageNo == currentShowPage) {
+				pageBar += "<li class='active'><span>"+pageNo+"</span></li>";
+			}
+			else {
+				pageBar += "<li><a href='"+url+"currentShowPage="+pageNo+"&sizePerPage="+sizePerPage+"'>"+pageNo+"</a><li/>"; 
+				// ""+1+"&nbsp;"+2+"&nbsp;"+3+"&nbsp;"+......+10+"&nbsp;"
+			}
+			
+			loop++;
+			pageNo++;
+		}// end of while---------------------------------
+		
+		// *** [다음] 만들기 *** //
+		if( !(pageNo>totalPage) ) {
+			pageBar += "<li><a href='"+url+"currentShowPage="+pageNo+"&sizePerPage="+sizePerPage+"'>>></a></li>"; 
+		}
+		
+		return pageBar;
+	}
+	
+	public static String makePageBarHotelList(String url, int currentShowPage, int sizePerPage, int totalPage, int blockSize) {
+		String pageBar = "";
+		
+		int loop = 1;
+		
+		int pageNo = ((currentShowPage - 1)/blockSize) * blockSize + 1;
+		
+		if(pageNo != 1) {
+			pageBar += "<li><a href='"+url+"&currentShowPage="+(pageNo-1)+"&sizePerPage="+sizePerPage+"' ><<</a></li>";
+		}
+		
+		while( !(loop>blockSize || pageNo>totalPage) ) {
+			
+			if(pageNo == currentShowPage) {
+				pageBar += "<li class='active'><span>"+pageNo+"</span></li>";
+			}
+			else {
+				pageBar += "<li><a href='"+url+"&currentShowPage="+pageNo+"&sizePerPage="+sizePerPage+"'>"+pageNo+"</a><li/>"; 
+				// ""+1+"&nbsp;"+2+"&nbsp;"+3+"&nbsp;"+......+10+"&nbsp;"
+			}
+			
+			loop++;
+			pageNo++;
+		}// end of while---------------------------------
+		
+		// *** [다음] 만들기 *** //
+		if( !(pageNo>totalPage) ) {
+			pageBar += "<li><a href='"+url+"&currentShowPage="+pageNo+"&sizePerPage="+sizePerPage+"'>>></a></li>"; 
+		}
+		
+		return pageBar;
+	}
+
+	public static String makePageBarUrlNext(HttpServletRequest request, SearchVO svo) {
+		String currentURL = "/god/search.go";
+		//   pnum=2
+		
+		currentURL += "?searchWord="+svo.getSearchWord();
+		currentURL += "&checkin_date="+svo.getCheckin_date();
+		currentURL += "&checkout_date="+svo.getCheckout_date();
+		currentURL += "&children="+svo.getChildren();
+		currentURL += "&adult="+svo.getAdult();
+		currentURL += "&sort="+svo.getSort();
+		currentURL += "&hotelName="+svo.getHotelName();
+		currentURL += "&minPrice="+svo.getMinPrice();
+		currentURL += "&maxPrice="+svo.getMaxPrice();
+		currentURL += "&minStar="+svo.getMinStar();
+		currentURL += "&maxStar="+svo.getMaxStar();
+		if(svo.getLontionList()!=null) {
+			for(int i=0; i<svo.getLontionList().length;i++) {
+			currentURL += "&lontion="+svo.getLontionList()[i];
+			}
+		}
+		if(svo.getPontionList()!=null) {
+			for(int i=0; i<svo.getPontionList().length;i++) {
+				currentURL += "&pontion="+svo.getPontionList()[i];
+			}
+		}
+		if(svo.getLargeCategoryCodeList()!=null) {
+			for(int i=0; i<svo.getLargeCategoryCodeList().length;i++) {
+				currentURL += "&largeCategoryCode="+svo.getLargeCategoryCodeList()[i];
+			}
+		}
+		
+		String cut = "&currentShowPage";
+		
+		String ctxPath = request.getContextPath();
+		//   /MyMVC
+		
+		int beginIndex = currentURL.indexOf(ctxPath) + ctxPath.length();
+		//                         21		         +        6
+		
+		currentURL = currentURL.substring(beginIndex+1);
+		//                        27+1
+		if(currentURL.indexOf(cut)>0)
+			currentURL = currentURL.substring(0,currentURL.indexOf(cut))+"&";
+		
+		return currentURL;
 	}
 
 	

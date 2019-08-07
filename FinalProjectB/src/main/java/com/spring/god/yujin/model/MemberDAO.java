@@ -32,16 +32,16 @@ public class MemberDAO implements InterMemberDAO {
 			int n = sqlsession.update("yujindb.delHeart",paramap);
 			return n;
 		}
-
+		
 		@Override
-		public List<HotelRoomVO> getHeartList(String memberId) {
-			List<HotelRoomVO> list = sqlsession.selectList("yujindb.getHeartList",memberId);
-			return list;
+		public int getTotalCntHotel(SearchVO svo) {
+			int cnt = sqlsession.selectOne("yujindb.getTotalCntHeart",svo);
+			return cnt;
 		}
 
 		@Override
-		public List<String> getHeartNo(String memberId) {
-			List<String> list = sqlsession.selectList("yujindb.getHeartNo",memberId);
+		public List<HotelRoomVO> getHeartList(SearchVO svo) {
+			List<HotelRoomVO> list = sqlsession.selectList("yujindb.getHeartList",svo);
 			return list;
 		}
 

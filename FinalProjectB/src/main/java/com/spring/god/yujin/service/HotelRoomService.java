@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.god.hyein.model.HotelRoomVO;
 import com.spring.god.yujin.model.InterHotelRoomDAO;
-import com.spring.god.yujin.model.SubSearchVO;
+import com.spring.god.yujin.model.SearchVO;
 
 @Service
 public class HotelRoomService implements InterHotelRoomService {
@@ -18,38 +18,38 @@ public class HotelRoomService implements InterHotelRoomService {
    
 
    @Override // 페이징을 위한 목록갯수(키워드있)
-   public int getTotalCntHotel(HashMap<String, String> paramap) {
-      int totalCnt = dao.getTotalCntHotel(paramap);
+   public int getTotalCntHotel(SearchVO svo) {
+      int totalCnt = dao.getTotalCntHotel(svo);
       return totalCnt;
    }
 
    @Override // 검색어와 페이징을 포함한 리스트
-   public List<HotelRoomVO> getTotalHotelList(HashMap<String, String> paramap) {
-      List<HotelRoomVO> hotelList = dao.getTotalHotelList(paramap);
+   public List<HotelRoomVO> getTotalHotelList(SearchVO svo) {
+      List<HotelRoomVO> hotelList = dao.getTotalHotelList(svo);
       return hotelList;
    }
 
 	@Override // 서브서치를 위한 가격범위
-	public SubSearchVO getRangePrice() {
-		SubSearchVO rangePrice = dao.getRangePrice();
+	public SearchVO getRangePrice() {
+		SearchVO rangePrice = dao.getRangePrice();
 		return rangePrice;
 	}
 
 	@Override // 서브서치를 위한 숙박유형
-	public List<SubSearchVO> getLargeCategoryCode() {
-		List<SubSearchVO>  largeCateGoryCode = dao.getLargeCategoryCode();
+	public List<SearchVO> getLargeCategoryCode() {
+		List<SearchVO>  largeCateGoryCode = dao.getLargeCategoryCode();
 		return largeCateGoryCode;
 	}
 
 	@Override // 서브서치를 위한 호텔옵션
-	public List<SubSearchVO> getLontion() {
-		List<SubSearchVO> lontion = dao.getLontion();
+	public List<SearchVO> getLontion() {
+		List<SearchVO> lontion = dao.getLontion();
 		return lontion;
 	}
 
 	@Override // 서브서치를 위한 객실옵션
-	public List<SubSearchVO> getPontion() {
-		List<SubSearchVO> pontion = dao.getPontion();
+	public List<SearchVO> getPontion() {
+		List<SearchVO> pontion = dao.getPontion();
 		return pontion;
 	}
 	   

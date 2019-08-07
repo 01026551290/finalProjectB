@@ -11,8 +11,8 @@ public interface InterMemberDAO {
 	int addHeart(HashMap<String, String> paramap);
 	int delHeart(HashMap<String, String> paramap);
 
-	List<HotelRoomVO> getHeartList(String memberId);
-	List<String> getHeartNo(String memberId);
+	int getTotalCntHotel(SearchVO svo);
+	List<HotelRoomVO> getHeartList(SearchVO svo);
 
 	int addReview(ReviewVO rvo);
 	int add_withFile(ReviewVO rvo);

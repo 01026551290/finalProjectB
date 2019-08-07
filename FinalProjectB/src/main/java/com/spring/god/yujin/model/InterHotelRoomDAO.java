@@ -4,16 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.spring.god.hyein.model.HotelRoomVO;
+import com.spring.god.yujin.model.SearchVO;
 
 public interface InterHotelRoomDAO {
 
-	int getTotalCntHotel(HashMap<String, String> paramap); // 페이징을 위한 총갯수
-	List<HotelRoomVO> getTotalHotelList(HashMap<String, String> paramap); // 페이징 처리한 리스트
+	int getTotalCntHotel(SearchVO svo); // 페이징을 위한 총갯수
+	List<HotelRoomVO> getTotalHotelList(SearchVO svo); // 페이징 처리한 리스트
 	
-	SubSearchVO getRangePrice(); // 서브서치를 위한 가격범위
-	List<SubSearchVO> getLargeCategoryCode(); // 서브서치를 위한 숙박유형
-	List<SubSearchVO> getLontion(); // 서브서치를 위한 숙소옵션
-	List<SubSearchVO> getPontion(); // 서브서치를 위한 객실옵션
+	SearchVO getRangePrice(); // 서브서치를 위한 가격범위
+	List<SearchVO> getLargeCategoryCode(); // 서브서치를 위한 숙박유형
+	List<SearchVO> getLontion(); // 서브서치를 위한 숙소옵션
+	List<SearchVO> getPontion(); // 서브서치를 위한 객실옵션
 
 
 }
