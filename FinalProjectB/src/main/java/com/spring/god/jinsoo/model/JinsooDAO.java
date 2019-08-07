@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 
+
+
+
 @Repository
 public class JinsooDAO implements InterJinsooDAO {
 
@@ -220,6 +223,68 @@ public class JinsooDAO implements InterJinsooDAO {
 	public List<BoardVO> getbuisnessBoardList(HashMap<String, String> paramap) {
 		List<BoardVO> buisnessBoardList = sqlsession.selectList("jinsoodb.getbuisnessBoardList", paramap);
 		return buisnessBoardList;
+	}
+
+	// 1개 글 보여주기 
+	@Override
+	public BoardVO getbuisnessBoardView(String seq) {
+		BoardVO boardvo = sqlsession.selectOne("jinsoodb.getbuisnessBoardView", seq);
+		return boardvo;
+	}
+
+	//글조회수 증가는 다른 사람의 글을 읽을 때만 증가하도록 한다. 로그인 하지 않은 상태에서 글을 읽을때 조회수 증가가 일어나지 않도록 해야한다.
+	@Override
+	public void setAddReadCount(String seq) {
+		sqlsession.update("jinsoodb.AddReadCount" ,seq);		
+	}
+
+	// 코멘트 보이기
+	@Override
+	public List<CommentVO> getCommentList(String parentSeq) {
+		List<CommentVO> commentlist = sqlsession.selectList("jinsoodb.getCommentList", parentSeq);
+		return commentlist;	
+	}
+
+	// 코멘트 추가하기
+	@Override
+	public int addComment(CommentVO commentvo) {
+		int n  = sqlsession.insert("jinsoodb.addComment", commentvo);
+		return n;
+	}
+
+	// 보드테이블 카운트증가하기
+	@Override
+	public int updateCommentCount(String parentSeq) {
+		int n = sqlsession.update("jinsoodb.updateCommentCount", parentSeq);
+		return n;
+	}
+
+	// 통계: 연 매출 현황
+	@Override
+	public String yearRevenue() {
+		String yearRevenue =  sqlsession.selectOne("jinsoodb.yearRevenue");
+		return yearRevenue;
+	}
+
+	// 통계: 월 매출 현황
+	@Override
+	public String monthRevenue() {
+		String monthRevenue =  sqlsession.selectOne("jinsoodb.monthRevenue");
+		return monthRevenue;
+	}
+
+	// 통계: 일 매출 현황
+	@Override
+	public String todayRevenue() {
+		String todayRevenue =  sqlsession.selectOne("jinsoodb.todayRevenue");
+		return todayRevenue;
+	}
+
+	// 차트: 종류별 매출 통계 JSON으로 얻어오기
+	@Override
+	public List<HashMap<String, String>> categoryRevenueList() {
+		List<HashMap<String,String>> categoryRevenueList = sqlsession.selectList("jinsoodb.categoryRevenueList");
+		return categoryRevenueList;
 	}
 
 

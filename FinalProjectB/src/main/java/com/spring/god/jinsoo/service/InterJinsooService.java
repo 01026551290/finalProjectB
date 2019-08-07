@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.spring.god.jinsoo.model.BoardVO;
+import com.spring.god.jinsoo.model.CommentVO;
 import com.spring.god.jinsoo.model.HotelVO;
 import com.spring.god.jinsoo.model.JinsooadminVO;
 import com.spring.god.jinsoo.model.JinsoomemberVO;
@@ -97,6 +98,29 @@ public interface InterJinsooService {
 
 	// 글보기
 	BoardVO getbuisnessBoardView(String seq, String userid);
+
+	// 글 조횟수 증가 안되게 글 보기
+	BoardVO getViewWithNoAddCount(String seq);
+
+	// 코멘트 보이기
+	List<CommentVO> getCommentList(String parentSeq);
+
+	// 코멘트 추가하기
+	int addComment(CommentVO commentvo);
+
+	// 통계: 연 매출 현황
+	String yearRevenue();
+
+	// 통계: 월 매출 현황
+	String monthRevenue();
+
+	// 통계: 일 매출 현황
+	String todayRevenue();
+
+	// 차트: 종류별 매출 통계 JSON으로 얻어오기
+	List<HashMap<String, String>> categoryRevenueList();
+
+	
 
 
 	

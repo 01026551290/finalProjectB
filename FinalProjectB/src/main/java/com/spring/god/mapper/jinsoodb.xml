@@ -259,6 +259,103 @@
 		</if>
 		ORDER BY SEQ DESC
 	</select>
+	
+	<select id="getbuisnessBoardView" parameterType="String" resultType="com.spring.god.jinsoo.model.BoardVO">
+		SELECT  PREVIOUSSEQ ,PREVIOUSSUBJECT , SEQ,FK_MEMBER,NAME,SUBJECT,CONTENT,READCOUNT, REGDATE , NEXTSEQ , NEXTSUBJECT ,COMMENTCOUNT , GROUPNO , FK_SEQ ,  DEPTHNO
+		, FILENAME , ORGFILENAME , FILESIZE
+		FROM
+		 (
+			 SELECT LAG(SEQ, 1) OVER(ORDER BY SEQ DESC) AS PREVIOUSSEQ
+			 , LAG(SUBJECT, 1) OVER(ORDER BY SEQ DESC) AS PREVIOUSSUBJECT
+			 , SEQ,FK_MEMBER,NAME,SUBJECT,CONTENT,READCOUNT,TO_CHAR(REGDATE,'YYYY-MM-DD HH24:MI:SS') AS REGDATE ,COMMENTCOUNT 
+			 , LEAD(SEQ, 1) OVER(ORDER BY SEQ DESC) AS NEXTSEQ
+			 , LEAD(SUBJECT, 1) OVER(ORDER BY SEQ DESC) AS NEXTSUBJECT
+			 , GROUPNO , FK_SEQ ,  DEPTHNO , FILENAME , ORGFILENAME , FILESIZE
+			 FROM BUISNESSBOARD
+			 WHERE STATUS = 1 
+		 )V
+		WHERE V.SEQ = #{seq}
+	</select> 
+	
+	<update id="AddReadCount" parameterType="String">
+	 UPDATE BUISNESSBOARD SET READCOUNT = READCOUNT + 1 
+	 WHERE STATUS = 1 AND SEQ = #{seq}	
+	</update>
+	
+	<select id="getCommentList" resultType="com.spring.god.jinsoo.model.CommentVO" parameterType="String" >
+			SELECT NAME,CONTENT,TO_CHAR(REGDATE,'YYYY-MM-DD HH24:MI:SS') AS REGDATE  
+			FROM BUISNESSBOARDCOMMENT 
+			WHERE PARENTSEQ = #{parentSeq}	
+			ORDER BY SEQ DESC
+	</select>	
+	
+	<insert id="addComment"  parameterType="com.spring.god.jinsoo.model.CommentVO" >
+		INSERT INTO BUISNESSBOARDCOMMENT (SEQ,FK_MEMBERID,NAME,CONTENT,REGDATE,PARENTSEQ,STATUS)
+		VALUES(buisnessCommentSeq.nextval,#{fk_memberid},#{name},#{content},default,#{parentSeq},default)
+	</insert>
+	
+	<update id="updateCommentCount"  parameterType="String" >
+		UPDATE BUISNESSBOARD SET COMMENTCOUNT = COMMENTCOUNT+1 WHERE SEQ = #{parentSeq}
+	</update>
+	
+	<select id="yearRevenue" resultType="String">
+		SELECT  TO_CHAR(SUM(DAY * PRICE) ,'999,999,999,999') AS ALLPRICE
+		FROM
+		(
+			SELECT TO_DATE(CHECKOUT, 'YYYY-MM-DD') - TO_DATE(CHECKIN,'YYYY-MM-DD') AS DAY , PRICE 
+			FROM RESERVE1 A JOIN RESERVE2 B
+			ON A.RESERVEID = B.FK_RESERVEID
+			WHERE TO_CHAR(RESERVEDATE , 'YYYY') = TO_CHAR(SYSDATE , 'YYYY')
+		)V
+	</select>
+	
+	<select id="monthRevenue" resultType="String">
+		SELECT  TO_CHAR(SUM(DAY * PRICE) ,'999,999,999,999') AS ALLPRICE
+		FROM
+		(
+			SELECT TO_DATE(CHECKOUT, 'YYYY-MM-DD') - TO_DATE(CHECKIN,'YYYY-MM-DD') AS DAY , PRICE 
+			FROM RESERVE1 A JOIN RESERVE2 B
+			ON A.RESERVEID = B.FK_RESERVEID
+			WHERE TO_CHAR(RESERVEDATE , 'YYYY-MM') = TO_CHAR(SYSDATE , 'YYYY-MM')
+		)V
+	</select>
+	
+	<select id="todayRevenue" resultType="String">
+		SELECT  TO_CHAR(SUM(DAY * PRICE) ,'999,999,999,999')  AS ALLPRICE
+		FROM
+		(
+			SELECT TO_DATE(CHECKOUT, 'YYYY-MM-DD') - TO_DATE(CHECKIN,'YYYY-MM-DD') AS DAY , PRICE 
+			FROM RESERVE1 A JOIN RESERVE2 B
+			ON A.RESERVEID = B.FK_RESERVEID
+			WHERE TO_CHAR(RESERVEDATE , 'YYYY-MM-DD') = TO_CHAR(SYSDATE , 'YYYY-MM-DD')
+		)V
+	</select>
+	
+		<resultMap type="HASHMAP" id="LONTIONPRICE">
+			<result property="LARGECATEGORYNAME" column="LARGECATEGORYNAME" javaType="STRING" />
+			<result property="ALLPRICE" column="ALLPRICE" javaType="STRING" />			
+		</resultMap>
+	
+	<select id="categoryRevenueList" resultMap="LONTIONPRICE"  >
+		select LARGECATEGORYNAME , ALLPRICE  
+		from
+		(
+		    select LARGECATEGORYNAME, to_char(sum(day * price) , '999,999,999,999') AS ALLPRICE
+		    FROM 
+		    (
+		        SELECT LARGECATEGORYNAME,  TO_DATE(CHECKOUT, 'YYYY-MM-DD') - TO_DATE(CHECKIN,'YYYY-MM-DD') AS DAY , PRICE 
+		        FROM RESERVE1 A JOIN PRODUCT B
+		        ON A.FK_PRODUCTID = B.PRODUCTID
+		        JOIN LONTION C 
+		        ON B.FK_LARGECATEGORYONTIONCODE = C.LARGECATEGORYONTIONCODE
+		        JOIN LCATEGORY D
+		        ON C.FK_LARGECATEGORYCODE = D.LARGECATEGORYCODE
+		        JOIN RESERVE2 E
+		        ON A.RESERVEID = E.FK_RESERVEID
+		    )V
+		   GROUP BY LARGECATEGORYNAME 
+		)T
+	</select>
 		
 </mapper>
 
