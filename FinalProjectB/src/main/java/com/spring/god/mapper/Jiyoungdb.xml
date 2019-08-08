@@ -7,7 +7,7 @@
 <!-- DTO(VO)로 넘어온 값을 받아서 DB에서 처리해주는 것
       이때 조심해야할 일은 사용자가 만든 클래스명은 반드시 전체 패키지명까지 기술해주어야 한다. -->
    <insert id="register" parameterType="com.spring.god.jiyoung.model.MemberVO">
-      insert into MEMBER(IDX, NAME, MEMBERID, PWD, NICKNAME, EMAIL, GENDER, BRITHDAY, tel)
+      insert into MEMBER(IDX, NAME, MEMBERID, PWD, NICKNAME, EMAIL, GENDER, BRITHDAY, TEL)
       values(SEQ_MEMBER_IDX.nextval, #{name},#{memberId}, #{pwd}, #{nickName}, #{email}, #{gender}, #{brithDay}, #{tel})
    </insert>    
    
@@ -41,22 +41,17 @@
 		<result property="FK_IDX"  column="FK_IDX" javaType="int"/>		
 	</resultMap>
    
-   <select id="loginEnd" parameterType="HashMap" resultMap="loginMap">
-		SELECT FK_MEMBERID , PWD , NICKNAME , FK_IDX
-		from LOGIN_MEMBER
-		where FK_MEMBERID = #{userid} and PWD = #{pwd}  
-   </select>
-   
     <select id="getLoginMember" parameterType="HashMap" resultType="com.spring.god.jiyoung.model.MemberVO">
-		SELECT *
+		SELECT IDX, MEMBERID, NICKNAME, PWD, NAME, EMAIL, BRITHDAY, substr(TEL, 4, 4) as tel2, substr(TEL, 8) as tel3, GENDER, REGISTERDAY, STATUS
+		, GRADE, POINT, PICTURE, FINALLOGINDATE, FINALPWDATE
 		from MEMBER
-		where MEMBERID = #{userid} and PWD = #{pwd}  
+		where status = 1 and MEMBERID = #{userid} and PWD = #{pwd}  
    </select>
    
     <select id="getidFind" parameterType="HashMap" resultType="String">
 		SELECT MEMBERID
 		from MEMBER
-		where NAME = #{name} and EMAIL = #{email}
+		where status = 1 and NAM E = #{name} and EMAIL = #{email}
    </select> 
    
    <select id="isUserExists" parameterType="HashMap" resultType="int">
@@ -66,10 +61,32 @@
    </select>
    
   <update id="updatePwdUser" parameterType="HashMap">
-   UPDATE MEMBER SET PWD = #{pwd}
-   where status = 1 and memberid = #{userid}
+	   UPDATE MEMBER SET PWD = #{pwd}, tel = '010'||#{tel2}||#{tel3}
+	   where status = 1 and memberid = #{userid}
   </update>
    
+   <select id="memberEdit" parameterType="int" resultType="com.spring.god.jiyoung.model.MemberVO">
+	  SELECT IDX, MEMBERID, NICKNAME, PWD, NAME, EMAIL, BRITHDAY, substr(TEL, 4, 4) as tel2, substr(TEL, 8) as tel3, GENDER, REGISTERDAY, STATUS
+		, GRADE, POINT, PICTURE, FINALLOGINDATE, FINALPWDATE
+		from MEMBER
+	   where idx = #{idx}
+   </select>
    
+    <update id="memberEditEnd" parameterType="com.spring.god.jiyoung.model.MemberVO">
+	   UPDATE MEMBER SET PWD = #{pwd}, NICKNAME = #{nickName}, EMAIL = #{email}, TEL = #{tel}
+	   where status = 1 and memberid = #{memberId}
+  </update>
+   
+   <update id="memberout" parameterType="HashMap">
+	   UPDATE MEMBER set status = 0 , DELETEDAYE =SYSDATE
+	   where status = 1 and memberId = #{memberId} and pwd = #{pwd}
+   </update> 
+   
+	<update id="add_withFile" parameterType="com.spring.god.jiyoung.model.MemberVO"> 	
+ 		update MEMBER set picture = #{picture}
+		where status = 1 and memberId = #{memberId}
+	 </update> 
+	 
+	
       
 </mapper>

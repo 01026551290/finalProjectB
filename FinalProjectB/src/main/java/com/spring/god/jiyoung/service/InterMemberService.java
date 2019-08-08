@@ -2,6 +2,7 @@ package com.spring.god.jiyoung.service;
 
 import java.util.HashMap;
 
+import com.spring.god.hyein.model.PhotoVO;
 import com.spring.god.jiyoung.model.MemberVO;
 
 public interface InterMemberService {
@@ -13,9 +14,8 @@ public interface InterMemberService {
 	boolean isUsenickName(String nickName);
 	
 	boolean isUseemail(String email);
-
-	//로그인하기
-	MemberVO getLoginMember(HashMap<String, String> paraMap);
+	
+	MemberVO getLoginMember(HashMap<String, String> paraMap);//로그인하기
 
 	String getidFind(HashMap<String, String> paraMap);//아이디찾기
 
@@ -26,6 +26,18 @@ public interface InterMemberService {
 	int updatePwdUser(HashMap<String, String> paraMap);
 
 	MemberVO memberEdit(int idx);
+
+	int memberEditEnd(MemberVO vo);
+
+	int memberout(HashMap<String, String> paraMap);
+
+	int add_withFile(MemberVO membervo); // 멤버 사진 추가
+
+
+
+
+
+	
 
 
 }

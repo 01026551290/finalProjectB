@@ -1,42 +1,52 @@
 package com.spring.god.jiyoung.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-
-import com.spring.god.common.AES256;
+import com.spring.god.common.FileManager;
+import com.spring.god.common.MyUtil;
 import com.spring.god.common.SHA256;
-import com.spring.god.jiyoung.model.InterMemberDAO;
+import com.spring.god.hyein.model.PhotoVO;
 import com.spring.god.jiyoung.model.MemberDAO;
 import com.spring.god.jiyoung.model.MemberVO;
 import com.spring.god.jiyoung.service.InterMemberService;
 
-
-
-
-
 @Controller
-@Component
 public class MemberController {
 	
 	@Autowired
 	private InterMemberService service;
 	
-	private SHA256 sha;	
+	@Autowired	
+	private FileManager fileManager;
+	
+	private SHA256 sha;
+
+	private MemberVO vo;	
 	
 	@RequestMapping(value="/register.go", method= {RequestMethod.GET})
 	public ModelAndView register(ModelAndView mv) {
@@ -143,7 +153,15 @@ public class MemberController {
 				
 				return "tiles1/jiyoung/msg";
 	   }   
+	   
+	   // 마이페이지 전 암호 확인 페이지 매핑
+	   @RequestMapping(value="/pwdpass.go")
+		public ModelAndView requireLogin_pwdpass(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+			mv.setViewName("jiyoung/pwdpass.tiles1");
+			return mv;
+		}	   
 	
+	   /*회원가입*/
 	@RequestMapping(value="memberInsert.go", method= {RequestMethod.POST})
 	public String register(HttpServletRequest request, MemberVO mvo) throws Throwable {
 	
@@ -152,13 +170,8 @@ public class MemberController {
 		String birthDay = request.getParameter("birthyyyy");
 		birthDay += request.getParameter("birthmm");
 		birthDay += request.getParameter("birthdd");
-		String tel = request.getParameter("hp1");
-		tel += request.getParameter("hp2");
-		tel += request.getParameter("hp3");
+		String tel ="010"+request.getParameter("hp2")+request.getParameter("hp3");
 		
-		
-		
-		System.out.println(pwd);
 		mvo.setPwd(pwd);
 		mvo.setBrithDay(birthDay);
 		mvo.setTel(tel);
@@ -233,10 +246,7 @@ public class MemberController {
 	         }
 	         
 	      return mv;
-	      }
-
-	
-	
+	      }	
 	
 	// 로그아웃 하기
 		@RequestMapping(value="/logout.go")
@@ -295,10 +305,7 @@ public class MemberController {
 				mv.addObject("method","GET");
 				mv.setViewName("tiles1/jiyoung/pwdFind");
 			return mv;
-		}
-		
-		
-		
+		}	
 		
 		// 비밀번호 찾기
 		@RequestMapping(value="/pwdFindEnd.go", method= {RequestMethod.POST})
@@ -364,9 +371,6 @@ public class MemberController {
 			mv.addObject("email",email);
 			mv.addObject("n",n);
 			mv.setViewName("tiles1/jiyoung/pwdFind");					
-			
-			System.out.println(isUserExists);
-			System.out.println(n);
 			return mv;
 			
 	} // end of 비밀번호 찾기 ---------------
@@ -431,7 +435,6 @@ public class MemberController {
 		paraMap.put("pwd",SHA256.encrypt(pwd));
 			
 		int n = service.updatePwdUser(paraMap);
-		System.out.println(n);
 		mv.addObject("n", n);	
 		mv.addObject("method", "POST");
 
@@ -442,7 +445,7 @@ public class MemberController {
 	}
 	
 		@RequestMapping(value="/mypage.go")
-		public ModelAndView mypage(ModelAndView mv) {
+		public ModelAndView requireLogin_mypage(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
 			
 			mv.setViewName("jiyoung/mypage.tiles1");
 			
@@ -450,7 +453,7 @@ public class MemberController {
 		}
 		
 		
-		@RequestMapping(value="/memberedit.go")
+	/*	@RequestMapping(value="/memberEdit.go")
 		public ModelAndView memberEdit(ModelAndView mv,HttpServletRequest request,MemberVO vo) {
 			HttpSession session = request.getSession();
 			vo = (MemberVO)session.getAttribute("loginuser");
@@ -462,28 +465,166 @@ public class MemberController {
 			mv.addObject("vo",vo);
 			mv.setViewName("jiyoung/memberEdit.tiles1");
 			return mv;
-		}
+		}*/
 		
 		
-		@RequestMapping(value="/memberEditEnd.go")
-		public ModelAndView memberEditEnd(ModelAndView mv,HttpServletRequest request,MemberVO vo) {
+		@RequestMapping(value="/memberedit.go")
+		public String requireLogin_memberEdit(HttpServletRequest request,HttpServletResponse response, MemberVO vo) {
 			HttpSession session = request.getSession();
 			vo = (MemberVO)session.getAttribute("loginuser");
+			
 			int idx = vo.getIdx();
 			
 			vo = service.memberEdit(idx);
 			
-			mv.addObject("vo",vo);
-			mv.setViewName("jiyoung/memberEdit.tiles1");
+			request.setAttribute("vo", vo);
+			
+			return "jiyoung/memberEdit.tiles1";
+		}
+		
+		@RequestMapping(value="/memberEditEnd.go", method= {RequestMethod.POST})
+		public ModelAndView requireLogin_memberEditEnd(HttpServletRequest request,HttpServletResponse response, ModelAndView mv, MemberVO vo) {
+			
+			String pwd = request.getParameter("pwd");
+			String tel ="010"+request.getParameter("hp2")+request.getParameter("hp3");
+			String nickName = request.getParameter("nickName");
+			String email = request.getParameter("email");
+			
+			vo.setPwd(SHA256.encrypt(pwd));
+			vo.setTel(tel);
+			vo.setNickName(nickName);
+			vo.setEmail(email);
+			
+			
+			int n = service.memberEditEnd(vo);
+			
+			String msg = "";
+			
+			if(n>0) 
+				msg = "회원수정 성공!!";
+			
+			else 
+				msg = "회원수정 실패!!";
+			
+			String loc = request.getContextPath()+"/mypage.go";
+			
+			request.setAttribute("msg", msg);
+			request.setAttribute("loc", loc);
+			
+			mv.setViewName("tiles1/jiyoung/msg");
+			
+			return mv;
+		}		
+	
+		@RequestMapping(value="/memberout.go")
+		public ModelAndView requireLogin_memberout(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+			
+			mv.setViewName("jiyoung/memberout.tiles1");
+			
+			return mv;
+		}
+		@RequestMapping(value="/memberoutEnd.go")
+		public ModelAndView requireLogin_memberoutEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+			
+			String memberid = request.getParameter("memberId");
+			String pwd = request.getParameter("pwd");
+			pwd =  SHA256.encrypt(pwd);
+			HashMap<String, String> paraMap = new HashMap<String, String>();
+			paraMap.put("memberId", memberid);
+			paraMap.put("pwd", pwd);
+			
+			int n = service.memberout(paraMap);
+			System.out.println(n);
+			String msg = "";
+			
+			if(n>0) 
+				msg = "회원탈퇴 성공!!";
+			
+			else 
+				msg = "회원탈퇴 실패!!";
+			
+			String loc = request.getContextPath()+"/index.go";
+			
+			request.setAttribute("msg", msg);
+			request.setAttribute("loc", loc);
+			
+			mv.setViewName("tiles1/jiyoung/msg");
+			
+			return mv;
+		}
+	
+		@RequestMapping(value="/photoaddedit.go")
+		public ModelAndView photoaddedit(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+			
+			mv.setViewName("jiyoung/photoaddedit.tiles1");
+			
 			return mv;
 		}
 		
-		
-		
-	}
+		@RequestMapping(value="/photoaddeditEnd.go", method= {RequestMethod.POST})
+		public String photoaddeditEnd(MemberVO membervo, MultipartHttpServletRequest mrequest,HttpServletRequest request) {
+			System.out.println("시작");
+			HttpSession session = request.getSession();
+			MultipartFile attach = membervo.getAttach();
+			MemberVO membervo2 = (MemberVO)session.getAttribute("loginuser");
+			System.out.println(attach);
+			 if(!attach.isEmpty()) {
+				 session = request.getSession();
+				 String root  = session.getServletContext().getRealPath("/");
+				 System.out.println("0. " + root);
+				 String path = root + "resources" + File.separator + "images"+ File.separator +"member";
+				 
+				 System.out.println("1. " + path);
+				 String newFileName = "";
+				 	
+				 	byte[] bytes = null;
+				 	
+				 	try {
+						bytes = attach.getBytes();
+						newFileName = fileManager.doFileUpload(bytes, attach.getOriginalFilename(), path);
+						
+						System.out.println(">>> 확인용 newFileName == > "+newFileName);
+						membervo2.setPicture(attach.getOriginalFilename());
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				 
+			 }
+			 //=====!!첨부파일이 있는지 없는지 알아오기 끝!!  =====
+			 
+			 int n = 0;
+			 
+			
 
-	
+			 System.out.println(membervo2.getMemberId());
+			 n = service.add_withFile(membervo2);
+			 String msg = "업로드 실패!";
+			 String loc = "/god/mypage.go";
+			 if(n == 1 ) 
+				 msg = "수정되었습니다!";
+			
+			 request.setAttribute("msg", msg);
+			 request.setAttribute("loc", loc);
+			 
+			 System.out.println(n);
+			 return "tiles1/jiyoung/msg";
+		}
+		
+		/*@RequestMapping(value = "/getPic", method = RequestMethod.GET)
+	    public String getPic(String pic_no, HttpServletRequest request) {
+	        
+	        MemberVO picVO = new MemberVO();
+	        picVO = MemberDAO.getImage(pic_no);          // 이미지 정보 가져오기
+	        String path = MemberVO.getPic_path();   // 이미지 경로
+	        request.setAttribute("path", path);
+	        
+	        return "/image";
+	    }
+	*/
 
+		
+}
 	
 	
 

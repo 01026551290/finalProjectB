@@ -2,6 +2,8 @@
 
 import java.util.HashMap;
 
+import com.spring.god.hyein.model.PhotoVO;
+
 public interface InterMemberDAO {
 
 	int register(MemberVO mvo) throws Throwable;//등록
@@ -23,5 +25,17 @@ public interface InterMemberDAO {
 	int updatePwdUser(HashMap<String, String> paraMap);
 
 	MemberVO memberEdit(int idx);
+
+	int memberEditEnd(MemberVO vo);
+
+	int memberout(HashMap<String, String> paraMap);
+
+	int add_withFile(MemberVO membervo); // 멤버 사진 추가
+
+
+
+
+
+	
 
 }
