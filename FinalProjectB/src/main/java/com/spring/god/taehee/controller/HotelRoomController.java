@@ -65,8 +65,8 @@ public class HotelRoomController {
 	        List<HotelRoomVO> roomvo = service.getCheckInOutList(paraMap);
 	        System.out.println(roomvo.size());
 	        for(int i=0;i<roomvo.size();i++) {
-	        	System.out.println(roomvo.get(i).getPicture());
-	        	List<String> list = Arrays.asList(roomvo.get(i).getPicture().split(","));
+	        	System.out.println(roomvo.get(i).getOrgFileName());
+	        	List<String> list = Arrays.asList(roomvo.get(i).getOrgFileName().split(","));
 	        	roomvo.get(i).setImgList(list);
 	        }
 	        
