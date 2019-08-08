@@ -131,13 +131,17 @@ public class MemberController {
 		   mv.setViewName("yujin/purchaseHistory.tiles1");
 		   return mv;
 	   }
-
-		   @RequestMapping(value="/review.go", method= {RequestMethod.GET})
-	   public ModelAndView LoginCK_review(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
 	   
-		   HttpSession session = request.getSession(); 
-		   int memberidx = ((MemberVO)session.getAttribute("loginuser")).getIdx();	
-			 
+	   @RequestMapping(value="/reserveCancel.go", method= {RequestMethod.POST})
+	   public ModelAndView reserveCancel(HttpServletRequest request,HttpServletResponse response,ModelAndView mv, HistoryVO vo) {
+		   mv.addObject("vo",vo);   
+		   mv.setViewName("yujin/reserveCancel.tiles1");
+		   return mv;
+	   }
+
+	   @RequestMapping(value="/review.go", method= {RequestMethod.POST})
+	   public ModelAndView LoginCK_review(HttpServletRequest request,HttpServletResponse response,ModelAndView mv, HistoryVO vo) {
+		   mv.addObject("vo",vo);   
 		   mv.setViewName("yujin/review.tiles1");
 		   return mv;
 	   }
@@ -178,7 +182,9 @@ public class MemberController {
 		// ========= !!첨부파일이 있는지 없는지 알아오기 끝!! ========= */
 			
 		   rvo.setContent(MyUtil.replaceParameter(rvo.getContent()).replaceAll("\r\n", "<br/>"));
-	
+		   
+		   HttpSession session = request.getSession();
+		   rvo.setMemberIdx(((MemberVO)session.getAttribute("loginuser")).getIdx());
 		   int n = 0;
 		   if(attach.isEmpty()) {
 			   // 첨부파일이 없는 경우이라면

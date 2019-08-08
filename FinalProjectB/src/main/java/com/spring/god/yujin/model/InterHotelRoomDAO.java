@@ -15,6 +15,11 @@ public interface InterHotelRoomDAO {
 	List<SearchVO> getLargeCategoryCode(); // 서브서치를 위한 숙박유형
 	List<SearchVO> getLontion(); // 서브서치를 위한 숙소옵션
 	List<SearchVO> getPontion(); // 서브서치를 위한 객실옵션
+	
+	List<HistoryVO> getReviewRList(HashMap<String, String> paramap); //숙박상세페이지 리뷰리스트
+	List<HistoryVO> getReviewSList(HashMap<String, String> paramap);
+	List<HistoryVO> getReviewsList(HashMap<String, String> paramap);
+	int getReviewCnt(HashMap<String, String> paramap); //숙박상세페이지 리뷰갯수
 
 
 }

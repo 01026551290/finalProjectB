@@ -269,4 +269,86 @@ public class HotelRoomController {
 		   String result = jsonArr.toString();
 		   return result;
 	   }
+
+	   //서브서치 리스트 ajax
+	   @RequestMapping(value="/hotelReviewList.go", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
+	   @ResponseBody
+	   public String hotelReviewList(HttpServletRequest request) {
+		   
+		   JSONArray jsonArr = new JSONArray();
+		   
+		   HashMap<String, String> paramap = new HashMap<String, String>();
+		   paramap.put("hotelidx", request.getParameter("largeCategoryontionCode"));
+		   
+
+		   int reviewCnt = service.getReviewCnt(paramap);
+		   if(reviewCnt!=0) {
+			   JSONObject jsonObj = new JSONObject();
+			   jsonObj.put("reviewCnt", reviewCnt);
+			   jsonArr.put(jsonObj);
+		   }
+		   
+		   if(reviewCnt>0) {
+		   paramap.put("sort", "regdate desc");
+		   List<HistoryVO> RreviewList = service.getReviewRList(paramap);
+		   paramap.remove("sort");
+		   paramap.put("sort", "star desc");
+		   List<HistoryVO> SreviewList = service.getReviewSList(paramap);
+		   paramap.remove("sort");
+		   paramap.put("sort", "star ");
+		   List<HistoryVO> sreviewList = service.getReviewsList(paramap);
+
+		   if(RreviewList!=null) {
+			   for(HistoryVO vo : RreviewList) {
+				   JSONObject jsonObj = new JSONObject();
+				   jsonObj.put("RnickName", vo.getName());
+				   jsonObj.put("Rpicture", vo.getImg());
+				   jsonObj.put("RproductName", vo.getProductName());
+				   jsonObj.put("Rtitle", vo.getTitle());
+				   jsonObj.put("Rcontent", vo.getContent());
+				   jsonObj.put("Rstar", vo.getStar());
+				   jsonObj.put("RfileName", vo.getFileName());
+				   jsonObj.put("Rregdate", vo.getReserveDate());
+				   
+				   jsonArr.put(jsonObj);
+			   }
+		   }
+		   
+		   if(SreviewList!=null) {
+			   for(HistoryVO vo : SreviewList) {
+				   JSONObject jsonObj = new JSONObject();
+				   jsonObj.put("SnickName", vo.getName());
+				   jsonObj.put("Spicture", vo.getImg());
+				   jsonObj.put("SproductName", vo.getProductName());
+				   jsonObj.put("Stitle", vo.getTitle());
+				   jsonObj.put("Scontent", vo.getContent());
+				   jsonObj.put("Sstar", vo.getStar());
+				   jsonObj.put("SfileName", vo.getFileName());
+				   jsonObj.put("Sregdate", vo.getReserveDate());
+				   
+				   jsonArr.put(jsonObj);
+			   }
+		   }
+		   
+		   if(sreviewList!=null) {
+			   for(HistoryVO vo : sreviewList) {
+				   JSONObject jsonObj = new JSONObject();
+				   jsonObj.put("snickName", vo.getName());
+				   jsonObj.put("spicture", vo.getImg());
+				   jsonObj.put("sproductName", vo.getProductName());
+				   jsonObj.put("stitle", vo.getTitle());
+				   jsonObj.put("scontent", vo.getContent());
+				   jsonObj.put("sstar", vo.getStar());
+				   jsonObj.put("sfileName", vo.getFileName());
+				   jsonObj.put("sregdate", vo.getReserveDate());
+				                
+				   jsonArr.put(jsonObj);
+			   }
+		   }
+		   
+		   }
+		   
+		   String result = jsonArr.toString();
+		   return result;
+	   }
 }

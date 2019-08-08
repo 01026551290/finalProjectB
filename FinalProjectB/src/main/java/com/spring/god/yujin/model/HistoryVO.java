@@ -1,9 +1,13 @@
 package com.spring.god.yujin.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class HistoryVO {
 	
 	private int fk_productId;
 	private int price;
+	private int reserveId;
 	private String reserveDate;
 	private String checkIn;
 	private String checkOut;
@@ -25,12 +29,13 @@ public class HistoryVO {
 	
 	public HistoryVO() {}
 
-	public HistoryVO(int fk_productId, int price, String reserveDate, String checkIn, String checkOut, int noNight,
+	public HistoryVO(int fk_productId, int price, int reserveId, String reserveDate, String checkIn, String checkOut, int noNight,
 			String title, String content, double star, String regDate, String fileName, String largeCategoryOntionCode,
 			String name, String businessTel, String address, String info, String img, String productName, String roomType, int memberIdx) {
 		super();
 		this.fk_productId = fk_productId;
 		this.price = price;
+		this.reserveId = reserveId;
 		this.reserveDate = reserveDate;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
@@ -67,8 +72,16 @@ public class HistoryVO {
 		this.price = price;
 	}
 
+	public int getReserveId() {
+		return reserveId;
+	}
+
+	public void setReserveId(int reserveId) {
+		this.reserveId = reserveId;
+	}
+
 	public String getReserveDate() {
-		return reserveDate;
+		return reserveDate.substring(0,10);
 	}
 
 	public void setReserveDate(String reserveDate) {
@@ -76,7 +89,7 @@ public class HistoryVO {
 	}
 
 	public String getCheckIn() {
-		return checkIn;
+		return checkIn.substring(0,10);
 	}
 
 	public void setCheckIn(String checkIn) {
@@ -84,11 +97,36 @@ public class HistoryVO {
 	}
 
 	public String getCheckOut() {
-		return checkOut;
+		return checkOut.substring(0,10);
 	}
-
+	
 	public void setCheckOut(String checkOut) {
 		this.checkOut = checkOut;
+	}
+
+	SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
+	Calendar c1 = Calendar.getInstance();
+	String str_today = today.format(c1.getTime());
+
+	public int getCanWriteReview() {
+		String checkOutdate=checkOut.substring(0,4)+checkOut.substring(5,7)+checkOut.substring(8,10);
+		int checkoutAfter = Integer.parseInt(str_today)-Integer.parseInt(checkOutdate);
+		return checkoutAfter;
+	}
+	
+	public int getCanCancelReserve() {
+		String checkIndate=checkIn.substring(0,4)+checkIn.substring(5,7)+checkIn.substring(8,10);
+		int cancelReserve = Integer.parseInt(checkIndate)-Integer.parseInt(str_today);
+		return cancelReserve;
+	}
+	
+	public int getUsing() {
+		String checkIndate=checkIn.substring(0,4)+checkIn.substring(5,7)+checkIn.substring(8,10);
+		String checkOutdate=checkOut.substring(0,4)+checkOut.substring(5,7)+checkOut.substring(8,10);
+		int checkoutAfter = Integer.parseInt(checkOutdate)-Integer.parseInt(str_today);
+		int cancelReserve = Integer.parseInt(checkIndate)-Integer.parseInt(str_today);
+		int using = checkoutAfter*cancelReserve;
+		return using;
 	}
 
 	public int getNoNight() {
@@ -197,6 +235,14 @@ public class HistoryVO {
 	
 	public String getRoomType() {
 		return roomType;
+	}
+	
+	public String getBed() {
+		return roomType.substring(1,2);
+	}
+	
+	public String getPer() {
+		return roomType.substring(2);
 	}
 	
 	public void setRoomType(String roomType) {

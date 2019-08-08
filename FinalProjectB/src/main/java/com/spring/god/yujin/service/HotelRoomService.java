@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.god.hyein.model.HotelRoomVO;
+import com.spring.god.yujin.model.HistoryVO;
 import com.spring.god.yujin.model.InterHotelRoomDAO;
 import com.spring.god.yujin.model.SearchVO;
 
@@ -51,6 +52,30 @@ public class HotelRoomService implements InterHotelRoomService {
 	public List<SearchVO> getPontion() {
 		List<SearchVO> pontion = dao.getPontion();
 		return pontion;
+	}
+
+	@Override
+	public List<HistoryVO> getReviewRList(HashMap<String, String> paramap) {
+		List<HistoryVO> list = dao.getReviewRList(paramap);
+		return list;
+	}
+	
+	@Override
+	public List<HistoryVO> getReviewSList(HashMap<String, String> paramap) {
+		List<HistoryVO> list = dao.getReviewSList(paramap);
+		return list;
+	}
+	
+	@Override
+	public List<HistoryVO> getReviewsList(HashMap<String, String> paramap) {
+		List<HistoryVO> list = dao.getReviewsList(paramap);
+		return list;
+	}
+
+	@Override
+	public int getReviewCnt(HashMap<String, String> paramap) {
+		int cnt = dao.getReviewCnt(paramap);
+		return cnt;
 	}
 	   
 	   

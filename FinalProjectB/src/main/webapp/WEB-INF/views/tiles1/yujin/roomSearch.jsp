@@ -771,6 +771,7 @@
                <form name="subSearchFrm">
                <div id="subSearchInfo">
               
+                <input type="hidden" name="largeCategoryontionCode" value="" >
                 <input type="hidden" name="searchWord" value="${searchvo.searchWord}" >
 				<input type="hidden" name="sort" value="${searchvo.sort}" >
 				<input type="hidden" name="checkout_date" value="${searchvo.checkout_date}" >

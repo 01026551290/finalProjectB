@@ -75,7 +75,7 @@
 	   <if test='memberid==null or "".equals(memberid)'>
 	      select * from
 	      (
-	      select ROW_NUMBER() OVER(ORDER BY a.name) NUM,a.*,b.star as star,b.starcnt as starcnt 
+	      select ROW_NUMBER() OVER(ORDER BY a.name) NUM,a.*,b.star,b.starcnt  
 		  from
 			  (
 		 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
@@ -134,7 +134,8 @@
 		      ) a left join 
 			      (select hotelidx,avg(star) as star,count(*) as starcnt
 				  from review
-				  group by hotelidx) b
+				  group by hotelidx
+				  ) b
 	      on a.largecategoryontioncode=b.hotelidx
 	       <if test="minStar>=0 and minStar!=null and maxStar>=0 and maxStar!=null">
 	      where nvl(b.star,0) between #{minStar} and #{maxStar}
@@ -215,13 +216,13 @@
 					  from review
 					  group by hotelidx) b
 		      on a.largecategoryontioncode=b.hotelidx
+		       <if test="minStar>=0 and minStar!=null and maxStar>=0 and maxStar!=null">
+		      where nvl(b.star,0) between #{minStar} and #{maxStar}
+		      </if>
 		      ) where num between #{startRno} and #{endRno}
 			 ) a left join (     
 	      select * from likelist where fk_memberid=#{memberid} and status=1) b
 	      on a.largecategoryontioncode = b.fk_hotelid
-	       <if test="minStar>=0 and minStar!=null and maxStar>=0 and maxStar!=null">
-	      where nvl(b.star,0) between #{minStar} and #{maxStar}
-	      </if>
 	      <if test='sort!=null and !"".equals(sort)'>
 	      order by ${sort}
 	      </if>
@@ -268,11 +269,11 @@
    </select>
    
    <select id="getPurchaseHistory" parameterType="int" resultType="com.spring.god.yujin.model.HistoryVO">
-	select a.price,a.reserveDate,a.checkIn,a.checkOut,a.checkin-a.checkout+1 as noNight,a.productName,a.roomType,b.name,b.address,b.img 
+	select a.reserveId,a.fk_productid,a.price,a.reserveDate,a.checkIn,a.checkOut,a.checkout-a.checkin+1 as noNight,a.productName,a.roomType,a.fk_largecategoryontioncode as largeCategoryOntionCode,b.name,b.address,b.img 
 	from
-		(select a.price,a.reservedate,a.checkin,a.checkout,b.fk_largecategoryontioncode,b.productname,b.roomtype 
+		(select a.reserveId,a.fk_productid,a.price,a.reservedate,a.checkin,a.checkout,b.fk_largecategoryontioncode,b.productname,b.roomtype 
 		from
-			(select a.fk_productid,a.price,a.reservedate,b.checkin,b.checkout 
+			(select a.reserveId,a.fk_productid,a.price,a.reservedate,b.checkin,b.checkout 
 			from reserve1 a join reserve2 b
 			on a.reserveid=b.fk_reserveid
 			where status=1 and a.memberidx=#{memberidx}) a join product b
@@ -282,12 +283,12 @@
    
    <insert id="addReview" parameterType="com.spring.god.yujin.model.ReviewVO">
       INSERT INTO review(reviewidx,memberidx,hotelidx,roomidx,reserveidx,title,content,star,GROUPNO)
-      VALUES(seq_review.nextval,5,1002,1001,11,#{title},#{content},#{star},0)
+      VALUES(seq_review.nextval,#{memberIdx},#{largeCategoryOntionCode},#{productId},#{reserveId},#{title},#{content},#{star},0)
    </insert>
    
    <insert id="addReview_withfile" parameterType="com.spring.god.yujin.model.ReviewVO">
       INSERT INTO review(reviewidx,memberidx,hotelidx,roomidx,reserveidx,title,content,star,GROUPNO,imgidx)
-      VALUES(seq_review.nextval,5,1002,1001,11,#{title},#{content},#{star},0,SEQ_REVIEW_IMG.nextval)
+      VALUES(seq_review.nextval,#{memberIdx},#{largeCategoryOntionCode},#{productId},#{reserveId},#{title},#{content},#{star},0,SEQ_REVIEW_IMG.nextval)
    </insert>
    
    <insert id="addReviewFile" parameterType="com.spring.god.yujin.model.ReviewVO">
@@ -353,6 +354,95 @@
 		)
    </select>
    
+   <select id="getReviewList" parameterType="HashMap" resultType="com.spring.god.yujin.model.HistoryVO">
+   select nickname as name,picture as img,productName,title,content,star,fileName,regdate as reserveDate
+	from
+	    (
+	    select roomidx,title,content,star,regdate,filename,nickname,picture
+	    from
+	        (
+	        select memberidx,roomidx,title,content,imgidx,star,regdate,filename 
+	        from
+	            (
+	            select reviewidx,memberidx,roomidx,title,content,imgidx,star,regdate
+	            from review 
+	            where status=1 
+	            <if test="hotelidx!=0">
+	            and hotelidx=#{hotelidx} 
+	            </if>
+	            <if test="sort!=null">
+	            order by #{sort}
+	            </if>
+	            )a
+	            left join 
+	            (
+	            select reviewidx, listagg(filename,',') within group(order by reviewidx) as filename
+	            from review_img
+	            group by reviewidx
+	            )b
+	        on a.reviewidx=b.reviewidx
+	        )a 
+	        join 
+	        (
+	        select idx,nickname,picture
+	        from member
+	        where status=1
+	        )b
+	    on a.memberidx=b.idx
+	    )a
+	    join 
+	    (
+	    select productid,productname
+	    from product
+	    where productstatus=1
+	    )b
+	on a.roomidx =b.productid    
+   </select>
+   
+   <select id="getReviewCnt" parameterType="HashMap" resultType="int">
+   select count(*)
+	from
+	    (
+	    select roomidx,title,content,star,regdate,filename,nickname,picture
+	    from
+	        (
+	        select memberidx,roomidx,title,content,imgidx,star,regdate,filename 
+	        from
+	            (
+	            select reviewidx,memberidx,roomidx,title,content,imgidx,star,regdate
+	            from review 
+	            where status=1 
+	            <if test="hotelidx!=0">
+	            and hotelidx=#{hotelidx} 
+	            </if>
+	            <if test="sort!=null">
+	            order by ${sort}
+	            </if>
+	            )a
+	            left join 
+	            (
+	            select reviewidx, listagg(filename,',') within group(order by reviewidx) as filename
+	            from review_img
+	            group by reviewidx
+	            )b
+	        on a.reviewidx=b.reviewidx
+	        )a 
+	        join 
+	        (
+	        select idx,nickname,picture
+	        from member
+	        where status=1
+	        )b
+	    on a.memberidx=b.idx
+	    )a
+	    join 
+	    (
+	    select productid,productname
+	    from product
+	    where productstatus=1
+	    )b
+	on a.roomidx =b.productid    
+   </select>
 
    
    

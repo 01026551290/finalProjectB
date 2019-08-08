@@ -1,5 +1,6 @@
 package com.spring.god.yujin.model;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -49,6 +50,30 @@ public class HotelRoomDAO implements InterHotelRoomDAO {
 	public List<SearchVO> getPontion() {
 		List<SearchVO> pontion = sqlsession.selectList("yujindb.getPontion");
 		return pontion;
+	}
+
+	@Override
+	public List<HistoryVO> getReviewRList(HashMap<String, String> paramap) {
+		List<HistoryVO> list = sqlsession.selectList("yujindb.getReviewList",paramap);
+		return list;
+	}
+	
+	@Override
+	public List<HistoryVO> getReviewSList(HashMap<String, String> paramap) {
+		List<HistoryVO> list = sqlsession.selectList("yujindb.getReviewList",paramap);
+		return list;
+	}
+	
+	@Override
+	public List<HistoryVO> getReviewsList(HashMap<String, String> paramap) {
+		List<HistoryVO> list = sqlsession.selectList("yujindb.getReviewList",paramap);
+		return list;
+	}
+
+	@Override
+	public int getReviewCnt(HashMap<String, String> paramap) {
+		int cnt = sqlsession.selectOne("yujindb.getReviewCnt",paramap);
+		return cnt;
 	}
 
 
