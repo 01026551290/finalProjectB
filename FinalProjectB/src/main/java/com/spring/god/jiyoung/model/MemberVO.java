@@ -1,5 +1,7 @@
 ﻿ package com.spring.god.jiyoung.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class MemberVO {
 
 	private int idx;         //회원번호(시퀀스로 데이터가 들어온다)
@@ -9,7 +11,9 @@ public class MemberVO {
 	private String name;    //이메일   (AES-256 암호화/복호화 대상)
 	private String email;      //휴대폰
 	private String brithDay;      //   (AES-256 암호화/복호화 대상)
-	private String tel;      //   (AES-256 암호화/복호화 대상)
+	private String tel;
+	private String tel2;      //   (AES-256 암호화/복호화 대상)
+	private String tel3;      //   (AES-256 암호화/복호화 대상)
 	private int    gender;    //우편번호
 	private String registerDay;    // 
 	private int status;    //주소
@@ -20,12 +24,13 @@ public class MemberVO {
 	private String finalPwDate;  //생일
 	private String fk_MemberId;
 	private String fk_Idx;
+	private MultipartFile attach;   	// 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
 	
 	public MemberVO() {}
 
 	public MemberVO(int idx, String memberId, String nickName, String pwd, String name, String email, String brithDay,
-			String tel, int gender, String registerDay, int status, int grade, int point, String picture,
-			String finalLoginDate, String finalPwDate, String fk_MemberId, String fk_Idx) {
+			String tel, String tel2, String tel3, int gender, String registerDay, int status, int grade, int point, String picture,
+			String finalLoginDate, String finalPwDate, String fk_MemberId, String fk_Idx, MultipartFile attach) {
 		super();
 		this.idx = idx;
 		this.memberId = memberId;
@@ -35,6 +40,8 @@ public class MemberVO {
 		this.email = email;
 		this.brithDay = brithDay;
 		this.tel = tel;
+		this.tel2 = tel2;
+		this.tel3 = tel3;
 		this.gender = gender;
 		this.registerDay = registerDay;
 		this.status = status;
@@ -45,6 +52,7 @@ public class MemberVO {
 		this.finalPwDate = finalPwDate;
 		this.fk_MemberId = fk_MemberId;
 		this.fk_Idx = fk_Idx;
+		this.attach = attach;
 	}
 
 	public int getIdx() {
@@ -102,13 +110,29 @@ public class MemberVO {
 	public void setBrithDay(String brithDay) {
 		this.brithDay = brithDay;
 	}
-
+	
 	public String getTel() {
 		return tel;
 	}
-
+	
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+
+	public String getTel2() {
+		return tel2;
+	}
+
+	public void setTel2(String tel2) {
+		this.tel2 = tel2;
+	}
+
+	public String getTel3() {
+		return tel3;
+	}
+
+	public void setTel3(String tel3) {
+		this.tel3 = tel3;
 	}
 
 	public int getGender() {
@@ -189,6 +213,16 @@ public class MemberVO {
 
 	public void setFk_Idx(String fk_Idx) {
 		this.fk_Idx = fk_Idx;
-	}	
+	}
+
+
+	public MultipartFile getAttach() {
+		return attach;
+	}
+
+	public void setAttach(MultipartFile attach) {
+		this.attach = attach;
+	}
+	
 	
 }

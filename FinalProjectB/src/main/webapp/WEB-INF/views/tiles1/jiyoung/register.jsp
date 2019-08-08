@@ -1,10 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
        
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
-
-    
 <script type="text/javascript">
 	
 	$(document).ready(function(){
@@ -299,7 +297,7 @@
               <div class="row">
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" for="PWD" required>암호</label><span class="star">*</span>
-                  <input type="password" name="pwd" id="PWD" class="form-control ">
+                  <input type="password" name="pwd" id="PWD" class="form-control " >
                   <span id="error_passwd">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로만 입력가능합니다.</span>
                 </div>
               </div>
@@ -314,7 +312,7 @@
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" for="NICKNAME" required>닉네임</label><span class="star">*</span>
                   <input type="text" name="nickName" id="NICKNAME"  class="form-control ">
-                   <!-- 아이디중복체크 -->
+                   <!-- 닉네임중복체크 -->
 			    <img id="nicknamecheck" src="../images/b_id_check.gif" style="vertical-align: middle;" />
                   <span class="error">닉네임은 필수입력 사항입니다.</span>
                 </div>
@@ -323,7 +321,7 @@
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" for="EMAIL" required>Email</label><span class="star">*</span>
                   <input type="email" name="email" id="EMAIL" class="form-control ">
-                   <!-- 아이디중복체크 -->
+                   <!-- 이메일중복체크 -->
 			    <img id="emailcheck" src="../images/b_id_check.gif" style="vertical-align: middle;" />
                   <span class="error">이메일 형식에 맞지 않습니다.</span>
                 </div>
@@ -338,7 +336,7 @@
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="TEL">전화번호</label><span class="star">*</span>
+                  <label class="text-black font-weight-bold">전화번호</label><span class="star">*</span>
                   <select name="hp1" id="hp1" style="width: 75px; padding: 8px;">
 					<option value="010" selected>010</option>
 				</select>&nbsp;-&nbsp;
