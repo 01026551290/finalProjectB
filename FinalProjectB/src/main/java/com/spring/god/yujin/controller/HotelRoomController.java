@@ -278,6 +278,7 @@ public class HotelRoomController {
 		   JSONArray jsonArr = new JSONArray();
 		   
 		   HashMap<String, String> paramap = new HashMap<String, String>();
+		   System.out.println(request.getParameter("largeCategoryontionCode"));
 		   paramap.put("hotelidx", request.getParameter("largeCategoryontionCode"));
 		   
 
@@ -288,14 +289,20 @@ public class HotelRoomController {
 			   jsonArr.put(jsonObj);
 		   }
 		   
+		   System.out.println(reviewCnt);
+		   
 		   if(reviewCnt>0) {
+			   System.out.println("reviewCnt>0");
 		   paramap.put("sort", "regdate desc");
+		   System.out.println(paramap.get("sort"));
 		   List<HistoryVO> RreviewList = service.getReviewRList(paramap);
 		   paramap.remove("sort");
 		   paramap.put("sort", "star desc");
+		   System.out.println(paramap.get("sort"));
 		   List<HistoryVO> SreviewList = service.getReviewSList(paramap);
 		   paramap.remove("sort");
 		   paramap.put("sort", "star ");
+		   System.out.println(paramap.get("sort"));
 		   List<HistoryVO> sreviewList = service.getReviewsList(paramap);
 
 		   if(RreviewList!=null) {
@@ -307,9 +314,14 @@ public class HotelRoomController {
 				   jsonObj.put("Rtitle", vo.getTitle());
 				   jsonObj.put("Rcontent", vo.getContent());
 				   jsonObj.put("Rstar", vo.getStar());
+//				   String[] imgList = vo.getFileName().split(",");
+//				   for(int i=0;i<imgList.length;i++) {
+//					   jsonObj.put("RimgList"+i, imgList[i]);
+//					   System.out.println(imgList[i]);
+//				   }
 				   jsonObj.put("RfileName", vo.getFileName());
 				   jsonObj.put("Rregdate", vo.getReserveDate());
-				   
+				   System.out.println(vo.getContent());
 				   jsonArr.put(jsonObj);
 			   }
 		   }
@@ -325,6 +337,7 @@ public class HotelRoomController {
 				   jsonObj.put("Sstar", vo.getStar());
 				   jsonObj.put("SfileName", vo.getFileName());
 				   jsonObj.put("Sregdate", vo.getReserveDate());
+				   System.out.println(vo.getContent());
 				   
 				   jsonArr.put(jsonObj);
 			   }
@@ -341,6 +354,7 @@ public class HotelRoomController {
 				   jsonObj.put("sstar", vo.getStar());
 				   jsonObj.put("sfileName", vo.getFileName());
 				   jsonObj.put("sregdate", vo.getReserveDate());
+				   System.out.println(vo.getContent());
 				                
 				   jsonArr.put(jsonObj);
 			   }
@@ -352,3 +366,7 @@ public class HotelRoomController {
 		   return result;
 	   }
 }
+
+
+
+

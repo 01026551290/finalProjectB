@@ -180,7 +180,152 @@ button#btn_heart {
 
 <script type="text/javascript">
    $(document).ready(function(){
-    
+	   	  largeCategoryontionCode = {largeCategoryontionCode:${HotelVO.largeCategoryontionCode}};
+	      $.ajax({ // 리뷰부분 ajax처리         
+	             url:"/god/hotelReviewList.go",
+	             type:"GET",
+	             dataType:"JSON",
+	             data:largeCategoryontionCode,
+	             success:function(json){
+	               if(json.length > 0) { 
+	                     reviewDivR = '<div class="tab-pane fade text-left active show" role="tabpanel" aria-labelledby="regDate-tab" id="regDates">'+
+	                               "<div class='row'><div class='col-md-12'>";
+	                     reviewDivS = '<div class="tab-pane fade text-left" id="LSTAR" role="tabpanel" aria-labelledby="STAR-tab">'+
+	                               "<div class='row'><div class='col-md-12'>";
+	                     reviewDivs = '<div class="tab-pane fade text-left" id="starss" role="tabpanel" aria-labelledby="starS-tab">'+
+	                               "<div class='row'><div class='col-md-12'>";
+
+						$.each(json, function(entryIndex, item){
+	                        
+						  reviewCnt = item.reviewCnt;
+		                  if(reviewCnt>0 && reviewCnt!=0){
+		                     reviewHeadDiv = "<h2 class='heading text-white'>REVIEW</h2>"
+		                                 +"<h3 class='text-white'>"+reviewCnt+"개의 후기</h3>";
+		                       $("#reviewHeadDiv").html(reviewHeadDiv);
+	                         }
+
+		                  if(reviewCnt>0 && reviewCnt==0){
+		                     reviewHeadDiv = "<h2 class='heading text-white'>REVIEW</h2>"
+		                                 +"<h3 class='text-white'>아직 후기가 없습니다.</h3>";
+		                       $("#reviewHeadDiv").html(reviewHeadDiv);
+		                  }   
+			                  
+						  
+                          RnickName      =item.RnickName;
+                          RproductName      =item.RproductName;
+                          Rpicture      =item.Rpicture;
+                          Rtitle         =item.Rtitle;
+                          Rcontent      =item.Rcontent;
+                          Rstar         =item.Rstar;
+                          RfileName      =item.RfileName;
+                          Rregdate      =item.Rregdate;
+
+                          SnickName      =item.SnickName;
+                          SproductName      =item.SproductName;
+                          Spicture      =item.Spicture;
+                          Stitle         =item.Stitle;
+                          Scontent      =item.Scontent;
+                          Sstar         =item.Sstar;
+                          SfileName      =item.SfileName;
+                          Sregdate      =item.Sregdate;
+                        
+                          snickName      =item.snickName;
+                          sproductName      =item.sproductName;
+                          spicture      =item.spicture;
+                          stitle         =item.stitle;
+                          scontent      =item.scontent;
+                          sstar         =item.sstar;
+                          sfileName      =item.sfileName;
+                          sregdate      =item.sregdate;
+
+                          
+                          if(RnickName != null && RnickName.length > 0) {
+                           reviewDivR += ' <div class="food-menu mb-5 row">                                                                   ';
+                           reviewDivR += '   <div class="col-md-2" style="padding-left: 30px;">                                                                   ';
+                           reviewDivR += '	   	<img src="/god/resources/images/member/'+Rpicture+'" style="width: 100px; border-radius: 100px; height: 100px; ">                                           ';
+                           reviewDivR += '	   	<span class="d-block text-primary h4 " style="width: 100px;margin-top: 10px;text-align: center;">'+RnickName+'</span>       ';
+                           reviewDivR += '	   	<span style="text-align: center; width: 100px;" class="d-block ">'+Rregdate+'</span>                                 ';
+                           reviewDivR += ' 	</div>                                                                                                             ';
+                           reviewDivR += '	<div class="col-md-10">                                                                                                ';
+                           reviewDivR += '		<h3 class="text-white"><a href="#" class="text-white">'+Rtitle+'</a></h3>                          		   ';
+                           reviewDivR += '		<p class="text-white text-opacity-7">'+Rcontent+'</p>                                                                      '; 
+                           reviewDivR += '		<div>                                                                                                              ';
+                           
+                           if(RfileName != null && RfileName.length > 0) {
+                            reviewImg = RfileName.split(",");
+                            for(i in reviewImg){
+                             reviewDivR += '			<img src="/god/resources/images/review/'+reviewImg[i]+'" style="height: 70px; width: 70px; margin: 10px;">                                                  ';
+                            }
+                           }
+                           
+                           reviewDivR += '		</div>                                                                                                             ';
+                           reviewDivR += '	</div>                                                                                                                 ';
+                           reviewDivR += '	</div>                                                                                                                 ';
+                          }
+                          
+                          if(SnickName != null && SnickName.length > 0) {
+                           reviewDivS += ' <div class="food-menu mb-5 row">                                                                   ';
+                           reviewDivS += '   <div class="col-md-2" style="padding-left: 30px;">                                                                   ';
+                           reviewDivS += '	   	<img src="/god/resources/images/member/'+Spicture+'" style="width: 100px; border-radius: 100px; height: 100px; ">                                           ';
+                           reviewDivS += '	   	<span class="d-block text-primary h4 " style="width: 100px;margin-top: 10px;text-align: center;">'+SnickName+'</span>       ';
+                           reviewDivS += '	   	<span style="text-align: center; width: 100px;" class="d-block ">'+Sregdate+'</span>                                 ';
+                           reviewDivS += ' 	</div>                                                                                                             ';
+                           reviewDivS += '	<div class="col-md-10">                                                                                                ';
+                           reviewDivS += '		<h3 class="text-white"><a href="#" class="text-white">'+Stitle+'</a></h3>                          		   ';
+                           reviewDivS += '		<p class="text-white text-opacity-7">'+Scontent+'</p>                                                                      '; 
+                           reviewDivS += '		<div>                                                                                                              ';
+                           
+                           if(SfileName != null && SfileName.length > 0) {
+                            reviewImg = SfileName.split(",");
+                            for(i in reviewImg){
+                             reviewDivS += '			<img src="/god/resources/images/review/'+reviewImg[i]+'" style="height: 70px; width: 70px; margin: 10px;">                                                  ';
+                            }
+                           }
+                           
+                           reviewDivS += '		</div>                                                                                                             ';
+                           reviewDivS += '	</div>                                                                                                                 ';
+                           reviewDivS += '	</div>                                                                                                                 ';
+                          }
+                          
+                          if(snickName != null && snickName.length > 0) {
+                           reviewDivs += ' <div class="food-menu mb-5 row">                                                                   ';
+                           reviewDivs += '   <div class="col-md-2" style="padding-left: 30px;">                                                                   ';
+                           reviewDivs += '	   	<img src="/god/resources/images/member/'+spicture+'" style="width: 100px; border-radius: 100px; height: 100px; ">                                           ';
+                           reviewDivs += '	   	<span class="d-block text-primary h4 " style="width: 100px;margin-top: 10px;text-align: center;">'+snickName+'</span>       ';
+                           reviewDivs += '	   	<span style="text-align: center; width: 100px;" class="d-block ">'+sregdate+'</span>                                 ';
+                           reviewDivs += ' 	</div>                                                                                                             ';
+                           reviewDivs += '	<div class="col-md-10">                                                                                                ';
+                           reviewDivs += '		<h3 class="text-white"><a href="#" class="text-white">'+stitle+'</a></h3>                          		   ';
+                           reviewDivs += '		<p class="text-white text-opacity-7">'+scontent+'</p>                                                                      '; 
+                           reviewDivs += '		<div>                                                                                                              ';
+
+                           if(sfileName != null && sfileName.length > 0) {
+                            reviewImg = sfileName.split(",");
+                            for(i in reviewImg){
+                             reviewDivs += '			<img src="/god/resources/images/review/'+reviewImg[i]+'" style="height: 70px; width: 70px; margin: 10px;">                                                  ';
+                            }
+                           }
+
+                           reviewDivs += '		</div>                                                                                                             ';
+                           reviewDivs += '	</div>                                                                                                                 ';
+                           reviewDivs += '	</div>                                                                                                                 ';
+                          }
+                         
+	                     });
+	                  
+	                  reviewDivR+="</div></div></div>";
+	                  reviewDivS+="</div></div></div>";
+	                  reviewDivs+="</div></div></div>";
+	                    
+	                  reviewDiv=reviewDivR+reviewDivS+reviewDivs;
+	                    $("#reviewDiv").html(reviewDiv);
+	               }   
+	             },
+	             error: function(request, status, error){
+	                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	             }
+	          });
+	   
 //////////////////////////////////////////////////////
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
@@ -285,13 +430,16 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
    ///////////////////////////////////////////////////////////////////////////////////
     
    
+      ///////////////////////////////////////////////////////////////////////////////////
+    
+<%--    
       
    function goSearch() {
       var frm = document.infoSearchFrm;
       frm.method = "GET";
       frm.action = "<%=request.getContextPath()%>/list.go";
       //   frm.submit();
-   }
+   } --%>
    
    function goSearchRoom(searchTypeVal) {
    
@@ -318,8 +466,37 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
       });//end of $.ajax
    }
    
+   function goSearch() {
+      frm =document.returnFrm;
+      
+      frm.method = "GET";
+       frm.action = "/god/product2.go";
+        frm.submit();
+   }
+   
    function goView(productId,productName,roomType2,roomType3,weekPrice) {
       
+      var checkin_date = $("#checkin_date").val();
+      var checkout_date = $("#checkout_date").val();   
+
+      
+      if (checkin_date.trim()=="") {
+         $("#checkin_date").val("");1
+         alert("시작일을 선택해주세요.");
+         $("input#checkin_date").focus();
+         return;
+      }
+      
+      else if (checkout_date.trim()=="") {
+         $("#checkout_date").val("");
+         alert("종료일을 선택해주세요.");
+            $("input#checkout_date").focus();
+          return;
+          
+
+   }
+      
+
        var frm = document.goViewFrm;      
        frm.productId.value = productId;
        frm.productName.value = productName;
@@ -329,42 +506,17 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
        frm.method = "GET";
        frm.action = "<%=request.getContextPath()%>/accommodationInfo.go";
         frm.submit();
-    }
+    
+
    
-   
-   
-<%--    function goShowReview() {
-   case: 최신순
-      $.ajax({
-         url:"<%= request.getContextPath()%>/reviewjson.action",
-         type:"POST",
-         dataType:"JSON",
-         success:function(json){
-            var html = "";
-            $.each(json, function(index, item){
-               html += "<tr>";
-               html += "<td style='text-align: center;'>"+item.name+"</td>";
-               html += "<td>"+item.star+"</td>";
-               html += "<td>"+item.content+"</td>";
-               html += "<td style='text-align: center;'>"+item.regDate+"</td>";
-               html += "</tr>";
-            });
-            
-            $("#reviewDisplay").html(html);
-            frm.content.value = "";
-         },
-         error: function(request, status, error){
-            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-         }
-      }); 
-   
-   case: 별점 높은 순
-   
-   
+
       
-   case: 별점 낮은 순   
+   }
+   
+   
+
       
-      --%>
+     
    // 이미지 split
    /* 
     var imgString = '${hotelroomvo.picture}';
@@ -376,357 +528,231 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
    
     </script>
 <section class="site-hero inner-page overlay"
-	style="background-image: url(images/hero_4.jpg)"
-	data-stellar-background-ratio="0.5">
+   style="background-image: url(images/hero_4.jpg)"
+   data-stellar-background-ratio="0.5">
 
-	<div class="container">
-		<div
-			class="row site-hero-inner justify-content-center align-items-center">
-			<div class="col-md-10 text-center" data-aos="fade">
-				<h1 class="heading mb-3">Contact</h1>
-				<ul class="custom-breadcrumbs mb-4">
-					<li><a href="index.html">Home</a></li>
-					<li>&bullet;</li>
-					<li>Contact</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<a class="mouse smoothscroll" href="#next">
-		<div class="mouse-icon">
-			<span class="mouse-wheel"></span>
-		</div>
-	</a>
+   <div class="container">
+      <div
+         class="row site-hero-inner justify-content-center align-items-center">
+         <div class="col-md-10 text-center" data-aos="fade">
+            <h1 class="heading mb-3">Contact</h1>
+            <ul class="custom-breadcrumbs mb-4">
+               <li><a href="index.html">Home</a></li>
+               <li>&bullet;</li>
+               <li>Contact</li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   <a class="mouse smoothscroll" href="#next">
+      <div class="mouse-icon">
+         <span class="mouse-wheel"></span>
+      </div>
+   </a>
 </section>
 <!-- END section -->
 
 <section class="py-5 bg-light">
-	<div class="container">
-		<div class="row align-items-center">
+   <div class="container">
+      <div class="row align-items-center">
 
-			<c:if test="${HotelVO!=null}">
-				<div
-					class="col-md-12 col-lg-7 ml-auto order-lg-2 position-relative mb-5  ">
-					<img
-						src="http://file.mk.co.kr/meet/neds/2016/02/image_readtop_2016_120257_14554975042357349.jpg"
-						alt="Image" class="img-fluid rounded">
-				</div>
-				<div class="col-md-12 col-lg-4 order-lg-1 aos-init aos-animate"
-					data-aos="fade-up">
-					<h2 class="heading">${HotelVO.name}</h2>
-					<p>${HotelVO.address}</p>
+         <c:if test="${HotelVO!=null}">
+            <div
+               class="col-md-12 col-lg-7 ml-auto order-lg-2 position-relative mb-5  ">
+               <img
+                  src="http://file.mk.co.kr/meet/neds/2016/02/image_readtop_2016_120257_14554975042357349.jpg"
+                  alt="Image" class="img-fluid rounded">
+            </div>
+            <div class="col-md-12 col-lg-4 order-lg-1 aos-init aos-animate"
+               data-aos="fade-up">
+               <h2 class="heading">${HotelVO.name}</h2>
+               <p>${HotelVO.address}</p>
 
-					<p class="mb-4">${HotelVO.info}</p>
-					<p class="mb-4">${HotelVO.ontionType}</p>
-					<p class="mb-4">문의 : ${HotelVO.businessTel}</p>
+               <p class="mb-4">${HotelVO.info}</p>
+               <p class="mb-4">${HotelVO.ontionType}</p>
+               <p class="mb-4">문의 : ${HotelVO.businessTel}</p>
 
 
-					<p>
-						<a href="#" class="btn btn-primary text-white py-2 mr-3">찜하기</a> <span
-							class="mr-3 font-family-serif"> <!-- <em>or</em></span> <a href="https://vimeo.com/channels/staffpicks/93951774" data-fancybox="" class="text-uppercase letter-spacing-1">See video</a></p> -->
-				</div>
-			</c:if>
-		</div>
-	</div>
+               <p>
+                  <a href="#" class="btn btn-primary text-white py-2 mr-3">찜하기</a> <span
+                     class="mr-3 font-family-serif"> <!-- <em>or</em></span> <a href="https://vimeo.com/channels/staffpicks/93951774" data-fancybox="" class="text-uppercase letter-spacing-1">See video</a></p> -->
+            </div>
+         </c:if>
+      </div>
+   </div>
 </section>
 
 <section class="section pb-4" style="margin-top: 100px;">
-	<div class="container">
+   <div class="container">
 
-		<div class="row check-availabilty" id="next">
-			<div class="block-32">
-				<form action="#">
-					<div class="row">
-						<div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-							<label for="checkin_date" class="font-weight-bold text-black">Check In</label>
-							<div class="field-icon-wrap">
-								<div class="icon">
-									<span class="icon-calendar"></span>
-								</div>
-								<input value="${checkin_date}" type="text" id="checkin_date" class="form-control">
-							</div>
-						</div>
-						<div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-							<label for="checkout_date" class="font-weight-bold text-black">Check Out</label>
-							<div class="field-icon-wrap">
-								<div class="icon">
-									<span class="icon-calendar"></span>
-								</div>
-								<input value="${checkout_date}" type="text" id="checkout_date" class="form-control">
-							</div>
-						</div>
-						<div class="col-md-6 mb-3 mb-md-0 col-lg-3">
-							<div class="row">
-								<div class="col-md-6 mb-3 mb-md-0">
-									<label for="adults" class="font-weight-bold text-black">Adults</label>
-									<div class="field-icon-wrap">
-										<div class="icon">
-											<span class="ion-ios-arrow-down"></span>
-										</div>
-										<select name="searchType adult" id="searchType adults" class="form-control">
-											<c:if test="${adult!=null and adult!=''}"> 
-												<c:forEach var="i" begin="1" end="4">
-													<c:if test="${adult==i}">
-														<option value="${i}" selected>${i}</option>
-													</c:if>
-													<c:if test="${adult!=i}">
-														<option value="${i}">${i}</option>
-													</c:if>
-													</c:forEach>
-													</c:if>
-													<c:if test="${adult==null or adult==''}">
-														<option value="1" selected>1</option>
-														<option value="2">2</option>
-														<option value="3">3</option>
-														<option value="4">4+</option>
-													</c:if>
-											
-										</select>
-									</div>
-								</div>
-								<div class="col-md-6 mb-3 mb-md-0">
-									<label for="searchType children"
-										class="font-weight-bold text-black">Children</label>
-									<div class="field-icon-wrap">
-										<div class="icon">
-											<span class="ion-ios-arrow-down"></span>
-										</div>
-										<select name="children" id="searchType children" class="form-control">
-											<c:if test="${children!=null and children!=''}">
-												<c:forEach var="i" begin="0" end="3">
-													<c:if test="${children==i}">
-														<option value="${i}" selected>${i}</option>
-													</c:if>
-													<c:if test="${children!=i}">
-														<option value="${i}">${i}</option>
-													</c:if>
-													</c:forEach>
-													</c:if>
-													<c:if test="${children==null or children==''}">
-														<option value="0" selected>0</option>
-														<option value="1">1</option>
-														<option value="2">2</option>
-														<option value="3">3</option>
-													</c:if>
-												
-								
+      <div class="row check-availabilty" id="next">
+         <div class="block-32">
+            <form name="returnFrm">
+            <input type="hidden" name="largeCategoryontionCode" value="${largeCategoryontionCode}">
+               <div class="row">
+                  <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                     <label for="checkin_date" class="font-weight-bold text-black">Check In</label>
+                     <div class="field-icon-wrap">
+                        <div class="icon">
+                           <span class="icon-calendar"></span>
+                        </div>
+                        <input value="${checkin_date}" type="text" id="checkin_date" name="checkin_date" autocomplete="off" class="form-control">
+                     </div>
+                  </div>
+                  <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                     <label for="checkout_date" class="font-weight-bold text-black">Check Out</label>
+                     <div class="field-icon-wrap">
+                        <div class="icon">
+                           <span class="icon-calendar"></span>
+                        </div>
+                        <input value="${checkout_date}" type="text" id="checkout_date" name="checkout_date" class="form-control" autocomplete="off">
+                     </div>
+                  </div>
+                  <div class="col-md-6 mb-3 mb-md-0 col-lg-3">
+                     <div class="row">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                           <label for="adults" class="font-weight-bold text-black">Adults</label>
+                           <div class="field-icon-wrap">
+                              <div class="icon">
+                                 <span class="ion-ios-arrow-down"></span>
+                              </div>
+                              <select name="adult" id="searchType adults" class="form-control">
+                                 <c:if test="${adult!=null and adult!=''}"> 
+                                    <c:forEach var="i" begin="1" end="4">
+                                       <c:if test="${adult==i}">
+                                          <option value="${i}" selected>${i}</option>
+                                       </c:if>
+                                       <c:if test="${adult!=i}">
+                                          <option value="${i}">${i}</option>
+                                       </c:if>
+                                       </c:forEach>
+                                       </c:if>
+                                       <c:if test="${adult==null or adult==''}">
+                                          <option value="1" selected>1</option>
+                                          <option value="2">2</option>
+                                          <option value="3">3</option>
+                                          <option value="4">4+</option>
+                                       </c:if>
+                                 
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-md-6 mb-3 mb-md-0">
+                           <label for="searchType children"
+                              class="font-weight-bold text-black">Children</label>
+                           <div class="field-icon-wrap">
+                              <div class="icon">
+                                 <span class="ion-ios-arrow-down"></span>
+                              </div>
+                              <select name="children" id="searchType children" class="form-control">
+                                 <c:if test="${children!=null and children!=''}">
+                                    <c:forEach var="i" begin="0" end="3">
+                                       <c:if test="${children==i}">
+                                          <option value="${i}" selected>${i}</option>
+                                       </c:if>
+                                       <c:if test="${children!=i}">
+                                          <option value="${i}">${i}</option>
+                                       </c:if>
+                                       </c:forEach>
+                                       </c:if>
+                                       <c:if test="${children==null or children==''}">
+                                          <option value="0" selected>0</option>
+                                          <option value="1">1</option>
+                                          <option value="2">2</option>
+                                          <option value="3">3</option>
+                                       </c:if>
+                                    
+                        
 
-										</select>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 col-lg-3 align-self-end">
-							<button class="btn btn-primary btn-block text-white">검색</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+                              </select>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-6 col-lg-3 align-self-end">
+                     <button class="btn btn-primary btn-block text-white" onclick="goSearch()">검색</button>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
 </section>
 
 <!-- END section -->
 <section class="section bg-light">
-	<c:if test="${RoomVO!=null}">
-		<!-- 객실 뽑을 for문 -->
-		<c:forEach var="RoomVO" items="${RoomVO}">
-			<div class="site-block-half d-block d-lg-flex bg-white  ">
-				<c:if test="${RoomVO.imgList!=null}">
-					<c:forEach var="list" items="${RoomVO.imgList}">
-						<a href="#" class="image d-block bg-image-2"
-							style="background-image: url('/god/resources/images/room/${list}');"></a>
-					</c:forEach>
-				</c:if>
-				<div class="text">
-					<h5 class="mb-4" style="font-size: 25px;">${RoomVO.productName}</h5>
-					<span class="d-block mb-4">
-					<span class="text-uppercase letter-spacing-2">주중가 : </span>
-					<span class="display-4 text-primary">${RoomVO.weekPrice} ~</span>
-					<span class="text-uppercase letter-spacing-2">/ per night</span> </span>
-					<span class="d-block mb-4"><span class="text-uppercase letter-spacing-2">주말가 : </span>
-					<span class="display-4 text-primary">${RoomVO.weekenPrice}	~</span> 
-					<span class="text-uppercase letter-spacing-2">/ per	night</span> </span>
-					<h5 class="mb-4">침대갯수 :
-						${RoomVO.roomType.substring(1,2)}개 / 수용인원 :
-						${RoomVO.roomType.substring(2)}명</h5>
-					<p class="mb-4">${RoomVO.roomInfo}</p>
-					<p>
-						<a href="#" class="btn btn-primary text-white" onclick="goView('${RoomVO.productId}','${RoomVO.productName}','${RoomVO.roomType.substring(1,2)}','${RoomVO.roomType.substring(2)}','${RoomVO.weekPrice}')" style="cursor: pointer;">예약하기</a>
-					</p>
-				</div>
-			</div>
-		</c:forEach>
-		<!-- 객실 뽑을 for문 -->
-	</c:if>
+   <c:if test="${RoomVO!=null}">
+      <!-- 객실 뽑을 for문 -->
+      <c:forEach var="RoomVO" items="${RoomVO}">
+         <div class="site-block-half d-block d-lg-flex bg-white  ">
+            <c:if test="${RoomVO.imgList!=null}">
+               <c:forEach var="list" items="${RoomVO.imgList}">
+                  <a href="#" class="image d-block bg-image-2"
+                     style="background-image: url('/god/resources/images/room/${list}');"></a>
+               </c:forEach>
+            </c:if>
+            <div class="text">
+               <h5 class="mb-4" style="font-size: 25px;">${RoomVO.productName}</h5>
+               <span class="d-block mb-4">
+               <span class="text-uppercase letter-spacing-2">주중가 : </span>
+               <span class="display-4 text-primary">${RoomVO.weekPrice} ~</span>
+               <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
+               <span class="d-block mb-4"><span class="text-uppercase letter-spacing-2">주말가 : </span>
+               <span class="display-4 text-primary">${RoomVO.weekenPrice}   ~</span> 
+               <span class="text-uppercase letter-spacing-2">/ per   night</span> </span>
+               <h5 class="mb-4">침대갯수 :
+                  ${RoomVO.roomType.substring(1,2)}개 / 수용인원 :
+                  ${RoomVO.roomType.substring(2)}명</h5>
+               <p class="mb-4">${RoomVO.roomInfo}</p>
+               <p>
+                  <a href="#" class="btn btn-primary text-white" id="btnReserve" onclick="goView('${RoomVO.productId}','${RoomVO.productName}','${RoomVO.roomType.substring(1,2)}','${RoomVO.roomType.substring(2)}','${RoomVO.weekPrice}')" style="cursor: pointer;">예약하기</a>
+               </p>
+            </div>
+         </div>
+      </c:forEach>
+      <!-- 객실 뽑을 for문 -->
+   </c:if>
 </section>
 
 
 <section class="section contact-section" id="next">
-	<div class="container">
+   <div class="container">
 
 
 
-		<div class="col-md-12" style="border: 1px solid gray;">
-			<div class="row">
-				<div id="map" style="width: 790px; height: 500px; margin: 0 auto;"></div>
-			</div>
-		</div>
+      <div class="col-md-12" style="border: 1px solid gray;">
+         <div class="row">
+            <div id="map" style="width: 790px; height: 500px; margin: 0 auto;"></div>
+         </div>
+      </div>
 
-	</div>
+   </div>
 </section>
 
-<section class="section bg-image overlay"
-	style="background-image: url('images/hero_3.jpg');">
-	<div class="container">
-		<div class="row justify-content-center text-center mb-5">
-			<div class="col-md-7">
-				<h2 class="heading text-white  ">REVIEW</h2>
-			</div>
-		</div>
-		<div class="food-menu-tabs aos-init aos-animate" data-aos="fade">
-			<!-- Ajax로 최신순 별점순 등등으로 정렬조회 -->
-			<ul class="nav nav-tabs mb-5" id="myTab" role="tablist">
-				<li class="nav-item"><a class="nav-link letter-spacing-2"
-					id="mains-tab" data-toggle="tab" href="#mains" role="tab"
-					aria-controls="mains" aria-selected="false">최신 리뷰</a></li>
-				<li class="nav-item"><a class="nav-link letter-spacing-2"
-					id="desserts-tab" data-toggle="tab" href="#desserts" role="tab"
-					aria-controls="desserts" aria-selected="false"
-					onclick="goShowReview()">높은 평점 순</a></li>
-				<li class="nav-item"><a
-					class="nav-link letter-spacing-2 active show" id="drinks-tab"
-					data-toggle="tab" href="#drinks" role="tab" aria-controls="drinks"
-					aria-selected="true" onclick="goShowReview()">낮은 평점 순</a></li>
-			</ul>
-			<!-- Ajax로 최신순 별점순 등등으로 정렬조회 -->
-			<div class="tab-content py-5" id="myTabContent">
-
-
-				<div class="tab-pane fade text-left" id="mains" role="tabpanel"
-					aria-labelledby="mains-tab">
-					<div class="row">
-						<div class="col-md-12">
-
-							<!-- for문 부분  최신순  -->
-
-							<div class="food-menu mb-5">
-								<c:if test="${reviewList!=null}">
-									<c:forEach var="reviewvo" items="${reviewList}">
-
-										<tr>
-											<span class="d-block text-primary h4 mb-3">작성자${reviewvo.memberidx}
-												/ 평점${reviewvo.star}</span>
-											<h3 class="text-white">
-												<a href="#" class="text-white">후기 제목${reviewvo.title}</a>
-											</h3>
-											<p class="text-white text-opacity-7">후기 내용
-												${reviewvo.content}</p>
-											<h6 class="text-white">작성일${reviewvo.regdate}</h6>
-											<td style="text-align: center;">${reviewvo.name}</td>
-											<td>${reviewvo.content}</td>
-											<td style="text-align: center;">${reviewvo.regDate}</td>
-										</tr>
-
-									</c:forEach>
-								</c:if>
-							</div>
-							<!-- for문 부분 -->
-						</div>
-					</div>
-				</div>
-				<!-- .tab-pane -->
-				<!-- for문 부분 높은 평점 순  -->
-				<div class="tab-pane fade text-left" id="desserts" role="tabpanel"
-					aria-labelledby="desserts-tab">
-					<c:forEach var="reviewvo" items="${reviewList}">
-						<c:if test="${reviewList!=null}">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="food-menu mb-5">
-										<span class="d-block text-primary h4 mb-3">${reviewvo.title}</span>
-										<h3 class="text-white">
-											<a href="#" class="text-white">Banana Split</a>
-										</h3>
-										<p class="text-white text-opacity-7">Far far away, behind
-											the word mountains, far from the countries Vokalia and
-											Consonantia, there live the blind texts.</p>
-									</div>
-								</div>
-							</div>
-							<!-- .tab-pane -->
-							<div class="tab-pane fade text-left active show" id="drinks"
-								role="tabpanel" aria-labelledby="drinks-tab">
-								<div class="row">
-									<div class="col-md-6">
-										<div class="food-menu mb-5">
-											<span class="d-block text-primary h4 mb-3">$32.00</span>
-											<h3 class="text-white">
-												<a href="#" class="text-white">Spring Water</a>
-											</h3>
-											<p class="text-white text-opacity-7">Far far away, behind
-												the word mountains, far from the countries Vokalia and
-												Consonantia, there live the blind texts.</p>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- .tab-pane -->
-						</c:if>
-					</c:forEach>
-				</div>
-				<!-- for문 부분  높은 평점 순  -->
-
-
-				<!-- for문 부분  낮은 평점 순  -->
-				<!-- .tab-pane -->
-				<div class="tab-pane fade text-left" id="drinks" role="tabpanel"
-					aria-labelledby="drinks-tab">
-					<div class="row">
-						<div class="col-md-6">
-							<c:if test="${reviewList!=null}">
-								<div class="food-menu mb-5">
-									<span class="d-block text-primary h4 mb-3">${reviewvo.title}</span>
-									<h3 class="text-white">
-										<a href="#" class="text-white">Spring Water</a>
-									</h3>
-									<p class="text-white text-opacity-7">Far far away, behind
-										the word mountains, far from the countries Vokalia and
-										Consonantia, there live the blind texts.</p>
-								</div>
-								<div class="food-menu mb-5">
-									<span class="d-block text-primary h4 mb-3">$14.00</span>
-									<h3 class="text-white">
-										<a href="#" class="text-white">Coke, Diet Coke, Coke Zero</a>
-									</h3>
-									<p class="text-white text-opacity-7">Far far away, behind
-										the word mountains, far from the countries Vokalia and
-										Consonantia, there live the blind texts.</p>
-								</div>
-								<div class="food-menu mb-5">
-									<span class="d-block text-primary h4 mb-3">$93.00</span>
-									<h3 class="text-white">
-										<a href="#" class="text-white">Orange Fanta</a>
-									</h3>
-									<p class="text-white text-opacity-7">Far far away, behind
-										the word mountains, far from the countries Vokalia and
-										Consonantia, there live the blind texts.</p>
-								</div>
-							</c:if>
-						</div>
-					</div>
-				</div>
-
-				<!-- .tab-pane -->
-				<!-- for문 부분  낮은 평점 순  -->
-			</div>
-		</div>
-	</div>
-
+<section class="section bg-image overlay" style="background-image: url('images/hero_3.jpg');">
+   <div class="container">
+      <div class="row justify-content-center text-center mb-5">
+         <div class="col-md-7" id="reviewHeadDiv"></div>
+      </div>
+      <div class="food-menu-tabs aos-init aos-animate" data-aos="fade">
+         <!-- Ajax로 최신순 별점순 등등으로 정렬조회 -->
+         <ul class="nav nav-tabs mb-5" id="myTab" role="tablist">
+               <li class="nav-item"><a class="nav-link letter-spacing-2 active show" data-toggle="tab" href="#regDates" role="tab" aria-controls="regDate" aria-selected="true" id="regDate-tab">regDate</a></li>
+               <li class="nav-item"><a class="nav-link letter-spacing-2" id="STAR-tab" data-toggle="tab" href="#LSTAR" role="tab" aria-controls="STAR" aria-selected="false">STAR</a></li>
+               <li class="nav-item"><a class="nav-link letter-spacing-2" id="starS-tab" data-toggle="tab" href="#starss" role="tab" aria-controls="starS" aria-selected="false">starS</a></li>
+         </ul>
+      	<div class="tab-content py-5" id="reviewDiv">
+      	
+      	<!-- ajax -->
+      	
+      	</div>      
+      
+      </div>
+   </div>
 
 	<!-- 호텔정보 보내기(체크인&체크아웃은 RoomVO임)  -->
 	<form name="goViewFrm">
-		<input type="hidden" name="largeCategoryontionCode" value="${HotelVO.largeCategoryontionCode}" /> 
+		<input type="hidden" name="" value="${HotelVO.largeCategoryontionCode}" /> 
 		<input type="hidden" name="productId" value="" /> 
 		<input type="hidden" name="img" value="${HotelVO.img}" /> 
 		<input type="hidden" name="name" value="${HotelVO.name}" /> 

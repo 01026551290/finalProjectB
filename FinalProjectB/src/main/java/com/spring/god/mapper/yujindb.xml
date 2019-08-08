@@ -370,8 +370,8 @@
 	            <if test="hotelidx!=0">
 	            and hotelidx=#{hotelidx} 
 	            </if>
-	            <if test="sort!=null">
-	            order by #{sort}
+	            <if test='sort!=null and !"".equals(sort)'>
+	            order by ${sort}
 	            </if>
 	            )a
 	            left join 
@@ -415,7 +415,7 @@
 	            <if test="hotelidx!=0">
 	            and hotelidx=#{hotelidx} 
 	            </if>
-	            <if test="sort!=null">
+	            <if test='sort!=null and !"".equals(sort)'>
 	            order by ${sort}
 	            </if>
 	            )a
