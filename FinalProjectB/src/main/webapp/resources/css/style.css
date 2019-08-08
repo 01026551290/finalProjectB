@@ -1910,6 +1910,50 @@ div#displayList {
 }
 
 
+/* 실시간검색어 css */
+#rank-list a {
+    color: #ffaa34;
+    text-decoration: none;
+}
+
+#rank-list a:hover {
+    text-decoration: underline;
+}
+
+#rank-list {
+    overflow: hidden;
+    width: 100%;
+    height: 30px;
+    margin: 0;
+}
+
+#rank-list dt {
+    display: none;
+}
+
+#rank-list dd {
+    position: relative;
+    margin: 0;
+}
+
+#rank-list ol {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    width: 100%;
+}
+
+#rank-list li {
+    height: 30px;
+    line-height: 30px;
+}
+/* End 실시간검색어 */
+
+
+
 .noticeStyle {
     font-size: 14px;
     font-weight: bold;

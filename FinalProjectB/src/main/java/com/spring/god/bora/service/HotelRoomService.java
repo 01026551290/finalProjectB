@@ -36,5 +36,12 @@ public class HotelRoomService implements InterHotelRoomService {
 		return hotelList;
 	}
 	
+	// 호텔조회수에 의한 실시간 검색어
+	@Override
+	public List<HotelRoomVO> gethotelViewsRealTime() {
+		List<HotelRoomVO> hotelView = dao.gethotelViewsRealTime();
+		return hotelView;
+	}
+	
 	
 }

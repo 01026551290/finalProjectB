@@ -26,7 +26,6 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		
 		// === 검색어 입력시 자동글 완성하기 2 ===
 		$("#displayList").hide();
 		

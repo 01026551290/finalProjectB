@@ -15,6 +15,9 @@ public interface InterHotelRoomService {
 	// 숙소보여주기(최신숙소)
 	List<HotelRoomVO> getlist();
 	
+	// 호텔조회수에 의한 실시간 검색어
+	List<HotelRoomVO> gethotelViewsRealTime();
+	
 
 
 }

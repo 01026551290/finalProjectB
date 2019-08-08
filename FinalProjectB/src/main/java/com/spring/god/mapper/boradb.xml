@@ -70,6 +70,23 @@
 		values(seq_reserve1_reserveid.currval, #{checkIn}, #{checkOut})
 	</insert>
 
-
+	<select id="gethotelViewsRealTime" resultType="com.spring.god.bora.model.HotelRoomVO">
+		select largecategoryontioncode, name
+		from 
+		(
+		    select ROW_NUMBER() OVER(ORDER BY cnt desc) rno, name, cnt, largecategoryontioncode
+		    from 
+		    (
+		        select count(*) as cnt ,hotelidx 
+		        from hotelviews
+		        group by hotelidx
+		    )HV JOIN (
+		        select *
+		        from lontion
+		    )L
+		    on HV.hotelidx = L.largecategoryontioncode
+		)
+		where rno between 1 and 9
+	</select>
 
 </mapper>
