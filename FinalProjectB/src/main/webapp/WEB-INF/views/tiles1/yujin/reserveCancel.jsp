@@ -61,7 +61,7 @@
 							<p>
                                 <span class="d-block">1 개 객실 x 1 박:(세금미포함)</span>
                                 <span class="text-black">
-                                	<fmt:formatNumber value="${vo.price/}" pattern="###,###" /> 원
+                                	<fmt:formatNumber value="${vo.price}" pattern="###,###" /> 원
                                 </span><!-- 객실금액 -->
                                 <span class="d-block">세금&amp;서비스 금액:</span>
                                 <span class="text-black">
