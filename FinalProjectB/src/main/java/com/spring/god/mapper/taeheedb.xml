@@ -33,7 +33,8 @@ where hotelidx=#{hotelidx}
  
  <!-- 체크인체크아웃 가져오기 -->
  <select id="getCheckInOutList" parameterType="HashMap" resultType="com.spring.god.hyein.model.HotelRoomVO">
- select * from (
+ select productId,fk_LargeCategoryOntionCode,roomOption,productName,weekPrice,weekenPrice,roomInfo,roomType,picture as orgFileName
+ from (
  SELECT * 
   FROM
      (
