@@ -1,24 +1,15 @@
 package com.spring.god.jiyoung.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Random;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,11 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.god.jiyoung.model.*;
 import com.spring.god.common.FileManager;
-import com.spring.god.common.MyUtil;
 import com.spring.god.common.SHA256;
-import com.spring.god.hyein.model.PhotoVO;
-import com.spring.god.jiyoung.model.MemberDAO;
 import com.spring.god.jiyoung.model.MemberVO;
 import com.spring.god.jiyoung.service.InterMemberService;
 
@@ -221,6 +210,16 @@ public class MemberController {
 	      ////////////////////////////////////////////////////////
 	      HttpSession session = request.getSession();
 	      
+	      if (request.getSession().getAttribute("mvo") != null)
+	      {
+	    	  String msg = "이미 로그인한 상태입니다.";
+		      String loc = "javascript:history.back()";
+		      
+	    	  mv.addObject("msg", msg);
+	    	  mv.addObject("loc", loc);
+		      mv.setViewName("tiles1/jiyoung/msg");
+	      }
+
 	      if(mvo == null) {
 	         String msg = "아이디 또는 암호가 틀립니다";
 	         String loc = "javascript:history.back()";
@@ -379,7 +378,7 @@ public class MemberController {
 		
 		
 	@RequestMapping(value="/verifyCertificationFrm.go", method= {RequestMethod.POST})
-	public ModelAndView VerifyCertificationAction(ModelAndView mv, HttpServletRequest request){	
+	public ModelAndView VerifyCertificationgo(ModelAndView mv, HttpServletRequest request){	
 		
 		String userid = request.getParameter("userid"); /* 데이터베이스에서 업뎃해야 돼서 받아옴. */
 		String userCertificationCode = request.getParameter("userCertificationCode");
@@ -414,7 +413,7 @@ public class MemberController {
 	// 강사님은 한 페이지에서 해결했는데, 그건 이클립스라서 아무 방식이나 받기 때문임.
 	// 근데 스프링에서는 한 메서드에 한 request 방식만 받기 때문에, 나눠줘야 함.
 	@RequestMapping(value="/pwdConfirm.go", method= {RequestMethod.GET})
-	public ModelAndView PwdConfirmAction(ModelAndView mv, HttpServletRequest request){
+	public ModelAndView PwdConfirmgo(ModelAndView mv, HttpServletRequest request){
 		
 		String userid = request.getParameter("userid");
 		request.setAttribute("userid", userid);
@@ -423,9 +422,9 @@ public class MemberController {
 		return mv;
 	}
 	
-	// 인증 후 패스워드 변경하는 곳 (바로 위의 PwdConfirmAction 에서 이어지는 것임.)
+	// 인증 후 패스워드 변경하는 곳 (바로 위의 PwdConfirmgo 에서 이어지는 것임.)
 	@RequestMapping(value="/PwdConfirmEnd.go", method= {RequestMethod.POST})
-	public ModelAndView PwdConfirmActionEnd(ModelAndView mv, HttpServletRequest request){
+	public ModelAndView PwdConfirmgoEnd(ModelAndView mv, HttpServletRequest request){
 		
 		String userid = request.getParameter("userid");
 		String pwd = request.getParameter("pwd");
@@ -573,7 +572,7 @@ public class MemberController {
 				 session = request.getSession();
 				 String root  = session.getServletContext().getRealPath("/");
 				 System.out.println("0. " + root);
-				 String path = root + "resources" + File.separator + "images"+ File.separator +"member";
+				 String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources" + File.separator + "images\\member";
 				 
 				 System.out.println("1. " + path);
 				 String newFileName = "";
@@ -595,8 +594,6 @@ public class MemberController {
 			 //=====!!첨부파일이 있는지 없는지 알아오기 끝!!  =====
 			 
 			 int n = 0;
-			 
-			
 
 			 System.out.println(membervo2.getMemberId());
 			 n = service.add_withFile(membervo2);
@@ -611,19 +608,6 @@ public class MemberController {
 			 System.out.println(n);
 			 return "tiles1/jiyoung/msg";
 		}
-		
-		/*@RequestMapping(value = "/getPic", method = RequestMethod.GET)
-	    public String getPic(String pic_no, HttpServletRequest request) {
-	        
-	        MemberVO picVO = new MemberVO();
-	        picVO = MemberDAO.getImage(pic_no);          // 이미지 정보 가져오기
-	        String path = MemberVO.getPic_path();   // 이미지 경로
-	        request.setAttribute("path", path);
-	        
-	        return "/image";
-	    }
-	*/
-
 		
 }
 	

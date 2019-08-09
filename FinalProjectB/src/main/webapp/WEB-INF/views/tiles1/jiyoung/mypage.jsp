@@ -93,16 +93,15 @@
 							<c:if test="${loginuser != null }">  
 							
 							<!-- 돌아가는거!!! -->
-							<li><img src="/god/resources/images/member/20190807204952529063128920100.jpg" title="뜨나요"></li>
+							<li><img src="/god/resources/images/member/${loginuser.picture}" title="뜨나요"></li> 
 							
-							<%-- <li><img src="${loginuser.picture}" title="2019073010331374153432290300.png"></li> --%>
+							 <%-- <li><img src="${loginuser.picture}" title="2019073010331374153432290300.png"></li> --%>
 							 <%-- <img src="${pageContext.request.contextPath}/getpic?picture=${picture}" width="300" height="210"> --%>
-
 							 <%-- <img src="http://localhost:9090/ContextPath/<%=img%>"/> --%>
 							 <%-- <li><img src="<%= path%>${loginuser.picture}" title="외않떠?"></li> --%>
-							 														<!-- no.jpg -->
-							 <li><img src="C:/springworkspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/FinalProjectB/resources/images/member/${loginuser.picture}" title="외않떠?"></li>
-							 <img src="<%= request.getContextPath()%> ${loginuser.picture}"/>
+							 <%-- <li><img src="C:/springworkspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/FinalProjectB/resources/images/member/${loginuser.picture}" title="외않떠?"></li>
+							 <img src="<%= request.getContextPath()%> ${loginuser.picture}"/> --%>
+							 
                    			<li class="active"><a href="mypage.go">${loginuser.name}님의 페이지</a></li>
                    			<li><a href="<%= ctxPath%>/photoaddedit.go">내 사진 추가/변경</a></li>
 							<li><a href="#">내 구매기록 조회</a></li>

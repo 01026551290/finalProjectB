@@ -1,7 +1,7 @@
 package com.spring.god.jiyoung.service;
 
 import java.util.HashMap;
-
+import java.util.List;
 
 import com.spring.god.hyein.model.PhotoVO;
 import com.spring.god.jiyoung.model.MemberVO;
@@ -31,20 +31,9 @@ public interface InterMemberService {
 	int memberEditEnd(MemberVO vo);
 
 	int memberout(HashMap<String, String> paraMap);
-
+	
 	int add_withFile(MemberVO membervo); // 멤버 사진 추가
-	
-	
-	//////////////여기서부터 게시판 /////////////////////////////////
-/*	int add(BoardVO boardvo); // 글쓰기(파일첨부가 없는 글쓰기)
-	int add_withFile(BoardVO boardvo); //글쓰기(파일첨부가 있는 글쓰기)
-*/	
 
-
-
-
-
-	
 
 
 }

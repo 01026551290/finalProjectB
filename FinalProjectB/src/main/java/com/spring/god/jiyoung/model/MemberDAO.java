@@ -1,6 +1,5 @@
 ﻿package com.spring.god.jiyoung.model;
 
-import java.rmi.server.SocketSecurityException;
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,8 +8,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.spring.god.hyein.model.PhotoVO;
 
 
 @Repository
@@ -117,10 +114,6 @@ public class MemberDAO implements InterMemberDAO {
 		int n = sqlsession.update("jiyoungdb.add_withFile", membervo);
 		return n;
 	}
-
-
-
-
 	
 		
 }
