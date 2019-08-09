@@ -350,7 +350,7 @@
 					<div class="media-body">
 						<span class="meta-post">${hotelvonew.address}</span>
 						<h2 class="mt-0 mb-3">
-							<a href="<%=ctxPath%>/product.go?largeCategoryontionCode=${hotelvonew.largeCategoryontionCode}">${hotelvonew.name}</a>
+							<a href="<%=ctxPath%>/product.go?largeCategoryontionCode=${hotelvonew.largeCategoryontionCode}" style="display: inline-block; white-space: initial;">${hotelvonew.name}</a>
 						</h2>
 						<%-- <p>${hotelvo.weekPrice}원 ~</p> --%>
 						<p>
