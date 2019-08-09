@@ -224,5 +224,8 @@ public class MemberVO {
 		this.attach = attach;
 	}
 	
+	public String getFullTel() {
+		return tel+tel2+tel3;
+	}
 	
 }
