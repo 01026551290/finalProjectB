@@ -289,4 +289,12 @@ public class MemberController {
 		   return mv;
 	   }
 	   */
+	   
+	   @RequestMapping(value="/totalGod.go", method= {RequestMethod.GET})
+	   public ModelAndView totalGod(HttpServletRequest request,HttpServletResponse response,ModelAndView mv,ReviewVO rvo) {
+		   mv.setViewName("yujin/totalGod.tiles1");
+		   return mv;
+	   }
+	   
+	   
 }
