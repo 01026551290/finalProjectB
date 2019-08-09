@@ -103,7 +103,7 @@
 			FROM RESERVE1
 		</select>
 		
-		<select id="todayStartReserve" resultType="String"  >
+		<select id="todayStartReserve" resultType="int"  >
 			SELECT COUNT(*)
 			FROM RESERVE1
 			WHERE RESERVEDATE = SYSDATE
@@ -167,14 +167,24 @@
 		</select>
 		
 		<select id="getReserveList" resultType="com.spring.god.jinsoo.model.reserveVO" parameterType="HashMap"  >
-			SELECT RESERVEID,  PRICE,  RESERVEDATE,  MEMBERIDX,  CHECKIN,
-			 CHECKOUT,  PRODUCTNAME,  WEEKPRICE,  NAME,  BUSINESSTEL
-			FROM RESERVE1 A JOIN RESERVE2 B
-			ON A.RESERVEID  = B.FK_RESERVEID
-			JOIN PRODUCT C
-			ON A.FK_PRODUCTID = C.PRODUCTID
-			JOIN LONTION D
-			ON C.FK_LARGECATEGORYONTIONCODE = D.LARGECATEGORYONTIONCODE
+			 SELECT RNO ,   RESERVEID,  PRICE,  RESERVEDATE,  MEMBERIDX,  CHECKIN,
+            CHECKOUT,  PRODUCTNAME,  WEEKPRICE,  NAME,  BUSINESSTEL
+				FROM
+				(  
+		            SELECT ROWNUM AS RNO , RESERVEID,  PRICE,  RESERVEDATE,  MEMBERIDX,  CHECKIN,
+		            CHECKOUT,  PRODUCTNAME,  WEEKPRICE,  NAME,  BUSINESSTEL
+					FROM RESERVE1 A JOIN RESERVE2 B
+					ON A.RESERVEID  = B.FK_RESERVEID
+					JOIN PRODUCT C
+					ON A.FK_PRODUCTID = C.PRODUCTID
+					JOIN LONTION D
+					ON C.FK_LARGECATEGORYONTIONCODE = D.LARGECATEGORYONTIONCODE
+		            <if test='searchWord !=""'>
+						WHERE STATUS = 1 AND LOWER(${searchType}) LIKE '%'||LOWER(#{searchWord})||'%'
+					</if>	
+		            	ORDER BY RESERVEID DESC					
+				)V
+			WHERE RNO BETWEEN #{startRno} AND #{endRno} 
 		</select>
 		
 		<select id="allProduct" resultType="int">
@@ -205,8 +215,17 @@
 		</select>
 		
 		<select id="getHotelList"  resultType="com.spring.god.jinsoo.model.HotelVO" parameterType="HashMap" >
-			SELECT FK_LARGECATEGORYCODE , NAME , BUSINESSTEL , ADDRESS , INFO , ONTIONTYPE , REGDAY
-			FROM LONTION
+			SELECT RNO ,  FK_LARGECATEGORYCODE , NAME , BUSINESSTEL , ADDRESS , INFO , ONTIONTYPE , REGDAY
+				FROM
+				(
+					SELECT  ROWNUM AS RNO , FK_LARGECATEGORYCODE , NAME , BUSINESSTEL , ADDRESS , INFO , ONTIONTYPE , REGDAY
+                     FROM LONTION
+					<if test='searchWord !=""'>
+						WHERE STATUS = 1 AND LOWER(${searchType}) LIKE '%'||LOWER(#{searchWord})||'%'
+					</if>					
+						ORDER BY RNO DESC					
+				)V
+				WHERE RNO BETWEEN #{startRno} AND #{endRno} 
 		</select>
 		
 		<select id="getGroupnoMax" resultType="int">
@@ -355,6 +374,11 @@
 		    )V
 		   GROUP BY LARGECATEGORYNAME 
 		)T
+	</select>
+	
+	<select id="allReserveList" resultType="int">
+		SELECT COUNT(*)
+		FROM RESERVE1
 	</select>
 		
 </mapper>

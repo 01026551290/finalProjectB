@@ -119,6 +119,12 @@ public interface InterJinsooDAO {
 	// 차트: 종류별 매출 통계 JSON으로 얻어오기
 	List<HashMap<String, String>> categoryRevenueList();
 
+	// 총 예약수 구하기
+	int allReserveList();
+
+	// 차트: 월별 매출 통계 JSON으로 얻어오기
+	List<HashMap<String, String>> MonthRevenueList();
+
 
 
 	

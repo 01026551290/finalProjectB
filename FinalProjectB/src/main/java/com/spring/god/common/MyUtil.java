@@ -196,4 +196,51 @@ public class MyUtil {
 	}
 
 	
+	// === 검색어가 포함된 페이지바 만들기 === //
+		public static String JSmakePageBar(String url
+				                       , int currentShowPageNo 
+				                       , int sizePerPage 
+				                       , int totalPage
+				                       , int blockSize
+				                       , String searchType
+				                       , String searchWord) {
+			
+			String pageBar = "";
+
+			
+			int loop = 1;
+		
+			
+			int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;
+			// *** !! 공식이다. !! *** //
+			
+	
+			// *** [이전] 만들기 *** //
+			if(pageNo != 1) {
+				pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a>&nbsp;";
+			}
+			
+			while( !(loop>blockSize || pageNo>totalPage) ) {
+				
+				if(pageNo == currentShowPageNo) {
+					pageBar += "&nbsp;<span style='color: red; border: 1px solid gray; padding: 2px 4px;'>"+pageNo+"</span>&nbsp;";
+				}
+				else {
+					pageBar += "&nbsp;<a href='"+url+"?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a>&nbsp;"; 
+					       // ""+1+"&nbsp;"+2+"&nbsp;"+3+"&nbsp;"+......+10+"&nbsp;"
+				}
+				
+				loop++;
+				pageNo++;
+			}// end of while---------------------------------
+			
+			// *** [다음] 만들기 *** //
+			if( !(pageNo>totalPage) ) {
+				pageBar += "&nbsp;<a href='"+url+"?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a>&nbsp;"; 
+			}
+			
+			return pageBar;
+		}
+	
+	
 }

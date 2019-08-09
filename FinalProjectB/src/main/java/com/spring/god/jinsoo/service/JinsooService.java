@@ -303,6 +303,20 @@ public class JinsooService implements InterJinsooService {
 		return categoryRevenueList;
 	}
 
+	// 총 예약수 구하기
+	@Override
+	public int allReserveList() {
+		int allReserveList = dao.allReserveList();
+		return allReserveList;
+	}
+
+	// 차트: 월별 매출 통계 JSON으로 얻어오기
+	@Override
+	public List<HashMap<String, String>> MonthRevenueList() {
+		List<HashMap<String,String>> MonthRevenueList =  dao.MonthRevenueList();
+		return MonthRevenueList;
+	}
+
 
 	
 

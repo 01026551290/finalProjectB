@@ -63,8 +63,6 @@
 		 		break;
 	 
 		case "categoryRevenue" :
-				
-				
 					
 			$.ajax({
 				 
@@ -90,82 +88,15 @@
 		 					html +=	"</table>";
 		 					html +=	"</div> ";
 									$("#chart_revenue").html(html);
-				
+				 },error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					}			
+				 });// end of $.ajax({
 		 				
 	 	break;   
-	 	/* 										 
-			 case "category" :
-				 $.ajax({
-					 
-					 url:"categoryReserveJSON.go",
-					 dataType: "JSON",
-					 success: function(json){
-						 
-						 $("#chart_reserve").empty();
-						
-						 
-						
-						 var resultArr = [];
-							for(var i=0; i<json.length; i++){
-									
-									cnt = json[i].cnt+" 개";
-										var obj = {name:json[i].largecategoryname , y:Number(json[i].percnt)};
-									
-									
-			 //					var obj = {name:json[i].GENDER , y:Number(json[i].PERCNT)};		
-								
-								
-								resultArr.push(obj); 
-									
-							}
-							Highcharts.chart('chart_reserve', {								
-								    chart: {
-								        plotBackgroundColor: null,
-								        plotBorderWidth: 0,
-								        plotShadow: false
-								    },
-								    title: {
-								        text: '숙박시설',
-								        align: 'center',
-								        verticalAlign: 'middle',
-								        y: 40
-								    },
-								    tooltip: {
-								        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-								    },
-								    plotOptions: {
-								        pie: {
-								            dataLabels: {
-								                enabled: true,
-								                distance: -50,
-								                style: {
-								                    fontWeight: 'bold',
-								                    color: 'white'
-								                }
-								            },
-								            startAngle: -90,
-								            endAngle: 90,
-								            center: ['50%', '75%'],
-								            size: '110%'
-								        }
-								    },
-								    series: [{
-								        type: 'pie',
-								        name: cnt,
-								        innerSize: '50%',
-								        data: resultArr
-								    }]
-								});
-							
-						 
-					 },error: function(request, status, error){
-							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-						}
-					 
-				 });// end of $.ajax({
-				 break;			 */
-				
-	 }// end of switch (reserveTypeVal) 
+	 	
+	 
+		 }// end of switch (reserveTypeVal) 
 				
 }// end of function func_reserveAjax(reserveTypeVal)
 		

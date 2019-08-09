@@ -72,6 +72,9 @@ public interface InterJinsooService {
 	// 통계: 상품 종류별 현황 통계
 	List<HashMap<String, String>> categoryProductList();
 
+	// 총 예약수
+	int allReserveList();
+	
 	// 숙박 총갯수
 	int allHotel();
 
@@ -119,6 +122,11 @@ public interface InterJinsooService {
 
 	// 차트: 종류별 매출 통계 JSON으로 얻어오기
 	List<HashMap<String, String>> categoryRevenueList();
+
+	// 차트: 월별 매출 통계 JSON으로 얻어오기
+	List<HashMap<String, String>> MonthRevenueList();
+
+	
 
 	
 
