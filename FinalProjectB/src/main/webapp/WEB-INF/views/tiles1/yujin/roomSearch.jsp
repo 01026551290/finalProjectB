@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <style>
 /*  .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;} */
@@ -841,13 +841,13 @@
 	                     	</c:if>
  			      		 </span>
                      </button>
-                        <img src="/god/resources/images/hotel/${vo.img}" style="width: 100%; cursor: pointer;" onclick="goProduct('${vo.largeCategoryontionCode}')">
+                        <img src="/god/resources/images/hotel/${vo.img}" style="width: 270px; height: 180px; cursor: pointer;" onclick="goProduct('${vo.largeCategoryontionCode}')">
                      </div>
                      <!-- 하단(설명,호텔명,가격,평점) -->
                      <div style="padding: 12px 0 0 0;">
-                        <div class="hotelAddr">${vo.address}</div>
+                        <div class="hotelAddr meta-post">${vo.address.substring(8)}</div>
                         <div class="hotelName"  style="cursor: pointer;" onclick="goProduct('${vo.largeCategoryontionCode}')">${vo.name}</div>
-                        <div class="hotelPrice">${vo.weekPrice}원 ~</div>
+                        <div class="hotelPrice"><fmt:formatNumber value="${vo.weekPrice}" pattern="###,###" />원 ~</div>
                         
 							<c:if test="${vo.starcnt != 0}">
                         <span class="starAreaIn">

@@ -1,11 +1,15 @@
 package com.spring.god.yujin.model;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.god.hyein.model.HotelRoomVO;
 
@@ -71,6 +75,30 @@ public class MemberDAO implements InterMemberDAO {
 		public List<HistoryVO> getPurchaseHistory(int memberidx) {
 			List<HistoryVO> list = sqlsession.selectList("yujindb.getPurchaseHistory",memberidx);
 			return list;
+		}
+
+		@Override
+		public HistoryVO getCancelPage(String reserveid) {
+			HistoryVO cancel = sqlsession.selectOne("yujindb.getCancelPage",reserveid);
+			return cancel;
+		}
+
+		@Override
+		public int getReserveCancelResult(String reserveid) {
+			int n = sqlsession.update("yujindb.getReserveCancelResult",reserveid);
+			return n;
+		}
+
+		@Override
+		public int getEarnPoint1(HashMap<String, String> paramap) {
+			int n = sqlsession.update("yujindb.getEarnPoint1",paramap);
+			return n;
+		}
+		
+		@Override
+		public int getEarnPoint2(HashMap<String, String> paramap) {
+			int n = sqlsession.update("yujindb.getEarnPoint2",paramap);
+			return n;
 		}
 
 }

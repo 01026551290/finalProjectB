@@ -9,6 +9,21 @@
 
 <script type="text/javascript">
 
+	function goCancel(reserveidx) {
+		
+		var frm = document.reserveHotelInfoFrm;
+		
+		if( !$("input:checkbox[id=agree1]").is(":checked")) {
+			alert("이용약관 및 개인정보 처리방침에 동의하셔야 합니다.");
+			return;
+		}
+		
+		frm.action = "/god/reserveCancelEnd.go";
+		frm.method = "post";
+		frm.submit();
+		
+	}
+	
 </script>
 
 <!-- 예약정보 및 결제 페이지 -->
@@ -30,6 +45,7 @@
 <!-- END section -->
 
 	<section class="section contact-section" id="next">
+	<c:if test="${vo!=null}">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-5">
@@ -39,6 +55,10 @@
 							<p class="b_detail_border mgt10">
                                 <span class="text-black">${vo.name}</span><!-- 호텔명 -->
                                 <span class="d-block">${vo.address}</span> <!-- 주소  -->
+                            </p>
+							<p>
+                                <span class="d-block">예약일:</span><!-- 체크인 -->
+                                <span class="text-black">${vo.reserveDate}</span>
                             </p>
 							<p>
                                 <span class="d-block">체크인:</span><!-- 체크인 -->
@@ -61,11 +81,11 @@
 							<p>
                                 <span class="d-block">1 개 객실 x 1 박:(세금미포함)</span>
                                 <span class="text-black">
-                                	<fmt:formatNumber value="${vo.price}" pattern="###,###" /> 원
+                                	<fmt:formatNumber value="${vo.price/11*10}" pattern="###,###" /> 원
                                 </span><!-- 객실금액 -->
                                 <span class="d-block">세금&amp;서비스 금액:</span>
                                 <span class="text-black">
-                                	<fmt:formatNumber value="${vo.price}" pattern="###,###" /> 원
+                                	<fmt:formatNumber value="${vo.price/11}" pattern="###,###" /> 원
                                 </span>
 							</p>
 							<p class="b_detail_total">
@@ -80,26 +100,24 @@
 				
                 <div class="col-md-7">
                     <form name="reserveFrm" class="bg-white p-md-5 p-4 mb-4 border">
-                        <h5 class="fontB">예약자 정보</h5>
+                        <h5 class="fontB">취소자 정보</h5>
                         <span class="noticeStyle">입력된 정보가 맞는지 확인하세요.</span>
 
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label for="name">Name</label>
                                 <input type="text" name="name" id="name" class="form-control" value="${sessionScope.loginuser.name}" readonly />
-                            </div>
+                            </div><%-- 
                             <div class="col-md-6 form-group">
                                 <label for="tel">Phone</label>
-                                <input type="text" name="tel" id="tel" class="form-control" value="${sessionScope.loginuser.tel}" class="requiredInfo" placeholder="-는 생략, 숫자만입력" readonly />
-                                <span class="error">필수입력 사항입니다.</span>
-                            </div>
+                                <input type="text" name="tel" id="tel" class="form-control" value="${sessionScope.loginuser.fullTel}" class="requiredInfo" placeholder="-는 생략, 숫자만입력" readonly />
+                            </div> --%>
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label for="email">Email</label>
                                 <input type="email" name="email" id="email" class="form-control" value="${sessionScope.loginuser.email}" class="requiredInfo" placeholder="abc@gmail.com" readonly />
-                                <span class="error">필수입력 사항입니다.</span>
                             </div>
                         </div>
                         <!-- 
@@ -109,17 +127,6 @@
                        	-->
                     </form>
                     <!-- // end 예약자 정보 -->
-                    
-                    <div class="bg-white p-md-3 p-4 mb-2 border">
-                        <h5 class="fontB">체크인 시간</h5>
-                        <span class="noticeStyle">가장 빠른 체크인 시간은 16:00입니다. 이전에 도착할 경우, 대기시간이 소요될 수 있습니다</span>
-                    </div>
-                    
-                    <div class="bg-white p-md-3 p-4 mb-2 border">
-                        <h5 class="fontB">포인트</h5>
-                        <span class="noticeStyle">체크아웃 후 최대 <span class="styleFont">[&nbsp;<fmt:formatNumber value="${vo.point}" pattern="###,###" />&nbsp;]포인트</span>가 적립됩니다.</span>
-                    </div>
-                    
                     <div class="bg-white p-md-3 p-4 mb-2 border">
                         <h5 class="fontB">환불방법</h5>
                         <span class="noticeStyle">약관에 따라 환불이 진행되며, 영업일로부터 5~7일 이상 소요됩니다.</span>
@@ -130,13 +137,13 @@
                     <div class="bg-white p-md-3 p-4 mb-2">
                         <fieldset>
                         <legend class="blind">예약취소하시겠습니까?</legend>
-                            <input type="checkbox" id="agree1"><label for="agree1" class="noticeStyle dpi">&nbsp;계속 진행 시, 예약 규정, God <a href="<%= ctxPath%>/terms.go" target="_blank">이용약관</a> 및 <a href="<%= ctxPath%>/privacy_policy.go" target="_blank">개인정보 처리방침</a>을 모두 읽었으며 이에 동의합니다.</label>
+                            <input type="checkbox" id="agree1"><label for="agree1" class="noticeStyle dpi">&nbsp;취소 규정, God <a href="<%= ctxPath%>/terms.go" target="_blank">이용약관</a> 및 <a href="<%= ctxPath%>/privacy_policy.go" target="_blank">개인정보 처리방침</a>을 모두 읽었으며 이에 동의합니다.</label>
                         </fieldset>
                     </div>
                     
                     <div class="bg-white p-md-3 p-4 mb-2">
-                        <button id="btnPayment" class="btn btn-primary btn-block text-white" onClick="goReserveSelect(${(sessionScope.loginuser).idx}, ${vo.price});">예약 취소</button>
-                    </div>
+                        <button id="btnPayment" class="btn btn-primary btn-block text-white" onclick="goCancel()">예약 취소</button>
+				   </div>
                     
                 </div>
                 <!-- // end 예약자 정보 -->
@@ -145,9 +152,10 @@
 			<!-- // end row -->            
 		</div>
 		<!-- // end container-->
+		</c:if>
     </section>
     
     <!-- 호텔정보 보내는 폼 -->
     <form name="reserveHotelInfoFrm">
-    	<input type="text" name="reserveId" value="${vo.reserveId}" />
+    	<input type="hidden" name="reserveId" value="${vo.reserveId}" />
     </form>

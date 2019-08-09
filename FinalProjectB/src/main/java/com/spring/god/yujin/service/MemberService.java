@@ -1,10 +1,14 @@
 package com.spring.god.yujin.service;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.god.hyein.model.HotelRoomVO;
 import com.spring.god.yujin.model.HistoryVO;
@@ -71,6 +75,26 @@ public class MemberService implements InterMemberService {
 		public List<HistoryVO> getPurchaseHistory(int memberidx) {
 			List<HistoryVO> list = dao.getPurchaseHistory(memberidx);
 			return list;
+		}
+
+		@Override
+		public HistoryVO getCancelPage(String reserveid) {
+			HistoryVO cancel = dao.getCancelPage(reserveid);
+			return cancel;
+		}
+
+		@Override
+		public int getReserveCancelResult(String reserveid) {
+			int n = dao.getReserveCancelResult(reserveid);
+			return n;
+		}
+
+		@Override
+		@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
+		public int getEarnPoint(HashMap<String, String> paramap){
+			int n = dao.getEarnPoint1(paramap);
+			int m = dao.getEarnPoint2(paramap);
+			return n*m;
 		}
 		
 }

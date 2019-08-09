@@ -270,7 +270,7 @@ public class HotelRoomController {
 		   return result;
 	   }
 
-	   //서브서치 리스트 ajax
+	   //상세페이지 리뷰 ajax
 	   @RequestMapping(value="/hotelReviewList.go", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
 	   @ResponseBody
 	   public String hotelReviewList(HttpServletRequest request) {
@@ -278,21 +278,18 @@ public class HotelRoomController {
 		   JSONArray jsonArr = new JSONArray();
 		   
 		   HashMap<String, String> paramap = new HashMap<String, String>();
-		   System.out.println(request.getParameter("largeCategoryontionCode"));
 		   paramap.put("hotelidx", request.getParameter("largeCategoryontionCode"));
 		   
 
 		   int reviewCnt = service.getReviewCnt(paramap);
-		   if(reviewCnt!=0) {
+		   if(reviewCnt!=-1) {
 			   JSONObject jsonObj = new JSONObject();
 			   jsonObj.put("reviewCnt", reviewCnt);
 			   jsonArr.put(jsonObj);
 		   }
 		   
-		   System.out.println(reviewCnt);
 		   
 		   if(reviewCnt>0) {
-			   System.out.println("reviewCnt>0");
 		   paramap.put("sort", "regdate desc");
 		   System.out.println(paramap.get("sort"));
 		   List<HistoryVO> RreviewList = service.getReviewRList(paramap);
@@ -302,7 +299,6 @@ public class HotelRoomController {
 		   List<HistoryVO> SreviewList = service.getReviewSList(paramap);
 		   paramap.remove("sort");
 		   paramap.put("sort", "star ");
-		   System.out.println(paramap.get("sort"));
 		   List<HistoryVO> sreviewList = service.getReviewsList(paramap);
 
 		   if(RreviewList!=null) {
@@ -321,7 +317,6 @@ public class HotelRoomController {
 //				   }
 				   jsonObj.put("RfileName", vo.getFileName());
 				   jsonObj.put("Rregdate", vo.getReserveDate());
-				   System.out.println(vo.getContent());
 				   jsonArr.put(jsonObj);
 			   }
 		   }
@@ -337,7 +332,6 @@ public class HotelRoomController {
 				   jsonObj.put("Sstar", vo.getStar());
 				   jsonObj.put("SfileName", vo.getFileName());
 				   jsonObj.put("Sregdate", vo.getReserveDate());
-				   System.out.println(vo.getContent());
 				   
 				   jsonArr.put(jsonObj);
 			   }
@@ -354,7 +348,6 @@ public class HotelRoomController {
 				   jsonObj.put("sstar", vo.getStar());
 				   jsonObj.put("sfileName", vo.getFileName());
 				   jsonObj.put("sregdate", vo.getReserveDate());
-				   System.out.println(vo.getContent());
 				                
 				   jsonArr.put(jsonObj);
 			   }

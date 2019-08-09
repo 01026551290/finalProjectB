@@ -204,7 +204,7 @@ button#btn_heart {
 		                       $("#reviewHeadDiv").html(reviewHeadDiv);
 	                         }
 
-		                  if(reviewCnt>0 && reviewCnt==0){
+		                  if(reviewCnt==0){
 		                     reviewHeadDiv = "<h2 class='heading text-white'>REVIEW</h2>"
 		                                 +"<h3 class='text-white'>아직 후기가 없습니다.</h3>";
 		                       $("#reviewHeadDiv").html(reviewHeadDiv);
@@ -255,6 +255,7 @@ button#btn_heart {
                             reviewImg = RfileName.split(",");
                             for(i in reviewImg){
                              reviewDivR += '			<img src="/god/resources/images/review/'+reviewImg[i]+'" style="height: 70px; width: 70px; margin: 10px;">                                                  ';
+                            				
                             }
                            }
                            
@@ -337,7 +338,7 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 // 주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
 // 주소로 좌표를 검색합니다
-geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
+geocoder.addressSearch('${HotelVO.address}', function(result, status) {
     // 정상적으로 검색이 완료됐으면 
      if (status === kakao.maps.services.Status.OK) {
         var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -691,6 +692,47 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
                      style="background-image: url('/god/resources/images/room/${list}');"></a>
                </c:forEach>
             </c:if>
+            
+            <%-- 
+            <div class="row">
+				<div class="col-md-12">
+				
+					<div class="home-slider major-caousel owl-carousel mb-5 owl-loaded owl-drag aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+					
+					<div class="owl-stage-outer">
+						<div class="owl-stage" style="transform: translate3d(-6720px, 0px, 0px); transition: all 0s ease 0s; width: 16800px;">
+							<div class="owl-item cloned" style="width: 1110px; margin-right: 10px;">
+								<div class="slider-item">
+									<a class="image d-block bg-image-2" href="/god/resources/images/room/${list}" data-fancybox="images" data-caption="Caption for this image" style="background-image: url('/god/resources/images/room/${list}');"></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="owl-item" style="width: 1110px; margin-right: 10px;">
+						<div class="slider-item">
+							<a href="images/slider-1.jpg" data-fancybox="images" data-caption="Caption for this image">
+							<img src="images/slider-1.jpg" alt="Image placeholder" class="img-fluid">
+							</a>
+						</div>
+					</div>
+						
+					<div class="owl-item cloned" style="width: 1110px; margin-right: 10px;"><div class="slider-item">
+						<a href="images/slider-1.jpg" data-fancybox="images" data-caption="Caption for this image"><img src="images/slider-1.jpg" alt="Image placeholder" class="img-fluid"></a>
+						</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="owl-nav">
+					<button role="presentation" class="owl-prev"><span class="ion-chevron-left"></span></button>
+					<button role="presentation" class="owl-next"><span class="ion-chevron-right"></span></button>
+				</div>
+			</div> --%>
+					<!-- END slider -->
+            
+            
+            
             <div class="text">
                <h5 class="mb-4" style="font-size: 25px;">${RoomVO.productName}</h5>
                <span class="d-block mb-4">

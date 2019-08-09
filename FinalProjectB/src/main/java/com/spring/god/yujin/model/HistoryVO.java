@@ -26,12 +26,14 @@ public class HistoryVO {
 	private String productName;
 	private String roomType;
 	private int memberIdx;
+	private int status;
+	private int pointStatus;
 	
 	public HistoryVO() {}
 
 	public HistoryVO(int fk_productId, int price, int reserveId, String reserveDate, String checkIn, String checkOut, int noNight,
 			String title, String content, double star, String regDate, String fileName, String largeCategoryOntionCode,
-			String name, String businessTel, String address, String info, String img, String productName, String roomType, int memberIdx) {
+			String name, String businessTel, String address, String info, String img, String productName, String roomType, int memberIdx, int status, int pointStatus) {
 		super();
 		this.fk_productId = fk_productId;
 		this.price = price;
@@ -54,6 +56,8 @@ public class HistoryVO {
 		this.productName = productName;
 		this.roomType = roomType;
 		this.memberIdx = memberIdx;
+		this.status = status;
+		this.pointStatus = pointStatus;
 	}
 
 	public int getFk_productId() {
@@ -62,6 +66,11 @@ public class HistoryVO {
 
 	public void setFk_productId(int fk_productId) {
 		this.fk_productId = fk_productId;
+	}
+	
+	public int getPoint() {
+		int point = price/30;
+		return point;
 	}
 
 	public int getPrice() {
@@ -256,7 +265,32 @@ public class HistoryVO {
 	public void setMemberIdx(int memberIdx) {
 		this.memberIdx = memberIdx;
 	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+//	public int getPointStatus2() {
+//		int ss = 0;
+//		if(pointStatus==100)
+//			ss = 5;
+//		else
+//			ss = 2;
+//		System.out.println(ss);
+//		return ss;
+//	}
 	
+	public int getPointStatus() {
+		return pointStatus;
+	}
+
+	public void setPointStatus(int pointStatus) {
+		this.pointStatus = pointStatus;
+	}
 	
 
 
