@@ -27,7 +27,7 @@
    	from MEMBER
    	where NICKNAME = #{nickName}
    </select>
-   
+    
    <select id="isUseEMAIL" parameterType="String" resultType="int">
    	select count(*)
    	from MEMBER
