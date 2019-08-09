@@ -38,7 +38,7 @@ public class HotelRoomVO {
 		3개 컬럼( , , )을 추가한 후에 아래의 작업을 한다
    */
    private String fileName; 					 // WAS(톰캣)에 저장될 파일명(2019072509271512345.png) // 동시에 업로드할 경우를 대비해서 초를 세분화해서 올려둔다 중복이 안되게..
-   private String picture;					     // 진짜 파일명(강아지.png) // 사용자가 파일을 업로드 하거나 파일을 다운로드할 때 사용되어지는 파일명
+   private String orgFileName;					 // 진짜 파일명(강아지.png) // 사용자가 파일을 업로드 하거나 파일을 다운로드할 때 사용되어지는 파일명
    private String fileSize;						 // 파일크기
    
    private MultipartFile attach;   				 // 진짜 파일 ==> WAS(톰캣) 디스크에 저장됨.
@@ -52,7 +52,7 @@ public class HotelRoomVO {
 		String address, String info, String ontionType, String img, String regDay, String productId,
 		String fk_LargeCategoryOntionCode, String roomType, String roomOption, String productName, String weekPrice,
 		String weekenPrice, String roomInfo, String productStatus, String productPeriod1, String productPeriod2,
-		double star, int starcnt, String fileName, String picture, String fileSize, List<String> imgList) {
+		double star, int starcnt, String fileName, String orgFileName, String fileSize, List<String> imgList) {
 
 	this.largeCategoryontionCode = largeCategoryontionCode;
 	this.fk_LargeCategoryCode = fk_LargeCategoryCode;
@@ -77,7 +77,7 @@ public class HotelRoomVO {
 	this.star = star;
 	this.starcnt = starcnt;
 	this.fileName = fileName;
-	this.picture = picture;
+	this.orgFileName = orgFileName;
 	this.fileSize = fileSize;
 	this.imgList = imgList;
    }
@@ -325,12 +325,12 @@ public String getLargeCategoryontionCode() {
 		this.fileName = fileName;
 	}
 
-	public String getPicture() {
-		return picture;
+	public String getOrgFileName() {
+		return orgFileName;
 	}
 
-	public void setPicture(String picture) {
-		this.picture = picture;
+	public void setOrgFileName(String orgFileName) {
+		this.orgFileName = orgFileName;
 	}
 
 	public String getFileSize() {

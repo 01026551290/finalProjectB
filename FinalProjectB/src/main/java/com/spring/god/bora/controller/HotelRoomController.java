@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.god.hyein.model.HotelRoomVO;
 import com.spring.god.bora.service.InterHotelRoomService;
 
 @Component
@@ -89,6 +90,28 @@ public class HotelRoomController {
 		return result;
 	}
 		
+	
+	// === 호텔조회수에 의한 실시간 검색어 ===
+	@RequestMapping(value="/hotelViewsRealTime.go", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String hotelViewsRealTime(HttpServletRequest request) {
+		
+		List<HotelRoomVO> hotelList = service.gethotelViewsRealTime();
+		
+		JSONArray jsonArr = new JSONArray();
+		
+		int cnt = 0;
+		for(HotelRoomVO hotelRoomVO : hotelList) {
+			cnt++;
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("largecategoryontioncode", hotelRoomVO.getLargeCategoryontionCode());
+			jsonObj.put("name", hotelRoomVO.getName());
+			jsonObj.put("cnt", cnt);
+			jsonArr.put(jsonObj);
+		}
+		String result = jsonArr.toString();
+		return result;
+	}
 	
 }
 

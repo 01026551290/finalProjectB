@@ -1,5 +1,7 @@
 package com.spring.god.hyein.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,6 +14,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -89,7 +92,9 @@ public class AdminController {
 			HttpSession session = mrequest.getSession();
 			String root = session.getServletContext().getRealPath("/");
 //			path = root + "resources" + File.separator + "files";
-			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\resources" + File.separator + "images";
+//			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\resources" + File.separator + "images\\hotel";
+
+			String path = root + "resources" + File.separator + "images" + File.separator + "hotel"; 
 			
 			System.out.println(">>> 확인용 path ==> " + path);
 			
@@ -116,10 +121,10 @@ public class AdminController {
 				// >>> 확인용 : newFileName ==> 201907251244161722498031530800.jpg
 				
 				// == 3. BoardVO hotelroomvo 에 fileName 과 picture 값과 fileSize 값을 넣어주기
-				hotelroomvo.setFileName(newFileName);
+				hotelroomvo.setImg(newFileName);
 				// WAS(톰캣)에 저장된 파일명(201907251244161722498031530800.jpg)
 				
-				hotelroomvo.setImg(attach.getOriginalFilename());
+				hotelroomvo.setOrgFileName(attach.getOriginalFilename());
 				// 게시판 페이지에서 첨부된 파일의 파일명(강아지.png)을 보여줄 때 및
 				// 사용자가 파일을 다운로드 할 때 사용되어지는 파일명
 				
@@ -207,11 +212,13 @@ public class AdminController {
 		String clickWord = request.getParameter("searchWord");
 		System.out.println(clickWord);
 		String largeCodeList = null;
+		String largeCategoryList = null;
 		
 		if(clickWord!="" && clickWord!=null) {
 			
 			// 자동완성 검색어의 대분류 카테고리 넘버 가져오기
 			largeCodeList = service.getLargeCodeNum(clickWord);
+			largeCategoryList = service.getLargeCategoryNum(clickWord);
 			
 		}
 			JSONArray jsonArr = new JSONArray();
@@ -219,6 +226,7 @@ public class AdminController {
 			if(largeCodeList != null) {
 					JSONObject jsonObj = new JSONObject();
 					jsonObj.put("largeCategoryontionCode", largeCodeList);
+					jsonObj.put("fk_LargeCategoryCode", largeCategoryList);
 					
 					jsonArr.put(jsonObj);
 			}
@@ -227,72 +235,168 @@ public class AdminController {
 			
 			return result;
 		}
-	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	// 룸 등록 하기 (Register 버튼을 눌렀을 때)
-	@RequestMapping(value="/roomrg2End.go", method={RequestMethod.POST} )
-	public String roomRegistration2End(HotelRoomVO hotelroomvo 
-//									 ,	PhotoVO photovo
-									 , @RequestParam("attach") MultipartFile[] files
-//									 , @ModelAttribute("attach") MultipartFile files
-									 , MultipartHttpServletRequest mrequest
-									 , HttpServletRequest request) throws Exception {
+		@RequestMapping(value="/roomrg2End.go", method={RequestMethod.POST} )
+		public String roomRegistration2End(MultipartHttpServletRequest mrequest, HttpServletResponse response) throws Exception {
 
-		
-		String largeCategoryontionCode = request.getParameter("largeCategoryontionCode");
-		String bedCnt = request.getParameter("bedCnt");
-		String peopleCnt = request.getParameter("peopleCnt");
-		
-		String roomType = largeCategoryontionCode.substring(0, 1); // largeCategoryontionCode의 맨 앞 숫자 뽑아와서 roomType에 넣어주기
-		roomType += bedCnt += peopleCnt; // roomType에 침대갯수(bedCnt)와 수용인원(peopleCnt) 더해주기
-		
-		hotelroomvo.setRoomType(roomType); // largeCategoryontionCode를 HotelRoomVo의  fk_LargeCategoryOntionCode에 넣어준다
-		String pseq = hotelroomvo.getPseq();
-		
-		/*
-		값을 받아오는지 찍어보기
-		System.out.println(largeCategoryontionCode);
-		System.out.println(roomType);
-		
-		 */
-		System.out.println(hotelroomvo.getPseq());
-		
+			String fk_LargeCategoryCode = mrequest.getParameter("fk_LargeCategoryCode");
+			
+			HashMap<String,String> hashMap = new HashMap<String,String>();
+			hashMap.put("fk_LargeCategoryCode", fk_LargeCategoryCode);
+			
+			String productid = String.valueOf(service.getProdseq(hashMap)); // 새로이 입력할 제품번호(시퀀스) 가져오기 
+			
+			String[] roomOptionArr = mrequest.getParameterValues("roomOption");
+			String roomOption = "";
+			for(int i=0; i<roomOptionArr.length; i++) {
+				String comma = (i < roomOptionArr.length-1)?",":"";
+				roomOption += roomOptionArr[i]+comma;
+			}
+			
+			String productName  = mrequest.getParameter("productName");
+			String weekPrice = mrequest.getParameter("weekPrice");
+			String weekenPrice = mrequest.getParameter("weekenPrice");
+			String roomInfo = mrequest.getParameter("roomInfo");
+			String productPeriod1 = mrequest.getParameter("productPeriod1");
+			String productPeriod2 = mrequest.getParameter("productPeriod2");
+			
+			String largeCategoryontionCode = mrequest.getParameter("largeCategoryontionCode");
+			String bedCnt = mrequest.getParameter("bedCnt");
+			String peopleCnt = mrequest.getParameter("peopleCnt");
+			
+			String roomType = largeCategoryontionCode.substring(0, 1); // largeCategoryontionCode의 맨 앞 숫자 뽑아와서 roomType에 넣어주기
+			roomType += bedCnt += peopleCnt; // roomType에 침대갯수(bedCnt)와 수용인원(peopleCnt) 더해주기
+			
+			List<MultipartFile> attachList = mrequest.getFiles("attach");  //  !!! 이미지첨부 다중 파일 !!!
+			
+			HashMap<String,String> productMap = new HashMap<String,String>();  // 제품(숙소)1개
+			productMap.put("productid", productid);
+			productMap.put("largeCategoryontionCode", largeCategoryontionCode);
+			productMap.put("roomOption", roomOption);
+			productMap.put("productName", productName);
+			productMap.put("weekPrice", weekPrice);
+			productMap.put("weekenPrice", weekenPrice);
+			productMap.put("roomInfo", roomInfo);
+			productMap.put("productPeriod1", productPeriod1);
+			productMap.put("productPeriod2", productPeriod2);
+			productMap.put("roomType", roomType);
+			
+			/////////////////////////////////////////다중 파일 업로드//////////////////////////////////////////////////////
+			List<HashMap<String, String>> roomImageMapList = new ArrayList<HashMap<String, String>>();
+	        
+	        if(attachList != null) {  // 이미지첨부 다중파일을 받아왔다라면 
+	        	// 이미지첨부 다중파일을 업로드할 WAS 의 webapp 의 절대경로를 알아와야 한다. 
+				HttpSession session = mrequest.getSession();
+				String root = session.getServletContext().getRealPath("/"); 
+				String path = root + "resources" + File.separator + "images" + File.separator + "room"; 
+				// path 가 첨부파일들을 저장할 WAS(톰캣)의 폴더가 된다. 
+				
+				String newFileName = ""; // WAS(톰캣) 디스크에 저장할 파일명 
+				
+				byte[] bytes = null;    // 첨부파일을 WAS(톰캣) 디스크에 저장할때 사용되는 용도 
+											
+				for(int i=0; i<attachList.size(); i++) { 
+						
+					try {
+						 bytes = attachList.get(i).getBytes(); // 첨부파일의 내용물(byte)을 읽어옴.
+						 
+						 // 파일업로드 한 후 업로드되어진 파일명  가져오기
+						 newFileName = fileManager.doFileUpload(bytes, attachList.get(i).getOriginalFilename(), path);
+						 // 예를들어 newFileName 에는  2019012519592316420706146795.png 와 같은 것이 들어옴.
+						 				 
+						 HashMap<String, String> roomImageMap = new HashMap<String, String>();
+						// 제품1개에 딸린 다중 이미지
+					
+						 roomImageMap.put("fk_productid", productid);
+						 roomImageMap.put("picture", attachList.get(i).getOriginalFilename());
+						 roomImageMap.put("uploaded_picture", newFileName);
+						 						
+						 roomImageMapList.add(roomImageMap);
+						 
+					} catch (Exception e) {	
+						
+					}
+				} // end of for-------------------------------------------------------------------------
+	        } // end of if------------------------------------------------------------------------------
+	       
+	      // **** 폼에서 입력받은 제품입력정보 값을 
+	  	  //      Service 단으로 넘겨서 테이블에 insert 하기로 한다.
+	  		   
+	      // 이미지파일첨부가 없는 경우 또는 이미지파일첨부가 있는 경우로 나누어서
+	      // Service 단으로 호출하기
+			   int n = 0;
+			   int m = 0;
+			   int count = 0;
 
-		
-/////////////////////////////////////////다중 파일 업로드//////////////////////////////////////////////////////
-		
-		String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\resources" + File.separator + "images\\detailP_imgs"; 
-        String newFileName = "";
+			   n = service.roomAdd(productMap);
+			   System.out.println("~~~~~~~~~~~ roomImageMapList.size() : " + roomImageMapList.size());
+			   
+			   for(int i=0; i<roomImageMapList.size(); i++) {
+					m = service.imgAdd(roomImageMapList.get(i)); /////////////////////////////////////
+					if(m==1) count++;
+			   }
+				   
+			   if(roomImageMapList.size() == count) {
+				   n=1;
+			   }
+			   else {
+				   n=0;
+			   }
+			
 
-        List<MultipartFile> fileList = mrequest.getFiles("attach");
-        System.out.println(fileList);
+			   String msg = "";
+			   String loc = "";
+			   
+			   if(n==1) {
+				   msg = "숙소등록 성공!!";
+				   loc = mrequest.getContextPath() + "/index.go";
+			   }
+			   else {      
+				   msg = "숙소등록 실패!!";
+			       loc = mrequest.getContextPath() + "/roomrg.go";
+			   }
+			    		
+			   mrequest.setAttribute("msg", msg);
+			   mrequest.setAttribute("loc", loc);
+			   
+			   return "hyein/roomRg/roomrg2End.tiles1";   
+//				
+
+	}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
+	
+	
+	
+        /* System.out.println(fileList);
         HttpSession session = mrequest.getSession();
         byte[] bytes = null;
         long fileSize = 0;
-        List<PhotoVO> photoList = null;
+        List<PhotoVO> photoList = null;*/
         
-        if(fileList!=null) {
-        	for(int i=0;i<fileList.size();i++) {
-    			try {
-    				bytes = fileList.get(i).getBytes();
-    				
-    				newFileName = fileManager.doFileUpload(bytes, fileList.get(i).getOriginalFilename(), path);
-    				fileSize = fileList.get(i).getSize();
-    				PhotoVO phvo = new PhotoVO();
-    				phvo.setFileName(newFileName);
-    				phvo.setPseq(pseq);
-    				photoList.add(phvo);
-    				
-    			} catch (Exception e) {
-    				e.printStackTrace();
-    			}
-    			
-    		}
-        	
-        }
+//        if(fileList!=null) {
+//        	for(int i=0;i<fileList.size();i++) {
+//    			try {
+//    				bytes = fileList.get(i).getBytes();
+//    				
+//    				newFileName = fileManager.doFileUpload(bytes, fileList.get(i).getOriginalFilename(), path);
+//    				fileSize = fileList.get(i).getSize();
+//    				PhotoVO phvo = new PhotoVO();
+//    				phvo.setFileName(newFileName);
+//    				phvo.setPseq(pseq);
+//    				photoList.add(phvo);
+//    				
+//    			} catch (Exception e) {
+//    				e.printStackTrace();
+//    			}
+//    			
+//    		}
+//        	
+//        }
         
-        int n = service.photoaddimg(photoList);
-		int m = service.roomAdd(hotelroomvo);
+//        int n = service.photoaddimg(photoList);
+		
 
         
 //        for (MultipartFile file : files) {
@@ -314,9 +418,7 @@ public class AdminController {
 //		
 //		mrequest.setAttribute("n", n);
 
-		return "hyein/roomRg/roomrg2End.tiles1";
-	}
-
+		
 		
 ///////////////////////////////////////////////////////////////////////////////////////////////
 		

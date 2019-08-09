@@ -22,7 +22,7 @@ import com.spring.god.common.MyUtil;
 import com.spring.god.hyein.model.HotelRoomVO;
 import com.spring.god.jiyoung.model.MemberVO;
 import com.spring.god.yujin.model.HistoryVO;
-import com.spring.god.yujin.model.SubSearchVO;
+import com.spring.god.yujin.model.SearchVO;
 import com.spring.god.yujin.service.InterHotelRoomService;
 
 import oracle.net.aso.s;
@@ -35,116 +35,139 @@ public class HotelRoomController {
 	 
 	   // 서치리스트
 	   @RequestMapping(value="/search.go", method= {RequestMethod.GET})
-	   public ModelAndView roomSearch(HttpServletRequest request,ModelAndView mv) {
-		   
-	      String searchWord = request.getParameter("searchWord")!=null?request.getParameter("searchWord"):"";
-	      if(searchWord.trim().isEmpty())   
-	         searchWord="";
-	      String checkin_date = request.getParameter("checkin_date")!=null?request.getParameter("checkin_date"):"";
-	      String checkout_date = request.getParameter("checkout_date")!=null?request.getParameter("checkout_date"):"";
-	      String adult = request.getParameter("adult")!=null?request.getParameter("adult"):"0";
-	      String children = request.getParameter("children")!=null?request.getParameter("children"):"0";
-	      
-	      String sort = request.getParameter("sort")!=null?request.getParameter("sort"):"largecategoryontioncode";
-	      
-	      //subSearch
-	      String hotelName = request.getParameter("hotelName")!=null?request.getParameter("hotelName"):"";
-	      if(hotelName.trim().isEmpty())   
-	    	  hotelName="";
-//	      int minPrice = Integer.parseInt(request.getParameter("minPrice")!=null?request.getParameter("minPrice"):"0");
-//	      int maxPrice = Integer.parseInt(request.getParameter("maxPrice")!=null?request.getParameter("maxPrice"):"0");
-//	      double minStar = Double.parseDouble(request.getParameter("minStar")!=null?request.getParameter("minStar"):"0.0");
-//	      double maxStar = Double.parseDouble(request.getParameter("maxStar")!=null?request.getParameter("maxStar"):"5.0");
-//	      String[] largeCategoryCode = request.getParameterValues("largeCategoryCode");
-//	      String[] lontion = request.getParameterValues("lontion");
-//	      String[] pontion = request.getParameterValues("pontion");
+	   public ModelAndView roomSearch(HttpServletRequest request,ModelAndView mv, SearchVO svo) {
+		    HttpSession session = request.getSession();
+		      if(session.getAttribute("loginuser")!=null) {
+		    	  String memberid =(String)((MemberVO)session.getAttribute("loginuser")).getMemberId(); 
+		    	  svo.setMemberid(memberid);
+		      }
+	
+		      if(svo.getCurrentShowPage()==0)
+		         svo.setCurrentShowPage(1);
+		      else {
+		         try {
+		        	 svo.setCurrentShowPage(Integer.parseInt(request.getParameter("currentShowPage")));
+		         } catch (NumberFormatException e) {
+		        	 svo.setCurrentShowPage(1);
+		         }
+		      }
+	
+		      svo.setTotalCnt(service.getTotalCntHotel(svo));
+		      svo.setTotalPage((int)Math.ceil((double)svo.getTotalCnt()/svo.getSizePerPageSearchList()));
+		      svo.setStartRno(((svo.getCurrentShowPage()-1)*svo.getSizePerPageSearchList())+1);
+		      svo.setEndRno(svo.getStartRno()+svo.getSizePerPageSearchList()-1);
+	
+		      List<HotelRoomVO> hotelRoomVOList = service.getTotalHotelList(svo);
+		      
+		      String pagebar = "<ul>";
+		      String url = MyUtil.makePageBarUrlNext(request,svo);
+		      int blockSize = 3;
+		      
+		      pagebar += MyUtil.makePageBarHotelList(url, svo.getCurrentShowPage(), svo.getSizePerPageSearchList(), svo.getTotalPage(), blockSize);
+		      pagebar += "</ul>";
+		      
+		      String listUrl = MyUtil.getCurrentURL(request);
+		      
+		      session.setAttribute("listUrl", listUrl);
+		      mv.addObject("searchvo",svo);
+		      mv.addObject("pagebar",pagebar);
+		      session.setAttribute("hotelRoomVOList", hotelRoomVOList);
+		      mv.setViewName("yujin/roomSearch.tiles1");
+		      return mv;
+		      
+//	      HttpSession session = request.getSession();
+//	      if(session.getAttribute("loginuser")!=null) {
+//	    	  String memberid =(String)((MemberVO)session.getAttribute("loginuser")).getMemberId(); 
+//	    	  svo.setMemberid(memberid);
+//	      }
+//
+//	      if(svo.getCurrentShowPage()==0)
+//	         svo.setCurrentShowPage(1);
+//	      else {
+//	         try {
+//	        	 svo.setCurrentShowPage(Integer.parseInt(request.getParameter("currentShowPage")));
+//	         } catch (NumberFormatException e) {
+//	        	 svo.setCurrentShowPage(1);
+//	         }
+//	      }
+//
+//	      svo.setTotalCnt(service.getTotalCntHotel(svo));
+//	      svo.setTotalPage((int)Math.ceil((double)svo.getTotalCnt()/svo.getSizePerPageSearchList()));
+//	      svo.setStartRno(((svo.getCurrentShowPage()-1)*svo.getSizePerPageSearchList())+1);
+//	      svo.setEndRno(svo.getStartRno()+svo.getSizePerPageSearchList()-1);
+//
+//	      List<HotelRoomVO> hotelRoomVOList = service.getTotalHotelList(svo);
 //	      
-//	      System.out.println(largeCategoryCode);
-//	      System.out.println(lontion);
-//	      System.out.println(pontion);
-	      // List<String> largeCategoryCode = request.getParameter("largeCategoryCode");
-	      
-	      
-	      
-	      int per = 0;
-	      try {
-	         per = Integer.parseInt(adult)+(Integer.parseInt(children)/2);
-	      } catch (NumberFormatException e) {
-	         per = 2;
-	      }
-
-	      mv.addObject("searchWord",searchWord);
-	      mv.addObject("sort",sort);
-	      mv.addObject("hotelName",hotelName);
-	      mv.addObject("checkin_date",checkin_date);
-	      mv.addObject("checkout_date",checkout_date);
-	      mv.addObject("adult",Integer.parseInt(adult));
-	      mv.addObject("children",Integer.parseInt(children));
-	      
-	      HashMap<String, String> paramap = new HashMap<String,String>();
-	      paramap.put("searchWord", searchWord);
-	      paramap.put("checkin_date", checkin_date);
-	      paramap.put("checkout_date", checkout_date);
-	      paramap.put("sort", sort);
-	      paramap.put("per", String.valueOf(per));
-	      
-	      
-	      HttpSession session = request.getSession();
-	      if(session.getAttribute("loginuser")!=null) {
-	    	  String memberid =(String)((MemberVO)session.getAttribute("loginuser")).getMemberId(); 
-	    	  paramap.put("memberid", memberid);
-	      }
-	      
-	
-	      
-	      int totalCnt = 0;
-	      int sizePerPage = 12;
-	      int currentShowPage = 1;
-	      int totalPage = 0;
-	      if(request.getParameter("currentShowPage")==null)
-	         currentShowPage = 1;
-	      else {
-	         try {
-	            currentShowPage = Integer.parseInt(request.getParameter("currentShowPage"));
-	         } catch (NumberFormatException e) {
-	            currentShowPage = 1;
-	         }
-	      }
-	      
-	      int startRno = 0;
-	      int endRno = 0;
-	      
-	      totalCnt = service.getTotalCntHotel(paramap);
-	      totalPage = (int)Math.ceil((double)totalCnt/sizePerPage);
-	      startRno = ((currentShowPage-1)*sizePerPage)+1;
-	      endRno = startRno+sizePerPage-1;
-	      
-	      paramap.put("startRno", String.valueOf(startRno));
-	      paramap.put("endRno", String.valueOf(endRno));
-	         
-	      List<HotelRoomVO> hotelRoomVOList = service.getTotalHotelList(paramap);
-	      
-	      
-	      String pagebar = "<ul>";
-	      String url = "/god/search.go?";
-	      int blockSize = 3;
-	      
-	      pagebar += MyUtil.makePageBarHotelList(url, currentShowPage, sizePerPage, totalPage, blockSize, searchWord, checkin_date, checkout_date, adult, children);
-	      pagebar += "</ul>";
-	      
-	      String listUrl = MyUtil.getCurrentURL(request);
-	      
-	      session.setAttribute("listUrl", listUrl);
-	      
-	      mv.addObject("pagebar",pagebar);
-	
-//	      List<HotelRoomVO> hotelRoomVOList = service.getlist(paramap);
-	      
-	      session.setAttribute("hotelRoomVOList", hotelRoomVOList);
-	      
-	      mv.setViewName("yujin/roomSearch.tiles1");
-	      return mv;
+//	      String pagebar = "<ul>";
+//	      String url = MyUtil.makePageBarUrlNext(request,svo);
+//	      int blockSize = 3;
+//	      
+//	      pagebar += MyUtil.makePageBarHotelList(url, svo.getCurrentShowPage(), svo.getSizePerPageSearchList(), svo.getTotalPage(),blockSize);
+//	      pagebar += "</ul>";
+//	      
+//	      String listUrl = MyUtil.getCurrentURL(request);
+//	      
+//	      session.setAttribute("listUrl", listUrl);
+//	      session.setAttribute("hotelRoomVOList", hotelRoomVOList);
+//	      
+//	      mv.addObject("searchvo",svo);	      
+//	      mv.addObject("pagebar",pagebar);
+//		  mv.addObject("searchWord",svo.getSearchWord());
+//	      mv.setViewName("yujin/roomSearch.tiles1");
+//	      return mv;
 	   }
+//	   
+//	   @RequestMapping(value="/searchHotelList.go", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
+//	   @ResponseBody
+//	   public String searchHotelList(HttpServletRequest request, SearchVO svo) {
+//
+//		   JSONArray jsonArr = new JSONArray();
+//		   
+//		   HttpSession session = request.getSession();
+//
+////		      List<HotelRoomVO> hotelRoomVOList = service.getTotalHotelList(svo);
+////		      session.setAttribute("hotelRoomVOList", hotelRoomVOList);
+//		      List<HotelRoomVO> hotelRoomVOList = (List<HotelRoomVO>) session.getAttribute("hotelRoomVOList");
+//		      session.removeAttribute("hotelRoomVOList");
+//		      
+//	    	  if(hotelRoomVOList != null) {
+//	    		  for(HotelRoomVO hrvo : hotelRoomVOList) {
+//	    			  JSONObject jsonObj = new JSONObject();
+//	    			  jsonObj.put("largeCategoryontionCode", hrvo.getLargeCategoryontionCode());
+//	    			  jsonObj.put("regDay", hrvo.getRegDay());
+//	    			  jsonObj.put("img", hrvo.getImg());
+//	    			  jsonObj.put("address", hrvo.getAddress());
+//	    			  jsonObj.put("name", hrvo.getName());
+//	    			  jsonObj.put("weekPrice", hrvo.getWeekPrice());
+//	    			  jsonObj.put("starcnt", hrvo.getStarcnt());
+//	    			  jsonObj.put("star", hrvo.getStar());
+//	    			  
+//	    			  jsonArr.put(jsonObj);
+//	    		  }
+//	    	  }
+//	    	  
+//	    	  if(svo!=null) {
+//    			  JSONObject jsonObj = new JSONObject();
+//    			  jsonObj.put("searchWord", svo.getSearchWord());
+//    			  jsonObj.put("hotelName", svo.getSearchWord());
+//    			  jsonObj.put("sort", svo.getSearchWord());
+//    			  jsonObj.put("checkout_date", svo.getSearchWord());
+//    			  jsonObj.put("checkin_date", svo.getSearchWord());
+//    			  jsonObj.put("children", svo.getSearchWord());
+//    			  jsonObj.put("adult", svo.getSearchWord());
+//    			  jsonObj.put("largeCategoryontionCode", svo.getSearchWord());
+//    			  jsonObj.put("min", svo.getSearchWord());
+//    			  jsonObj.put("max", svo.getSearchWord());
+//    			  jsonObj.put("lontion", svo.getSearchWord());
+//    			  jsonObj.put("pontion", svo.getSearchWord());
+//    			  
+//    			  jsonArr.put(jsonObj);
+//	    	  }
+//
+//	         String result = jsonArr.toString();
+//	         
+//	         return result;
+//	      }
 	   
 	   // 지도 마커용 ajax
 	   @SuppressWarnings("unchecked")
@@ -202,22 +225,20 @@ public class HotelRoomController {
 		   
 		   JSONArray jsonArr = new JSONArray();
 		   
-		   SubSearchVO rangePrice = service.getRangePrice();
-		   List<SubSearchVO> largeCategoryCode = service.getLargeCategoryCode();
-		   List<SubSearchVO> Lontion = service.getLontion();
-		   List<SubSearchVO> Pontion = service.getPontion();
+		   SearchVO rangePrice = service.getRangePrice();
+		   List<SearchVO> largeCategoryCode = service.getLargeCategoryCode();
+		   List<SearchVO> Lontion = service.getLontion();
+		   List<SearchVO> Pontion = service.getPontion();
 
 		   if(rangePrice!=null) {
 			   JSONObject jsonObj = new JSONObject();
-			   jsonObj.put("min", rangePrice.getMin());
-			   jsonObj.put("max", rangePrice.getMax());
-			   System.out.println(rangePrice.getMin());
-			   System.out.println(rangePrice.getMax());
+			   jsonObj.put("minPrice", rangePrice.getMinPrice());
+			   jsonObj.put("maxPrice", rangePrice.getMaxPrice());
 			   jsonArr.put(jsonObj);
 		   }
 		   
 		   if(largeCategoryCode!=null) {
-			   for(SubSearchVO vo : largeCategoryCode) {
+			   for(SearchVO vo : largeCategoryCode) {
 				   JSONObject jsonObj = new JSONObject();
 				   jsonObj.put("largeCategoryCode", vo.getLargeCategoryCode());
 				   jsonObj.put("largeCategoryName", vo.getLargeCategoryName());
@@ -227,7 +248,7 @@ public class HotelRoomController {
 		   }
 
 		   if(Lontion!=null) {
-			   for(SubSearchVO vo : Lontion) {
+			   for(SearchVO vo : Lontion) {
 				   JSONObject jsonObj = new JSONObject();
 				   jsonObj.put("lontion", vo.getLontion());
 				   
@@ -236,7 +257,7 @@ public class HotelRoomController {
 		   }
 		   
 		   if(Pontion!=null) {
-			   for(SubSearchVO vo : Pontion) {
+			   for(SearchVO vo : Pontion) {
 				   JSONObject jsonObj = new JSONObject();
 				   jsonObj.put("pontion", vo.getPontion());
 				   
@@ -249,4 +270,96 @@ public class HotelRoomController {
 		   return result;
 	   }
 
+	   //상세페이지 리뷰 ajax
+	   @RequestMapping(value="/hotelReviewList.go", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
+	   @ResponseBody
+	   public String hotelReviewList(HttpServletRequest request) {
+		   
+		   JSONArray jsonArr = new JSONArray();
+		   
+		   HashMap<String, String> paramap = new HashMap<String, String>();
+		   paramap.put("hotelidx", request.getParameter("largeCategoryontionCode"));
+		   
+
+		   int reviewCnt = service.getReviewCnt(paramap);
+		   if(reviewCnt!=-1) {
+			   JSONObject jsonObj = new JSONObject();
+			   jsonObj.put("reviewCnt", reviewCnt);
+			   jsonArr.put(jsonObj);
+		   }
+		   
+		   
+		   if(reviewCnt>0) {
+		   paramap.put("sort", "regdate desc");
+		   System.out.println(paramap.get("sort"));
+		   List<HistoryVO> RreviewList = service.getReviewRList(paramap);
+		   paramap.remove("sort");
+		   paramap.put("sort", "star desc");
+		   System.out.println(paramap.get("sort"));
+		   List<HistoryVO> SreviewList = service.getReviewSList(paramap);
+		   paramap.remove("sort");
+		   paramap.put("sort", "star ");
+		   List<HistoryVO> sreviewList = service.getReviewsList(paramap);
+
+		   if(RreviewList!=null) {
+			   for(HistoryVO vo : RreviewList) {
+				   JSONObject jsonObj = new JSONObject();
+				   jsonObj.put("RnickName", vo.getName());
+				   jsonObj.put("Rpicture", vo.getImg());
+				   jsonObj.put("RproductName", vo.getProductName());
+				   jsonObj.put("Rtitle", vo.getTitle());
+				   jsonObj.put("Rcontent", vo.getContent());
+				   jsonObj.put("Rstar", vo.getStar());
+//				   String[] imgList = vo.getFileName().split(",");
+//				   for(int i=0;i<imgList.length;i++) {
+//					   jsonObj.put("RimgList"+i, imgList[i]);
+//					   System.out.println(imgList[i]);
+//				   }
+				   jsonObj.put("RfileName", vo.getFileName());
+				   jsonObj.put("Rregdate", vo.getReserveDate());
+				   jsonArr.put(jsonObj);
+			   }
+		   }
+		   
+		   if(SreviewList!=null) {
+			   for(HistoryVO vo : SreviewList) {
+				   JSONObject jsonObj = new JSONObject();
+				   jsonObj.put("SnickName", vo.getName());
+				   jsonObj.put("Spicture", vo.getImg());
+				   jsonObj.put("SproductName", vo.getProductName());
+				   jsonObj.put("Stitle", vo.getTitle());
+				   jsonObj.put("Scontent", vo.getContent());
+				   jsonObj.put("Sstar", vo.getStar());
+				   jsonObj.put("SfileName", vo.getFileName());
+				   jsonObj.put("Sregdate", vo.getReserveDate());
+				   
+				   jsonArr.put(jsonObj);
+			   }
+		   }
+		   
+		   if(sreviewList!=null) {
+			   for(HistoryVO vo : sreviewList) {
+				   JSONObject jsonObj = new JSONObject();
+				   jsonObj.put("snickName", vo.getName());
+				   jsonObj.put("spicture", vo.getImg());
+				   jsonObj.put("sproductName", vo.getProductName());
+				   jsonObj.put("stitle", vo.getTitle());
+				   jsonObj.put("scontent", vo.getContent());
+				   jsonObj.put("sstar", vo.getStar());
+				   jsonObj.put("sfileName", vo.getFileName());
+				   jsonObj.put("sregdate", vo.getReserveDate());
+				                
+				   jsonArr.put(jsonObj);
+			   }
+		   }
+		   
+		   }
+		   
+		   String result = jsonArr.toString();
+		   return result;
+	   }
 }
+
+
+
+

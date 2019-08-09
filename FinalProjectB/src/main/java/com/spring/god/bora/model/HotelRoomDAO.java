@@ -6,7 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.god.jiyoung.model.MemberVO;
+import com.spring.god.hyein.model.HotelRoomVO;
+
 
 @Repository
 public class HotelRoomDAO implements InterHotelRoomDAO {
@@ -28,11 +29,23 @@ public class HotelRoomDAO implements InterHotelRoomDAO {
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////
 	
-	// 숙소보여주기(최신숙소)
+	// 숙소보여주기(베스트, 최신숙소)
 	@Override
-	public List<HotelRoomVO> getlist() {
-		List<HotelRoomVO> hotelList = sqlsession.selectList("boradb.getlist");
+	public List<HotelRoomVO> getlistBest() {
+		List<HotelRoomVO> hotelList = sqlsession.selectList("boradb.getlistBest");
 		return hotelList;
+	}
+	@Override
+	public List<HotelRoomVO> getlistNew() {
+		List<HotelRoomVO> hotelList = sqlsession.selectList("boradb.getlistNew");
+		return hotelList;
+	}
+	
+	// 호텔조회수에 의한 실시간 검색어
+	@Override
+	public List<HotelRoomVO> gethotelViewsRealTime() {
+		List<HotelRoomVO> hotelView = sqlsession.selectList("boradb.gethotelViewsRealTime");
+		return hotelView;
 	}
 	
 	

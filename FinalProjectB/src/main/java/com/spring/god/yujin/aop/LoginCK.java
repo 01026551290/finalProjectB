@@ -84,4 +84,30 @@ public class LoginCK {
 	   }
 	   
    }
+   
+   @Pointcut("execution(public * com.spring.god..*Controller.*_index(..))")
+   public void index() {
+   }
+   
+   @Before("index()")
+   public void index(JoinPoint joinPoint) {
+	   HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0];
+	   HttpServletResponse response = (HttpServletResponse) joinPoint.getArgs()[1];
+	   
+	   String method = request.getMethod();
+	   
+	   try {
+		   if ("get".equalsIgnoreCase(method)) {
+			   request.setAttribute("msg", "잘못된 접근입니다.");
+			   request.setAttribute("loc", request.getContextPath() + "/index.go");
+			   
+			   RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/tiles1/yujin/msg.jsp");
+			   dispatcher.forward(request, response);
+		   }		   
+		   
+	   } catch (ServletException | IOException e) {
+		   e.printStackTrace();
+	   }
+	   
+   }
 }

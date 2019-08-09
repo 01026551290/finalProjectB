@@ -268,24 +268,27 @@
       </a>
     </section>
     <!-- END section -->
-
+	<c:if test="${vo!=null}">
     <section class="section contact-section" id="next">
       <div class="container">
         <div class="row">
           <div class="col-md-5 ">
             <div class="row">
               <div class="col-md-12  ">
-              <img src="/god/resources/images/hotel/Hno.jpg" width="100%"><br>
-                <p><span class="d-block">Name</span> <span class="text-black"> 호텔명</span></p>
-                <p><span class="d-block">Address</span> <span class="text-black"> 호텔주소</span></p>
-                <p><span class="d-block">Room</span> <span class="text-black"> 룸타입</span></p>
-                <p><span class="d-block">Period of use</span> <span class="text-black"> 이용기간</span></p>
+              <img src="/god/resources/images/hotel/${vo.img}" width="100%"><br>
+                <p><span class="d-block">Name</span> <span class="text-black"> ${vo.name}</span></p>
+                <p><span class="d-block">Address</span> <span class="text-black"> ${vo.address}</span></p>
+                <p><span class="d-block">Room</span> <span class="text-black"> ${vo.productName}</span></p>
+                <p><span class="d-block">Period of use</span> <span class="text-black"> ${vo.checkIn}-${vo.checkOut} (${vo.noNight})</span></p>
               </div>
             </div>
           </div>
           <div class="col-md-7 " >
             
             <form name="reviewFrm" class="bg-white p-md-5 p-4 mb-5 border" enctype="multipart/form-data">
+            <input type="hidden" name="reserveId" value="${vo.reserveId}">
+            <input type="hidden" name="fk_productId" value="${vo.fk_productId}">
+            <input type="hidden" name="largeCategoryOntionCode" value="${vo.largeCategoryOntionCode}">
             <!-- <form name="reviewFrm" class="bg-white p-md-5 p-4 mb-5 border"> -->
               <div class="row">
                 <div class="col-md-12 form-group">
@@ -352,3 +355,4 @@
         </div>
       </div>
     </section>
+	</c:if>

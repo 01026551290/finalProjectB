@@ -1,6 +1,7 @@
 package com.spring.god.yujin.controller;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +26,7 @@ import com.spring.god.jiyoung.model.MemberVO;
 import com.spring.god.yujin.model.HistoryVO;
 import com.spring.god.yujin.model.ReviewImgVO;
 import com.spring.god.yujin.model.ReviewVO;
+import com.spring.god.yujin.model.SearchVO;
 import com.spring.god.yujin.service.InterMemberService;
 
 @Component
@@ -81,26 +84,118 @@ public class MemberController {
 	   }
 	   
 	   @RequestMapping(value="/heartList.go", method= {RequestMethod.GET})
-	   public ModelAndView LoginCK_heartList(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+	   public ModelAndView LoginCK_heartList(HttpServletRequest request,HttpServletResponse response,ModelAndView mv, SearchVO svo) {
 
 		  HttpSession session = request.getSession(); 
-		  String memberidx = ((MemberVO)session.getAttribute("loginuser")).getMemberId();	
+		  svo.setMemberid(((MemberVO)session.getAttribute("loginuser")).getMemberId());	
+		  
+		  if(svo.getCurrentShowPage()==0)
+	         svo.setCurrentShowPage(1);
+	      else {
+	         try {
+	        	 svo.setCurrentShowPage(Integer.parseInt(request.getParameter("currentShowPage")));
+	         } catch (NumberFormatException e) {
+	        	 svo.setCurrentShowPage(1);
+	         }
+	      }
+
+	      svo.setTotalCnt(service.getTotalCntHotel(svo));
+	      svo.setTotalPage((int)Math.ceil((double)svo.getTotalCnt()/svo.getSizePerPageHeartList()));
+	      svo.setStartRno(((svo.getCurrentShowPage()-1)*svo.getSizePerPageHeartList())+1);
+	      svo.setEndRno(svo.getStartRno()+svo.getSizePerPageHeartList()-1);
 		      
-		  List<HotelRoomVO> hotelRoomVOList = service.heartList(memberidx);
-//	      List<String> heartNoList = service.heartNo(memberidx);
-//	      mv.addObject("heartNoList",heartNoList);
+		  List<HotelRoomVO> hotelRoomVOList = service.heartList(svo);
 	      session.setAttribute("hotelRoomVOList", hotelRoomVOList);
 	      
+	      String pagebar = "<ul>";
+	      String url = "/god/heartList.go?";
+	      int blockSize = 3;
+	      
+	      pagebar += MyUtil.makePageBarHeartList(url, svo.getCurrentShowPage(), svo.getSizePerPageSearchList(), svo.getTotalPage(), blockSize);
+	      pagebar += "</ul>";
+	      
+	      String listUrl = MyUtil.getCurrentURL(request);
+	      
+	      session.setAttribute("listUrl", listUrl);
+	      mv.addObject("pagebar",pagebar);
 		   mv.setViewName("yujin/heartList.tiles1");
 		   return mv;
 	   }
 	   
-	   @RequestMapping(value="/review.go", method= {RequestMethod.GET})
-	   public ModelAndView LoginCK_review(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
 	   
+	   @RequestMapping(value="/purchasehistory.go", method= {RequestMethod.GET})
+	   public ModelAndView LoginCK_purchaseHistory(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
 		   HttpSession session = request.getSession(); 
-		   int memberidx = ((MemberVO)session.getAttribute("loginuser")).getIdx();	
-			 
+		   int memberidx = ((MemberVO)session.getAttribute("loginuser")).getIdx();
+		   List<HistoryVO> hvo = service.getPurchaseHistory(memberidx);
+		   
+		   mv.addObject("purchaseList",hvo);
+		   mv.setViewName("yujin/purchaseHistory.tiles1");
+		   return mv;
+	   }
+	   
+	   @RequestMapping(value="/reserveCancel.go")
+	   public ModelAndView LoginCK_reserveCancel_index(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+		   String reserveid = request.getParameter("reserveId");
+		   HistoryVO vo = service.getCancelPage(reserveid);
+
+		   mv.addObject("vo",vo);   
+		   mv.setViewName("yujin/reserveCancel.tiles1");
+		   return mv;
+	   }
+
+	   @RequestMapping(value="/earnPoint.go")
+	   public ModelAndView LoginCK_earnPoint_index(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) throws Throwable  {
+		   
+		   HttpSession session = request.getSession();
+		   HashMap<String, String> map = new HashMap<String,String>();
+		   map.put("idx", String.valueOf(((MemberVO)session.getAttribute("loginuser")).getIdx()));
+		   map.put("reserveId", request.getParameter("reserveId"));
+		   map.put("point", request.getParameter("price"));
+		   System.out.println("dgvszdgsz"+request.getParameter("reserveId"));
+		   String msg = "적립에 실패했습니다. 다시 시도해주세요.";
+		   String loc = "javascript:history.back()";
+		   try {
+			   int n = service.getEarnPoint(map);
+			   if(n==1)
+				   msg = "적립 되었습니다.";
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		   
+		   
+		   
+		   mv.addObject("msg",msg);
+		   mv.addObject("loc",loc);
+		   mv.setViewName("tiles1/yujin/msg");
+		   
+		   return mv;
+	   }
+	   
+	   @RequestMapping(value="/reserveCancelEnd.go")
+	   public ModelAndView reserveCancelEnd_index(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+		  String reserveid = request.getParameter("reserveId");
+		  int n = service.getReserveCancelResult(reserveid);
+	      
+		  String msg = "";
+	      String loc = "/god/purchasehistory.go";
+	      
+	      if(n!=1) {
+	          msg = "예약 취소에 실패했습니다. 다시 시도해주세요.";
+	      } else {
+	    	  msg = "예약취소 되었습니다.";
+	      }
+	      
+	      mv.addObject("msg",msg);
+	      mv.addObject("loc",loc);
+	      mv.setViewName("tiles1/yujin/msg");
+
+	      return mv;
+	   }
+
+	   @RequestMapping(value="/review.go")
+	   public ModelAndView LoginCK_review_index(HttpServletRequest request,HttpServletResponse response,ModelAndView mv, HistoryVO vo) {
+		   mv.addObject("vo",vo);   
 		   mv.setViewName("yujin/review.tiles1");
 		   return mv;
 	   }
@@ -117,7 +212,7 @@ public class MemberController {
 			if(!attach.isEmpty()) { 
 				
 				HttpSession session = request.getSession();
-				String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\resources" + File.separator + "images\\review";
+				String path = "C:" + File.separator + "Users" + File.separator + "user1" + File.separator + "git" + File.separator + "finalProjectB" + File.separator + "FinalProjectB" + File.separator + "src" + File.separator + "main" + File.separator + "webapp" + File.separator + "resources" + File.separator + "images" + File.separator + "review";
 				String newFileName = "";
 				
 				byte[] bytes = null;
@@ -141,7 +236,9 @@ public class MemberController {
 		// ========= !!첨부파일이 있는지 없는지 알아오기 끝!! ========= */
 			
 		   rvo.setContent(MyUtil.replaceParameter(rvo.getContent()).replaceAll("\r\n", "<br/>"));
-	
+		   
+		   HttpSession session = request.getSession();
+		   rvo.setMemberIdx(((MemberVO)session.getAttribute("loginuser")).getIdx());
 		   int n = 0;
 		   if(attach.isEmpty()) {
 			   // 첨부파일이 없는 경우이라면

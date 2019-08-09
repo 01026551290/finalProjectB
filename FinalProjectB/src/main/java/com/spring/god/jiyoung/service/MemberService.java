@@ -1,9 +1,7 @@
 package com.spring.god.jiyoung.service;
 
-
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,9 +9,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import com.spring.god.common.AES256;
 import com.spring.god.jiyoung.model.InterMemberDAO;
-import com.spring.god.jiyoung.model.MemberDAO;
 import com.spring.god.jiyoung.model.MemberVO;
 
 
@@ -99,6 +97,27 @@ public class MemberService implements InterMemberService {
 	public MemberVO memberEdit(int idx) {
 		MemberVO memberEdit = dao.memberEdit(idx);
 		return memberEdit;
+	}
+
+
+	@Override
+	public int memberEditEnd(MemberVO vo) {
+		int memberEditEnd = dao.memberEditEnd(vo);
+		return memberEditEnd;
+	}
+
+
+	@Override
+	public int memberout(HashMap<String, String> paraMap) {
+		int memberout = dao.memberout(paraMap);
+		return memberout;
+	}
+
+	@Override
+	public int add_withFile(MemberVO membervo) {
+		System.out.println("시작service");
+		int n = dao.add_withFile(membervo); // 첨부파일이 있는 경우
+		return n;
 	}
 	
 }

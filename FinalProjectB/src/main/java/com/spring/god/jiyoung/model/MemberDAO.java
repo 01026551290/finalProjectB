@@ -92,7 +92,28 @@ public class MemberDAO implements InterMemberDAO {
 		return memberEdit;
 	}
 
-	
+	@Override
+	public int memberEditEnd(MemberVO vo) {
+		
+		int memberEditEnd = sqlsession.update("jiyoungdb.memberEditEnd",vo);	
+		
+		return memberEditEnd;
+	}
+
+	@Override
+	public int memberout(HashMap<String, String> paraMap) {
+		
+		int memberout = sqlsession.update("jiyoungdb.memberout",paraMap);	
+		
+		return memberout;
+	}
+
+	@Override
+	public int add_withFile(MemberVO membervo) {
+		System.out.println("시작dao");
+		int n = sqlsession.update("jiyoungdb.add_withFile", membervo);
+		return n;
+	}
 	
 		
 }

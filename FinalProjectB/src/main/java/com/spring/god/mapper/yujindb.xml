@@ -4,7 +4,7 @@
 
 <mapper namespace="yujindb">
    
-   <select id="getTotalCntHotel" parameterType="HashMap" resultType="int">
+   <select id="getTotalCntHotel" parameterType="com.spring.god.yujin.model.SearchVO" resultType="int">
       select count(*)
 	  from
 		  (
@@ -14,42 +14,68 @@
 		      select distinct fk_largecategoryontioncode,min(weekprice) as week,min(weekenprice) as weekend
 		      from
 			      (
-			      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice
+			      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice, roomoption
 			      FROM
 				      (
 				      SELECT FK_PRODUCTID,b.checkin,b.checkout
 				      FROM RESERVE1 A JOIN RESERVE2 B
 				      ON a.reserveid = B.FK_RESERVEID
-				      <if test='!checkin_date.equals("") and !checkout_date.equals("")'>
-				      WHERE #{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+				      WHERE status=1 
+				      <if test='checkin_date!="" and checkout_date!="" and checkin_date!=null and checkout_date!=null'>
+				      	and (#{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
 				        OR  #{checkout_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
-				        OR (#{checkin_date} <![CDATA[<]]> checkin+1 AND checkout-1 <![CDATA[<]]> #{checkout_date})
+				        OR (#{checkin_date} <![CDATA[<]]> checkin+1 AND checkout-1 <![CDATA[<]]> #{checkout_date}))
 				      </if>
 				      ) A RIGHT JOIN PRODUCT B
 			      ON a.fk_productid = B.PRODUCTID
 			      WHERE a.fk_productid IS NULL
-			      <if test="per!=0">
-			          and  to_number(substr(B.roomtype,3)) <![CDATA[>=]]>to_number(#{per})
+			      <if test="minPrice>=0 and minPrice!=null and maxPrice>=0 and maxPrice!=null">
+			      	and (weekprice between #{minPrice} and #{maxPrice} or weekenprice between #{minPrice} and #{maxPrice})
 			      </if>
+			      <if test="per!=0 and per!=null">
+			          and  to_number(substr(B.roomtype,3)) <![CDATA[>=]]>#{per}
+			      </if>
+			      <if test="pontionList!=null">and 
+			      	<foreach collection="pontionList" item="item" index="index" separator="or" open="(" close=")">
+			      		roomoption like '%'||#{item}||'%'
+			      	</foreach> 
+		      	  </if>
 			      )
 		      group by fk_largecategoryontioncode
 		      ) a join lontion b
 		      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE   
-		      <if test='searchWord!=""'>
-		      where b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%'   
+		      where b.status=1
+		      <if test="lontionList!=null">and
+			      <foreach collection="lontionList" item="item" index="index" separator="or" open="(" close=")">
+			      	 b.ontiontype like '%'||#{item}||'%'
+			      </foreach> 
+		      </if>
+		      <if test="largeCategoryCodeList!=null">and
+			      <foreach collection="largeCategoryCodeList" item="item" index="index" separator="or" open="(" close=")">
+			      	 b.fk_largecategorycode like '%'||#{item}||'%'
+			      </foreach> 
+		      </if>
+		      <if test='searchWord!="" and searchWord!=null'>
+			  and (b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%')   
+		      </if>
+		      <if test='hotelName!="" and hotelName!=null'>
+			  and b.name like '%'||#{hotelName}||'%'
 		      </if>
 	      ) a left join 
 		      (select hotelidx,avg(star) as star,count(*) as starcnt
 			  from review
 			  group by hotelidx) b
       on a.largecategoryontioncode=b.hotelidx
+      <if test="minStar>=0 and minStar!=null and maxStar>=0 and maxStar!=null">
+      where nvl(b.star,0) between #{minStar} and #{maxStar}
+      </if>
    </select>
    
-   <select id="getTotalHotelList" parameterType="HashMap" resultType="com.spring.god.hyein.model.HotelRoomVO">
+   <select id="getTotalHotelList" parameterType="com.spring.god.yujin.model.SearchVO" resultType="com.spring.god.hyein.model.HotelRoomVO">
 	   <if test='memberid==null or "".equals(memberid)'>
 	      select * from
 	      (
-	      select ROW_NUMBER() OVER(ORDER BY a.name) NUM,a.*,b.star as star,b.starcnt as starcnt 
+	      select ROW_NUMBER() OVER(ORDER BY a.name) NUM,a.*,b.star,b.starcnt  
 		  from
 			  (
 		 	  select a.week as weekPrice , a.weekend AS weekenPrice,b.img AS IMG,b.name AS name,b.address AS address,b.largeCategoryontionCode
@@ -58,38 +84,70 @@
 			      select distinct fk_largecategoryontioncode,min(weekprice) as week,min(weekenprice) as weekend
 			      from
 				      (
-				      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice
+				      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice, roomoption
 				      FROM
 					      (
 					      SELECT FK_PRODUCTID,b.checkin,b.checkout
 					      FROM RESERVE1 A JOIN RESERVE2 B
 					      ON a.reserveid = B.FK_RESERVEID
-					      <if test='!checkin_date.equals("") and !checkout_date.equals("")'>
-					      WHERE #{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+					      WHERE status=1 
+					      <if test='checkin_date!="" and checkout_date!="" and checkin_date!=null and checkout_date!=null'>
+					      	and (#{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
 					        OR  #{checkout_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
-  					        OR (#{checkin_date} <![CDATA[<]]> checkin+1 AND checkout-1 <![CDATA[<]]> #{checkout_date})
+					        OR (#{checkin_date} <![CDATA[<]]> checkin+1 AND checkout-1 <![CDATA[<]]> #{checkout_date}))
 					      </if>
 					      ) A RIGHT JOIN PRODUCT B
 				      ON a.fk_productid = B.PRODUCTID
 				      WHERE a.fk_productid IS NULL
-				      <if test="per!=0">
-			          	and  to_number(substr(B.roomtype,3)) <![CDATA[>=]]>to_number(#{per})
+				      <if test="minPrice>=0 and minPrice!=null and maxPrice>=0 and maxPrice!=null">
+				      	and (weekprice between #{minPrice} and #{maxPrice} or weekenprice between #{minPrice} and #{maxPrice})
+				      </if>
+				      <if test="pontionList!=null">and
+				      	<foreach collection="pontionList" item="item" index="index"  separator="or" open="(" close=")">
+				      		 roomoption like '%'||#{item}||'%'
+				      	</foreach> 
+			      	  </if>
+				       <if test="per!=0 and per!=null">
+			          	and  to_number(substr(B.roomtype,3)) <![CDATA[>=]]>#{per}
 			          </if>
 				      )
 			      group by fk_largecategoryontioncode
 			      ) a join lontion b
-			      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE   
-			      <if test='searchWord!=""'>
-			      where b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%'   
+			      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE 
+			      where b.status=1
+			      <if test="lontionList!=null">and 	
+			      <foreach collection="lontionList" item="item" index="index" separator="or" open="(" close=")">
+			      	b.ontiontype like '%'||#{item}||'%'
+			      </foreach> 
+		      	  </if>  
+		      	   <if test="largeCategoryCodeList!=null">and
+			      <foreach collection="largeCategoryCodeList" item="item" index="index" separator="or" open="(" close=")">
+			      	 b.fk_largecategorycode like '%'||#{item}||'%'
+			      </foreach> 
+	      		   </if>	
+			      <if test='searchWord!="" and searchWord!=null'>
+			      and (b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%')   
+			      </if>
+				  <if test='hotelName!="" and hotelName!=null'>
+				  and b.name like '%'||#{hotelName}||'%'
 			      </if>
 		      ) a left join 
 			      (select hotelidx,avg(star) as star,count(*) as starcnt
 				  from review
-				  group by hotelidx) b
+				  group by hotelidx
+				  ) b
 	      on a.largecategoryontioncode=b.hotelidx
+	       <if test="minStar>=0 and minStar!=null and maxStar>=0 and maxStar!=null">
+	      where nvl(b.star,0) between #{minStar} and #{maxStar}
+	      </if>
 	      ) 
 	      where num between #{startRno} and #{endRno}
+	      <if test='sort!=null and !"".equals(sort)'>
 	      order by ${sort}
+	      </if>
+	      <if test='sort==null or "".equals(sort)'>
+	      order by largecategoryontioncode
+	      </if>
       </if>
       
 	   <if test='memberid!=null and !"".equals(memberid)'>
@@ -106,40 +164,71 @@
 				      select distinct fk_largecategoryontioncode,min(weekprice) as week,min(weekenprice) as weekend
 				      from
 					      (
-					      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice
+					      SELECT fk_largecategoryontioncode,b.weekprice as weekprice,b.weekenprice as weekenprice,roomoption
 					      FROM
 						      (
 						      SELECT FK_PRODUCTID,b.checkin,b.checkout
 						      FROM RESERVE1 A JOIN RESERVE2 B
 						      ON a.reserveid = B.FK_RESERVEID
-						      <if test='!checkin_date.equals("") and !checkout_date.equals("")'>
-						      WHERE #{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
+						      WHERE status=1 
+						      <if test='checkin_date!="" and checkout_date!="" and checkin_date!=null and checkout_date!=null'>
+						      	and (#{checkin_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
 						        OR  #{checkout_date} BETWEEN CHECKIN+1 AND CHECKOUT-1
-						        OR (#{checkin_date} <![CDATA[<]]> checkin+1 AND checkout-1 <![CDATA[<]]> #{checkout_date})
+						        OR (#{checkin_date} <![CDATA[<]]> checkin+1 AND checkout-1 <![CDATA[<]]> #{checkout_date}))
 						      </if>
 						      ) A RIGHT JOIN PRODUCT B
 					      ON a.fk_productid = B.PRODUCTID
 					      WHERE a.fk_productid IS NULL
-						  <if test="per!=0">
-				          	and  to_number(substr(B.roomtype,3)) <![CDATA[>=]]>to_number(#{per})
+					      <if test="minPrice>=0 and minPrice!=null and maxPrice>=0 and maxPrice!=null">
+					      	and (weekprice between #{minPrice} and #{maxPrice} or weekenprice between #{minPrice} and #{maxPrice})
+					      </if>
+						   <if test="per!=0 and per!=null">
+				          	and  to_number(substr(B.roomtype,3)) <![CDATA[>=]]>#{per}
 				          </if>
+				          <if test="pontionList!=null">and 
+					      	<foreach collection="pontionList" item="item" index="index" separator="or" open="(" close=")">
+					      		roomoption like '%'||#{item}||'%'
+					      	</foreach> 
+				      	  </if>
 					      )
 				      group by fk_largecategoryontioncode
 				      ) a join lontion b
 				      on a.fk_largecategoryontioncode=b.LARGECATEGORYONTIONCODE   
-				      <if test='searchWord!=""'>
-				      where b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%'   
+				      where b.status=1
+				      <if test="lontionList!=null">and 
+				      <foreach collection="lontionList" item="item" index="index" separator="or" open="(" close=")">
+				      	b.ontiontype like '%'||#{item}||'%'
+				      </foreach> 
+			      	  </if>  
+			      	   <if test="largeCategoryCodeList!=null">and
+					      <foreach collection="largeCategoryCodeList" item="item" index="index" separator="or" open="(" close=")">
+					      	 b.fk_largecategorycode like '%'||#{item}||'%'
+					      </foreach> 
+				      </if>
+				      <if test='searchWord!="" and searchWord!=null'>
+				      and (b.address like '%'||#{searchWord}||'%' or  b.name like '%'||#{searchWord}||'%')   
+				      </if>
+				      <if test='hotelName!="" and hotelName!=null'>
+					  and b.name like '%'||#{hotelName}||'%'
 				      </if>
 			      ) a left join 
 				      (select hotelidx,avg(star) as star,count(*) as starcnt
 					  from review
 					  group by hotelidx) b
 		      on a.largecategoryontioncode=b.hotelidx
+		       <if test="minStar>=0 and minStar!=null and maxStar>=0 and maxStar!=null">
+		      where nvl(b.star,0) between #{minStar} and #{maxStar}
+		      </if>
 		      ) where num between #{startRno} and #{endRno}
 			 ) a left join (     
 	      select * from likelist where fk_memberid=#{memberid} and status=1) b
 	      on a.largecategoryontioncode = b.fk_hotelid
-	      order by a.${sort}
+	      <if test='sort!=null and !"".equals(sort)'>
+	      order by ${sort}
+	      </if>
+	      <if test='sort==null or "".equals(sort)'>
+	      order by largecategoryontioncode
+	      </if>
       </if>
    </select>
 
@@ -159,28 +248,47 @@
       WHERE FK_HOTELID = #{largeCategoryontionCode} AND FK_MEMBERID = #{memberId}
    </update>
    
-   <select id="getHeartList" parameterType="String" resultType="com.spring.god.hyein.model.HotelRoomVO">
-	select address, name, img, largeCategoryontionCode, fk_hotelid as fk_LargeCategoryCode
-	from lontion a join (
-						 select fk_hotelid from likelist where status=1 and fk_memberid=#{memberId}
-						 ) b
-	on a.largeCategoryontionCode=b.fk_hotelid   
+   <select id="getTotalCntHeart" parameterType="com.spring.god.yujin.model.SearchVO" resultType="int">
+		select count(*)
+		from lontion a join (
+							 select fk_hotelid from likelist where status=1 and fk_memberid=#{memberid}
+							 ) b
+		on a.largeCategoryontionCode=b.fk_hotelid 
    </select>
    
-   <select id="getHeartNo" parameterType="String" resultType="String">
-   	  SELECT fk_hotelid
-   	  FROM LIKELIST
-   	  WHERE STATUS=1 AND fk_memberid=#{memberId}
+   <select id="getHeartList" parameterType="com.spring.god.yujin.model.SearchVO" resultType="com.spring.god.hyein.model.HotelRoomVO">
+	select * from
+	(
+	select ROW_NUMBER() OVER(ORDER BY b.likelistid) NUM,address, name, img, largeCategoryontionCode, fk_hotelid as fk_LargeCategoryCode
+	from lontion a join (
+						 select likelistid,fk_hotelid from likelist where status=1 and fk_memberid=#{memberid}
+						 ) b
+	on a.largeCategoryontionCode=b.fk_hotelid
+	)  
+	where num between #{startRno} and #{endRno}
+   </select>
+   
+   <select id="getPurchaseHistory" parameterType="int" resultType="com.spring.god.yujin.model.HistoryVO">
+	select a.pointStatus,a.status,a.reserveId,a.fk_productid,a.price,a.reserveDate,a.checkIn,a.checkOut,a.checkout-a.checkin+1 as noNight,a.productName,a.roomType,a.fk_largecategoryontioncode as largeCategoryOntionCode,b.name,b.address,b.img 
+	from
+		(select a.pointStatus,a.status,a.reserveId,a.fk_productid,a.price,a.reservedate,a.checkin,a.checkout,b.fk_largecategoryontioncode,b.productname,b.roomtype 
+		from
+			(select a.pointStatus,a.status,a.reserveId,a.fk_productid,a.price,a.reservedate,b.checkin,b.checkout 
+			from reserve1 a join reserve2 b
+			on a.reserveid=b.fk_reserveid
+			where a.memberidx=#{memberidx}) a join product b
+		on a.fk_productid=b.productid) a join lontion b
+	on a.fk_largecategoryontioncode=largecategoryontioncode
    </select>
    
    <insert id="addReview" parameterType="com.spring.god.yujin.model.ReviewVO">
       INSERT INTO review(reviewidx,memberidx,hotelidx,roomidx,reserveidx,title,content,star,GROUPNO)
-      VALUES(seq_review.nextval,5,1002,1001,11,#{title},#{content},#{star},0)
+      VALUES(seq_review.nextval,#{memberIdx},#{largeCategoryOntionCode},#{productId},#{reserveId},#{title},#{content},#{star},0)
    </insert>
    
    <insert id="addReview_withfile" parameterType="com.spring.god.yujin.model.ReviewVO">
       INSERT INTO review(reviewidx,memberidx,hotelidx,roomidx,reserveidx,title,content,star,GROUPNO,imgidx)
-      VALUES(seq_review.nextval,5,1002,1001,11,#{title},#{content},#{star},0,SEQ_REVIEW_IMG.nextval)
+      VALUES(seq_review.nextval,#{memberIdx},#{largeCategoryOntionCode},#{productId},#{reserveId},#{title},#{content},#{star},0,SEQ_REVIEW_IMG.nextval)
    </insert>
    
    <insert id="addReviewFile" parameterType="com.spring.god.yujin.model.ReviewVO">
@@ -211,18 +319,18 @@
 		on a.fk_productid = b.productid
    </select>
    
-   <select id="getRangePrice" resultType="com.spring.god.yujin.model.SubSearchVO">
-   		select min,max
-   		from(select 1,min(weekprice) as min, max(weekprice) as max 
+   <select id="getRangePrice" resultType="com.spring.god.yujin.model.SearchVO">
+   		select minPrice,maxPrice
+   		from(select 1,min(weekprice) as minPrice, max(weekprice) as maxPrice 
    		from product 
    		group by 1)
    </select>
 
-   <select id="getLargeCategoryCode" resultType="com.spring.god.yujin.model.SubSearchVO">
+   <select id="getLargeCategoryCode" resultType="com.spring.god.yujin.model.SearchVO">
    		select * from LCATEGORY
    </select>
 
-   <select id="getLontion" resultType="com.spring.god.yujin.model.SubSearchVO">
+   <select id="getLontion" resultType="com.spring.god.yujin.model.SearchVO">
 		select distinct col as lontion
 		from(
 			Select Regexp_Substr((select ontiontype from (select listagg(ontiontype||',')within group (order by ontiontype) as ontiontype
@@ -234,8 +342,8 @@
 		)
    </select>
 
-   <select id="getPontion" resultType="com.spring.god.yujin.model.SubSearchVO">
-		select distinct col as Pontion
+   <select id="getPontion" resultType="com.spring.god.yujin.model.SearchVO">
+		select distinct col as pontion
 		from(
 			Select Regexp_Substr((select roomoption from (select listagg(roomoption||',')within group (order by roomoption) as roomoption
 			from (select 1,roomoption from product)
@@ -246,6 +354,123 @@
 		)
    </select>
    
+   <select id="getReviewList" parameterType="HashMap" resultType="com.spring.god.yujin.model.HistoryVO">
+   select nickname as name,picture as img,productName,title,content,star,fileName,regdate as reserveDate
+	from
+	    (
+	    select roomidx,title,content,star,regdate,filename,nickname,picture
+	    from
+	        (
+	        select memberidx,roomidx,title,content,imgidx,star,regdate,filename 
+	        from
+	            (
+	            select reviewidx,memberidx,roomidx,title,content,imgidx,star,regdate
+	            from review 
+	            where status=1 
+	            <if test="hotelidx!=0">
+	            and hotelidx=#{hotelidx} 
+	            </if>
+	            <if test='sort!=null and !"".equals(sort)'>
+	            order by ${sort}
+	            </if>
+	            )a
+	            left join 
+	            (
+	            select reviewidx, listagg(filename,',') within group(order by reviewidx) as filename
+	            from review_img
+	            group by reviewidx
+	            )b
+	        on a.reviewidx=b.reviewidx
+	        )a 
+	        join 
+	        (
+	        select idx,nickname,picture
+	        from member
+	        where status=1
+	        )b
+	    on a.memberidx=b.idx
+	    )a
+	    join 
+	    (
+	    select productid,productname
+	    from product
+	    where productstatus=1
+	    )b
+	on a.roomidx =b.productid    
+   </select>
+   
+   <select id="getReviewCnt" parameterType="HashMap" resultType="int">
+   select count(*)
+	from
+	    (
+	    select roomidx,title,content,star,regdate,filename,nickname,picture
+	    from
+	        (
+	        select memberidx,roomidx,title,content,imgidx,star,regdate,filename 
+	        from
+	            (
+	            select reviewidx,memberidx,roomidx,title,content,imgidx,star,regdate
+	            from review 
+	            where status=1 
+	            <if test="hotelidx!=0">
+	            and hotelidx=#{hotelidx} 
+	            </if>
+	            <if test='sort!=null and !"".equals(sort)'>
+	            order by ${sort}
+	            </if>
+	            )a
+	            left join 
+	            (
+	            select reviewidx, listagg(filename,',') within group(order by reviewidx) as filename
+	            from review_img
+	            group by reviewidx
+	            )b
+	        on a.reviewidx=b.reviewidx
+	        )a 
+	        join 
+	        (
+	        select idx,nickname,picture
+	        from member
+	        where status=1
+	        )b
+	    on a.memberidx=b.idx
+	    )a
+	    join 
+	    (
+	    select productid,productname
+	    from product
+	    where productstatus=1
+	    )b
+	on a.roomidx =b.productid    
+   </select>
+   
+   <select id="getCancelPage" parameterType="String" resultType="com.spring.god.yujin.model.HistoryVO">
+		select a.reserveid,a.price,a.reserveDate,a.checkIn,a.checkOut,a.noNight,b.name,b.address,b.img,b.productName,b.roomType
+		from 
+		    (
+		    select a.reserveid,fk_productid,price,reservedate,checkin,checkout,checkout-checkin+1 as nonight
+		    from reserve1 a join reserve2 b
+		    on a.reserveid=b.fk_reserveid
+		    where status=1 and a.reserveid=#{reserveid}
+		    ) a join (
+		    select name,address,img,productid,productname,roomtype
+		    from lontion a join product b
+		    on a.largecategoryontioncode=b.fk_largecategoryontioncode
+		    ) b
+		on a.fk_productid=b.productid
+   </select>
+   
+   <update id="getReserveCancelResult" parameterType="String">
+   		update reserve1 set status=0 where reserveid=#{reserveid}
+   </update>
+   
+   <update id="getEarnPoint1" parameterType="HashMap">
+   		update member set point=point+#{point} where idx=#{idx}
+   </update>
+   <update id="getEarnPoint2" parameterType="HashMap">
+   		update reserve1 set pointstatus=0 where reserveId=#{reserveId}
+   </update>
+
    
    
    

@@ -13,9 +13,31 @@
 		from LONTION
 		where lower(ADDRESS) like '%'||lower(#{searchWord})||'%'
     </select>
-
-	<select id="getlist" resultType="com.spring.god.bora.model.HotelRoomVO">
-		select name, address
+	
+	<select id="getlistBest" resultType="com.spring.god.hyein.model.HotelRoomVO">
+		select fk_LargeCategoryOntionCode, name, address, maxprice as weekPrice, minprice as weekenPrice, star, starcnt, img
+		from
+		(
+		    select fk_largecategoryontioncode, cnt, rno, name, address, maxprice, minprice, img
+		    from
+		    (
+		        select P.fk_largecategoryontioncode, count(*) as cnt, ROW_NUMBER() OVER(ORDER BY count(*) desc) rno, max(weekprice) AS maxprice, min(weekprice) AS minprice
+		        from reserve1 R JOIN product P
+		        on R.fk_productid = P.productid
+		        group by P.fk_largecategoryontioncode
+		        order by rno
+		    )V LEFT JOIN lontion L
+		        on V.fk_largecategoryontioncode = L.largecategoryontioncode
+		)V2 LEFT JOIN ( select hotelidx,avg(star) AS STAR,count(*) AS starcnt
+		                from review
+		                group by hotelidx
+		               ) R 
+		    on V2.fk_largecategoryontioncode = R.hotelidx
+		where rno between 1 and 6
+	</select>
+	
+	<select id="getlistNew" resultType="com.spring.god.hyein.model.HotelRoomVO">
+		select largeCategoryontionCode, name, address
 		     , img, regDay
 		     , star, starcnt
 		    from
@@ -70,6 +92,23 @@
 		values(seq_reserve1_reserveid.currval, #{checkIn}, #{checkOut})
 	</insert>
 
-
+	<select id="gethotelViewsRealTime" resultType="com.spring.god.hyein.model.HotelRoomVO">
+		select largecategoryontioncode, name
+		from 
+		(
+		    select ROW_NUMBER() OVER(ORDER BY cnt desc) rno, name, cnt, largecategoryontioncode
+		    from 
+		    (
+		        select count(*) as cnt ,hotelidx 
+		        from hotelviews
+		        group by hotelidx
+		    )HV JOIN (
+		        select *
+		        from lontion
+		    )L
+		    on HV.hotelidx = L.largecategoryontioncode
+		)
+		where rno between 1 and 9
+	</select>
 
 </mapper>

@@ -11,6 +11,48 @@
 	var weatherTimejugi = 0;  // 단위는 밀리초
 	
 	$(document).ready(function() {
+		
+		$(function(){
+			$.ajax({
+				url:"hotelViewsRealTime.go",
+				dataType:"JSON",
+				success:function(json){
+					$(".searchType").empty();
+					
+					var html = "<dl id='rank-list'>";
+					html += "<dt>실시간 급상승 검색어</dt>";
+					html += "<dd>";
+					html += "<ol>";
+					$.each(json, function(index, item){
+						html += "<li><a href='<%= ctxPath%>/product.go?largeCategoryontionCode="+item.largecategoryontioncode+"'>"+item.cnt+".  "+item.name+"</a></li>";
+					});
+					
+					html += "</ol>";
+					html += "</dd>";
+					html += "</dl>";
+					
+					$(".searchType").html(html);
+					
+				    var count = $('#rank-list li').length;
+				    var height = $('#rank-list li').height();
+
+				    function step(index) {
+				        $('#rank-list ol').delay(2000).animate({
+				            top: -height * index,
+				        }, 500, function() {
+				            step((index + 1) % count);
+				        });
+				    }
+
+				    step(1);
+				},
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+		});
+		
+		
 		loopshowNowTime();
 		
 		// 시간이 대략 매 30분 0초가 되면 기상청 날씨정보를 자동 갱신해서 가져오려고 함.
@@ -156,9 +198,7 @@
 
 			<div class="col-8 col-lg-6">
 				<div data-aos="fade-up" data-aos-offset="-200">
-					<div class="searchType">
-						<span class="styleWord">실시간검색어</span> <span class="searchWord">1.조아조아호텔(포이치문)</span>
-					</div>
+					<div class="searchType"></div>
 					<div class="weatherType"></div>
 					<div id="displayWeather"></div>
 				</div>
@@ -186,8 +226,8 @@
 										<!-- 로그인 후 보여지는 메뉴 -->
 										<c:if test="${loginuser != null }">    
 										<li class="active"><a href="index.go">홈으로</a></li>
-										<li><a href="#">여행</a></li>
-										<li><a href="#">찜목록</a></li>
+										<li><a href="<%= ctxPath%>/history.go">여행</a></li>
+										<li><a href="<%= ctxPath%>/heartList.go">찜목록</a></li>
 										<li><a href="<%= ctxPath%>/mypage.go">마이페이지</a></li>
 										<li><a href="<%= ctxPath%>/logout.go">로그아웃</a></li>
 										</c:if>
