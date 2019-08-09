@@ -156,7 +156,7 @@ public class MemberController {
 	   
 	   // 마이페이지 전 암호 확인 페이지 매핑
 	   @RequestMapping(value="/pwdpass.go")
-		public ModelAndView requireLogin_pwdpass(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+		public ModelAndView loginCK_pwdpass(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
 			mv.setViewName("jiyoung/pwdpass.tiles1");
 			return mv;
 		}	   
@@ -445,7 +445,7 @@ public class MemberController {
 	}
 	
 		@RequestMapping(value="/mypage.go")
-		public ModelAndView requireLogin_mypage(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+		public ModelAndView loginCK_mypage(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
 			
 			mv.setViewName("jiyoung/mypage.tiles1");
 			
@@ -469,12 +469,13 @@ public class MemberController {
 		
 		
 		@RequestMapping(value="/memberedit.go")
-		public String requireLogin_memberEdit(HttpServletRequest request,HttpServletResponse response, MemberVO vo) {
+		public String loginCK_memberEdit(HttpServletRequest request,HttpServletResponse response, MemberVO vo) {
 			HttpSession session = request.getSession();
 			vo = (MemberVO)session.getAttribute("loginuser");
 			
-			int idx = vo.getIdx();
 			
+			int idx = vo.getIdx();
+//			System.out.println("getIdx() : " + idx);
 			vo = service.memberEdit(idx);
 			
 			request.setAttribute("vo", vo);
@@ -483,7 +484,7 @@ public class MemberController {
 		}
 		
 		@RequestMapping(value="/memberEditEnd.go", method= {RequestMethod.POST})
-		public ModelAndView requireLogin_memberEditEnd(HttpServletRequest request,HttpServletResponse response, ModelAndView mv, MemberVO vo) {
+		public ModelAndView loginCK_memberEditEnd(HttpServletRequest request,HttpServletResponse response, ModelAndView mv, MemberVO vo) {
 			
 			String pwd = request.getParameter("pwd");
 			String tel ="010"+request.getParameter("hp2")+request.getParameter("hp3");
@@ -517,14 +518,14 @@ public class MemberController {
 		}		
 	
 		@RequestMapping(value="/memberout.go")
-		public ModelAndView requireLogin_memberout(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+		public ModelAndView loginCK_memberout(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
 			
 			mv.setViewName("jiyoung/memberout.tiles1");
 			
 			return mv;
 		}
 		@RequestMapping(value="/memberoutEnd.go")
-		public ModelAndView requireLogin_memberoutEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+		public ModelAndView loginCK_memberoutEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 			
 			String memberid = request.getParameter("memberId");
 			String pwd = request.getParameter("pwd");
