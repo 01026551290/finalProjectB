@@ -5,9 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.god.bora.model.HotelRoomVO;
+import com.spring.god.hyein.model.HotelRoomVO;
 import com.spring.god.bora.model.InterHotelRoomDAO;
-import com.spring.god.jiyoung.model.MemberVO;
 
 
 @Service

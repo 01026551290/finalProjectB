@@ -6,7 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.god.jiyoung.model.MemberVO;
+import com.spring.god.hyein.model.HotelRoomVO;
+
 
 @Repository
 public class HotelRoomDAO implements InterHotelRoomDAO {

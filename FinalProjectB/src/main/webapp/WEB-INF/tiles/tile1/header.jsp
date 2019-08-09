@@ -226,8 +226,8 @@
 										<!-- 로그인 후 보여지는 메뉴 -->
 										<c:if test="${loginuser != null }">    
 										<li class="active"><a href="index.go">홈으로</a></li>
-										<li><a href="#">여행</a></li>
-										<li><a href="#">찜목록</a></li>
+										<li><a href="<%= ctxPath%>/history.go">여행</a></li>
+										<li><a href="<%= ctxPath%>/heartList.go">찜목록</a></li>
 										<li><a href="<%= ctxPath%>/mypage.go">마이페이지</a></li>
 										<li><a href="<%= ctxPath%>/logout.go">로그아웃</a></li>
 										</c:if>

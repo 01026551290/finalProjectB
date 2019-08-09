@@ -2,8 +2,7 @@ package com.spring.god.bora.service;
 
 import java.util.List;
 
-import com.spring.god.bora.model.HotelRoomVO;
-import com.spring.god.jiyoung.model.MemberVO;
+import com.spring.god.hyein.model.HotelRoomVO;
 
 public interface InterHotelRoomService {
 	

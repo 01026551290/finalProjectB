@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.god.bora.model.HotelRoomVO;
+import com.spring.god.hyein.model.HotelRoomVO;
 import com.spring.god.bora.service.InterHotelRoomService;
 
 

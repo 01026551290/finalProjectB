@@ -304,7 +304,7 @@
 			<div class="col-md-6 col-lg-4">
 				<a href="<%=ctxPath%>/product.go?largeCategoryontionCode=${hotelvobest.fk_LargeCategoryOntionCode}" class="room">
 					<figure class="img-wrap">
-						<img src="<%= ctxPath%>/resources/images/${hotelvobest.img}" class="img-fluid">
+						<img src="<%= ctxPath%>/resources/images/hotel/${hotelvobest.img}" class="img-fluid">
 					</figure>
 					<div class="room-info px-3">
 						<span class="meta-post">${hotelvobest.address}</span>
@@ -344,7 +344,7 @@
 			<div class="col-lg-4 col-md-6 col-sm-6 col-12 post mb-4">
 				<div class="media media-custom d-block h-100">
 					<a href="<%=ctxPath%>/product.go?largeCategoryontionCode=${hotelvonew.largeCategoryontionCode}" class="mb-4 d-block">
-						<img src="<%=ctxPath%>/resources/images/${hotelvonew.img}" class="img-fluid">
+						<img src="<%=ctxPath%>/resources/images/hotel/${hotelvonew.img}" class="img-fluid">
 					</a>
 					<!-- 하단(호텔명,가격,평점) -->
 					<div class="media-body">

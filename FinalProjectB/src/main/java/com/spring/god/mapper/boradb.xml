@@ -14,7 +14,7 @@
 		where lower(ADDRESS) like '%'||lower(#{searchWord})||'%'
     </select>
 	
-	<select id="getlistBest" resultType="com.spring.god.bora.model.HotelRoomVO">
+	<select id="getlistBest" resultType="com.spring.god.hyein.model.HotelRoomVO">
 		select fk_LargeCategoryOntionCode, name, address, maxprice as weekPrice, minprice as weekenPrice, star, starcnt, img
 		from
 		(
@@ -36,7 +36,7 @@
 		where rno between 1 and 6
 	</select>
 	
-	<select id="getlistNew" resultType="com.spring.god.bora.model.HotelRoomVO">
+	<select id="getlistNew" resultType="com.spring.god.hyein.model.HotelRoomVO">
 		select largeCategoryontionCode, name, address
 		     , img, regDay
 		     , star, starcnt
@@ -92,7 +92,7 @@
 		values(seq_reserve1_reserveid.currval, #{checkIn}, #{checkOut})
 	</insert>
 
-	<select id="gethotelViewsRealTime" resultType="com.spring.god.bora.model.HotelRoomVO">
+	<select id="gethotelViewsRealTime" resultType="com.spring.god.hyein.model.HotelRoomVO">
 		select largecategoryontioncode, name
 		from 
 		(
