@@ -2029,6 +2029,23 @@ div#displayList {
     color: #ffaa34 !important;
 }
 
+.modal-header {
+    border-bottom: 2px solid #ffba5a;
+}
+
+.btnModal {
+	background-color: #ffba5a;
+    border-color: #ffba5a;
+    color: #fff;
+    font-weight: bold;
+}
+.btnModal:focus, .btnModal:hover {
+	background-color: #ffaa34;
+    border-color: #ffa527;
+	color: #fff;
+}
+
+
 /* 지도 Style */
 .wrap * {padding: 0;margin: 0;}
 .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
