@@ -27,7 +27,7 @@
    	from MEMBER
    	where NICKNAME = #{nickName}
    </select>
-   
+    
    <select id="isUseEMAIL" parameterType="String" resultType="int">
    	select count(*)
    	from MEMBER
@@ -42,7 +42,7 @@
 	</resultMap>
    
     <select id="getLoginMember" parameterType="HashMap" resultType="com.spring.god.jiyoung.model.MemberVO">
-		SELECT IDX, MEMBERID, NICKNAME, PWD, NAME, EMAIL, BRITHDAY, substr(TEL, 4, 4) as tel2, substr(TEL, 8) as tel3, GENDER, REGISTERDAY, STATUS
+		SELECT IDX, MEMBERID, NICKNAME, PWD, NAME, EMAIL, BRITHDAY, substr(TEL, 0, 3) as tel,  substr(TEL, 4, 4) as tel2, substr(TEL, 8) as tel3, GENDER, REGISTERDAY, STATUS
 		, GRADE, POINT, PICTURE, FINALLOGINDATE, FINALPWDATE
 		from MEMBER
 		where status = 1 and MEMBERID = #{userid} and PWD = #{pwd}  
@@ -51,7 +51,7 @@
     <select id="getidFind" parameterType="HashMap" resultType="String">
 		SELECT MEMBERID
 		from MEMBER
-		where status = 1 and NAM E = #{name} and EMAIL = #{email}
+		where status = 1 and NAME = #{name} and EMAIL = #{email}
    </select> 
    
    <select id="isUserExists" parameterType="HashMap" resultType="int">
@@ -87,6 +87,15 @@
 		where status = 1 and memberId = #{memberId}
 	 </update> 
 	 
+	 
 	
+	<!-- 여기서부터 board!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --> 
+	<!-- 여기서부터 board!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --> 
+	<!-- 여기서부터 board!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --> 
+	<!-- 여기서부터 board!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --> 
+	<!-- 여기서부터 board!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --> 
+	<!-- 여기서부터 board!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --> 
+	<!-- 여기서부터 board!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --> 
+
       
 </mapper>

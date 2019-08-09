@@ -17,8 +17,34 @@
 				url:"hotelViewsRealTime.go",
 				dataType:"JSON",
 				success:function(json){
+					$(".searchType").empty();
 					
+					var html = "<dl id='rank-list'>";
+					html += "<dt>실시간 급상승 검색어</dt>";
+					html += "<dd>";
+					html += "<ol>";
+					$.each(json, function(index, item){
+						html += "<li><a href='<%= ctxPath%>/product.go?largeCategoryontionCode="+item.largecategoryontioncode+"'>"+item.cnt+".  "+item.name+"</a></li>";
+					});
 					
+					html += "</ol>";
+					html += "</dd>";
+					html += "</dl>";
+					
+					$(".searchType").html(html);
+					
+				    var count = $('#rank-list li').length;
+				    var height = $('#rank-list li').height();
+
+				    function step(index) {
+				        $('#rank-list ol').delay(2000).animate({
+				            top: -height * index,
+				        }, 500, function() {
+				            step((index + 1) % count);
+				        });
+				    }
+
+				    step(1);
 				},
 				error: function(request, status, error){
 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -26,21 +52,6 @@
 			});
 		});
 		
-		$(function() {
-		    var count = $('#rank-list li').length;
-		    var height = $('#rank-list li').height();
-
-		    function step(index) {
-		        $('#rank-list ol').delay(2000).animate({
-		            top: -height * index,
-		        }, 500, function() {
-		            step((index + 1) % count);
-		        });
-		    }
-
-		    step(1);
-		});
-				
 		
 		loopshowNowTime();
 		
@@ -187,21 +198,7 @@
 
 			<div class="col-8 col-lg-6">
 				<div data-aos="fade-up" data-aos-offset="-200">
-					<div class="searchType">
-					    <dl id="rank-list">
-			                <dt>실시간 급상승 검색어</dt>
-			                <dd>
-			                    <ol>
-			                        <li><a href="#">1 순위</a></li>
-			                        <li><a href="#">2 순위</a></li>
-			                        <li><a href="#">3 순위</a></li>
-			                        <li><a href="#">4 순위</a></li>
-			                        <li><a href="#">5 순위</a></li>
-			                        <li><a href="#">6 순위</a></li>
-			                    </ol>
-			                </dd>
-			            </dl>
-					</div>
+					<div class="searchType"></div>
 					<div class="weatherType"></div>
 					<div id="displayWeather"></div>
 				</div>
