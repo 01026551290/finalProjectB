@@ -29,10 +29,15 @@ public class HotelRoomService implements InterHotelRoomService {
 		return wordList;
 	}
 	
-	// 숙소보여주기(최신숙소)
+	// 숙소보여주기(베스트, 최신숙소)
 	@Override
-	public List<HotelRoomVO> getlist() {
-		List<HotelRoomVO> hotelList = dao.getlist();
+	public List<HotelRoomVO> getlistBest() {
+		List<HotelRoomVO> hotelList = dao.getlistBest();
+		return hotelList;
+	}
+	@Override
+	public List<HotelRoomVO> getlistNew() {
+		List<HotelRoomVO> hotelList = dao.getlistNew();
 		return hotelList;
 	}
 	
