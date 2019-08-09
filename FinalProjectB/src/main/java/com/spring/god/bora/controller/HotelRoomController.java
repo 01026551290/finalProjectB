@@ -103,16 +103,13 @@ public class HotelRoomController {
 		int cnt = 0;
 		for(HotelRoomVO hotelRoomVO : hotelList) {
 			cnt++;
-			System.out.println(cnt);
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("largecategoryontioncode", hotelRoomVO.getLargeCategoryontionCode());
 			jsonObj.put("name", hotelRoomVO.getName());
-			jsonObj.put("startcnt", hotelRoomVO.getstartcnt());
-			
+			jsonObj.put("cnt", cnt);
 			jsonArr.put(jsonObj);
 		}
 		String result = jsonArr.toString();
-		System.out.println(jsonArr);
 		return result;
 	}
 	

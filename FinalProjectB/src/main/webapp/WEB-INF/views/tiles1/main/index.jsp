@@ -1,7 +1,8 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
 	String ctxPath = request.getContextPath();
@@ -137,6 +138,7 @@
 		    }
 		});
 		$("#btnSearch").on("click", function(e){
+			/*
 		    if($("input#checkin_date").val() == ""){
 		        alert("시작일을 선택해주세요.");
 		        $("input#checkin_date").focus();
@@ -146,7 +148,7 @@
 		        $("input#checkout_date").focus();
 		        return false;
 		    }
-			
+			*/
 		    
 		    var t1 = $("input#checkin_date").val().split("-");
 		    var t2 = $("input#checkout_date").val().split("-");
@@ -172,9 +174,6 @@
 		//조회 버튼 클릭
 		
 		///////////////////////////////////////////////////////////////////////////////////
-		
-		
-		
 		
 	}); // end of $(document).ready------------------------
 	
@@ -301,46 +300,33 @@
 			</div>
 		</div>
 		<div class="row">
+		<c:forEach var="hotelvobest" items="${hotelListBest}">
 			<div class="col-md-6 col-lg-4">
-				<a href="#" class="room">
+				<a href="<%=ctxPath%>/product.go?largeCategoryontionCode=${hotelvobest.fk_LargeCategoryOntionCode}" class="room">
 					<figure class="img-wrap">
-						<img src="<%=ctxPath%>/resources/images/img_1.jpg"
-							alt="Free website template" class="img-fluid mb-3">
+						<img src="<%= ctxPath%>/resources/images/${hotelvobest.img}" class="img-fluid">
 					</figure>
-					<div class="p-3 text-center room-info">
-						<h2>Single Room</h2>
-						<span class="text-uppercase letter-spacing-1">90$ / per night</span>
+					<div class="room-info px-3">
+						<span class="meta-post">${hotelvobest.address}</span>
+						<h2 style="font-size: 26px; word-break: break-all;">${hotelvobest.name}</h2>
+						<span class="taC text-uppercase letter-spacing-1">
+							<fmt:formatNumber value="${hotelvobest.weekenPrice}" pattern="###,###" />원 ~ <fmt:formatNumber value="${hotelvobest.weekPrice}" pattern="###,###" />원
+						</span>
+						<p class="taL">
+							<span class="starAreaIn">
+								<span class="starAreaOut" style="width: ${hotelvobest.star*14.6}px;"><span class="blind">star</span></span>
+							</span>
+							<c:if test="${hotelvobest.star != null}">
+								<span style="font-size: 10pt;">${hotelvobest.star}점</span>
+							</c:if>
+							<c:if test="${hotelvobest.star == null}">
+								<span style="font-size: 10pt;">0점</span>
+							</c:if>
+						</p>
 					</div>
 				</a>
 			</div>
-
-			<div class="col-md-6 col-lg-4">
-				<a href="#" class="room">
-					<figure class="img-wrap">
-						<img src="<%=ctxPath%>/resources/images/img_2.jpg"
-							alt="Free website template" class="img-fluid mb-3">
-					</figure>
-					<div class="p-3 text-center room-info">
-						<h2>Family Room</h2>
-						<span class="text-uppercase letter-spacing-1">120$ / per night</span>
-					</div>
-				</a>
-			</div>
-
-			<div class="col-md-6 col-lg-4">
-				<a href="#" class="room">
-					<figure class="img-wrap">
-						<img src="<%=ctxPath%>/resources/images/img_3.jpg"
-							alt="Free website template" class="img-fluid mb-3">
-					</figure>
-					<div class="p-3 text-center room-info">
-						<h2>Presidential Room</h2>
-						<span class="text-uppercase letter-spacing-1">250$ / per night</span>
-					</div>
-				</a>
-			</div>
-
-
+		</c:forEach>
 		</div>
 	</div>
 </section>
@@ -354,37 +340,34 @@
 			</div>
 		</div>
 		<div class="row">
-			<%-- <c:if test="${hotelList!=null}"> --%>
-				<c:forEach var="hotelvo" items="${hotelList}">
-					<div class="col-lg-4 col-md-6 col-sm-6 col-12 post mb-4">
-						<div class="media media-custom d-block h-100">
-							<a href="#" class="mb-4 d-block">
-								<img src="<%=ctxPath%>/resources/images/${hotelvo.img}" class="img-fluid">
-							</a>
-							<!-- 하단(호텔명,가격,평점) -->
-							<div class="media-body">
-								<span class="meta-post">${hotelvo.address}</span>
-								<h2 class="mt-0 mb-3">
-									<a href="#">${hotelvo.name}</a>
-								</h2>
-								<%-- <p>${hotelvo.weekPrice}원 ~</p> --%>
-								<p>
-									<span class="starAreaIn">
-										<span class="starAreaOut" style="width: ${hotelvo.star*14.6}px;"><span class="blind">star</span></span>
-									</span>
-									<c:if test="${hotelvo.star != null}">
-										<span style="font-size: 10pt;">${hotelvo.star}점</span>
-									</c:if>
-									<c:if test="${hotelvo.star == null}">
-										<span style="font-size: 10pt;">0점</span>
-									</c:if>
-								</p>
-							</div>
-						</div>
+			<c:forEach var="hotelvonew" items="${hotelListNew}">
+			<div class="col-lg-4 col-md-6 col-sm-6 col-12 post mb-4">
+				<div class="media media-custom d-block h-100">
+					<a href="<%=ctxPath%>/product.go?largeCategoryontionCode=${hotelvonew.largeCategoryontionCode}" class="mb-4 d-block">
+						<img src="<%=ctxPath%>/resources/images/${hotelvonew.img}" class="img-fluid">
+					</a>
+					<!-- 하단(호텔명,가격,평점) -->
+					<div class="media-body">
+						<span class="meta-post">${hotelvonew.address}</span>
+						<h2 class="mt-0 mb-3">
+							<a href="<%=ctxPath%>/product.go?largeCategoryontionCode=${hotelvonew.largeCategoryontionCode}">${hotelvonew.name}</a>
+						</h2>
+						<%-- <p>${hotelvo.weekPrice}원 ~</p> --%>
+						<p>
+							<span class="starAreaIn">
+								<span class="starAreaOut" style="width: ${hotelvonew.star*14.6}px;"><span class="blind">star</span></span>
+							</span>
+							<c:if test="${hotelvonew.star != null}">
+								<span style="font-size: 10pt;">${hotelvonew.star}점</span>
+							</c:if>
+							<c:if test="${hotelvonew.star == null}">
+								<span style="font-size: 10pt;">0점</span>
+							</c:if>
+						</p>
 					</div>
-				</c:forEach>
-			<%-- </c:if> --%>
-
+				</div>
+			</div>
+			</c:forEach>
 		</div>
 	</div>
 </section>

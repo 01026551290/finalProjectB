@@ -585,7 +585,19 @@ textarea.form-control {
 	font-size: 26px;
 }
 
-.media-custom .meta-post {
+.media-custom {
+    color: #adb5bd;
+    text-transform: uppercase;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    height: 25px;
+    display: inline-block;
+}
+
+.meta-post {
     color: #adb5bd;
     text-transform: uppercase;
     font-size: 14px;

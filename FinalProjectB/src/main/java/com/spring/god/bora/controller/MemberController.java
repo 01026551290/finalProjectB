@@ -44,20 +44,6 @@ public class MemberController {
 		String roomType3 = request.getParameter("roomType3");
 		String weekPrice = request.getParameter("weekPrice");
 		
-		System.out.println("===================accommodationInfo 에서 확인=====================");
-		System.out.println(largeCategoryontionCode);	// 6001
-		System.out.println(productId);	// 6001
-		System.out.println(img);		// Hno.jpg
-		System.out.println(name);		// 미도 호스텔
-		System.out.println(address);	// 제주특별자치도 서귀포시 서귀동 258-2
-		System.out.println(checkIn);	// 2019-08-07
-		System.out.println(checkOut);	// 2019-08-08
-		System.out.println(productName);// 4인실 2인
-		System.out.println(roomType2);	// 침대갯수 2
-		System.out.println(roomType3);	// 수용인원 2
-		System.out.println(weekPrice);	// 25000
-		System.out.println("===================accommodationInfo 에서 확인=====================");
-		
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		
 		paraMap.put("largeCategoryontionCode", largeCategoryontionCode);
@@ -202,15 +188,6 @@ public class MemberController {
 		}
 		return result;
 	}
-	/*
-	// === 결제 및 예약 후 예약내역 이메일 보내기 ===
-	@RequestMapping(value="/sendEmail.go", method= {RequestMethod.POST} , produces="text/plain;charset=UTF-8")
-	public String LoginCK2_sendEmailLoginUser(HttpServletRequest request, HttpServletResponse response, HistoryVO hvo) {
-		
-		
-		return "";
-	}
-	*/
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

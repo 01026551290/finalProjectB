@@ -28,10 +28,15 @@ public class HotelRoomDAO implements InterHotelRoomDAO {
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////
 	
-	// 숙소보여주기(최신숙소)
+	// 숙소보여주기(베스트, 최신숙소)
 	@Override
-	public List<HotelRoomVO> getlist() {
-		List<HotelRoomVO> hotelList = sqlsession.selectList("boradb.getlist");
+	public List<HotelRoomVO> getlistBest() {
+		List<HotelRoomVO> hotelList = sqlsession.selectList("boradb.getlistBest");
+		return hotelList;
+	}
+	@Override
+	public List<HotelRoomVO> getlistNew() {
+		List<HotelRoomVO> hotelList = sqlsession.selectList("boradb.getlistNew");
 		return hotelList;
 	}
 	
