@@ -48,16 +48,11 @@
 </script>
 
 
-<section class="site-hero inner-page overlay" style="background-image: url(images/hero_4.jpg)" data-stellar-background-ratio="0.5" >
+<section class="site-hero inner-page overlay" style="background-image: url(<%=ctxPath%>/resources/images/hero_4.jpg)" data-stellar-background-ratio="0.5">
       <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center" data-aos="fade">
             <h1 class="heading mb-3">My Page</h1>
-            <ul class="custom-breadcrumbs mb-4">
-              <li><a href="index.go">홈으로</a></li>
-              <li>&bullet;</li>
-              <li>예약하기</li>
-            </ul>
           </div>
         </div>
       </div>
@@ -73,8 +68,7 @@
     <section class="section contact-section" id="next">
       <div class="container" >
         <div class="row">
-          <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
-            <div>::: 마이페이지 :::</div>
+          <div class="col-md-12">
             <!-- /////////////////////////////////////////////////////////////////// -->
             <form name="registerFrm" enctype="multipart/form-data">                      
 			<div class="container">

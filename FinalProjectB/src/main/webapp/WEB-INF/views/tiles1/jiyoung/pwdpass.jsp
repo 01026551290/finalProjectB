@@ -1,6 +1,6 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-       
+<% String ctxPath = request.getContextPath(); %>       
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
     
 <script type="text/javascript">
@@ -66,36 +66,12 @@
 	
 	function goRegister() {
 		
-		 // *** jQuery 에서 radio, checkbox 의 체크여부 확인하기 *** // 
-	   	 /* 
-	   	   $("input:checkbox[name=이름]").is(":checked");
-	   	   ==> name 이 이름인 체크박스에 체크가 되었으면   true를 반환
-	   	   ==> name 이 이름인 체크박스에 체크가 안되었으면 false를 반환
-	   	   
-	   	   $("input:checkbox[id=이름]").is(":checked");
-	   	   ==> id의 값이 이름인 체크박스에 체크가 되었으면   true를 반환
-	   	   ==> id의 값이 이름인 체크박스에 체크가 안되었으면 false를 반환
-	   	   
-	   	   $("input:radio[name=이름]").is(":checked");
-	   	   ==> name 이 이름인 라디오에 체크가 되었으면   true를 반환
-	   	   ==> name 이 이름인 라디오에 체크가 안되었으면 false를 반환
-	   	   
-	   	   $("input:radio[id=이름]").is(":checked");
-	   	   ==> id의 값이 이름인 라디오에 체크가 되었으면   true를 반환
-	   	   ==> id의 값이 이름인 라디오에 체크가 안되었으면 false를 반환
-	   	 */
-	   	  
 	   	$("#PWD").blur(function(){
 			  alert("암호를 입력하셔야 합니다.");
 			  return;
 		   
 	   	});
 	   	   
-	   	 /*  if( !$("input:checkbox[id=agree]").is(":checked") ) {
-	   		  alert("이용약관에 동의하셔야 합니다.");
-	   		  return;
-	   	  }  */
-	   	 
 	   	  var frm = document.registerFrm;
 	   	  frm.method = "POST";
 	   	  frm.action = "memberedit.go";
@@ -103,27 +79,50 @@
 		}// end of function goRegister(event)----------
 		
 	</script>
-		<section class="section contact-section" id="next">
-      		<div class="container" >
-        		<div class="row">
-         		 <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
-            		<div>::: 암호확인 ::: (<span style="font-size: 10pt; font-style: italic;"><span class="star">*</span>표시는 필수입력사항</span>) </div>
-            		<form name="registerFrm" >
-              		<div class="row">
-                	<div class="col-md-12 form-group">
-	                 	 <label class="text-black font-weight-bold" for="PWD" required>암호</label><span class="star">*</span>
-	                  	 <input type="password" name="pwd" id="PWD" class="form-control " >
-	                  	 <span id="error_passwd">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로만 입력가능합니다.</span>
-                  </div>
-                </div>
-                 <div class="row">
-                <div class="col-md-6 form-group">
-                  <input type="button" id="btnRegister" value="Reserve Now" class="btn btn-primary text-white py-3 px-5 font-weight-bold" onClick="goRegister();">
-                </div>
-              </div>
-              </form>
-          </div>                  
-        </div>
-      </div>
-    </section>
+<section class="site-hero inner-page overlay" style="background-image: url(<%=ctxPath%>/resources/images/hero_4.jpg)"	data-stellar-background-ratio="0.5">
+	<div class="container">
+		<div class="row site-hero-inner justify-content-center align-items-center">
+			<div class="col-md-10 text-center" data-aos="fade">
+				<h1 class="heading mb-3">암호확인</h1>
+			</div>
+		</div>
+	</div>
+
+	<a class="mouse smoothscroll" href="#next">
+		<div class="mouse-icon">
+			<span class="mouse-wheel"></span>
+		</div>
+	</a>
+</section>
+	
+<section class="section contact-section" id="next">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5">
+				<div class="row">
+					<div class="col-md-10 ml-auto contact-info">
+						<p class="loginborder">
+							<span class="text-black">암호확인</span>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-7">
+				<form name="registerFrm" class="bg-white p-md-5 p-4 mb-5 border">
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<label class="text-black font-weight-bold" for="PWD" required>암호</label><span class="star">*</span> <input type="password" name="pwd" id="PWD" class="form-control "> 
+							<span id="error_passwd">암호는 	영문자,숫자,특수기호가 혼합된 8~15 글자로만 입력가능합니다.</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 form-group taC">
+							<input type="button" id="btnRegister" value="확인" class="btn btn-primary text-white py-3 px-5 font-weight-bold" onClick="goRegister();">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
 

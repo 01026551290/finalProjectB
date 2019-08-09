@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<% String ctxPath = request.getContextPath(); %>
        
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
 <script type="text/javascript">
 	
 	$(document).ready(function(){
@@ -161,20 +160,6 @@
 			}
 			
 		});// end of $("#email").blur()--------------
-		/*
- 		$('#gender').click(function() {
-             ID로 찾기 
-            var b = $('#gender').prop('disabled');      // jQuery 1.6 이상 (jQuery 1.6 미만에는 prop()가 없음, checked, selected, disabled는 꼭 prop()를 써야함)
-            // var b = $('#rdPink').attr('disabled');   // jQuery 1.6 미만 (jQuery 1.6 이상에서는 checked, undefined로 return됨)
-            // var b = $('#rdPink').is('disabled');
-
-            /* CSS attribute Selector로 찾기 
-            // var b = $('input[id="rdPink"').prop('disabled');
-            // var b = $('input[id="rdPink"').attr('disabled');
-            // var b = $('input[id="rdPink"').is('disabled');
-     	 $('#gender').text(b);
-        });
- 		*/
 		 
 		$("#hp2").blur(function(){
 			var hp2 = $(this).val();
@@ -202,7 +187,6 @@
 			
 		});// end of $("#hp2").blur()-------------
 		
-		
 		$("#hp3").blur(function(){
 			var hp3 = $(this).val();
 			
@@ -222,46 +206,11 @@
 				
 			}			
 		});// end of $("#hp3").blur()-------------
-
-		
-		
-		
-		
 		
 	}); // end of $(document).ready()-------------------
 	
 	
 	function goRegister(event) {
-		
-	 // *** jQuery 에서 radio, checkbox 의 체크여부 확인하기 *** // 
-   	 /* 
-   	   $("input:checkbox[name=이름]").is(":checked");
-   	   ==> name 이 이름인 체크박스에 체크가 되었으면   true를 반환
-   	   ==> name 이 이름인 체크박스에 체크가 안되었으면 false를 반환
-   	   
-   	   $("input:checkbox[id=이름]").is(":checked");
-   	   ==> id의 값이 이름인 체크박스에 체크가 되었으면   true를 반환
-   	   ==> id의 값이 이름인 체크박스에 체크가 안되었으면 false를 반환
-   	   
-   	   $("input:radio[name=이름]").is(":checked");
-   	   ==> name 이 이름인 라디오에 체크가 되었으면   true를 반환
-   	   ==> name 이 이름인 라디오에 체크가 안되었으면 false를 반환
-   	   
-   	   $("input:radio[id=이름]").is(":checked");
-   	   ==> id의 값이 이름인 라디오에 체크가 되었으면   true를 반환
-   	   ==> id의 값이 이름인 라디오에 체크가 안되었으면 false를 반환
-   	 */
-   	  
-	 /*  if( !$("input:radio[name=gender]").is(":checked")) {
-		  alert("성별을 선택하셔야 합니다.");
-		  return;
-	  }  */ 	 
-   	   
-   	   
-   	 /*  if( !$("input:checkbox[id=agree]").is(":checked") ) {
-   		  alert("이용약관에 동의하셔야 합니다.");
-   		  return;
-   	  }  */
    	 
    	  var frm = document.registerFrm;
    	  frm.method = "POST";
@@ -271,19 +220,19 @@
 	
 	function goRegister2(event) {
 	
-		  var frm = document.registerFrm;
-	   	  frm.method = "POST";
-	   	  frm.action = "memberout.go";
-	   	  frm.submit();
-		}
+		var frm = document.registerFrm;
+		frm.method = "POST";
+		frm.action = "memberout.go";
+		frm.submit();
+	}
 </script>
 
 
-<section class="site-hero inner-page overlay" style="background-image: url(images/hero_4.jpg)" data-stellar-background-ratio="0.5" >
+<section class="site-hero inner-page overlay" style="background-image: url(<%=ctxPath%>/resources/images/hero_4.jpg)" data-stellar-background-ratio="0.5">
       <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center" data-aos="fade">
-            <h1 class="heading mb-3">회원가입에 오신걸 환영합니다</h1>
+            <h1 class="heading mb-3">내 정보수정</h1>
             <ul class="custom-breadcrumbs mb-4">
               <li><a href="index.go">홈으로</a></li>
               <li>&bullet;</li>
@@ -304,8 +253,7 @@
     <section class="section contact-section" id="next">
       <div class="container" >
         <div class="row">
-          <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
-            <div>::: 내 정보수정 :::(<span style="font-size: 10pt; font-style: italic;"><span class="star">*</span>표시는 필수입력사항</span>) </div>
+          <div class="col-md-12" data-aos="fade-up" data-aos-delay="100">
             <form name="registerFrm" >                      
               <div class="row">
                 <div class="col-md-12 form-group">
