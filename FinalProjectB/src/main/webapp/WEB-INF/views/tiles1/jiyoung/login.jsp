@@ -88,12 +88,9 @@
     }
 </script>
 
-<section class="site-hero inner-page overlay"
-	style="background-image: url(<%=ctxPath%>/resources/images/hero_4.jpg)"
-	data-stellar-background-ratio="0.5">
+<section class="site-hero inner-page overlay" style="background-image: url(<%=ctxPath%>/resources/images/hero_4.jpg)" data-stellar-background-ratio="0.5">
 	<div class="container">
-		<div
-			class="row site-hero-inner justify-content-center align-items-center">
+		<div class="row site-hero-inner justify-content-center align-items-center">
 			<div class="col-md-10 text-center" data-aos="fade">
 				<h1 class="heading mb-3">로그인</h1>
 			</div>
@@ -111,25 +108,17 @@
 <section class="section contact-section" id="next">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-5 aos-init aos-animate" data-aos="fade-up"
-				data-aos-delay="200">
+			<div class="col-md-5">
 				<div class="row">
 					<div class="col-md-10 ml-auto contact-info">
 						<p class="loginborder">
 							<span class="text-black">로그인</span>
 						</p>
-
-
 					</div>
 				</div>
 			</div>
-			<div class="col-md-7 aos-init aos-animate" data-aos="fade-up"
-				data-aos-delay="100">
-
-				<form name="loginFrm" method="post"
-					class="bg-white p-md-5 p-4 mb-5 border">
-
-
+			<div class="col-md-7">
+				<form name="loginFrm" method="post"	class="bg-white p-md-5 p-4 mb-5 border">
 
 					<div class="row">
 						<div class="col-md-12 form-group">
@@ -146,11 +135,8 @@
 
 					<div class="row">
 						<div class="col-md-12 form-group taC">
-							<input type="button" value="로그인" onclick="func_Login();"
-								class="btn btn-primary text-white py-3 mx-2 font-weight-bold">
-							<input type="button" value="회원가입"
-								onclick="location.href='/god/register.go'"
-								class="btn btn-primary text-white py-3 mx-2 font-weight-bold">
+							<input type="button" value="로그인" onclick="func_Login();" class="btn btn-primary text-white py-3 mx-2 font-weight-bold">
+							<input type="button" value="회원가입" onclick="location.href='/god/register.go'" class="btn btn-primary text-white py-3 mx-2 font-weight-bold">
 						</div>
 						<div class="col-md-12 form-group taC styleAfter">
 							<a style="cursor: pointer;" data-toggle="modal" data-target="#userIdfind" data-dismiss="modal">아이디찾기</a> 
