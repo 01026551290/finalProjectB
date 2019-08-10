@@ -7,23 +7,6 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
-<style type="text/css">
-.starAreaIn {
-	background: url(..<%=request.getContextPath()%>/resources/images/star_bgb.png);
-    background-size: 15px 14px;
-    display: inline-flex;
-    width: 76px;
-    height: 14px;
-}
-.starAreaOut {
-	background: url(..<%=request.getContextPath()%>/resources/images/star_bg.png);
-    background-size: 15px 14px;
-    display: inline-block;
-    width: 76px;
-    height: 14px;
-}
-
-</style>
 
 <script type="text/javascript">
 	$(document).ready(function(){

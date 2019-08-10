@@ -28,8 +28,8 @@ public class MemberController {
 	private InterMemberService service;
 	
 	// === 예약확인페이지 ===
-	@RequestMapping(value="/accommodationInfo.go", method= {RequestMethod.GET})
-	public ModelAndView LoginCK2_accommodationInfo(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+	@RequestMapping(value="/accommodationInfo.go")
+	public ModelAndView LoginCK2_accommodationInfo_index(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		
 		// 상세페이지에서 받아옴
 		String largeCategoryontionCode = request.getParameter("largeCategoryontionCode");
@@ -83,9 +83,9 @@ public class MemberController {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// === 결제완료 전 예약가능한지 조회 ===
-	@RequestMapping(value="/reserveAddSelectLoginUser.go", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	@RequestMapping(value="/reserveAddSelectLoginUser.go", produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public String LoginCK2_reserveAddSelectLoginUser(HttpServletRequest request, HttpServletResponse response, HistoryVO hvo) {
+	public String LoginCK2_reserveAddSelectLoginUser_index(HttpServletRequest request, HttpServletResponse response, HistoryVO hvo) {
 		
 		int n = service.reserveAddSelect(hvo);
 		System.out.println("n의값:" + n);
@@ -107,8 +107,8 @@ public class MemberController {
 	}
 
 	// === 결제하기 ===
-	@RequestMapping(value="/payEnd.go", method= {RequestMethod.POST})
-	public ModelAndView LoginCK2_payEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+	@RequestMapping(value="/payEnd.go")
+	public ModelAndView LoginCK2_payEnd_index(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		
 		String largeCategoryontionCode = request.getParameter("largeCategoryontionCode");
 		String fk_productId = request.getParameter("fk_productId");
@@ -146,9 +146,9 @@ public class MemberController {
 	}
 
 	// === 결제 후 예약 및 이메일보내기 ===
-	@RequestMapping(value="/reserveAddInsertLoginUser.go", method= {RequestMethod.POST} , produces="text/plain;charset=UTF-8")
+	@RequestMapping(value="/reserveAddInsertLoginUser.go", produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public String LoginCK2_reserveAddInsertLoginUser(HttpServletRequest request, HttpServletResponse response, HistoryVO hvo) {
+	public String LoginCK2_reserveAddInsertLoginUser_index(HttpServletRequest request, HttpServletResponse response, HistoryVO hvo) {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");

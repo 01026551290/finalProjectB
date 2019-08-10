@@ -126,11 +126,11 @@
 				dataType: "XML",
 				success: function(xml){
 						var rootElement = $(xml).find(":root");
-					    console.log($(rootElement).prop("tagName"));   
+					//	console.log($(rootElement).prop("tagName"));   
 					    // ==> current
 										   
 					    var weather = $(rootElement).find("weather");
-					    console.log( $(weather).attr("year") +"년 " + $(weather).attr("month") + "월 " + $(weather).attr("day") + "일 " + $(weather).attr("hour") + "시" );        
+					//	console.log( $(weather).attr("year") +"년 " + $(weather).attr("month") + "월 " + $(weather).attr("day") + "일 " + $(weather).attr("hour") + "시" );        
 						// 2019년 01월 20일 22시
 						
 						var updateTime = $(weather).attr("year") +"년 " + $(weather).attr("month") + "월 " + $(weather).attr("day") + "일 " + $(weather).attr("hour") + "시";
@@ -145,7 +145,7 @@
 							   /* .eq(index) 는 선택된 요소들을 인덱스 번호로 찾을 수 있는 선택자이다. 
 							            마치 배열의 인덱스(index)로 값(value)를 찾는 것과 같은 효과를 낸다.
 							   */
-							   console.log($(local).text() + " stn_id:" + $(local).attr("stn_id") + " icon:" + $(local).attr("icon") + " desc:" + $(local).attr("desc") + " ta:" + $(local).attr("ta") );
+							//	console.log($(local).text() + " stn_id:" + $(local).attr("stn_id") + " icon:" + $(local).attr("icon") + " desc:" + $(local).attr("desc") + " ta:" + $(local).attr("ta") );
 							   
 								html += "<span class='weatherArea'>"+$(local).text()+"</span>";
 								html += "<span class='weatherImg'>"+"<img src='http://www.kma.go.kr/images/icon/NW/NB"+$(local).attr("icon")+".png'><span class='weather'>("+$(local).attr("desc")+")</span>"+"</span>";
