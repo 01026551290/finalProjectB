@@ -114,6 +114,16 @@ public class MemberDAO implements InterMemberDAO {
 		int n = sqlsession.update("jiyoungdb.add_withFile", membervo);
 		return n;
 	}
+
+	@Override
+	public boolean isUserExist(HashMap<String, String> paraMap) {
+		boolean isUserExist = false;
+		int n = sqlsession.selectOne("jiyoungdb.isUserExist",paraMap);
+		if(n==1)
+			isUserExist=true;
+		
+		return isUserExist;
+	}
 	
 		
 }

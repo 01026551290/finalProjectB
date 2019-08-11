@@ -119,5 +119,12 @@ public class MemberService implements InterMemberService {
 		int n = dao.add_withFile(membervo); // 첨부파일이 있는 경우
 		return n;
 	}
+
+
+	@Override
+	public boolean isUserExist(HashMap<String, String> paraMap) {
+		boolean isUserExist = dao.isUserExist(paraMap); 
+		return isUserExist;
+	}
 	
 }

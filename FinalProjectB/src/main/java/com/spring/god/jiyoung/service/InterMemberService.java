@@ -34,6 +34,8 @@ public interface InterMemberService {
 	
 	int add_withFile(MemberVO membervo); // 멤버 사진 추가
 
+	boolean isUserExist(HashMap<String, String> paraMap);
+
 
 
 }

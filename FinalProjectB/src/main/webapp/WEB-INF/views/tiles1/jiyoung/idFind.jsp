@@ -65,14 +65,15 @@
 				<input type="text" name="email" id="email" class="form-control" placeholder="abc@def.com" required />
 			</div>
 		</div>
-		
+		<c:if test="${n==0}">
+		<span style="color: red;">사용자 정보가 없습니다.</span>
+	   </c:if>
 		<div class="col-md-12 form-group taC mgt10">
 			<input type="button" value="찾기" id="btnFind" class="btn btnModal text-white py-3 mx-2 font-weight-bold">
 			<span id="div_findResult">
 				<label class="text-black font-weight-bold">ID</label> : <span style="color: #ffaa34; font-size: 16pt; font-weight: bold;">${idFind}</span> 
 			</span>
 		</div>
-	   
 	</form>
 
 

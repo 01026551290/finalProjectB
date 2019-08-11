@@ -57,24 +57,22 @@
 					$("#pwdcheck").focus();
 				} 
 			}); // end of $("#pwd").blur()---------------
-				
-	function goRegister(){
-
-				
-	  	$("#PWD").click(function(){ 
-	  		var pwdval = $("#PWD").val().trim();
-	  		if(pwdval == ""){
-			  alert("암호를 입력하셔야 합니다.");
-			  return;
-	  		}
-	   	  var frm = document.registerFrm;
-	   	  frm.method = "POST";
-	   	  frm.action = "memberedit.go";
-	   	  frm.submit();
-		// end of function goRegister(event)----------
-	
-	  	});
-	}
+	    });
+				function goRegister(){
+        
+			        var pwdval = $("#PWD").val().trim();
+			           if(pwdval == ""){
+			           alert("암호를 입력하셔야 합니다.");
+			           return;
+			           }
+			        
+			        var frm = document.registerFrm;
+			        frm.method = "POST";
+			        frm.action = "memberedit.go";
+			        frm.submit();
+        
+   } // end of function goRegister(event)----------
+		
 	</script>
 <section class="site-hero inner-page overlay" style="background-image: url(<%=ctxPath%>/resources/images/hero_4.jpg)"	data-stellar-background-ratio="0.5">
 	<div class="container">
