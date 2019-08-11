@@ -5,50 +5,15 @@
     
 <%
     String ctxPath = request.getContextPath();
-    //    /MyMVC
 %>    
     
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="<%= ctxPath %>/css/style.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath %>/resources/css/style.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<style>
-	#div_pwd {
-		width: 70%;
-		height: 15%;
-		margin-bottom: 5%;
-		margin-left: 10%;
-		position: relative;
-	}
-	
-	#div_pwd2 {
-		width: 70%;
-		height: 15%;
-		margin-bottom: 5%;
-		margin-left: 10%;
-		position: relative;
-	}
-	
-	#div_findResult {
-		width: 70%;
-		height: 15%;
-		margin-bottom: 5%;
-		margin-left: 10%;		
-		position: relative;
-	}
-	
-	#div_btnUpdate {
-		width: 70%;
-		height: 15%;
-		margin-bottom: 5%;
-		margin-left: 10%;
-		position: relative;
-	}
-	
-</style>
 
 <script type="text/javascript">
 	
@@ -93,29 +58,30 @@
 
 
 <form name="pwdConfirmFrm">
-   <div id="div_pwd" align="center">
-      <span style="color: blue; font-size: 12pt;">새암호</span><br/> 
-      <input type="password" name="pwd" id="pwd" size="15" placeholder="PASSWORD" required />
-   </div>
-   
-   <div id="div_pwd2" align="center">
-   	  <span style="color: blue; font-size: 12pt;">새암호확인</span><br/>
-      <input type="password" name="pwd2" id="pwd2" size="15" placeholder="PASSWORD" required />
-   </div>
-   
-   <input type="hidden" name="userid" id="userid" value="${userid}" />
-   
-   <c:if test="${method.equals('POST') && n==1}">
-   		<div id="div_confirmResult" align="center">
-   			ID : ${userid}님의 암호가 새로이 변경되었습니다.<br/>
-   		</div>
-   </c:if>
-   
-   
-	   <div id="div_btnUpdate" align="center">
-	   		<button type="button" class="btn btn-success" id="btnUpdate">암호변경하기</button>
-	   </div>		
-    
+	<div class="row">
+		<div class="col-md-12 form-group">
+			<label class="text-black font-weight-bold" for="pwd">새암호</label>
+			<input type="password" name="pwd" id="pwd" class="form-control" placeholder="PASSWORD" required />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 form-group">
+			<label class="text-black font-weight-bold" for="pwd2">새암호확인</label>
+			<input type="password" name="pwd2" id="pwd2" class="form-control" placeholder="PASSWORD" required />
+		</div>
+	</div>
+
+	<input type="hidden" name="userid" id="userid" value="${userid}" />
+
+	<c:if test="${method.equals('POST') && n==1}">
+		<div id="div_confirmResult" class="tac">
+			<label class="text-black font-weight-bold">ID</label> : <span style="color: #ffaa34; font-size: 16pt; font-weight: bold;">${userid}님의 암호가 변경되었습니다.</span> 
+		</div>
+	</c:if>
+	
+	<div class="col-md-12 form-group taC mgt10">
+		<input type="button" value="암호변경하기" id="btnUpdate" class="btn btnModal text-white py-3 mx-2 font-weight-bold">
+	</div>
+
 </form>
 
-    

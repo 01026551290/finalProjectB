@@ -61,7 +61,7 @@
    </select>
    
   <update id="updatePwdUser" parameterType="HashMap">
-	   UPDATE MEMBER SET PWD = #{pwd}, tel = '010'||#{tel2}||#{tel3}
+	   UPDATE MEMBER SET PWD = #{pwd}
 	   where status = 1 and memberid = #{userid}
   </update>
    
