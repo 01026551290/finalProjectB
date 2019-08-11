@@ -24,6 +24,13 @@
   		font-size: 0.85em;
 	}
 	
+	span.error {
+		margin-left: 5px;
+		color: red;
+		font-size: 9pt;
+		font-style: italic;
+	}
+	
 </style>
 
 <script
@@ -31,6 +38,8 @@
 <script type="text/javascript">
 	
 	$(document).ready(function(){
+		
+		$(".error").hide();
 		
 		$("#spinnerImgQty").spinner({
 			spin: function(event, ui){
@@ -54,7 +63,7 @@
 			
 			if(spinnerImgQtyVal == "0") {
 				$("#divfileattach").empty(); 
-				$("#attachCount").val("");
+//				$("#attachCount").val("");
 				return;
 			}
 			else {
@@ -65,10 +74,29 @@
 				
 				$("#divfileattach").empty(); // 기존 것은 비워내고
 				$("#divfileattach").append(html); // input type = 'file' 을 넣어라
-				$("#attachCount").val(spinnerImgQtyVal); // 첨부되어진 파일의 갯수가 몇개냐~
+//				$("#attachCount").val(spinnerImgQtyVal); // 첨부되어진 파일의 갯수가 몇개냐~
 			}
 		}); // end of $("#spinnerImgQty").bind("spinstop", function(){})-------------------------------
 		 
+		
+		// === 숙소명 검증하기 ===
+		$("input#searchWord").blur(function(){
+			
+			if($(this).val()=="") {  
+				$("span.searchWord_error").show();
+
+				$(":input").attr("disabled", true);
+				
+				$(this).attr("disabled",false);
+	        	$(this).val("");
+	        	$(this).focus();
+			} else {
+				$("span.searchWord_error").empty();
+				$(":input").attr("disabled",false);
+				
+				$("input#productName").focus();
+			}
+		});
 		
 		
 		// 객실 등록 폼의 숙소명 검색어 자동완성하기 2
@@ -123,6 +151,7 @@
 				}
 			});
 		});
+			
 		<%-- 	
 		$("#displayList").click(function(event){
 			/* 
@@ -154,6 +183,7 @@
 				});
 		}); 
 		 --%>
+		 
 		$("#displayList").click(function(event){
 			var word = "";
 			var $target = $(event.target);
@@ -186,6 +216,9 @@
 						$.each(json, function(entryIndex, item){
 							var largeCategoryontionCode = item.largeCategoryontionCode;
 							$("#largeCategoryontionCode").val(largeCategoryontionCode);
+							
+							var fk_LargeCategoryCode = item.fk_LargeCategoryCode;
+							$("#fk_LargeCategoryCode").val(fk_LargeCategoryCode);
 						});
 					}
 				}, 
@@ -196,6 +229,124 @@
 			
 		});
 		
+		
+		// === 객실명 검증하기 ===
+		$("input#productName").blur(function(){
+			
+			if($(this).val()=="") {  
+				$("span.productName_error").show();
+
+				$(":input").attr("disabled", true);
+				
+				$(this).attr("disabled",false);
+	        	$(this).val("");
+	        	$(this).focus();
+			} else {
+				$("span.productName_error").empty();
+				$(":input").attr("disabled",false);
+				
+				$("input#bedCnt").focus();
+			}
+		});
+		
+		// === 소개글 검증 (공백일 경우) ===
+		$("textarea#roomInfo").blur(function(){
+			
+			if($(this).val()=="") {  
+				$("span.roomInfo_error").show();
+
+				$(":input").attr("disabled", true);
+				
+				$(this).attr("disabled",false);
+	        	$(this).val("");
+	        	$(this).focus();
+			} else {
+				$("span.roomInfo_error").empty();
+				$(":input").attr("disabled",false);
+				
+				$("input#address").focus();
+			}
+		});
+		
+		// === 주중가 검증 ===
+		$("input#weekPrice").blur(function(){
+			
+			if($(this).val()=="") {  
+				$("span.weekPrice_error").show();
+
+				$(":input").attr("disabled", true);
+				
+				$(this).attr("disabled",false);
+	        	$(this).val("");
+	        	$(this).focus();
+			} else {
+				$("span.weekPrice_error").empty();
+				$(":input").attr("disabled",false);
+				
+				$("input#weekenPrice").focus();
+			}
+		});
+		
+		// === 주말가 검증 ===
+		$("input#weekenPrice").blur(function(){
+			
+			if($(this).val()=="") {  
+				$("span.weekenPrice_error").show();
+
+				$(":input").attr("disabled", true);
+				
+				$(this).attr("disabled",false);
+	        	$(this).val("");
+	        	$(this).focus();
+			} else {
+				$("span.weekenPrice_error").empty();
+				$(":input").attr("disabled",false);
+				
+//ㄴ				$("input#weekenPrice").focus();
+			}
+		});
+		
+		/* 
+		// === 숙소 등록 가능일 검증하기 ===
+		$("input#checkin_date").blur(function(){
+			
+			if($(this).val()=="") {  
+				$("span.checkin_date_error").show();
+
+				$(":input").attr("disabled", true);
+				
+				$(this).attr("disabled",false);
+	        	$(this).val("");
+	        	$(this).focus();
+			} else {
+				$("span.checkin_date_error").empty();
+				$(":input").attr("disabled",false);
+				
+				$("input#checkout_date").focus();
+			}
+		});
+		 */
+		 
+		/* 
+		// === 숙소 등록 종료일 검증하기 ===
+		$("input#checkout_date").blur(function(){
+			
+			if($(this).val()=="") {  
+				$("span.checkout_date_error").show();
+
+				$(":input").attr("disabled", true);
+				
+				$(this).attr("disabled",false);
+	        	$(this).val("");
+	        	$(this).focus();
+			} else {
+				$("span.checkout_date_error").empty();
+				$(":input").attr("disabled",false);
+				
+				$("input#bedCnt").focus();
+			}
+		});
+		 */
 		
 		///// 숙소 등록 가능일 데이트 피커
 		var rangeDate = 365; // set limit day
@@ -278,16 +429,58 @@
 		function goRegister(event) {
 			
 			var frm = document.roomrg2Frm;
-			frm.method = "POST";
-			frm.action = "<%= request.getContextPath()%>/roomrg2End.go";
-			frm.submit();
 			
-			
+			/* 
 			$("input[name=roomOption]:checked").each(function() {
 
 			    test.push($(this).val());   // 값 찍어보시면 a,b 이런식으로 콤마 구분자가 같이 들어간다. 
 
 			});
+			 */
+			/* // 침대 갯수가 선택되지 않았다면
+			if(roomrg2Frm.bedCnt.value == "") {
+				alert("침대 갯수를 선택해주세요!");
+				roomrg2Frm.bedCnt.focus();
+				return;
+			}
+			
+			// 수용 인원이 선택되지 않았다면
+			if(roomrg2Frm.peopleCnt.value == "") {
+				alert("수용 인원을 선택해주세요!");
+				roomrg2Frm.peopleCnt.focus();
+				return;
+			}
+			
+			// 숙소 등록 가능일이 선택되지 않았다면
+			if(roomrg2Frm.checkin_date.value == "") {
+				alert("숙소 등록 가능일을 선택해주세요!");
+				roomrg2Frm.checkin_date.focus();
+				return;
+			}
+			
+			// 숙소 등록 종료일이 선택되지 않았다면
+			if(roomrg2Frm.checkout_date.value == "") {
+				alert("숙소 등록 종료일을 선택해주세요!");
+				roomrg2Frm.checkout_date.focus();
+				return;
+			}
+			
+			
+			var ontionTypeBool = $("input:checkbox[name=roomOption]").is(":checked");
+			
+			if( !ontionTypeBool ) {
+				alert("객실 옵션을 선택하세요!");
+				return;
+			}
+			 */
+			if($("#spinnerImgQty").val()=="0") {
+				alert("숙소 이미지 첨부파일을 입력하세요!!");
+				return;
+			}
+			
+			frm.method = "POST";
+			frm.action = "<%= request.getContextPath()%>/roomrg2End.go";
+			frm.submit();
 		}
 		
 </script>
@@ -299,7 +492,7 @@
 		<div
 			class="row site-hero-inner justify-content-center align-items-center">
 			<div class="col-md-10 text-center" data-aos="fade">
-				<h1 class="heading mb-3">Room Registration</h1>
+				<h1 class="heading mb-3">객실 등록</h1>
 				<ul class="custom-breadcrumbs mb-4">
 					<li><a href="index.html">Home</a></li>
 					<li>&bullet;</li>
@@ -339,8 +532,14 @@
 					<div class="row">
 						<div class="col-md-12 form-group" id="wrap">
 							<label for="searchWord" class="text-black font-weight-bold">숙소명</label>
+							<span class="error searchWord_error">숙소를 검색해주세요</span>
 							<input type="text" id="searchWord" name="name" class="form-control"
 								placeholder="숙소를 검색해주세요" autocomplete="off">
+								
+							<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->	
+							<input type="hidden" id="fk_LargeCategoryCode" name="fk_LargeCategoryCode" />	
+							<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+								
 							<div id="displayList" style="width: 95%;"></div>
 							<input type="hidden" name="largeCategoryontionCode" id="largeCategoryontionCode" value="">
 						</div>
@@ -351,8 +550,9 @@
 						<div class="col-md-12 form-group">
 							<label class="text-black font-weight-bold" for="productName">객실명</label>
 							<div class="field-icon-wrap">
+								<span class="error productName_error">객실명을 입력해주세요</span>
 								<input type="text" id="productName" name="productName"
-									class="form-control" placeholder="객실 이름을 지어주세요">
+									class="form-control" placeholder="객실 이름을 지어주세요" maxlength="30">
 							</div>
 						</div>
 					</div>
@@ -361,6 +561,7 @@
 						<div class="col-md-6 form-group">
 							<label class="text-black font-weight-bold" for="bedCnt">침대 갯수</label>
 							<div class="field-icon-wrap">
+							<span class="error bedCnt_error">침대 갯수를 선택하세요</span>
 								<div class="icon">
 									<span class="ion-ios-arrow-down"></span>
 								</div>
@@ -369,6 +570,9 @@
 									<option value="1">1개</option>
 									<option value="2">2개</option>
 									<option value="3">3개</option>
+									<option value="4">4개</option>
+									<option value="5">5개</option>
+									<option value="6">6개</option>
 								</select>
 							</div>
 						</div>
@@ -377,6 +581,7 @@
 								인원</label>
 							<div class="field-icon-wrap">
 								<div class="icon">
+									<span class="error peopleCnt_error">수용 인원을 선택하세요</span>
 									<span class="ion-ios-arrow-down"></span>
 								</div>
 								<select name="peopleCnt" id="peopleCnt" class="form-control">
@@ -385,6 +590,8 @@
 									<option value="2">2인</option>
 									<option value="3">3인</option>
 									<option value="4">4인</option>
+									<option value="5">5인</option>
+									<option value="6">6인</option>
 								</select>
 							</div>
 						</div>
@@ -393,7 +600,7 @@
 					<div class="row mb-4" >
 		                <div class="col-md-12 form-group" id="wrap">
 		                  <label for="roomInfo" class="text-black font-weight-bold">소개글</label>
-		                  <!-- <span class="error info_error">소개글을 입력해주세요</span> -->
+		                  <span class="error roomInfo_error">소개글을 입력해주세요</span>
 		                  <textarea name="roomInfo" id="roomInfo" maxlength="250" class="form-control " cols="30" rows="8" placeholder="룸을 소개해주세요. 인테리어, 편의시설을 포함할 수 있습니다"></textarea>
 		                  <span id="counter" style="color: white;">###</span>
 		                </div>
@@ -402,13 +609,15 @@
 					<div class="row">
 						<div class="col-md-6 form-group">
 							<label class="text-black font-weight-bold" for="weekPrice">주중가</label>
+							 <span class="error weekPrice_error">주중가를 입력해주세요</span>
 							<input type="text" name="weekPrice" id="weekPrice" class="form-control"
-								placeholder="원">
+								placeholder="원" maxlength="20">
 						</div>
 						<div class="col-md-6 form-group">
 							<label class="text-black font-weight-bold" for="weekenPrice">주말가</label>
+							<span class="error weekenPrice_error">주말가를 입력해주세요</span>
 							<input type="text" name="weekenPrice" id="weekenPrice" class="form-control"
-								placeholder="원">
+								placeholder="원" maxlength="20">
 						</div>
 					</div>
 
@@ -452,7 +661,7 @@
 								<div class="icon">
 									<span class="icon-calendar"></span>
 								</div>
-								<input type="text" id="checkin_date" name="checkin_date"
+								<input type="text" id="checkin_date" name="productPeriod1"
 									type="date" class="form-control" style="padding-right: 0;"
 									autocomplete="off" placeholder="년-월-일">
 							</div>
@@ -465,7 +674,7 @@
 									<span class="icon-calendar"></span>
 								</div>
 								<input type="text" id="checkout_date" type="date"
-									name="checkout_date" class="form-control"
+									name="productPeriod2" class="form-control"
 									style="padding-right: 0;" autocomplete="off"
 									placeholder="년-월-일">
 							</div>
@@ -474,7 +683,7 @@
 
 					<div class="row">
 						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="roomOption" name="roomOption">객실 옵션</label><br />
+							<label class="text-black font-weight-bold">객실 옵션</label><br />
 							
 							<input type="checkbox" id="single" name="roomOption" value="싱글베드">&nbsp;
 							<label for="single" class="chk">싱글베드</label>
@@ -516,9 +725,9 @@
 					<div class="row">
 						<div class="col-md-6 form-group">
 							<label for="spinnerImgQty" class="font-weight-bold text-black" >숙소 이미지 첨부</label><br/>
-						    <input id="spinnerImgQty" value="0" class="form-control">
+						    	<input id="spinnerImgQty" value="0" style="width: 30px; height: 20px;">
 				       		<div id="divfileattach"></div>
-				       		<input type="hidden" name="attachCount" id="attachCount" class="form-control" style="position: absolute;" />
+				       		<!-- <input type="hidden" name="attachCount" id="attachCount" class="form-control" style="position: absolute;" /> -->
 				       	</div> 
 					</div>
 					
@@ -554,7 +763,7 @@
 	</div>
 </section>
 
-<section class="section testimonial-section bg-light">
+<!-- <section class="section testimonial-section bg-light">
 	<div class="container">
 		<div class="row justify-content-center text-center mb-5">
 			<div class="col-md-7">
@@ -667,14 +876,12 @@
 				</div>
 
 			</div>
-			<!-- END slider -->
+			END slider
 		</div>
 
 	</div>
-</section>
-
-
-
+</section> -->
+<!-- 
 <section class="section bg-image overlay"
 	style="background-image: url('images/hero_4.jpg');">
 	<div class="container">
@@ -692,4 +899,4 @@
 			</div>
 		</div>
 	</div>
-</section>
+</section> -->
