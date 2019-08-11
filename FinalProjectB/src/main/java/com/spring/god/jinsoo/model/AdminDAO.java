@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class JinsooDAO implements InterJinsooDAO {
+public class AdminDAO implements InterAdminDAO {
 
 	@Autowired
 	private SqlSessionTemplate sqlsession;
@@ -180,84 +180,6 @@ public class JinsooDAO implements InterJinsooDAO {
 		return hotelvoList;
 	}
 
-	// groupno 컬럼의 최대값 구하기
-	@Override
-	public int getGroupnoMax() {
-		 int max = sqlsession.selectOne("jinsoodb.getGroupnoMax");
-		 return max;
-	}
-
-	// 글쓰기(파일첨부없는)
-	@Override
-	public int add(BoardVO boardvo) {
-		
-		int n = sqlsession.insert("jinsoodb.addBoard", boardvo);		
-		return n;
-	}
-
-	// 파일 첨부  글쓰기
-	@Override
-	public int add_withFile(BoardVO boardvo) {
-		
-		int n = sqlsession.insert("jinsoodb.add_withFile", boardvo);		
-		
-		return n;
-	}
-
-	// 업주 게시판 총 게시물 수 구해오기
-	@Override
-	public int allbuisnessBoardList() {
-		int totalCount = sqlsession.selectOne("jinsoodb.allbuisnessBoardList");
-		return totalCount;
-	}
-
-	// 검색 조건이 있는 업주 게시판 게시물 수 구해오기
-	@Override
-	public int getbuisnessBoardListTotalCountWithSearch(HashMap<String, String> paramap) {
-		int totalCount = sqlsession.selectOne("jinsoodb.getbuisnessBoardListTotalCountWithSearch" , paramap);
-		return totalCount;
-	}
-
-	// 검색 조건이 있는 게시물리스트 가져오기
-	@Override
-	public List<BoardVO> getbuisnessBoardList(HashMap<String, String> paramap) {
-		List<BoardVO> buisnessBoardList = sqlsession.selectList("jinsoodb.getbuisnessBoardList", paramap);
-		return buisnessBoardList;
-	}
-
-	// 1개 글 보여주기 
-	@Override
-	public BoardVO getbuisnessBoardView(String seq) {
-		BoardVO boardvo = sqlsession.selectOne("jinsoodb.getbuisnessBoardView", seq);
-		return boardvo;
-	}
-
-	//글조회수 증가는 다른 사람의 글을 읽을 때만 증가하도록 한다. 로그인 하지 않은 상태에서 글을 읽을때 조회수 증가가 일어나지 않도록 해야한다.
-	@Override
-	public void setAddReadCount(String seq) {
-		sqlsession.update("jinsoodb.AddReadCount" ,seq);		
-	}
-
-	// 코멘트 보이기
-	@Override
-	public List<CommentVO> getCommentList(String parentSeq) {
-		List<CommentVO> commentlist = sqlsession.selectList("jinsoodb.getCommentList", parentSeq);
-		return commentlist;	
-	}
-
-	// 코멘트 추가하기
-	@Override
-	public int addComment(CommentVO commentvo) {
-		int n  = sqlsession.insert("jinsoodb.addComment", commentvo);
-		return n;
-	}
-
-	// 보드테이블 카운트증가하기
-	@Override
-	public int updateCommentCount(String parentSeq) {
-		int n = sqlsession.update("jinsoodb.updateCommentCount", parentSeq);
-		return n;
-	}
 
 	// 통계: 연 매출 현황
 	@Override
@@ -299,6 +221,28 @@ public class JinsooDAO implements InterJinsooDAO {
 	public List<HashMap<String, String>> MonthRevenueList() {
 		List<HashMap<String,String>> MonthRevenueList =  sqlsession.selectList("jinsoodb.MonthRevenueList");
 		return MonthRevenueList;
+	}
+
+	// 차트: 요일별 매출 통계 JSON으로 얻어오기
+	@Override
+	public List<HashMap<String, String>> dayRevenueList() {
+		List<HashMap<String,String>> dayRevenueList =  sqlsession.selectList("jinsoodb.dayRevenueList");
+		return dayRevenueList;
+	}
+
+	// 체크아웃시키기
+	@Override
+	public int checkOut(String reserveId) {
+		System.out.println("dao 시작");
+		int n = sqlsession.update("jinsoodb.checkOut", reserveId);
+		return n;
+	}
+
+	// 차트: 선택 달 일별 매출 통계 JSON으로 얻어오기
+	@Override
+	public List<HashMap<String, String>> MdayRevenue(String month) {
+		List<HashMap<String,String>> MdayRevenueList =  sqlsession.selectList("jinsoodb.MdayRevenue", month);
+		return MdayRevenueList;
 	}
 
 
