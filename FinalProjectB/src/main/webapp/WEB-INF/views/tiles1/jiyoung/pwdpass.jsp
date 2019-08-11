@@ -57,27 +57,24 @@
 					$("#pwdcheck").focus();
 				} 
 			}); // end of $("#pwd").blur()---------------
-			
-		
-			
 				
-		
-	});
-	
-	function goRegister() {
-		
-	   	$("#PWD").blur(function(){
+	function goRegister(){
+
+				
+	  	$("#PWD").click(function(){ 
+	  		var pwdval = $("#PWD").val().trim();
+	  		if(pwdval == ""){
 			  alert("암호를 입력하셔야 합니다.");
 			  return;
-		   
-	   	});
-	   	   
+	  		}
 	   	  var frm = document.registerFrm;
 	   	  frm.method = "POST";
 	   	  frm.action = "memberedit.go";
 	   	  frm.submit();
-		}// end of function goRegister(event)----------
-		
+		// end of function goRegister(event)----------
+	
+	  	});
+	}
 	</script>
 <section class="site-hero inner-page overlay" style="background-image: url(<%=ctxPath%>/resources/images/hero_4.jpg)"	data-stellar-background-ratio="0.5">
 	<div class="container">
@@ -111,8 +108,8 @@
 				<form name="registerFrm" class="bg-white p-md-5 p-4 mb-5 border">
 					<div class="row">
 						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="PWD" required>암호</label><span class="star">*</span> <input type="password" name="pwd" id="PWD" class="form-control "> 
-							<span id="error_passwd">암호는 	영문자,숫자,특수기호가 혼합된 8~15 글자로만 입력가능합니다.</span>
+							<label class="text-black font-weight-bold" for="PWD" required>암호</label><span class="star">*</span> <input type="password" name="PWD" id="PWD" class="form-control "> 
+							<span id="error_passwd">암호는  영문자,숫자,특수기호가 혼합된 8~15 글자로만 입력가능합니다.</span>
 						</div>
 					</div>
 					<div class="row">

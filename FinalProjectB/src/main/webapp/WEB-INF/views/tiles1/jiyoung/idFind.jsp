@@ -3,7 +3,6 @@
 
 <%
     String ctxPath = request.getContextPath();
-    //    /MyMVC
 %>    
     
 <meta charset="utf-8">
@@ -12,41 +11,6 @@
 <link rel="stylesheet" type="text/css" href="<%= ctxPath %>/resources/css/style.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<style>
-	#div_name {
-		width: 70%;
-		height: 15%;
-		margin-bottom: 5%;
-		margin-left: 10%;
-		position: relative;
-	}
-	
-	#div_mobile {
-		width: 70%;
-		height: 15%;
-		margin-bottom: 5%;
-		margin-left: 10%;
-		position: relative;
-	}
-	
-	#div_findResult {
-		width: 70%;
-		height: 15%;
-		margin-bottom: 5%;
-		margin-left: 10%;		
-		position: relative;
-	}
-	
-	#div_btnFind {
-		width: 70%;
-		height: 15%;
-		margin-bottom: 5%;
-		margin-left: 10%;
-		position: relative;
-	}
-	
-</style>
 
 <script type="text/javascript">
 	
@@ -57,52 +21,58 @@
 	
 	    if(method == "GET") {
 			$("#div_findResult").hide();
+			$("#btnFind").show();
 					
 	    }
 	    else if(method == "POST") {
-	    	$("#name").val("${name}");
-	    	$("#email").val("${email}");
+	    	$("#name").val("${name}").attr("disabled",true);
+	    	$("#email").val("${email}").attr("disabled",true);
 	    	$("#div_findResult").show();
+	    	$("#btnFind").hide();
 	    			
 	    }
 	    
 		$("#btnFind").click(function(){
 			
-			var frm = document.idFindFrm;
-			frm.action = "<%= ctxPath%>/idFindEnd.go";
-			frm.method = "POST";
-			frm.submit();
+			var nameVal = $("#name").val().trim();
+			var emailVal = $("#email").val().trim();
+			
+			if(nameVal != "" && emailVal != "") {
+				var frm = document.idFindFrm;
+				frm.action = "<%= ctxPath%>/idFindEnd.go";
+				frm.method = "POST";
+				frm.submit();
+			}
+			else {
+				alert("이름과 이메일을 입력하세요!!!");
+			}	
 		});
 		
-		$(opener.document).find("#userid").val(userid);
-	    $(opener.document).find("#pwd").focus();
-		
-		self.close();
 		
 	});
 	
 </script>
-
-<form name="idFindFrm">
-   <div id="div_name" align="center">
-      <span style="color: blue; font-size: 12pt;">성명</span><br/> 
-      <input type="text" name="name" id="name" size="15" placeholder="홍길동" required />
-   </div>
-   
-   <div id="div_mobile" align="center">
-   	  <span style="color: blue; font-size: 12pt;">이메일</span><br/>
-      <input type="text" name="email" id="email" size="15" placeholder="-없이 입력하세요" required />
-   </div>
-   
-   <div id="div_findResult" align="center">
-   	  ID : <span style="color: red; font-size: 16pt; font-weight: bold;">${idFind}</span> 
-   </div>
-   
-   <div id="div_btnFind" align="center">
-   		<button type="button" class="btn btn-success" id="btnFind">찾기</button>
-   </div>
-   
-</form>
-
+	<form name="idFindFrm">
+		<div class="row">
+			<div class="col-md-12 form-group">
+				<label class="text-black font-weight-bold" for="name">성명</label>
+				<input type="text" name="name" id="name" class="form-control" placeholder="홍길동" required />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 form-group">
+				<label class="text-black font-weight-bold" for="email">이메일</label>
+				<input type="text" name="email" id="email" class="form-control" placeholder="abc@def.com" required />
+			</div>
+		</div>
+		
+		<div class="col-md-12 form-group taC mgt10">
+			<input type="button" value="찾기" id="btnFind" class="btn btnModal text-white py-3 mx-2 font-weight-bold">
+			<span id="div_findResult">
+				<label class="text-black font-weight-bold">ID</label> : <span style="color: #ffaa34; font-size: 16pt; font-weight: bold;">${idFind}</span> 
+			</span>
+		</div>
+	   
+	</form>
 
 

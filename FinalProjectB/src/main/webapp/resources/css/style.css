@@ -1839,10 +1839,12 @@ opacity
 /* 공용 CSS */
 .pdl0 {padding-left: 0;}
 .pdr0 {padding-right: 0;}
+.pdb0 {padding-bottom: 0;}
 .pdlr0 {
     padding-left: 0;
     padding-right: 0;
 }
+.mgb0 {margin-bottom: 0;}
 .mgt10 {margin-top: 10px;}
 .taC {text-align: center;}
 .taL {text-align: left;}
@@ -1865,6 +1867,21 @@ opacity
 
 
 /* 메인 및 숙소 CSS */
+.starAreaIn {
+	background: url(/god/resources/images/star_bgb.png);
+    background-size: 15px 14px;
+    display: inline-flex;
+    width: 76px;
+    height: 14px;
+}
+.starAreaOut {
+	background: url(/god/resources/images/star_bg.png);
+    background-size: 15px 14px;
+    display: inline-block;
+    width: 76px;
+    height: 14px;
+}
+
 .searchType, .weatherType {
     display: inline-block;
     width: 100%;
