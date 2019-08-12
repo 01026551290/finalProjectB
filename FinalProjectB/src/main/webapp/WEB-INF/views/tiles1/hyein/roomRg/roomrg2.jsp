@@ -468,9 +468,11 @@
 				return;
 			}
 			
+			var test = new Array(); //배열선언
+			
 			$("input[name=roomOption]:checked").each(function() {
 			
-			    test.push($(this).val());   // 값을 찍으면 a,b 이런식으로 콤마 구분자가 같이 들어간다. 
+				test.push($(this).val());   // 값을 찍으면 a,b 이런식으로 콤마 구분자가 같이 들어간다. 
 			
 			});
 			
@@ -739,7 +741,7 @@
 					 
 					<div class="row">
 						<div class="col-md-6 form-group">
-							<input type="button" value="Register" id="btnRegister"
+							<input type="button" value="등록하기" id="btnRegister"
 								class="btn btn-primary text-white py-3 px-5 font-weight-bold"
 								onclick="goRegister(event);">
 						</div>
