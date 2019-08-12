@@ -268,7 +268,6 @@
 		
 		<div id="chart_revenue" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 		
-		<div><span style="cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/admin_productManage.go'">상품관리</span></div>
 	</div>
 	
 

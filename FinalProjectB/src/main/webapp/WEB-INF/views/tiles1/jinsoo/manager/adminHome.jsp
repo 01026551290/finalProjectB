@@ -3,6 +3,37 @@
 <%@page import="java.net.InetAddress"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+ 
+ <style type="text/css">
+
+  .topnav {
+  background-color: #333;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+   
+</style>
    
 <%
 	String ctxPath = request.getContextPath();
@@ -19,10 +50,32 @@
 	String serverName = "http://"+serverIP+":"+portnumber;
 
 %>
+
+<section class="site-hero inner-page overlay" style="background-image: url(/god/resources/images/hero_4.jpg)" data-stellar-background-ratio="0.5">
+      <div class="container">
+        <div class="row site-hero-inner justify-content-center align-items-center">
+          <div class="col-md-10 text-center" data-aos="fade">
+            <h1 class="heading mb-3">관리자</h1>
+            <ul class="custom-breadcrumbs mb-4">
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <a class="mouse smoothscroll" href="#next">
+        <div class="mouse-icon">
+          <span class="mouse-wheel"></span>
+        </div>
+      </a>
+    </section>
+    <!-- END section -->
+
 <script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
 <script type="text/javascript">
  
  $(document).ready(function(){
@@ -38,14 +91,20 @@
 }); // end of $(document).ready(function()
 </script>
 
-<div>게시판</div>
-
-<div style="height: 2000px; width: 500px; display: inline-block;" >
-	 <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin-top: 400px;  "><jsp:include page="adminGengerJSON.jsp" /></div>     
-	<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin-top: 400px; position: absolute; top:-4px; right: 1000px; "><jsp:include page="adminReserve.jsp" /></div>    
-	<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin-top: 400px; position: absolute; top:-4px; right: 500px; "><jsp:include page="adminProduct.jsp" /></div>    
-	<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin-top: 1000px; position: absolute; top:-4px; right: 500px; padding-bottom: 500px; "><jsp:include page="adminRevenue.jsp" /></div>    
+<div class="topnav" style="margin: 20px 0;">
+  <a class="active" href="<%= request.getContextPath() %>/admin_manager.go">Home</a>
+  <a href="<%= request.getContextPath() %>/admin_memberManage.go">회원관리</a>
+  <a href="<%= request.getContextPath() %>/admin_reserveManage.go">예약관리</a>
+  <a href="<%= request.getContextPath() %>/admin_productManage.go">상품관리</a>
+  <a href="<%= request.getContextPath() %>/admin_inquiryBoardList.go">문의사항</a>
+  <a href="<%= serverName%><%=ctxPath%>/admin_chatting.go">회의</a>
 </div>
 
-<a href="<%= serverName%><%=ctxPath%>/admin_chatting.go">웹채팅</a>
+<div style="height: 2000px; width: 2100px; display: inline-block;" >
+	<div id="container" style=" border: 1px solid red; width: 400px; display: inline-block; margin-left: 10px;  "><jsp:include page="adminGengerJSON.jsp" /></div>     
+	<div id="container" style=" border: 1px solid red; width: 400px; display: inline-block;  "><jsp:include page="adminReserve.jsp" /></div>    
+	<div id="container" style=" border: 1px solid red; width: 400px; display: inline-block;  "><jsp:include page="adminProduct.jsp" /></div>    
+	<div id="container" style=" border: 1px solid red; width: 400px; display: inline-block;  "><jsp:include page="adminRevenue.jsp" /></div>    
+</div>
+
 
