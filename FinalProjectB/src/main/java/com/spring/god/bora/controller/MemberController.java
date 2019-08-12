@@ -30,8 +30,8 @@ public class MemberController {
 	private InterMemberService service;
 	
 	// === 예약확인페이지 ===
-	@RequestMapping(value="/accommodationInfo.go", method= {RequestMethod.GET})
-	public ModelAndView LoginCK2_accommodationInfo(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+	@RequestMapping(value="/accommodationInfo.go")
+	public ModelAndView LoginCK_accommodationInfo_index(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		
 		// 상세페이지에서 받아옴
 		String largeCategoryontionCode = request.getParameter("largeCategoryontionCode");
