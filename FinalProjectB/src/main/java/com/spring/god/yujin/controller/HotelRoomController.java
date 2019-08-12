@@ -280,7 +280,6 @@ public class HotelRoomController {
 		   
 
 		   int reviewCnt = service.getReviewCnt(paramap);
-		   double reviewAvg = service.getReviewAvg(paramap);
 		   if(reviewCnt!=-1) {
 			   JSONObject jsonObj = new JSONObject();
 			   jsonObj.put("reviewCnt", reviewCnt);
@@ -289,7 +288,9 @@ public class HotelRoomController {
 		   
 		   
 		   if(reviewCnt>0) {
+			   double reviewAvg = service.getReviewAvg(paramap);
 			   if(reviewAvg!=-1) {
+				   System.out.println("reviewAvg"+reviewAvg);
 				   JSONObject jsonObj = new JSONObject();
 				   jsonObj.put("reviewAvg", reviewAvg);
 				   jsonArr.put(jsonObj);

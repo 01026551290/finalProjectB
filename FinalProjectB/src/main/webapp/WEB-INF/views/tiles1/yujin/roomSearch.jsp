@@ -203,7 +203,7 @@ button#btn_heart {
       console.log($("#starAmount").val());
       var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
        mapOption = {
-           center: new kakao.maps.LatLng(33.510485, 126.491321), // 지도의 중심좌표
+           center: new kakao.maps.LatLng(33.381788, 126.544377), // 지도의 중심좌표
            level: 9 // 지도의 확대 레벨
        };  
       
@@ -768,11 +768,6 @@ button#btn_heart {
 			class="row site-hero-inner justify-content-center align-items-center">
 			<div class="col-md-10 text-center" data-aos="fade">
 				<h1 class="heading mb-3">Rooms</h1>
-				<ul class="custom-breadcrumbs mb-4">
-					<li><a href="index.html">Home</a></li>
-					<li>&bullet;</li>
-					<li>Rooms</li>
-				</ul>
 			</div>
 		</div>
 	</div>
@@ -1073,10 +1068,8 @@ button#btn_heart {
 							</c:forEach>
 						</c:if>
 						<c:if test="${hotelRoomVOList==null}">
-							<h1>~조건에 일치하는 상품이 없습니다~</h1>
+							<h1 class="header">~조건에 일치하는 상품이 없습니다~</h1>
 						</c:if>
-
-						미친놈들아
 
 					</div>
 

@@ -6,11 +6,6 @@
     <div class="row site-hero-inner justify-content-center align-items-center">
       <div class="col-md-10 text-center aos-init aos-animate" data-aos="fade">
         <h1 class="heading mb-3">GOD</h1>
-        <ul class="custom-breadcrumbs mb-4">
-          <li><a href="index.html">TOTAL</a></li>
-          <li>•</li>
-          <li>GOD</li>
-        </ul>
       </div>
     </div>
   </div>
