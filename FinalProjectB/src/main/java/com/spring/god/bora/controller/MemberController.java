@@ -1,5 +1,7 @@
 package com.spring.god.bora.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +30,7 @@ public class MemberController {
 	private InterMemberService service;
 	
 	// === 예약확인페이지 ===
-	@RequestMapping(value="/accommodationInfo.go")
+	@RequestMapping(value="/accommodationInfo.go", method= {RequestMethod.GET})
 	public ModelAndView LoginCK2_accommodationInfo(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		
 		// 상세페이지에서 받아옴
@@ -54,15 +56,36 @@ public class MemberController {
 		paraMap.put("checkOutView", checkOut.substring(0,4)+"년 "+checkOut.substring(5,7)+"월 "+checkOut.substring(8)+"일");
 		paraMap.put("checkIn", checkIn);
 		paraMap.put("checkOut", checkOut);
-		paraMap.put("noNight", String.valueOf(Integer.parseInt(checkOut.substring(0,4)+checkOut.substring(5,7)+checkOut.substring(8))-Integer.parseInt(checkIn.substring(0,4)+checkIn.substring(5,7)+checkIn.substring(8))+1));
 		paraMap.put("productId", productId);
 		paraMap.put("productName", productName);
 		paraMap.put("roomType", roomType3); // 수용인원 
-		paraMap.put("weekPrice", weekPrice);
-		paraMap.put("svcPrice", String.valueOf((Integer.parseInt(weekPrice)/10)));
-		paraMap.put("totalPrice", String.valueOf((Integer.parseInt(weekPrice)+Integer.parseInt(weekPrice)/10)));
-		paraMap.put("point", String.valueOf(Integer.parseInt(weekPrice)/30));
 		
+		long noNight = 0;
+		try { // String Type을 Date Type으로 캐스팅하면서 생기는 예외로 인해 여기서 예외처리 해주지 않으면 컴파일러에서 에러가 발생해서 컴파일을 할 수 없다.
+	        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	        // date1, date2 두 날짜를 parse()를 통해 Date형으로 변환.
+	        Date FirstDate = format.parse(paraMap.get("checkIn"));
+	        Date SecondDate = format.parse(paraMap.get("checkOut"));
+	        
+	        // Date로 변환된 두 날짜를 계산한 뒤 그 리턴값으로 long type 변수를 초기화 하고 있다.
+	        // 연산결과 -950400000. long type 으로 return 된다.
+	        long calDate = FirstDate.getTime() - SecondDate.getTime(); 
+	        
+	        // Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다. 
+	        // 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
+	        noNight = calDate / ( 24*60*60*1000); 
+	 
+	        noNight = Math.abs(noNight);
+	        
+        }
+        catch(Exception e) {
+	            e.printStackTrace();
+        }
+		paraMap.put("noNight", String.valueOf(noNight));
+		paraMap.put("weekPrice", weekPrice);
+		paraMap.put("totalPrice", String.valueOf((Integer.parseInt(weekPrice)+Integer.parseInt(weekPrice)/10)*(noNight-1)));
+		paraMap.put("svcPrice", String.valueOf((Integer.parseInt(weekPrice)/10)));
+		paraMap.put("point", String.valueOf(((Integer.parseInt(weekPrice)+Integer.parseInt(weekPrice)/10)*(noNight-1))/30));
 		
 		mv.addObject("paraMap", paraMap);
 		mv.setViewName("bora/accommodationInfo.tiles1");
@@ -130,14 +153,37 @@ public class MemberController {
 		mv.addObject("checkOutView", checkOut.substring(0,4)+"년 "+checkOut.substring(5,7)+"월 "+checkOut.substring(8)+"일");
 		mv.addObject("checkIn", checkIn);
 		mv.addObject("checkOut", checkOut);
-		mv.addObject("noNight", String.valueOf(Integer.parseInt(checkOut.substring(0,4)+checkOut.substring(5,7)+checkOut.substring(8))-Integer.parseInt(checkIn.substring(0,4)+checkIn.substring(5,7)+checkIn.substring(8))+1));
 		mv.addObject("fk_productId", fk_productId);
 		mv.addObject("productName", productName);
 		mv.addObject("roomType", roomType);
+		
+		long noNight = 0;
+		try { // String Type을 Date Type으로 캐스팅하면서 생기는 예외로 인해 여기서 예외처리 해주지 않으면 컴파일러에서 에러가 발생해서 컴파일을 할 수 없다.
+	        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	        // date1, date2 두 날짜를 parse()를 통해 Date형으로 변환.
+	        Date FirstDate = format.parse(checkIn);
+	        Date SecondDate = format.parse(checkOut);
+	        
+	        // Date로 변환된 두 날짜를 계산한 뒤 그 리턴값으로 long type 변수를 초기화 하고 있다.
+	        // 연산결과 -950400000. long type 으로 return 된다.
+	        long calDate = FirstDate.getTime() - SecondDate.getTime(); 
+	        
+	        // Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다. 
+	        // 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
+	        noNight = calDate / ( 24*60*60*1000); 
+	 
+	        noNight = Math.abs(noNight);
+	        
+        }
+        catch(Exception e) {
+	            e.printStackTrace();
+        }
+		
+		mv.addObject("noNight", String.valueOf(noNight));
 		mv.addObject("weekPrice", weekPrice);
+		mv.addObject("totalPrice", String.valueOf((Integer.parseInt(weekPrice)+Integer.parseInt(weekPrice)/10)*(noNight-1)));
 		mv.addObject("svcPrice", String.valueOf((Integer.parseInt(weekPrice)/10)));
-		mv.addObject("totalPrice", String.valueOf((Integer.parseInt(weekPrice)+Integer.parseInt(weekPrice)/10)));
-		mv.addObject("point", String.valueOf(Integer.parseInt(weekPrice)/30));
+		mv.addObject("point", String.valueOf(((Integer.parseInt(weekPrice)+Integer.parseInt(weekPrice)/10)*(noNight-1))/30));
 		
 		
 		mv.setViewName("tiles1/bora/paymentGateway");
@@ -160,12 +206,12 @@ public class MemberController {
 		String address = request.getParameter("address");
 		String checkInView = request.getParameter("checkIn").substring(0,4)+"년 "+request.getParameter("checkIn").substring(5,7)+"월 "+request.getParameter("checkIn").substring(8)+"일";
 		String checkOutView = request.getParameter("checkOut").substring(0,4)+"년 "+request.getParameter("checkOut").substring(5,7)+"월 "+request.getParameter("checkOut").substring(8)+"일";
-		String noNight = String.valueOf(Integer.parseInt(request.getParameter("checkOut").substring(0,4)+request.getParameter("checkOut").substring(5,7)+request.getParameter("checkOut").substring(8))-Integer.parseInt(request.getParameter("checkIn").substring(0,4)+request.getParameter("checkIn").substring(5,7)+request.getParameter("checkIn").substring(8))+1);
 		String productName = request.getParameter("productName");
 		String roomType = request.getParameter("roomType"); // 수용인원 
 		String weekPrice = request.getParameter("weekPrice");
+		String noNight = request.getParameter("noNight");
 		String svcPrice = String.valueOf((Integer.parseInt(request.getParameter("weekPrice"))/10));
-		String totalPrice = String.valueOf((Integer.parseInt(request.getParameter("weekPrice"))+Integer.parseInt(request.getParameter("weekPrice"))/10));
+		String totalPrice = request.getParameter("price");
 		
 		int m = service.reserveAddInsert(hvo);
 		String result = "";
