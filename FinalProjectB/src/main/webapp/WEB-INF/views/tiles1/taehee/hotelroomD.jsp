@@ -192,96 +192,97 @@
               }
            });
 	   
-//////////////////////////////////////////////////////
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	//////////////////////////////////////////////////////
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
         level: 3 // 지도의 확대 레벨
     };  
-// 지도를 생성합니다    
-var map = new kakao.maps.Map(mapContainer, mapOption); 
-// 주소-좌표 변환 객체를 생성합니다
-var geocoder = new kakao.maps.services.Geocoder();
-// 주소로 좌표를 검색합니다
-geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
-    // 정상적으로 검색이 완료됐으면 
-     if (status === kakao.maps.services.Status.OK) {
-        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-        // 결과값으로 받은 위치를 마커로 표시합니다
-        var marker = new kakao.maps.Marker({
-            map: map,
-            position: coords
-        });
-         
-        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-        map.setCenter(coords);
-    } 
-});     
-//////////////////////////////////////////////////////
+	// 지도를 생성합니다    
+	var map = new kakao.maps.Map(mapContainer, mapOption); 
+	// 주소-좌표 변환 객체를 생성합니다
+	var geocoder = new kakao.maps.services.Geocoder();
+	// 주소로 좌표를 검색합니다
+	geocoder.addressSearch('${HotelVO.address}', function(result, status) {
+	    // 정상적으로 검색이 완료됐으면 
+	     if (status === kakao.maps.services.Status.OK) {
+	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	        // 결과값으로 받은 위치를 마커로 표시합니다
+	        var marker = new kakao.maps.Marker({
+	            map: map,
+	            position: coords
+	        });
+	         
+	        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	        map.setCenter(coords);
+	    } 
+	});         
+	//////////////////////////////////////////////////////
     
-   var rangeDate = 31; // set limit day
-   var setSdate, setEdate;
-   $("#checkin_date").datepicker({
-       dateFormat: 'yy-mm-dd',
-       minDate: 0,
-       onSelect: function(selectDate){
-           var stxt = selectDate.split("-");
-               stxt[1] = stxt[1] - 1;
-           var sdate = new Date(stxt[0], stxt[1], stxt[2]);
-           var edate = new Date(stxt[0], stxt[1], stxt[2]);
-               edate.setDate(sdate.getDate() + rangeDate);
-           
-           $('#checkout_date').datepicker('option', {
-               minDate: selectDate,
-               beforeShow : function () {
-                   $("#checkout_date").datepicker( "option", "maxDate", edate );                
-                   setSdate = selectDate;
-                   console.log(setSdate)
-           }});
-           //checkout_date 설정
-       }
-       //checkin_date 선택되었을 때
-   });
-               
-   $("#checkout_date").datepicker({ 
-       dateFormat: 'yy-mm-dd',
-       onSelect : function(selectDate){
-           setEdate = selectDate;
-           console.log(setEdate)
-       }
-   });
-   $("#btnSearch").on("click", function(e){
-       if($("input#checkin_date").val() == ""){
-           alert("시작일을 선택해주세요.");
-           $("input#checkin_date").focus();
-           return false;
-       }else if($("input#checkout_date").val() == ""){
-           alert("종료일을 선택해주세요.");
-           $("input#checkout_date").focus();
-           return false;
-       }
-      
-       
-       var t1 = $("input#checkin_date").val().split("-");
-       var t2 = $("input#checkout_date").val().split("-");
-       var t1date = new Date(t1[0], t1[1], t1[2]);
-       var t2date = new Date(t2[0], t2[1], t2[2]);
-       var diff = t2date - t1date;
-       var currDay = 24 * 60 * 60 * 1000;
-       if(parseInt(diff/currDay) > rangeDate){
-           alert("로그 조회 기간은 " + rangeDate + "일을 초과할 수 없습니다.");        
-           return false;
-       }
-      var checkin_dateVal = $("input#checkin_date").val();
-      var checkout_dateVal = $("input#checkout_date").val();
-      checkin_dateVal = checkin_dateVal.substring(0,4) + checkin_dateVal.substring(5,7) + checkin_dateVal.substring(8);
-      checkout_dateVal = checkout_dateVal.substring(0,4) + checkout_dateVal.substring(5,7) + checkout_dateVal.substring(8);
-      
-      alert(checkin_dateVal);
-      alert(checkout_dateVal);
-       
-      alert("성공")
-   });
+	//////////////////////////////////////////////////////
+	var rangeDate = 31; // set limit day
+	var setSdate, setEdate;
+	$("#checkin_date").datepicker({
+	    dateFormat: 'yy-mm-dd',
+	    minDate: 0,
+	    onSelect: function(selectDate){
+	        var stxt = selectDate.split("-");
+	            stxt[1] = stxt[1] - 1;
+	        var sdate = new Date(stxt[0], stxt[1], stxt[2]);
+	        var edate = new Date(stxt[0], stxt[1], stxt[2]);
+	            edate.setDate(sdate.getDate() + rangeDate);
+	        
+	        $('#checkout_date').datepicker('option', {
+	            minDate: selectDate,
+	            beforeShow : function () {
+	                $("#checkout_date").datepicker( "option", "maxDate", edate );                
+	                setSdate = selectDate;
+	                console.log(setSdate)
+	        }});
+	        //checkout_date 설정
+	    }
+	    //checkin_date 선택되었을 때
+	});
+	            
+	$("#checkout_date").datepicker({ 
+	    dateFormat: 'yy-mm-dd',
+	    onSelect : function(selectDate){
+	        setEdate = selectDate;
+	        console.log(setEdate)
+	    }
+	});
+	$("#btnSearch").on("click", function(e){
+	    if($("input#checkin_date").val() == ""){
+	        alert("시작일을 선택해주세요.");
+	        $("input#checkin_date").focus();
+	        return false;
+	    }else if($("input#checkout_date").val() == ""){
+	        alert("종료일을 선택해주세요.");
+	        $("input#checkout_date").focus();
+	        return false;
+	    }
+
+	    var t1 = $("input#checkin_date").val().split("-");
+	    var t2 = $("input#checkout_date").val().split("-");
+	    var t1date = new Date(t1[0], t1[1], t1[2]);
+	    var t2date = new Date(t2[0], t2[1], t2[2]);
+	    var diff = t2date - t1date;
+	    var currDay = 24 * 60 * 60 * 1000;
+	    if(parseInt(diff/currDay) > rangeDate){
+	        alert("로그 조회 기간은 " + rangeDate + "일을 초과할 수 없습니다.");        
+	        return false;
+	    }
+		var checkin_dateVal = $("input#checkin_date").val();
+		var checkout_dateVal = $("input#checkout_date").val();
+		checkin_dateVal = checkin_dateVal.substring(0,4) + checkin_dateVal.substring(5,7) + checkin_dateVal.substring(8);
+		checkout_dateVal = checkout_dateVal.substring(0,4) + checkout_dateVal.substring(5,7) + checkout_dateVal.substring(8);
+		
+		alert(checkin_dateVal);
+		alert(checkout_dateVal);
+	    
+		alert("성공")
+	});
+	//////////////////////////////////////////////////////
    //조회 버튼 클릭
    
     $("#searchType").bind("change",function(){
@@ -289,44 +290,10 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
        goSearchRoom($(this).val());
          
     });// end of $("#searchType").bind("change",function()
+});// end of ready
    
-   
-    		
-///////////////////////////////////////////////////////////////////////////////////
-	var imgLength=$('.slides img').length
-    var showIndex=0;
-    console.log(imgLength);
-    
-    $('.slides img').eq(0).show();
-    
-    $('.next').click(function(){
-        $('.slides img')
-            .eq(showIndex)
-            .next()
-            .fadeIn()
-            .siblings('img')
-            .fadeOut(0);
-        if(showIndex<imgLength-1){
-            showIndex++;
-        }
-    });/* next */
-    
-    $('.prev').click(function(){
-        $('.slides img')
-            .eq(showIndex)
-            .prev()
-            .fadeIn(0)
-            .siblings('img')
-            .fadeOut();
-        if(showIndex>0){
-            showIndex--;
-        }
-    });/* prev */    		
-/////////////////////////////////////////////////////////////////////////////////// 		
-    		
-    		
-   });// end of ready
-   
+	
+
    ///////////////////////////////////////////////////////////////////////////////////
    
    function goSearchRoom(searchTypeVal) {
@@ -542,47 +509,22 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
 	<div class="container">
 		<c:if test="${RoomVO!=null}">
 			<!-- 객실 뽑을 for문 -->
-			<c:forEach var="RoomVO" items="${RoomVO}">
+			<c:forEach var="RoomVO" items="${RoomVO}" varStatus="status">
 				<div class="row bg-white mb-4">
+				
 				<c:if test="${RoomVO.imgList!=null}">
-					<div class="col-lg-6 col-md-12 mt-3 mb-3">
-					<div class="slide_wrap mt-3">
-				        <div class="slide_viewport">
-				            <div class="slides">
-				            	<c:forEach var="list" items="${RoomVO.imgList}">
-				                <img src="/god/resources/images/room/${list}" class="img-fluid">
-				                </c:forEach>
-				            </div>
-				        </div>
-				        <span class="prev">
-				            <i class="fa fa-angle-left" aria-hidden="true"></i>
-				        </span>
-				        <span class="next">
-				            <i class="fa fa-angle-right" aria-hidden="true"></i>
-				        </span>
-				    </div>
-				    </div>
-				</c:if>    
-				<!-- 슬라이드 테스트3 -->
-				<!-- 
 				<div class="col-lg-6 col-md-12 mt-3 mb-3">
-				<div class="slide_wrap mt-3">
-			        <div class="slide_viewport">
-			            <div class="slides">
-			                <img src="/god/resources/images/room/hiddenTwin.jpg" class="img-fluid">
-			                <img src="/god/resources/images/room/hiddenDouble.jpg" class="img-fluid">
-			            </div>
-			        </div>
-			        <span class="prev">
-			            <i class="fa fa-angle-left" aria-hidden="true"></i>
-			        </span>
-			        <span class="next">
-			            <i class="fa fa-angle-right" aria-hidden="true"></i>
-			        </span>
-			    </div>
-			    </div>
-			     -->
-				<!-- End 슬라이드 테스트3 -->
+					<div class="slide_wrap mt-3">
+						<div class="slide_viewport">
+						    <div class="slides">
+								<c:forEach var="list" items="${RoomVO.imgList}" varStatus="status">
+								<img src="/god/resources/images/room/${list}" class="img-fluid">
+								</c:forEach>
+						   	</div>
+						</div>
+					</div>
+				</div>
+				</c:if>
 				<div class="col-lg-6 col-md-12 mt-4 mb-3">
 					<h5 class="mb-3" style="font-size: 25px;">${RoomVO.productName}</h5>
 					<span class="d-block mb-3"> 
