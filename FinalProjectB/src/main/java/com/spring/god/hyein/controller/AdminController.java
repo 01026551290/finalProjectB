@@ -105,7 +105,7 @@ public class AdminController {
 				// >>> 확인용 : newFileName ==> 201907251244161722498031530800.jpg
 				
 				// == 3. BoardVO hotelroomvo 에 fileName 과 picture 값과 fileSize 값을 넣어주기
-				hotelroomvo.setImg(newFileName);
+				hotelroomvo.setImg(attach.getOriginalFilename());
 				// WAS(톰캣)에 저장된 파일명(201907251244161722498031530800.jpg)
 				
 				hotelroomvo.setOrgFileName(attach.getOriginalFilename());
@@ -335,11 +335,11 @@ public class AdminController {
 			   String loc = "";
 			   
 			   if(n==1) {
-				   msg = "숙소등록 성공!!";
+				   msg = "객실이 등록되었습니다!";
 				   loc = mrequest.getContextPath() + "/index.go";
 			   }
 			   else {      
-				   msg = "숙소등록 실패!!";
+				   msg = "객실 등록이 실패되었습니다!";
 			       loc = mrequest.getContextPath() + "/roomrg.go";
 			   }
 			    		

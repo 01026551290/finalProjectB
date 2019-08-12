@@ -233,6 +233,10 @@
 										<li><a href="<%= ctxPath%>/logout.go">로그아웃</a></li>
 										<li><a href="<%= ctxPath%>/noticeList.go">공지사항</a></li>
 										</c:if>
+										<c:if test="${adminvo != null }">
+										 <li><a href="<%= ctxPath%>/roomrg.go">숙소 등록</a></li>
+										 <li><a href="<%= ctxPath%>/roomrg2.go">객실 등록</a></li>
+										</c:if> 
 									</ul>
 								</div>
 							</div>

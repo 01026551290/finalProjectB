@@ -42,7 +42,7 @@ function gobtn() {
       <div class="container">
         <div class="row">
           <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
-            <div>::: 마이페이지 :::</div>
+            <div>::: 사진 변경/추가 :::</div>
             <!-- /////////////////////////////////////////////////////////////////// -->
             <form name="registerFrm" enctype="multipart/form-data">                      
             <tr>

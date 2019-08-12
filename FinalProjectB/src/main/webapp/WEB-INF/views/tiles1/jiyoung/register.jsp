@@ -249,93 +249,80 @@
 						<div class="col-md-12 form-group">
 							<div class="row">
 								<div class="col-md-12 form-group">
-									<label class="text-black font-weight-bold" for="NAME" required>성명</label><span
-										class="star">*</span> <input type="text" name="name" id="NAME"
-										class="form-control " required> <span class="error">성명은
-										필수입력 사항입니다.</span>
+									<label class="text-black font-weight-bold" for="NAME" required>성명</label><span class="star">*</span> 
+									<input type="text" name="name" id="NAME" class="form-control " required> 
+									<span class="error">성명은 필수입력 사항입니다.</span>
 								</div>
 							</div>
-							<label class="text-black font-weight-bold" for="MEMBERID"
-								required>회원아이디</label><span class="star">*</span> <input
-								type="text" name="memberId" id="MEMBERID" class="form-control "
-								required>
+							<label class="text-black font-weight-bold" for="MEMBERID" required>회원아이디</label><span class="star">*</span> 
+							<input type="text" name="memberId" id="MEMBERID" class="form-control" required>
 							<!-- 아이디중복체크 -->
 							<div class="col-md-12 form-group">
-								<a class="styleFont" style="cursor: pointer;" id="idcheck">아이디찾기</a>
+								<a class="styleFont" style="cursor: pointer;" id="idcheck">아이디중복체크</a>
 								<span class="error">아이디는 필수입력 사항입니다.</span> 
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="PWD" required>암호</label><span
-								class="star">*</span> <input type="password" name="pwd" id="PWD"
-								class="form-control "> <span id="error_passwd">암호는
-								영문자,숫자,특수기호가 혼합된 8~15 글자로만 입력가능합니다.</span>
+							<label class="text-black font-weight-bold" for="PWD" required>암호</label><span class="star">*</span> 
+							<input type="password" name="pwd" id="PWD" class="form-control "> 
+							<span id="error_passwd">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로만 입력가능합니다.</span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="PWDcheck"
-								required>암호확인</label><span class="star">*</span> <input
-								type="password" name="PWDcheck" id="PWDcheck"
-								class="form-control "> <span class="error">암호가
-								일치하지 않습니다.</span>
+							<label class="text-black font-weight-bold" for="PWDcheck"required>암호확인</label><span class="star">*</span> 
+							<input type="password" name="PWDcheck" id="PWDcheck" class="form-control "> 
+							<span class="error">암호가 일치하지 않습니다.</span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="NICKNAME"
-								required>닉네임</label><span class="star">*</span> <input
-								type="text" name="nickName" id="NICKNAME" class="form-control ">
+							<label class="text-black font-weight-bold" for="NICKNAME" required>닉네임</label><span class="star">*</span> 
+							<input type="text" name="nickName" id="NICKNAME" class="form-control ">
 							<!-- 닉네임중복체크 -->
-							<img id="nicknamecheck" src="../images/b_id_check.gif"
-								style="vertical-align: middle;" /> <span class="error">닉네임은
-								필수입력 사항입니다.</span>
+							<div class="col-md-12 form-group">
+							<a class="styleFont" style="cursor: pointer;" id="nicknamecheck">닉네임중복체크</a>
+							<span class="error">닉네임은 필수입력 사항입니다.</span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="EMAIL" required>Email</label><span
-								class="star">*</span> <input type="email" name="email"
-								id="EMAIL" class="form-control ">
+							<label class="text-black font-weight-bold" for="EMAIL" required>Email</label> <span class="star">*</span>
+							<input type="email" name="email" id="EMAIL" class="form-control ">
 							<!-- 이메일중복체크 -->
-							<img id="emailcheck" src="../images/b_id_check.gif"
-								style="vertical-align: middle;" /> <span class="error">이메일
-								형식에 맞지 않습니다.</span>
+							<div class="col-md-12 form-group">
+							<a class="styleFont" style="cursor: pointer;" id="emailcheck">이메일중복체크</a>
+							<span class="error">이메일은 필수입력 사항입니다.</span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="GENDER">성별</label><span
-								class="star">*</span> <input type="radio" id="male"
-								name="gender" value="1" /><label for="male"
-								style="margin-left: 2%;">남자</label> <input type="radio"
-								id="female" name="gender" value="2" style="margin-left: 10%;" /><label
-								for="female" style="margin-left: 2%;">여자</label> <span
-								class="error">성별을 입력하세요</span>
+							<label class="text-black font-weight-bold" for="GENDER">성별</label><span class="star">*</span>
+							<input type="radio" id="male" name="gender" value="1" />
+							<label for="male" style="margin-left: 2%;">남자</label> 
+							<input type="radio" id="female" name="gender" value="2" style="margin-left: 10%;" />
+							<label for="female" style="margin-left: 2%;">여자</label> 
+							<span  class="error">성별을 입력하세요</span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold">전화번호</label><span
-								class="star">*</span> <select name="hp1" id="hp1"
-								style="width: 75px; padding: 8px;">
+							<label class="text-black font-weight-bold">전화번호</label><span class="star">*</span> 
+							<select name="hp1" id="hp1" style="width: 75px; padding: 8px;">
 								<option value="010" selected>010</option>
-							</select>&nbsp;-&nbsp; <input type="text" name="hp2" id="hp2" size="6"
-								maxlength="4" />&nbsp;-&nbsp; <input type="text" name="hp3"
-								id="hp3" size="6" maxlength="4" />&nbsp;&nbsp; <span
-								class="error error_hp">휴대폰 형식이 아닙니다.</span>
+							</select>&nbsp;-&nbsp; 
+							<input type="text" name="hp2" id="hp2" size="6" maxlength="4" />&nbsp;-&nbsp; 
+							<input type="text" name="hp3" id="hp3" size="6" maxlength="4" />&nbsp;&nbsp; 
+							<span  class="error error_hp">휴대폰 형식이 아닙니다.</span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="email" required>생년월일</label><span
-								class="star">*</span> <input type="number" id="birthyyyy"
-								name="birthyyyy" min="1950" max="2050" step="1" value="1995"
-								style="width: 80px;" required /> <select id="birthmm"
-								name="birthmm"
-								style="margin-left: 2%; width: 60px; padding: 8px;">
+							<label class="text-black font-weight-bold" for="email" required>생년월일</label><span class="star">*</span>
+							<input type="number" id="birthyyyy" name="birthyyyy" min="1950" max="2050" step="1" value="1995" style="width: 80px;" required /> 
+							<select id="birthmm" name="birthmm" style="margin-left: 2%; width: 60px; padding: 8px;">
 								<option value="01">01</option>
 								<option value="02">02</option>
 								<option value="03">03</option>
@@ -348,8 +335,8 @@
 								<option value="10">10</option>
 								<option value="11">11</option>
 								<option value="12">12</option>
-							</select> <select id="birthdd" name="birthdd"
-								style="margin-left: 2%; width: 60px; padding: 8px;">
+							</select>
+							<select id="birthdd" name="birthdd" style="margin-left: 2%; width: 60px; padding: 8px;">
 								<option value="01">01</option>
 								<option value="02">02</option>
 								<option value="03">03</option>
@@ -386,13 +373,10 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12 form-group taC">
-							<input type="button" id="btnRegister" value="회원가입"
-								class="btn btn-primary text-white py-3 px-5 font-weight-bold"
-								onClick="goRegister(event);">
+							<input type="button" id="btnRegister" value="회원가입" class="btn btn-primary text-white py-3 px-5 font-weight-bold" onClick="goRegister(event);">
 						</div>
 					</div>
 				</form>
-
 			</div>
 		</div>
 	</div>
