@@ -2,6 +2,9 @@ package com.spring.god.yujin.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+
+import org.apache.ibatis.javassist.bytecode.stackmap.BasicBlock.Catch;
 
 public class HistoryVO {
 	
@@ -115,28 +118,58 @@ public class HistoryVO {
 		this.checkOut = checkOut;
 	}
 
-	SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	
 	Calendar c1 = Calendar.getInstance();
-	String str_today = today.format(c1.getTime());
+	String str_today = dateFormat.format(c1.getTime());
+			
+	Date today;
+	Date checkinDate;
+	Date checkOutDate;
+	int calDate2 = 0;
 
 	public int getCanWriteReview() {
-		String checkOutdate=checkOut.substring(0,4)+checkOut.substring(5,7)+checkOut.substring(8,10);
-		int checkoutAfter = Integer.parseInt(str_today)-Integer.parseInt(checkOutdate);
-		return checkoutAfter;
+		try {
+			today = dateFormat.parse(str_today);
+			checkinDate = dateFormat.parse(checkIn); 
+			checkOutDate = dateFormat.parse(checkOut); 
+			long cal = today.getTime()-checkOutDate.getTime();
+			long calDate = cal/(24*60*60*1000);
+			calDate2 = (int)calDate;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return calDate2;
 	}
 	
 	public int getCanCancelReserve() {
-		String checkIndate=checkIn.substring(0,4)+checkIn.substring(5,7)+checkIn.substring(8,10);
-		int cancelReserve = Integer.parseInt(checkIndate)-Integer.parseInt(str_today);
-		return cancelReserve;
+		try {
+			today = dateFormat.parse(str_today);
+			checkinDate = dateFormat.parse(checkIn);
+			checkOutDate = dateFormat.parse(checkOut);
+			long cal = checkinDate.getTime()-today.getTime();
+			long calDate = cal/(24*60*60*1000);
+			calDate2 = (int)calDate;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return calDate2;
 	}
 	
 	public int getUsing() {
-		String checkIndate=checkIn.substring(0,4)+checkIn.substring(5,7)+checkIn.substring(8,10);
-		String checkOutdate=checkOut.substring(0,4)+checkOut.substring(5,7)+checkOut.substring(8,10);
-		int checkoutAfter = Integer.parseInt(checkOutdate)-Integer.parseInt(str_today);
-		int cancelReserve = Integer.parseInt(checkIndate)-Integer.parseInt(str_today);
-		int using = checkoutAfter*cancelReserve;
+		int using=0;
+		try {
+			today = dateFormat.parse(str_today);
+			checkinDate = dateFormat.parse(checkIn);
+			checkOutDate = dateFormat.parse(checkOut);
+			long cal = checkOutDate.getTime()-today.getTime();
+			long cal2 = checkinDate.getTime()-today.getTime();
+			long calDate = cal/(24*60*60*1000);
+			long calDate2 = cal2/(24*60*60*1000);
+			using = (int)calDate*(int)calDate2;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		return using;
 	}
 

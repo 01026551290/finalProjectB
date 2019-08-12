@@ -283,7 +283,7 @@
             <form name="reviewFrm" class="bg-white p-md-5 p-4 mb-5 border" enctype="multipart/form-data">
             <input type="hidden" name="reserveIdx" value="${vo.reserveId}">
             <input type="hidden" name="roomIdx" value="${vo.fk_productId}">
-            <input type="text" name="hotelIdx" value="${vo.largeCategoryOntionCode}">
+            <input type="hidden" name="hotelIdx" value="${vo.largeCategoryOntionCode}">
             <!-- <form name="reviewFrm" class="bg-white p-md-5 p-4 mb-5 border"> -->
               <div class="row">
                 <div class="col-md-12 form-group">

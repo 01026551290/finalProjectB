@@ -71,7 +71,7 @@
 								</c:if>
 								<c:if test="${14<=vo.canWriteReview}">
 									<c:if test="${vo.pointStatus!=NULL and vo.pointStatus>0}">
-					                	<span style="cursor: pointer;" class="d-block text-primary"  onclick="go('/god/earnPoint.go','${vo.reserveId}','${vo.fk_productId}','${vo.largeCategoryOntionCode}','${vo.name}','${vo.productName}','${vo.address}','${vo.checkIn}','${vo.checkOut}','${vo.noNight}','${vo.img}','${vo.per}','${vo.point}');"></span><span><fmt:formatNumber value="${vo.point}" pattern="###,###" />포인트</span><span>적립하기</span></span>
+					                	<span style="cursor: pointer;" class="d-block text-primary"  onclick="go('/god/earnPoint.go','${vo.reserveId}','${vo.fk_productId}','${vo.largeCategoryOntionCode}','${vo.name}','${vo.productName}','${vo.address}','${vo.checkIn}','${vo.checkOut}','${vo.noNight}','${vo.img}','${vo.per}','${vo.point}');"><span><fmt:formatNumber value="${vo.point}" pattern="###,###" />포인트</span><span>적립하기</span></span>
 									</c:if>
 									<c:if test="${vo.pointStatus!=NULL and vo.pointStatus==0}">
 					                	<p style="margin: 0 auto;"><fmt:formatNumber value="${vo.point}" pattern="###,###" />포인트</p><p>적립완료</p>
@@ -80,7 +80,7 @@
 								<c:if test='${vo.title!="" and vo.title!=null}'>
 				                	<span class="d-block text-primary" >후기작성완료</span>
 								</c:if>
-								<c:if test='${14>vo.canWriteReview and vo.canWriteReview>0 and (vo.title=="" and vo.title!=null)}'>
+								<c:if test='${14>vo.canWriteReview and vo.canWriteReview>0 and (vo.title=="" || vo.title==null)}'>
 				                	<span style="cursor: pointer;" class="d-block text-primary" onclick="go('/god/review.go','${vo.reserveId}','${vo.fk_productId}','${vo.largeCategoryOntionCode}','${vo.name}','${vo.productName}','${vo.address}','${vo.checkIn}','${vo.checkOut}','${vo.noNight}','${vo.img}','${vo.per}','${vo.price}');">후기작성</span>
 								</c:if> 
 								<c:if test="${vo.canCancelReserve>0}">
