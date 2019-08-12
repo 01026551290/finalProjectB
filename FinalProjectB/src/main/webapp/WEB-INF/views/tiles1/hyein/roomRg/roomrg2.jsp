@@ -428,16 +428,7 @@
 	
 		function goRegister(event) {
 			
-			var frm = document.roomrg2Frm;
-			
-			/* 
-			$("input[name=roomOption]:checked").each(function() {
-
-			    test.push($(this).val());   // 값 찍어보시면 a,b 이런식으로 콤마 구분자가 같이 들어간다. 
-
-			});
-			 */
-			/* // 침대 갯수가 선택되지 않았다면
+			// 침대 갯수가 선택되지 않았다면
 			if(roomrg2Frm.bedCnt.value == "") {
 				alert("침대 갯수를 선택해주세요!");
 				roomrg2Frm.bedCnt.focus();
@@ -465,19 +456,25 @@
 				return;
 			}
 			
-			
 			var ontionTypeBool = $("input:checkbox[name=roomOption]").is(":checked");
 			
 			if( !ontionTypeBool ) {
 				alert("객실 옵션을 선택하세요!");
 				return;
 			}
-			 */
+			
 			if($("#spinnerImgQty").val()=="0") {
 				alert("숙소 이미지 첨부파일을 입력하세요!!");
 				return;
 			}
 			
+			$("input[name=roomOption]:checked").each(function() {
+			
+			    test.push($(this).val());   // 값을 찍으면 a,b 이런식으로 콤마 구분자가 같이 들어간다. 
+			
+			});
+			
+			var frm = document.roomrg2Frm;
 			frm.method = "POST";
 			frm.action = "<%= request.getContextPath()%>/roomrg2End.go";
 			frm.submit();

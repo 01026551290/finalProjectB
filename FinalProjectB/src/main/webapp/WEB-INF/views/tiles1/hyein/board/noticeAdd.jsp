@@ -206,7 +206,7 @@
 						</tr>
 						<tr>
 							<th>파일첨부</th>
-							<td><input type="file" name="attach" id="attach" class="short"  /></td>
+							<td><input type="file" name="attach" id="attach" class="short" /></td>
 						</tr>
 						<tr>
 							<td colspan="2"></td>
@@ -222,8 +222,8 @@
 					<input type="hidden" name="depthno" value="${depthno}"/>					      
 					
 					<div style="margin: 20px;">
-						<button type="button" id="btnWrite" style="margin-right: 5px;">쓰기</button>
-						<button type="button" onclick="javascript:history.back();">취소</button>
+						<button type="button" id="btnWrite" style="margin-right: 5px;" class="btn btn-primary text-white py-2 px-4 font-weight-bold">쓰기</button>
+						<button type="button" onclick="javascript:history.back();" class="btn btn-primary text-white py-2 px-4 font-weight-bold">취소</button>
 					</div>
 					
 				</form>

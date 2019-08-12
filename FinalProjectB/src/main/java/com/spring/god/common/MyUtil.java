@@ -129,7 +129,7 @@ public class MyUtil {
 		while( !(loop>blockSize || pageNo>totalPage) ) {
 			
 			if(pageNo == currentShowPageNo) {
-				pageBar += "&nbsp;<span style='color: red; border: 1px solid gray; padding: 2px 4px;'>"+pageNo+"</span>&nbsp;";
+				pageBar += "&nbsp;<span style='color: #ffba5a; border: 0px solid gray; padding: 2px 4px;'>"+pageNo+"</span>&nbsp;";
 			}
 			else {
 				pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a>&nbsp;"; 
