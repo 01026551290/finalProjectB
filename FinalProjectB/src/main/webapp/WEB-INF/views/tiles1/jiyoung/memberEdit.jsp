@@ -233,11 +233,6 @@
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center" data-aos="fade">
             <h1 class="heading mb-3">내 정보수정</h1>
-            <ul class="custom-breadcrumbs mb-4">
-              <li><a href="index.go">홈으로</a></li>
-              <li>&bullet;</li>
-              <li>예약하기</li>
-            </ul>
           </div>
         </div>
       </div>
@@ -250,27 +245,35 @@
     </section>
     <!-- END section -->
 
-    <section class="section contact-section" id="next">
-      <div class="container" >
-        <div class="row">
-          <div class="col-md-12" data-aos="fade-up" data-aos-delay="100">
-            <form name="registerFrm" >                      
-              <div class="row">
-                <div class="col-md-12 form-group">
-              <div class="row">
-                <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="NAME" required>성명</label><span class="star">*</span>
-                  <input type="text" name="name" id="NAME" class="form-control " readonly="readonly" value="${vo.name}"  >
-                  <span class="error">성명은 필수입력 사항입니다.</span>
-                </div>
-              </div>
-                  <label class="text-black font-weight-bold" for="MEMBERID" required>회원아이디</label><span class="star">*</span>
+  <section class="section contact-section" id="next">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5">
+				<div class="row">
+					<div class="col-md-10 ml-auto contact-info">
+						<p class="loginborder">
+							<span class="text-black">내 정보수정</span>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-7">
+				<form name="registerFrm" class="bg-white p-md-5 p-4 mb-5 border">
+				 <div class="row"> 
+						<div class="col-md-12 form-group">
+							<div class="row">
+								<div class="col-md-12 form-group"> 
+                  <label class="text-black font-weight-bold" for="MEMBERID">회원아이디</label><span class="star">*</span>
                   <input type="text" name="memberId" id="MEMBERID" class="form-control "readonly="readonly" value="${vo.memberId}" >
                   <!-- 아이디중복체크 -->
-			    <img id="idcheck" src="../images/b_id_check.gif" style="vertical-align: middle;" readonly="readonly" />
-			    <span class="error">아이디는 필수입력 사항입니다.</span>
-                </div>
-              </div>
+			   <div class="col-md-12 form-group">
+				  <a class="styleFont" style="cursor: pointer;" id="idcheck">아이디중복체크</a>
+				  <span class="error">아이디는 필수입력 사항입니다.</span> 
+				  		</div>
+				  	</div>
+				  </div>
+				</div>
+             </div> 
                <div class="row">
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" for="PWD" >암호변경</label><span class="star">*</span>
@@ -280,29 +283,33 @@
               </div> 
               <div class="row">
                 <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="PWDcheck" required>암호변경확인</label><span class="star">*</span>
+                  <label class="text-black font-weight-bold" for="PWDcheck" >암호변경확인</label><span class="star">*</span>
                   <input type="password" name="PWDcheck" id="PWDcheck" class="form-control" >
                   <span class="error">암호가 일치하지 않습니다.</span>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="NICKNAME" required>닉네임</label><span class="star">*</span>
+                  <label class="text-black font-weight-bold" for="NICKNAME" >닉네임</label><span class="star">*</span>
                   <input type="text" name="nickName" id="NICKNAME"  class="form-control" value="${vo.nickName}" required>
                    <!-- 닉네임중복체크 -->
-			    <img id="nicknamecheck" src="../images/b_id_check.gif" style="vertical-align: middle;" />
-                  <span class="error">닉네임은 필수입력 사항입니다.</span>
+			    <div class="col-md-12 form-group">
+				  <a class="styleFont" style="cursor: pointer;" id="nicknamecheck">닉네임중복체크</a>
+				  <span class="error">닉네임은 필수입력 사항입니다.</span>
                 </div>
               </div>
+             </div>
               <div class="row">
                 <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="EMAIL" required>Email</label><span class="star">*</span>
+                  <label class="text-black font-weight-bold" for="EMAIL" >Email</label><span class="star">*</span>
                   <input type="email" name="email" id="EMAIL" class="form-control " value="${vo.email}" required >
                    <!-- 이메일중복체크 -->
-			    <img id="emailcheck" src="../images/b_id_check.gif" style="vertical-align: middle;" />
-                  <span class="error">이메일 형식에 맞지 않습니다.</span>
+			    <div class="col-md-12 form-group">
+				  <a class="styleFont" style="cursor: pointer;" id="emailcheck">이메일중복체크</a>
+				  <span class="error">이메일은 필수입력 사항입니다.</span>
                 </div>
               </div>
+             </div>
                <div class="row">
                 <div class="col-md-12 form-group">
                   <label class="text-black font-weight-bold" >성별</label><span class="star">*</span>
@@ -316,9 +323,7 @@
 			   	  <input type="radio" id="female" name="gender" value="2" style="margin-left: 10%;" checked disabled="disabled" /><label  style="margin-left: 2%;" >여자</label>
 			   	  <span class="error">성별을 입력하세요</span>
 				</c:if>
-                  
-			   	  
-                </div>
+             </div>
               </div>
               <div class="row">
                 <div class="col-md-12 form-group">
@@ -333,13 +338,9 @@
               </div>                                               
               
               <div class="row">
-                <div class="col-md-6 form-group" >
-                  <input type="button" id="btnRegister" value="수정완료" class="btn btn-primary text-white py-3 px-5 font-weight-bold" onClick="goRegister(event);">
-                </div>
-              </div>
-               <div class="row">
-                <div class="col-md-6 form-group" >
-                  <input type="button" id="btnRegister" value="탈퇴하기" class="btn btn-primary text-white py-3 px-5 font-weight-bold" onClick="goRegister2(event);">
+                <div class="col-md-12 form-group taC" >
+                  <input type="button" id="btnRegister" value="수정완료" class="btn btn-primary text-white py-3 mx-1 font-weight-bold" onClick="goRegister(event);">
+                  <input type="button" id="btnRegister" value="탈퇴하기" class="btn btn-primary text-white py-3 mx-1 font-weight-bold" onClick="goRegister2(event);">
                 </div>
               </div>
             </form>

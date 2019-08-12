@@ -62,7 +62,7 @@
 			else {
 				for(var i=0; i<parseInt(spinnerImgQtyVal); i++) {
 					html += "<br/>";
-					html += "<input type='file' name='attach"+i+"' class='btn btn-default' />";
+					html += "<input type='file' name='attach' class='btn btn-default' />";
 				}// end of for------------- 
 				
 				$("#divfileattach").empty();
@@ -252,11 +252,6 @@
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center aos-init aos-animate" data-aos="fade">
             <h1 class="heading mb-3">Review</h1>
-            <ul class="custom-breadcrumbs mb-4">
-              <li><a href="index.html">Home</a></li>
-              <li>•</li>
-              <li>Review</li>
-            </ul>
           </div>
         </div>
       </div>
@@ -286,9 +281,9 @@
           <div class="col-md-7 " >
             
             <form name="reviewFrm" class="bg-white p-md-5 p-4 mb-5 border" enctype="multipart/form-data">
-            <input type="hidden" name="reserveId" value="${vo.reserveId}">
-            <input type="hidden" name="fk_productId" value="${vo.fk_productId}">
-            <input type="hidden" name="largeCategoryOntionCode" value="${vo.largeCategoryOntionCode}">
+            <input type="hidden" name="reserveIdx" value="${vo.reserveId}">
+            <input type="hidden" name="roomIdx" value="${vo.fk_productId}">
+            <input type="text" name="hotelIdx" value="${vo.largeCategoryOntionCode}">
             <!-- <form name="reviewFrm" class="bg-white p-md-5 p-4 mb-5 border"> -->
               <div class="row">
                 <div class="col-md-12 form-group">

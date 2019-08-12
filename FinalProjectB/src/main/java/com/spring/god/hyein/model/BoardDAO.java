@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.god.hyein.model.BoardVO;
-import com.spring.god.hyein.model.MemberVO;
 
 @Repository
 public class BoardDAO implements InterBoardDAO {
@@ -36,13 +35,6 @@ public class BoardDAO implements InterBoardDAO {
 	public List<BoardVO> boardListWithPaging(HashMap<String, String> paraMap) {
 		List<BoardVO> boardList = sqlsession.selectList("hyeindb.boardListWithPaging", paraMap);
 		return boardList;
-	}
-
-	// === 로그인하기 === //
-	@Override
-	public MemberVO getLoginMember(HashMap<String, String> paraMap) {
-		MemberVO loginuser = sqlsession.selectOne("jiyoungdb.getLoginMember",paraMap);
-		return loginuser;
 	}
 
 	// === 글조회수 1증가하기 === //

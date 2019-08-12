@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.spring.god.hyein.model.BoardVO;
-import com.spring.god.hyein.model.MemberVO;
 
 public interface InterBoardService {
 
@@ -14,8 +13,6 @@ public interface InterBoardService {
 
 	List<BoardVO> boardListWithPaging(HashMap<String, String> paraMap); // 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 다 포함한 것)
 	
-//	MemberVO getLoginMember(HashMap<String, String> paraMap); //로그인하기
-
 	BoardVO getView(String seq); // 1개 글 보여주기
 
 	int noticeAdd(BoardVO boardvo); // 글쓰기(파일첨부가 없는 글쓰기)

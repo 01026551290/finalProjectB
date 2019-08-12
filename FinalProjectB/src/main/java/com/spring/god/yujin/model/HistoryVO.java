@@ -98,7 +98,8 @@ public class HistoryVO {
 	}
 
 	public String getCheckIn() {
-		return checkIn.substring(0,10);
+		String checkIn2 = checkIn.substring(0,10);
+		return checkIn2;
 	}
 
 	public void setCheckIn(String checkIn) {
@@ -106,7 +107,8 @@ public class HistoryVO {
 	}
 
 	public String getCheckOut() {
-		return checkOut.substring(0,10);
+		String checkOut2 = checkOut.substring(0,10);
+		return checkOut2;
 	}
 	
 	public void setCheckOut(String checkOut) {

@@ -22,12 +22,15 @@ public interface InterMemberService {
 	int add_withFile(ReviewVO rvo); //리뷰 이미지첨부 작성
 	
 	List<HistoryVO> getHistory(int memberidx); // 여행목록
-	List<HistoryVO> getPurchaseHistory(int memberidx); // 구매목록
+	int getPurchaseCnt(int memberidx);
+	List<HistoryVO> getPurchaseHistory(HashMap<String, String> paramap); // 구매목록
 	
 	HistoryVO getCancelPage(String reserveid); //예약취소페이지 뷰단용
 	int getReserveCancelResult(String reserveid); //예약취소 결과
 	
 	int getEarnPoint(HashMap<String, String> paramap); // 포인트 적립
+	
+	HistoryVO getMyReivew(int idx);
 	
 
 }

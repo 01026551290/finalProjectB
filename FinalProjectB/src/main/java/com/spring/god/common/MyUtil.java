@@ -129,7 +129,7 @@ public class MyUtil {
 		while( !(loop>blockSize || pageNo>totalPage) ) {
 			
 			if(pageNo == currentShowPageNo) {
-				pageBar += "&nbsp;<span style='color: red; border: 1px solid gray; padding: 2px 4px;'>"+pageNo+"</span>&nbsp;";
+				pageBar += "&nbsp;<span style='color: #ffba5a; border: 0px solid gray; padding: 2px 4px;'>"+pageNo+"</span>&nbsp;";
 			}
 			else {
 				pageBar += "&nbsp;<a href='"+url+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a>&nbsp;"; 
@@ -356,6 +356,65 @@ public class MyUtil {
 			
 			return pageBar;
 		}
+
+		public static String makePurchaseList(String url, int currentShowPage, int totalPage, int blockSize) {
+//				String pageBar = "";
+//				int loop = 1;
+//				int pageNo = ((currentShowPage - 1)/blockSize) * blockSize + 1;
+//				if(pageNo != 1) {
+//					pageBar += "&nbsp;<a href='"+url+"&currentShowPage="+(pageNo-1)+"'>[이전]</a>&nbsp;";
+//				}
+//				
+//				while( !(loop>blockSize || pageNo>totalPage) ) {
+//					
+//					if(pageNo == currentShowPage) {
+//						pageBar += "&nbsp;<span style='color: red; border: 1px solid gray; padding: 2px 4px;'>"+pageNo+"</span>&nbsp;";
+//					}
+//					else {
+//						pageBar += "&nbsp;<a href='"+url+"?currentShowPage="+pageNo+"'>"+pageNo+"</a>&nbsp;"; 
+//						       // ""+1+"&nbsp;"+2+"&nbsp;"+3+"&nbsp;"+......+10+"&nbsp;"
+//					}
+//					
+//					loop++;
+//					pageNo++;
+//				}// end of while---------------------------------
+//				
+//				// *** [다음] 만들기 *** //
+//				if( !(pageNo>totalPage) ) {
+//					pageBar += "&nbsp;<a href='"+url+"?currentShowPage="+pageNo+"'>[다음]</a>&nbsp;"; 
+//				}
+//				
+//				
+//				return pageBar;
+				
+				String pageBar = "";
+				int loop = 1;
+				int pageNo = ((currentShowPage - 1)/blockSize) * blockSize + 1;
+				if(pageNo != 1) {
+					pageBar += "<li><a href='"+url+"currentShowPage="+(pageNo-1)+"'><<</a></li>";
+				}
+				
+				while( !(loop>blockSize || pageNo>totalPage) ) {
+					
+					if(pageNo == currentShowPage) {
+						pageBar += "<li class='active'><span>"+pageNo+"</span></li>";
+					}
+					else {
+						pageBar += "<li><a href='"+url+"currentShowPage="+pageNo+"'>"+pageNo+"</a><li/>"; 
+						// ""+1+"&nbsp;"+2+"&nbsp;"+3+"&nbsp;"+......+10+"&nbsp;"
+					}
+					
+					loop++;
+					pageNo++;
+				}// end of while---------------------------------
+				
+				// *** [다음] 만들기 *** //
+				if( !(pageNo>totalPage) ) {
+					pageBar += "<li><a href='"+url+"currentShowPage="+pageNo+"'>>></a></li>"; 
+				}
+				
+				return pageBar;
+			}
 	
 	
 }

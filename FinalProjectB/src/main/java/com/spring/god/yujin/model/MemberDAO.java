@@ -56,12 +56,17 @@ public class MemberDAO implements InterMemberDAO {
 		}
 
 		@Override
-		public int add_withFile(ReviewVO rvo) {
+		public int add_withFile1(ReviewVO rvo) {
 			int n = sqlsession.insert("yujindb.addReview_withfile",rvo);
-			int m = sqlsession.insert("yujindb.addReviewFile",rvo);
-			
-			System.out.println(n);
-			System.out.println(m);
+			return n;
+		}
+		@Override
+		public int add_withFile2(ReviewVO rvo) {
+			int m = 0;
+			for(int i=0;i<rvo.getImgList().size();i++) {
+				m+=sqlsession.insert("yujindb.addReviewFile",rvo.getImgList().get(i));
+			}
+			int n = m/rvo.getImgList().size();
 			return n;
 		}
 
@@ -72,8 +77,8 @@ public class MemberDAO implements InterMemberDAO {
 		}
 
 		@Override
-		public List<HistoryVO> getPurchaseHistory(int memberidx) {
-			List<HistoryVO> list = sqlsession.selectList("yujindb.getPurchaseHistory",memberidx);
+		public List<HistoryVO> getPurchaseHistory(HashMap<String, String> paramap) {
+			List<HistoryVO> list = sqlsession.selectList("yujindb.getPurchaseHistory",paramap);
 			return list;
 		}
 
@@ -98,6 +103,12 @@ public class MemberDAO implements InterMemberDAO {
 		@Override
 		public int getEarnPoint2(HashMap<String, String> paramap) {
 			int n = sqlsession.update("yujindb.getEarnPoint2",paramap);
+			return n;
+		}
+
+		@Override
+		public int getPurchaseCnt(int memberidx) {
+			int n = sqlsession.selectOne("yujindb.getPurchaseCnt",memberidx);
 			return n;
 		}
 

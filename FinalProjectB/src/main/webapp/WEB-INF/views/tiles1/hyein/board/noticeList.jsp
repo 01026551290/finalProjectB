@@ -72,15 +72,12 @@
     
     
     
-<section class="site-hero inner-page overlay" style="background-image: url(images/hero_4.jpg)" data-stellar-background-ratio="0.5">
+<section class="site-hero inner-page overlay" style="background-image: url(/god/resources/images/hero_4.jpg)" data-stellar-background-ratio="0.5">
       <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center" data-aos="fade">
             <h1 class="heading mb-3">공지사항</h1>
             <ul class="custom-breadcrumbs mb-4">
-              <li><a href="index.html">Home</a></li>
-              <li>&bullet;</li>
-              <li>Reservation</li>
             </ul>
           </div>
         </div>
@@ -104,7 +101,7 @@
 					<!-- <h1 style="margin-bottom: 30px;">공지사항</h1> -->
 					
 					<c:if test="${adminvo != null}"> <!-- 관리자로 로그인을 했다면 -->
-						<button type="button" onclick="location.href='<%= ctxPath%>/noticeAdd.go'" class= "btn btn-primary text-white py-3 px-4 font-weight-bold" style="margin-bottom: 20px; position: relative; left: 900px;">글쓰기</button>
+						<button type="button" onclick="location.href='<%= ctxPath%>/noticeAdd.go'" class= "btn btn-primary text-white py-2 px-4 font-weight-bold" style="margin-bottom: 20px; position: relative; left: 900px;">글쓰기</button>
 					</c:if>
 					<%-- <c:if test="${loginuser. == 'admin' }"> <!-- 관리자로 로그인을 했다면 -->
 						<button type="button" onclick="location.href='<%= ctxPath%>/noticeAdd.go'" class= "btn btn-primary text-white py-3 px-5 font-weight-bold" style="margin-bottom: 10px; position: relative; left: 830px;">글쓰기</button>
@@ -198,21 +195,23 @@
 						${pagebar}
 					</div> --%>
 					<div class="col-12">
-			            <div class="custom-pagination">
+			            <div class="custom-pagination" id="pagebar">
 			              <ul class="list-unstyled">
+				            <c:if test="${pagebar!=null}">
 							${pagebar}
+				            </c:if>
 			              </ul>
 			            </div>
          		 	</div>
 					
 					<!-- === #96. 글검색 폼 추가하기 : 글제목, 글쓴이로 검색을 하도록 한다. === --> 
 					<form name="searchFrm" style="text-align: center;">
-						<select name="searchType" id="searchType" style="width:80px; height: 50px;">
+						<select name="searchType" id="searchType" style="width:80px; height: 40px;">
 							<option value="subject">글제목</option>
 							<option value="name">글쓴이</option>
 						</select>
-						<input type="text" style="height: 50px; margin: 20px;" name="searchWord" id="searchWord" size="40" autocomplete="off" /> 
-						<button type="button" onclick="goSearch()" class= "btn btn-primary text-white py-3 px-4 font-weight-bold" style="padding: 0;">검색</button>
+						<input type="text" style="height: 40px; margin: 20px;" name="searchWord" id="searchWord" size="40" autocomplete="off" /> 
+						<button type="button" onclick="goSearch()" class= "btn btn-primary text-white py-2 px-4 font-weight-bold" style="padding: 0;">검색</button>
 					</form>
 					
 			</div>

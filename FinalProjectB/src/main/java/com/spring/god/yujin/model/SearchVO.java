@@ -309,6 +309,12 @@ public class SearchVO {
 		this.largeCategoryCodeList = largeCategoryCodeList;
 	}
 	
+	public int getLargeCategoryListLength() {
+		int n = 0;
+			n = largeCategoryCodeList.length;
+		return n;
+	}
+	
 	
 
 }

@@ -11,8 +11,6 @@ public interface InterBoardDAO {
 
 	List<BoardVO> boardListWithPaging(HashMap<String, String> paraMap); // 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 다 포함한 것)
 
-	MemberVO getLoginMember(HashMap<String, String> paraMap); // 로그인하기 
-
 	void setAddReadCount(String seq); // 글조회수 1증가하기
 
 	BoardVO getView(String seq); // 1개 글 보여주기

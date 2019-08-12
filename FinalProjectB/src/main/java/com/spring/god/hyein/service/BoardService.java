@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.god.hyein.model.BoardVO;
 import com.spring.god.hyein.model.InterBoardDAO;
-import com.spring.god.hyein.model.MemberVO;
 import com.spring.god.common.AES256;
 
 @Service
@@ -45,14 +44,6 @@ public class BoardService implements InterBoardService {
 		List<BoardVO> boardList = dao.boardListWithPaging(paraMap);
 		return boardList;
 	}
-
-	/*
-	@Override
-	public MemberVO getLoginMember(HashMap<String, String> paraMap) {
-		MemberVO loginuser = dao.getLoginMember(paraMap);
-		return loginuser;
-	}
-	*/
 
 	// 1개 글 보여주기
 	@Override

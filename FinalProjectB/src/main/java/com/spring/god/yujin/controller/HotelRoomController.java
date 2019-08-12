@@ -1,11 +1,10 @@
 package com.spring.god.yujin.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -25,7 +24,6 @@ import com.spring.god.yujin.model.HistoryVO;
 import com.spring.god.yujin.model.SearchVO;
 import com.spring.god.yujin.service.InterHotelRoomService;
 
-import oracle.net.aso.s;
 
 @Component
 @Controller
@@ -35,7 +33,7 @@ public class HotelRoomController {
 	 
 	   // 서치리스트
 	   @RequestMapping(value="/search.go", method= {RequestMethod.GET})
-	   public ModelAndView roomSearch(HttpServletRequest request,ModelAndView mv, SearchVO svo) {
+	   public ModelAndView roomSearch(HttpServletRequest request, HttpServletResponse response, ModelAndView mv, SearchVO svo) {
 		    HttpSession session = request.getSession();
 		      if(session.getAttribute("loginuser")!=null) {
 		    	  String memberid =(String)((MemberVO)session.getAttribute("loginuser")).getMemberId(); 
@@ -290,50 +288,57 @@ public class HotelRoomController {
 		   
 		   
 		   if(reviewCnt>0) {
-		   paramap.put("sort", "regdate desc");
-		   System.out.println(paramap.get("sort"));
-		   List<HistoryVO> RreviewList = service.getReviewRList(paramap);
-		   paramap.remove("sort");
-		   paramap.put("sort", "star desc");
-		   System.out.println(paramap.get("sort"));
-		   List<HistoryVO> SreviewList = service.getReviewSList(paramap);
-		   paramap.remove("sort");
-		   paramap.put("sort", "star ");
-		   List<HistoryVO> sreviewList = service.getReviewsList(paramap);
-
-		   if(RreviewList!=null) {
-			   for(HistoryVO vo : RreviewList) {
+			   double reviewAvg = service.getReviewAvg(paramap);
+			   if(reviewAvg!=-1) {
+				   System.out.println("reviewAvg"+reviewAvg);
 				   JSONObject jsonObj = new JSONObject();
-				   jsonObj.put("RnickName", vo.getName());
-				   jsonObj.put("Rpicture", vo.getImg());
-				   jsonObj.put("RproductName", vo.getProductName());
-				   jsonObj.put("Rtitle", vo.getTitle());
-				   jsonObj.put("Rcontent", vo.getContent());
-				   jsonObj.put("Rstar", vo.getStar());
-//				   String[] imgList = vo.getFileName().split(",");
-//				   for(int i=0;i<imgList.length;i++) {
-//					   jsonObj.put("RimgList"+i, imgList[i]);
-//					   System.out.println(imgList[i]);
-//				   }
-				   jsonObj.put("RfileName", vo.getFileName());
-				   jsonObj.put("Rregdate", vo.getReserveDate());
+				   jsonObj.put("reviewAvg", reviewAvg);
 				   jsonArr.put(jsonObj);
 			   }
-		   }
-		   
-		   if(SreviewList!=null) {
-			   for(HistoryVO vo : SreviewList) {
-				   JSONObject jsonObj = new JSONObject();
-				   jsonObj.put("SnickName", vo.getName());
-				   jsonObj.put("Spicture", vo.getImg());
-				   jsonObj.put("SproductName", vo.getProductName());
-				   jsonObj.put("Stitle", vo.getTitle());
-				   jsonObj.put("Scontent", vo.getContent());
-				   jsonObj.put("Sstar", vo.getStar());
-				   jsonObj.put("SfileName", vo.getFileName());
-				   jsonObj.put("Sregdate", vo.getReserveDate());
-				   
-				   jsonArr.put(jsonObj);
+			   paramap.put("sort", "regdate desc");
+			   System.out.println(paramap.get("sort"));
+			   List<HistoryVO> RreviewList = service.getReviewRList(paramap);
+			   paramap.remove("sort");
+			   paramap.put("sort", "star desc");
+			   System.out.println(paramap.get("sort"));
+			   List<HistoryVO> SreviewList = service.getReviewSList(paramap);
+			   paramap.remove("sort");
+			   paramap.put("sort", "star ");
+			   List<HistoryVO> sreviewList = service.getReviewsList(paramap);
+	
+			   if(RreviewList!=null) {
+				   for(HistoryVO vo : RreviewList) {
+					   JSONObject jsonObj = new JSONObject();
+					   jsonObj.put("RnickName", vo.getName());
+					   jsonObj.put("Rpicture", vo.getImg());
+					   jsonObj.put("RproductName", vo.getProductName());
+					   jsonObj.put("Rtitle", vo.getTitle());
+					   jsonObj.put("Rcontent", vo.getContent());
+					   jsonObj.put("Rstar", vo.getStar());
+	//				   String[] imgList = vo.getFileName().split(",");
+	//				   for(int i=0;i<imgList.length;i++) {
+	//					   jsonObj.put("RimgList"+i, imgList[i]);
+	//					   System.out.println(imgList[i]);
+	//				   }
+					   jsonObj.put("RfileName", vo.getFileName());
+					   jsonObj.put("Rregdate", vo.getReserveDate());
+					   jsonArr.put(jsonObj);
+				   }
+			   }
+			   
+			   if(SreviewList!=null) {
+				   for(HistoryVO vo : SreviewList) {
+					   JSONObject jsonObj = new JSONObject();
+					   jsonObj.put("SnickName", vo.getName());
+					   jsonObj.put("Spicture", vo.getImg());
+					   jsonObj.put("SproductName", vo.getProductName());
+					   jsonObj.put("Stitle", vo.getTitle());
+					   jsonObj.put("Scontent", vo.getContent());
+					   jsonObj.put("Sstar", vo.getStar());
+					   jsonObj.put("SfileName", vo.getFileName());
+					   jsonObj.put("Sregdate", vo.getReserveDate());
+					   
+					   jsonArr.put(jsonObj);
 			   }
 		   }
 		   

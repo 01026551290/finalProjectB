@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String ctxPath = request.getContextPath();
 %>    
@@ -15,18 +15,20 @@
 <script type="text/javascript">
 	
 	$(document).ready(function(){
-	    
+		$("#error").hide(); 
 		var method = "${method}";
 		
 	
 	    if(method == "GET") {
 			$("#div_findResult").hide();
 			$("#btnFind").show();
+			
 					
 	    }
 	    else if(method == "POST") {
 	    	$("#name").val("${name}").attr("disabled",true);
 	    	$("#email").val("${email}").attr("disabled",true);
+	    	$("#error2").hide();
 	    	$("#div_findResult").show();
 	    	$("#btnFind").hide();
 	    			
@@ -49,7 +51,7 @@
 		});
 		
 		
-	});
+	});// end of $(document).ready(function(){ })-----------------
 	
 </script>
 	<form name="idFindFrm">
@@ -65,15 +67,24 @@
 				<input type="text" name="email" id="email" class="form-control" placeholder="abc@def.com" required />
 			</div>
 		</div>
-		<c:if test="${n==0}">
-		<span style="color: red;">사용자 정보가 없습니다.</span>
-	   </c:if>
-		<div class="col-md-12 form-group taC mgt10">
-			<input type="button" value="찾기" id="btnFind" class="btn btnModal text-white py-3 mx-2 font-weight-bold">
+		<c:if test='${method == "GET"}'>
+			<span id="error" style="color: red;">사용자 정보가 없습니다.</span>
+			<div class="col-md-12 form-group taC mgt10">
+				<input type="button" value="찾기" id="btnFind" class="btn btnModal text-white py-3 mx-2 font-weight-bold">
+		    </div>
+	    </c:if>
+	    <c:if test='${idFind==""}'>
+	    	<div class="col-md-12 form-group taC mgt10">
+			<span style="color: red;">사용자 정보가 없습니다.</span>
+			 </div>
+		</c:if> 
+		 <c:if test='${idFind!=""and !"".equals(idFind)}'>
 			<span id="div_findResult">
-				<label class="text-black font-weight-bold">ID</label> : <span style="color: #ffaa34; font-size: 16pt; font-weight: bold;">${idFind}</span> 
+			<div class="col-md-12 form-group taC mgt10">
+			<label class="text-black font-weight-bold" s>ID</label> : <span style="color: #ffaa34; font-size: 16pt; font-weight: bold;">${idFind}</span> 
 			</span>
-		</div>
+			</div>
+			</c:if>
 	</form>
 
 

@@ -1,10 +1,14 @@
 package com.spring.god.yujin.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.io.File;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -127,7 +131,40 @@ public class MemberController {
 	   public ModelAndView LoginCK_purchaseHistory(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
 		   HttpSession session = request.getSession(); 
 		   int memberidx = ((MemberVO)session.getAttribute("loginuser")).getIdx();
-		   List<HistoryVO> hvo = service.getPurchaseHistory(memberidx);
+		   int currentShowPage = 0;
+		   try {
+			   currentShowPage=Integer.parseInt(request.getParameter("currentShowPage"));
+			   if(currentShowPage==0)
+				   currentShowPage=1;
+	      } catch (NumberFormatException e) {
+	    	  currentShowPage=1;
+          }
+		   
+		   int perPage = 3;
+		   int totalCnt = service.getPurchaseCnt(memberidx);
+		   int totalPage = (int)Math.ceil((double)totalCnt/perPage);
+		   int startRno = ((currentShowPage-1)*perPage+1);
+		   int endRno = startRno+perPage-1;
+		   
+		   HashMap<String, String> paramap = new HashMap<String, String>();
+		   paramap.put("startRno", String.valueOf(startRno));
+		   paramap.put("endRno", String.valueOf(endRno));
+		   paramap.put("memberidx", String.valueOf(memberidx));
+
+		   List<HistoryVO> hvo = service.getPurchaseHistory(paramap);
+		      
+	      String pagebar = "<ul>";
+	      String url = "/god/purchasehistory.go?";
+	      int blockSize = 3;
+	      
+	      pagebar += MyUtil.makePurchaseList(url, currentShowPage, totalPage, blockSize);
+	      pagebar += "</ul>";
+	      
+	      String listUrl = MyUtil.getCurrentURL(request);
+	      
+	      session.setAttribute("listUrl", listUrl);
+	      mv.addObject("pagebar",pagebar);
+
 		   
 		   mv.addObject("purchaseList",hvo);
 		   mv.setViewName("yujin/purchaseHistory.tiles1");
@@ -192,6 +229,15 @@ public class MemberController {
 
 	      return mv;
 	   }
+	   
+	   @RequestMapping(value="/myReview.go")
+	   public ModelAndView LoginCK_myReview(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+		   HttpSession session = request.getSession(); 
+		   HistoryVO vo = service.getMyReivew(((MemberVO)session.getAttribute("loginuser")).getIdx());
+		   mv.addObject("vo",vo);   
+		   mv.setViewName("yujin/myReview.tiles1");
+		   return mv;
+	   }
 
 	   @RequestMapping(value="/review.go")
 	   public ModelAndView LoginCK_review_index(HttpServletRequest request,HttpServletResponse response,ModelAndView mv, HistoryVO vo) {
@@ -200,33 +246,35 @@ public class MemberController {
 		   return mv;
 	   }
 	   
-	   
 	   @RequestMapping(value="/reviewEnd.go", method= {RequestMethod.POST})
 	//   public String LoginCK_reviewEnd(HttpServletRequest request,HttpServletResponse response,ReviewVO rvo) {
-	   public String LoginCK_reviewEnd(HttpServletRequest request,HttpServletResponse response,MultipartHttpServletRequest mrequest,ReviewVO rvo,ReviewImgVO rivo) {
-			MultipartFile attach = rvo.getAttach0();
+	   public String LoginCK_reviewEnd_index(HttpServletRequest request,HttpServletResponse response,MultipartHttpServletRequest mrequest,ReviewVO rvo) {
+			System.out.println(rvo.getHotelIdx());
+			System.out.println(rvo.getRoomIdx());
 			
+			List<MultipartFile> attachList = mrequest.getFiles("attach");
 			
-			System.out.println("attach확인:"+attach);
-			
-			if(!attach.isEmpty()) { 
+			if(!attachList.isEmpty()) { 
 				
 				HttpSession session = request.getSession();
-				String path = "C:" + File.separator + "Users" + File.separator + "user1" + File.separator + "git" + File.separator + "finalProjectB" + File.separator + "FinalProjectB" + File.separator + "src" + File.separator + "main" + File.separator + "webapp" + File.separator + "resources" + File.separator + "images" + File.separator + "review";
+//				String path = "C:" + File.separator + "Users" + File.separator + "user1" + File.separator + "git" + File.separator + "finalProjectB" + File.separator + "FinalProjectB" + File.separator + "src" + File.separator + "main" + File.separator + "webapp" + File.separator + "resources" + File.separator + "images" + File.separator + "review";
+				String path = "C:" + File.separator + "Users" + File.separator + "uj979" + File.separator + "git" + File.separator + "finalProjectB" + File.separator + "FinalProjectB" + File.separator + "src" + File.separator + "main" + File.separator + "webapp" + File.separator + "resources" + File.separator + "images" + File.separator + "review";
 				String newFileName = "";
 				
 				byte[] bytes = null;
-				long fileSize = 0;
+				String newFileNameList= "";
 				
 				try {
-					bytes = attach.getBytes();
+					for(int i=0;i<attachList.size();i++){
+						
+					bytes = attachList.get(i).getBytes();
 					
-					newFileName = filemanager.doFileUpload(bytes, attach.getOriginalFilename(), path);
+					newFileName = filemanager.doFileUpload(bytes, attachList.get(i).getOriginalFilename(), path);
+					newFileNameList += newFileName+",";
+					}
 					
-					rvo.setFileName(newFileName);
-					rvo.setOrgFileName(attach.getOriginalFilename());
-					fileSize = attach.getSize();
-					rvo.setFileSize(String.valueOf(fileSize));
+					List<String> list = Arrays.asList(newFileNameList.split(","));
+					rvo.setImgList(list);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -240,7 +288,7 @@ public class MemberController {
 		   HttpSession session = request.getSession();
 		   rvo.setMemberIdx(((MemberVO)session.getAttribute("loginuser")).getIdx());
 		   int n = 0;
-		   if(attach.isEmpty()) {
+		   if(rvo.getImgList()==null) {
 			   // 첨부파일이 없는 경우이라면
 			   n = service.add(rvo);
 		   }

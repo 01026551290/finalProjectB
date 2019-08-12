@@ -282,7 +282,7 @@ geocoder.addressSearch('${HotelVO.address}', function(result, status) {
             .next()
             .fadeIn()
             .siblings('img')
-            .fadeOut(1000);
+            .fadeOut(0);
         if(showIndex<imgLength-1){
             showIndex++;
         }
@@ -292,7 +292,7 @@ geocoder.addressSearch('${HotelVO.address}', function(result, status) {
         $('.slides img')
             .eq(showIndex)
             .prev()
-            .fadeIn(2000)
+            .fadeIn(0)
             .siblings('img')
             .fadeOut();
         if(showIndex>0){
@@ -558,21 +558,45 @@ geocoder.addressSearch('${HotelVO.address}', function(result, status) {
 	<!-- 객실 뽑을 for문 -->
 	<c:forEach var="RoomVO" items="${RoomVO}">
 		<div class="row bg-white mb-4">
-			<%-- <c:if test="${RoomVO.imgList!=null}">
+			<%-- 
+			<c:if test="${RoomVO.imgList!=null}">
 				<c:forEach var="list" items="${RoomVO.imgList}">
 					<a href="#" class="image d-block bg-image-2" style="background-image: url('/god/resources/images/room/${list}');"></a>
 				</c:forEach>
-			</c:if> --%>
-				
-				<!-- 슬라이드 테스트3 -->
+			</c:if> 
+			--%>
+			
+			<%-- 
+			<c:if test="${RoomVO.imgList!=null}">
 				<div class="col-lg-6 col-md-12 mt-3 mb-3">
-				<div class="slide_wrap">
+				<div class="slide_wrap mt-3">
 			        <div class="slide_viewport">
 			            <div class="slides">
-			                <img src="/god/resources/images/room/hiddenTwin.jpg" style="height: -webkit-fill-available;">
-			                <img src="/god/resources/images/room/hiddenDouble.jpg" style="height: -webkit-fill-available;">
-			            </div><!--// slides -->
-			        </div><!--// slide_viewport -->
+			            	<c:forEach var="list" items="${RoomVO.imgList}">
+			                <img src="/god/resources/images/room/${list}" class="img-fluid">
+			                </c:forEach>
+			            </div>
+			        </div>
+			        <span class="prev">
+			            <i class="fa fa-angle-left" aria-hidden="true"></i>
+			        </span>
+			        <span class="next">
+			            <i class="fa fa-angle-right" aria-hidden="true"></i>
+			        </span>
+			    </div>
+			    </div>
+			</c:if>
+			 --%>
+			    
+				<!-- 슬라이드 테스트3 -->
+				<div class="col-lg-6 col-md-12 mt-3 mb-3">
+				<div class="slide_wrap mt-3">
+			        <div class="slide_viewport">
+			            <div class="slides">
+			                <img src="/god/resources/images/room/hiddenTwin.jpg" class="img-fluid">
+			                <img src="/god/resources/images/room/hiddenDouble.jpg" class="img-fluid">
+			            </div>
+			        </div>
 			        <span class="prev">
 			            <i class="fa fa-angle-left" aria-hidden="true"></i>
 			        </span>
@@ -582,9 +606,11 @@ geocoder.addressSearch('${HotelVO.address}', function(result, status) {
 			    </div>
 			    </div>
 				<!-- End 슬라이드 테스트3 -->
-				<div class="col-lg-6 col-md-12 mt-5 mb-3">
-					<h5 class="mb-4" style="font-size: 25px;">${RoomVO.productName}</h5>
-					<span class="d-block mb-4"> 
+				
+				
+				<div class="col-lg-6 col-md-12 mt-4 mb-3">
+					<h5 class="mb-3" style="font-size: 25px;">${RoomVO.productName}</h5>
+					<span class="d-block mb-3"> 
 						<span class="text-uppercase letter-spacing-2" style="display: inline-block; vertical-align: super;">주중가 : </span>
 						<span class="display-4 text-primary" style="font-size: 25pt;">${RoomVO.weekPrice} ~</span> 
 						<span class="text-uppercase letter-spacing-2" style="display: inline-block; vertical-align: super;">/ per night</span>
@@ -596,7 +622,7 @@ geocoder.addressSearch('${HotelVO.address}', function(result, status) {
 					</span>
 					<h5 class="mb-4">침대갯수 : ${RoomVO.roomType.substring(1,2)}개 / 수용인원 : ${RoomVO.roomType.substring(2)}명</h5>
 					<p class="mb-4">${RoomVO.roomInfo}</p>
-					<p>
+					<p style="margin-bottom:0;">
 						<a href="#" class="btn btn-primary text-white" id="btnReserve" onclick="goView('${RoomVO.productId}','${RoomVO.productName}','${RoomVO.roomType.substring(1,2)}','${RoomVO.roomType.substring(2)}','${RoomVO.weekPrice}')" style="cursor: pointer;">예약하기</a>
 					</p>
 				</div>

@@ -259,8 +259,12 @@
    <select id="getHeartList" parameterType="com.spring.god.yujin.model.SearchVO" resultType="com.spring.god.hyein.model.HotelRoomVO">
 	select * from
 	(
-	select ROW_NUMBER() OVER(ORDER BY b.likelistid) NUM,address, name, img, largeCategoryontionCode, fk_hotelid as fk_LargeCategoryCode
-	from lontion a join (
+	select ROW_NUMBER() OVER(ORDER BY b.likelistid) NUM,a.star,a.starcnt,address, name, img, largeCategoryontionCode, fk_hotelid as fk_LargeCategoryCode
+	from (select * from lontion a left join (select hotelidx,avg(star) as star,count(*) as starcnt
+			  from review
+			  group by hotelidx) b
+    		on a.largecategoryontioncode=b.hotelidx
+    		) a join (
 						 select likelistid,fk_hotelid from likelist where status=1 and fk_memberid=#{memberid}
 						 ) b
 	on a.largeCategoryontionCode=b.fk_hotelid
@@ -268,32 +272,43 @@
 	where num between #{startRno} and #{endRno}
    </select>
    
-   <select id="getPurchaseHistory" parameterType="int" resultType="com.spring.god.yujin.model.HistoryVO">
-	select a.pointStatus,a.status,a.reserveId,a.fk_productid,a.price,a.reserveDate,a.checkIn,a.checkOut,a.checkout-a.checkin+1 as noNight,a.productName,a.roomType,a.fk_largecategoryontioncode as largeCategoryOntionCode,b.name,b.address,b.img 
+   <select id="getPurchaseHistory" parameterType="HashMap" resultType="com.spring.god.yujin.model.HistoryVO">
+	select * 
 	from
-		(select a.pointStatus,a.status,a.reserveId,a.fk_productid,a.price,a.reservedate,a.checkin,a.checkout,b.fk_largecategoryontioncode,b.productname,b.roomtype 
+	(	
+		select ROW_NUMBER() OVER(ORDER BY a.reserveDate) as num,a.title,a.pointStatus,a.status,a.reserveId,a.fk_productid,a.price,a.reserveDate,a.checkIn,a.checkOut,a.checkout-a.checkin+1 as noNight,a.productName,a.roomType,a.fk_largecategoryontioncode as largeCategoryOntionCode,b.name,b.address,b.img 
 		from
-			(select a.pointStatus,a.status,a.reserveId,a.fk_productid,a.price,a.reservedate,b.checkin,b.checkout 
-			from reserve1 a join reserve2 b
-			on a.reserveid=b.fk_reserveid
-			where a.memberidx=#{memberidx}) a join product b
-		on a.fk_productid=b.productid) a join lontion b
-	on a.fk_largecategoryontioncode=largecategoryontioncode
+			(select a.title,a.pointStatus,a.status,a.reserveId,a.fk_productid,a.price,a.reservedate,a.checkin,a.checkout,b.fk_largecategoryontioncode,b.productname,b.roomtype 
+			from
+				(select a.*,b.title as title
+	            from 
+	                (
+	                select a.memberidx,a.pointStatus,a.status,a.reserveId,a.fk_productid,a.price,a.reservedate,b.checkin,b.checkout 
+	                from reserve1 a join reserve2 b
+	                on a.reserveid=b.fk_reserveid
+	                ) a left join review b
+	                on a.reserveid=b.reserveidx
+	                where a.memberidx=#{memberidx}
+	            ) a join product b
+			on a.fk_productid=b.productid) a join lontion b
+		on a.fk_largecategoryontioncode=largecategoryontioncode
+	)
+	where num between #{startRno} and #{endRno}
    </select>
    
    <insert id="addReview" parameterType="com.spring.god.yujin.model.ReviewVO">
       INSERT INTO review(reviewidx,memberidx,hotelidx,roomidx,reserveidx,title,content,star,GROUPNO)
-      VALUES(seq_review.nextval,#{memberIdx},#{largeCategoryOntionCode},#{productId},#{reserveId},#{title},#{content},#{star},0)
+      VALUES(seq_review.nextval,#{memberIdx},#{hotelIdx},#{roomIdx},#{reserveIdx},#{title},#{content},#{star},0)
    </insert>
    
    <insert id="addReview_withfile" parameterType="com.spring.god.yujin.model.ReviewVO">
       INSERT INTO review(reviewidx,memberidx,hotelidx,roomidx,reserveidx,title,content,star,GROUPNO,imgidx)
-      VALUES(seq_review.nextval,#{memberIdx},#{largeCategoryOntionCode},#{productId},#{reserveId},#{title},#{content},#{star},0,SEQ_REVIEW_IMG.nextval)
+      VALUES(seq_review.nextval,#{memberIdx},#{hotelIdx},#{roomIdx},#{reserveIdx},#{title},#{content},#{star},0,SEQ_REVIEW_IMG.nextval)
    </insert>
    
-   <insert id="addReviewFile" parameterType="com.spring.god.yujin.model.ReviewVO">
-      INSERT INTO REVIEW_IMG(imgidx,reviewidx,filename,orgfilename,filesize)
-      VALUES(SEQ_REVIEW_IMG.currval,seq_review.currval,#{fileName},#{orgFileName},#{fileSize})
+   <insert id="addReviewFile" parameterType="String">
+      INSERT INTO REVIEW_IMG(imgidx,reviewidx,filename)
+      VALUES(SEQ_REVIEW_IMG.nextval,seq_review.currval,#{fileName})
    </insert>
    
    <select id="getHistory" parameterType="int" resultType="com.spring.god.yujin.model.HistoryVO">
@@ -444,6 +459,19 @@
 	on a.roomidx =b.productid    
    </select>
    
+   
+   <select id="getReviewAvg" parameterType="HashMap" resultType="double">
+   select star 
+   from lontion a join (
+   						select hotelidx,avg(star) as star 
+   						from review 
+   						where status=1 
+   						and hotelidx=#{hotelidx} 
+   						group by hotelidx
+   						) b 
+   on a.largecategoryontioncode=b.hotelidx
+   </select>
+   
    <select id="getCancelPage" parameterType="String" resultType="com.spring.god.yujin.model.HistoryVO">
 		select a.reserveid,a.price,a.reserveDate,a.checkIn,a.checkOut,a.noNight,b.name,b.address,b.img,b.productName,b.roomType
 		from 
@@ -471,7 +499,24 @@
    		update reserve1 set pointstatus=0 where reserveId=#{reserveId}
    </update>
 
-   
+    <select id="getPurchaseCnt" parameterType="int" resultType="int">
+		select count(*) 
+		from
+			(select a.title,a.pointStatus,a.status,a.reserveId,a.fk_productid,a.price,a.reservedate,a.checkin,a.checkout,b.fk_largecategoryontioncode,b.productname,b.roomtype 
+			from
+				(select a.*,b.title as title
+	            from 
+	                (
+	                select a.memberidx,a.pointStatus,a.status,a.reserveId,a.fk_productid,a.price,a.reservedate,b.checkin,b.checkout 
+	                from reserve1 a join reserve2 b
+	                on a.reserveid=b.fk_reserveid
+	                ) a left join review b
+	                on a.reserveid=b.reserveidx
+	                where a.memberidx=#{memberidx}
+	            ) a join product b
+			on a.fk_productid=b.productid) a join lontion b
+		on a.fk_largecategoryontioncode=largecategoryontioncode
+   </select>
    
    
 </mapper>

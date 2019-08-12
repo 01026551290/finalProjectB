@@ -60,9 +60,11 @@ public class MemberService implements InterMemberService {
 		}
 
 		@Override
+		@Transactional(propagation=Propagation.REQUIRED, isolation= Isolation.READ_COMMITTED, rollbackFor={Throwable.class})
 		public int add_withFile(ReviewVO rvo) {
-			int n = dao.add_withFile(rvo);
-			return n;
+			int n = dao.add_withFile1(rvo);
+			int m = dao.add_withFile2(rvo);
+			return n*m;
 		}
 
 		@Override
@@ -72,8 +74,8 @@ public class MemberService implements InterMemberService {
 		}
 		
 		@Override
-		public List<HistoryVO> getPurchaseHistory(int memberidx) {
-			List<HistoryVO> list = dao.getPurchaseHistory(memberidx);
+		public List<HistoryVO> getPurchaseHistory(HashMap<String, String> paramap) {
+			List<HistoryVO> list = dao.getPurchaseHistory(paramap);
 			return list;
 		}
 
@@ -95,6 +97,18 @@ public class MemberService implements InterMemberService {
 			int n = dao.getEarnPoint1(paramap);
 			int m = dao.getEarnPoint2(paramap);
 			return n*m;
+		}
+
+		@Override
+		public HistoryVO getMyReivew(int idx) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public int getPurchaseCnt(int memberidx) {
+			int n = dao.getPurchaseCnt(memberidx);
+			return n;
 		}
 		
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +19,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.god.jiyoung.model.*;
 import com.spring.god.common.FileManager;
 import com.spring.god.common.SHA256;
 import com.spring.god.jiyoung.model.MemberVO;
 import com.spring.god.jiyoung.service.InterMemberService;
 
+@Component
 @Controller
 public class MemberController {
 
@@ -146,7 +147,7 @@ public class MemberController {
 
 	// 마이페이지 전 암호 확인 페이지 매핑
 	@RequestMapping(value = "/pwdpass.go")
-	public ModelAndView loginCK_pwdpass(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+	public ModelAndView LoginCK_pwdpass(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		mv.setViewName("jiyoung/pwdpass.tiles1");
 		return mv;
 	}
@@ -251,7 +252,7 @@ public class MemberController {
 
 	// 로그아웃 하기
 	@RequestMapping(value = "/logout.go")
-	public ModelAndView logout(ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView LoginCK_logout(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 
 		HttpSession session = request.getSession();
 		session.invalidate();
@@ -285,7 +286,7 @@ public class MemberController {
 		paraMap.put("name", name);
 		paraMap.put("email", email);
 
-		String idFind = service.getidFind(paraMap);
+		String idFind = "";
 		
 		boolean isUserExist = service.isUserExist(paraMap);
 		
@@ -293,13 +294,15 @@ public class MemberController {
 
 		// 회원이 존재하는 경우
 		if (isUserExist) {
+			 idFind = service.getidFind(paraMap);
 			n = 1; // n을 1로 바꾸겠다.
 		}
 		else {
-			n = 0;
+			n = 2;
 		}
 		mv.addObject("method", "POST");
 		mv.addObject("name", name);
+		mv.addObject("isUserExist", isUserExist);
 		mv.addObject("email", email);
 		mv.addObject("idFind", idFind);
 		mv.addObject("n", n);
@@ -417,7 +420,7 @@ public class MemberController {
 	// 강사님은 한 페이지에서 해결했는데, 그건 이클립스라서 아무 방식이나 받기 때문임.
 	// 근데 스프링에서는 한 메서드에 한 request 방식만 받기 때문에, 나눠줘야 함.
 	@RequestMapping(value = "/pwdConfirm.go", method = { RequestMethod.GET })
-	public ModelAndView PwdConfirmgo(ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView LoginCK_PwdConfirmgo(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 
 		String userid = request.getParameter("userid");
 		request.setAttribute("userid", userid);
@@ -448,7 +451,7 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/mypage.go")
-	public ModelAndView loginCK_mypage(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+	public ModelAndView LoginCK_mypage(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 
 		mv.setViewName("jiyoung/mypage.tiles1");
 
@@ -470,7 +473,7 @@ public class MemberController {
 	 */
 
 	@RequestMapping(value = "/memberedit.go")
-	public String loginCK_memberEdit(HttpServletRequest request, HttpServletResponse response, MemberVO vo) {
+	public String LoginCK_memberEdit(HttpServletRequest request, HttpServletResponse response, MemberVO vo) {
 		HttpSession session = request.getSession();
 		vo = (MemberVO) session.getAttribute("loginuser");
 
@@ -484,8 +487,7 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/memberEditEnd.go", method = { RequestMethod.POST })
-	public ModelAndView loginCK_memberEditEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mv,
-			MemberVO vo) {
+	public ModelAndView LoginCK_memberEditEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mv, MemberVO vo) {
 
 		String pwd = request.getParameter("pwd");
 		String tel = "010" + request.getParameter("hp2") + request.getParameter("hp3");
@@ -518,7 +520,7 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/memberout.go")
-	public ModelAndView loginCK_memberout(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+	public ModelAndView LoginCK_memberout(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 
 		mv.setViewName("jiyoung/memberout.tiles1");
 
@@ -526,15 +528,16 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/memberoutEnd.go")
-	public ModelAndView loginCK_memberoutEnd(HttpServletRequest request, HttpServletResponse response,
-			ModelAndView mv) {
-
+	public ModelAndView LoginCK_memberoutEnd(HttpServletRequest request, HttpServletResponse response,ModelAndView mv) {
+		HttpSession session = request.getSession();
 		String memberid = request.getParameter("memberId");
 		String pwd = request.getParameter("pwd");
+		
 		pwd = SHA256.encrypt(pwd);
 		HashMap<String, String> paraMap = new HashMap<String, String>();
 		paraMap.put("memberId", memberid);
 		paraMap.put("pwd", pwd);
+		paraMap.put("idx", String.valueOf(((MemberVO)session.getAttribute("loginuser")).getIdx()));
 
 		int n = service.memberout(paraMap);
 		System.out.println(n);
@@ -557,7 +560,7 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/photoaddedit.go")
-	public ModelAndView photoaddedit(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+	public ModelAndView LoginCK_photoaddedit(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 
 		mv.setViewName("jiyoung/photoaddedit.tiles1");
 
@@ -565,7 +568,7 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/photoaddeditEnd.go", method = { RequestMethod.POST })
-	public String photoaddeditEnd(MemberVO membervo, MultipartHttpServletRequest mrequest, HttpServletRequest request) {
+	public String LoginCK_photoaddeditEnd(HttpServletRequest request, HttpServletResponse response, MemberVO membervo, MultipartHttpServletRequest mrequest) {
 		System.out.println("시작");
 		HttpSession session = request.getSession();
 		MultipartFile attach = membervo.getAttach();
@@ -573,7 +576,7 @@ public class MemberController {
 		System.out.println(attach);
 		if (!attach.isEmpty()) {
 			session = request.getSession();
-			String path = "C:\\Users\\samsung\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\member";
+			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\member";
 //			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\member";
 
 			String newFileName = "";
@@ -585,7 +588,7 @@ public class MemberController {
 				newFileName = fileManager.doFileUpload(bytes, attach.getOriginalFilename(), path);
 
 				System.out.println(">>> 확인용 newFileName == > " + newFileName);
-				membervo2.setPicture(attach.getOriginalFilename());
+				membervo2.setPicture(newFileName);
 
 			} catch (Exception e) {
 				e.printStackTrace();

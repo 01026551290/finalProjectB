@@ -129,15 +129,12 @@
 	
 </script>  
     
-<section class="site-hero inner-page overlay" style="background-image: url(images/hero_4.jpg)" data-stellar-background-ratio="0.5">
+<section class="site-hero inner-page overlay" style="background-image: url(/god/resources/images/hero_4.jpg)" data-stellar-background-ratio="0.5">
       <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center" data-aos="fade">
             <h1 class="heading mb-3">공지사항</h1>
             <ul class="custom-breadcrumbs mb-4">
-              <li><a href="index.html">Home</a></li>
-              <li>&bullet;</li>
-              <li>Reservation</li>
             </ul>
           </div>
         </div>
@@ -206,7 +203,7 @@
 						</tr>
 						<tr>
 							<th>파일첨부</th>
-							<td><input type="file" name="attach" id="attach" class="short"  /></td>
+							<td><input type="file" name="attach" id="attach" class="short" /></td>
 						</tr>
 						<tr>
 							<td colspan="2"></td>
@@ -222,8 +219,8 @@
 					<input type="hidden" name="depthno" value="${depthno}"/>					      
 					
 					<div style="margin: 20px;">
-						<button type="button" id="btnWrite" style="margin-right: 5px;">쓰기</button>
-						<button type="button" onclick="javascript:history.back();">취소</button>
+						<button type="button" id="btnWrite" style="margin-right: 5px;" class="btn btn-primary text-white py-2 px-4 font-weight-bold">쓰기</button>
+						<button type="button" onclick="javascript:history.back();" class="btn btn-primary text-white py-2 px-4 font-weight-bold">취소</button>
 					</div>
 					
 				</form>

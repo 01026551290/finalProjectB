@@ -31,11 +31,6 @@
     <div class="row site-hero-inner justify-content-center align-items-center">
       <div class="col-md-10 text-center aos-init aos-animate" data-aos="fade">
         <h1 class="heading mb-3">Purchase History</h1>
-        <ul class="custom-breadcrumbs mb-4">
-          <li><a href="index.html">Home</a></li>
-          <li>•</li>
-          <li>Purchase History</li>
-        </ul>
       </div>
     </div>
   </div>
@@ -52,7 +47,7 @@
 		<div class="row">
 			<c:if test="${purchaseList!=null}">
 				<c:forEach var="vo" items="${purchaseList}">
-					<div class="col-lg-12 col-md-12 col-md-12" style="display: -webkit-box;">
+					<div class="col-lg-12 col-md-12 col-md-12" style="display: -webkit-box; margin-bottom: 27px;border-bottom: solid 1px gray;">
 						<div class="col-lg-3 col-md-3 col-md-3">
 							<a href="<%=request.getContextPath()%>/product.go?largeCategoryontionCode=${vo.largeCategoryOntionCode}" class="mb-4 d-block"><img src="/god/resources/images/hotel/${vo.img}" class="img-fluid"></a>
 						</div>
@@ -82,11 +77,14 @@
 					                	<p style="margin: 0 auto;"><fmt:formatNumber value="${vo.point}" pattern="###,###" />포인트</p><p>적립완료</p>
 									</c:if>
 								</c:if>
-								<c:if test="${14>vo.canWriteReview and vo.canWriteReview>0}">
+								<c:if test='${vo.title!="" and vo.title!=null}'>
+				                	<span class="d-block text-primary" >후기작성완료</span>
+								</c:if>
+								<c:if test='${14>vo.canWriteReview and vo.canWriteReview>0 and (vo.title=="" and vo.title!=null)}'>
 				                	<span style="cursor: pointer;" class="d-block text-primary" onclick="go('/god/review.go','${vo.reserveId}','${vo.fk_productId}','${vo.largeCategoryOntionCode}','${vo.name}','${vo.productName}','${vo.address}','${vo.checkIn}','${vo.checkOut}','${vo.noNight}','${vo.img}','${vo.per}','${vo.price}');">후기작성</span>
 								</c:if> 
 								<c:if test="${vo.canCancelReserve>0}">
-									<span style="cursor: pointer;" class="d-block text-primary" onclick="go('/god/reserveCancel.go','${vo.reserveId}','${vo.fk_productId}','${vo.largeCategoryOntionCode}','${vo.name}','${vo.productName}','${vo.address}','${vo.checkIn}','${vo.checkOut}','${vo.noNight}','${vo.img}','${vo.per}','${vo.price}');">예약취소</span>
+									<span style="cursor: pointer;" class="d-block text-primary" onclick="go('/god/reserveCancel.go','${vo.reserveId}','${vo.fk_productId}','${vo.largeCategoryOntionCode}','${vo.name}','${vo.productName}','${vo.address}','${vo.checkIn}','${vo.checkOut}','${vo.noNight}','${vo.img}','${vo.per}','${vo.price}');">예약취소가능</span>
 								</c:if>
 							</c:if>
 							<c:if test="${vo.status==0}">
@@ -98,6 +96,16 @@
 					</div>
 				</c:forEach>
 			</c:if>
+			
+			<div class="col-12">
+						<div class="custom-pagination">
+							<ul class="list-unstyled" id="pagebar">
+								<c:if test="${pagebar!=null}">
+				${pagebar}
+				</c:if>
+							</ul>
+						</div>
+					</div>
 			
 			<form name="goChangeFrm" method="post">
 				<input type="hidden" name="reserveId">	

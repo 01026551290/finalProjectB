@@ -53,15 +53,12 @@
     
     
     
-<section class="site-hero inner-page overlay" style="background-image: url(images/hero_4.jpg)" data-stellar-background-ratio="0.5">
+<section class="site-hero inner-page overlay" style="background-image: url(/god/resources/images/hero_4.jpg)" data-stellar-background-ratio="0.5">
       <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center" data-aos="fade">
             <h1 class="heading mb-3">공지사항</h1>
             <ul class="custom-breadcrumbs mb-4">
-              <li><a href="index.html">Home</a></li>
-              <li>&bullet;</li>
-              <li>Reservation</li>
             </ul>
           </div>
         </div>
@@ -85,7 +82,7 @@
 				<!-- <h1 style="margin-bottom: 30px;">공지사항</h1> -->
 				<c:if test="${adminvo != null}">
 					<div style="text-align: right; margin-bottom: 20px;">
-						<button type="button" class="btn btn-primary text-white py-3 px-4 font-weight-bold" onClick="javascript:location.href='<%= request.getContextPath() %>/noticeEdit.go?seq=${boardvo.seq}'">수정하기</button>
+						<button type="button" class="btn btn-primary text-white py-2 px-4 font-weight-bold" onClick="javascript:location.href='<%= request.getContextPath() %>/noticeEdit.go?seq=${boardvo.seq}'">수정하기</button>
 						<%-- <button type="button" class="btn btn-primary text-white py-3 px-5 font-weight-bold" onClick="javascript:location.href='<%= request.getContextPath() %>/noticeDelete.go?seq=${boardvo.seq}'">삭제하기</button> --%>
 					</div>
 				</c:if>
@@ -135,7 +132,7 @@
 				
 				<%-- <button type="button" onClick="javascript:location.href='<%= request.getContextPath() %>/list.action'">목록보기1</button>  --%>
 				<div>
-					<button type="button" class="btn btn-primary text-white py-3 px-4 font-weight-bold" onClick="javascript:location.href='${gobackURL}'">목록보기</button>
+					<button type="button" class="btn btn-primary text-white py-2 px-4 font-weight-bold" onClick="javascript:location.href='${gobackURL}'">목록보기</button>
 				</div>
 				<%--
 				<!-- === #123. 답변글쓰기 버튼 추가하기(현재 보고있는 글이 작성하려는 답변글의 원글(부모글)이 된다.) === -->
