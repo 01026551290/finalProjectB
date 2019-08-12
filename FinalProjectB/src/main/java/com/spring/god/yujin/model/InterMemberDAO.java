@@ -16,10 +16,12 @@ public interface InterMemberDAO {
 	List<HotelRoomVO> getHeartList(SearchVO svo);
 
 	int addReview(ReviewVO rvo);
-	int add_withFile(ReviewVO rvo);
+	int add_withFile1(ReviewVO rvo);
+	int add_withFile2(ReviewVO rvo);
 
 	List<HistoryVO> getHistory(int memberidx);
-	List<HistoryVO> getPurchaseHistory(int memberidx);
+	int getPurchaseCnt(int memberidx);
+	List<HistoryVO> getPurchaseHistory(HashMap<String, String> paramap);
 	
 	HistoryVO getCancelPage(String reserveid);
 	int getReserveCancelResult(String reserveid);

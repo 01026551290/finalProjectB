@@ -20,6 +20,22 @@
     width: 22px;
     height: 22px;
 }
+
+.starAreaIn {
+	background: url(. . <%=request.getContextPath()%>/resources/images/star_bgb.png);
+	background-size: 15px 14px;
+	display: inline-flex;
+	width: 76px;
+	height: 14px;
+}
+
+.starAreaOut {
+	background: url(. . <%=request.getContextPath()%>/resources/images/star_bg.png);
+	background-size: 15px 14px;
+	display: inline-block;
+	width: 76px;
+	height: 14px;
+}
 </style>
 
 <script type="text/javascript">
@@ -186,11 +202,24 @@
 									<img src="/god/resources/images/hotel/${vo.img}"
 										style="width: 100%;">
 								</div>
+								
 								<!-- 하단(설명,호텔명,가격,평점) -->
 								<div style="padding: 12px 0 0 0;">
 									<div class="hotelAddr">${vo.address}</div>
 									<div class="hotelName">${vo.name}</div>
-									<div class="hotelStar">★★★★☆ 28개의 후기</div>
+									<div class="hotelStar">
+										<c:if test="${vo.starcnt != 0}">
+										<span class="starAreaIn"> <span class="starAreaOut"
+											style="width: ${vo.star*14.6}px;"><span class="blind">star</span></span>
+										</span>
+										<span style="font-size: 10pt;">${vo.star}점
+											&nbsp;${vo.starcnt}개의 후기</span>
+										</c:if>
+										<c:if test="${vo.starcnt==0}">
+											<span class="starAreaIn"> </span>
+											<span style="font-size: 10pt;">아직 후기가 없습니다.</span>
+										</c:if>
+									</div>
 								</div>
 							</div>
 						</c:forEach>

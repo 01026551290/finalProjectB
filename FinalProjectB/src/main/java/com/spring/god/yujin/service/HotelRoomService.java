@@ -77,6 +77,12 @@ public class HotelRoomService implements InterHotelRoomService {
 		int cnt = dao.getReviewCnt(paramap);
 		return cnt;
 	}
+	
+	@Override
+	public double getReviewAvg(HashMap<String, String> paramap) {
+		double cnt = dao.getReviewAvg(paramap);
+		return cnt;
+	}
 	   
 	   
 }

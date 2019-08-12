@@ -1,5 +1,7 @@
 package com.spring.god.yujin.model;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class ReviewVO {
@@ -18,20 +20,19 @@ public class ReviewVO {
 	private int parentSeq;
 	
 	private String fileName;    
-	private String orgFileName; 
-	private String fileSize;    
-	
-	private MultipartFile attach0; 
+	private MultipartFile attach; 
 	
 	private String groupNo;
 	private String fk_seq;
 	private String depthNo;
 	
+	private List<String> imgList;
+	
 	public ReviewVO() {}
 
 	public ReviewVO(int reviewIdx, int memberIdx, int hotelIdx, int roomIdx, int reserveIdx, String title,
 			String content, int imgIdx, int status, double star, String regDate, int parentSeq, String fileName,
-			String orgFileName, String fileSize, MultipartFile attach0, String groupNo, String fk_seq, String depthNo) {
+			MultipartFile attach, String groupNo, String fk_seq, String depthNo, List<String> imgList) {
 		super();
 		this.reviewIdx = reviewIdx;
 		this.memberIdx = memberIdx;
@@ -46,12 +47,11 @@ public class ReviewVO {
 		this.regDate = regDate;
 		this.parentSeq = parentSeq;
 		this.fileName = fileName;
-		this.orgFileName = orgFileName;
-		this.fileSize = fileSize;
-		this.attach0 = attach0;
+		this.attach = attach;
 		this.groupNo = groupNo;
 		this.fk_seq = fk_seq;
 		this.depthNo = depthNo;
+		this.imgList = imgList;
 	}
 
 	public int getReviewIdx() {
@@ -158,28 +158,12 @@ public class ReviewVO {
 		this.fileName = fileName;
 	}
 
-	public String getOrgFileName() {
-		return orgFileName;
+	public MultipartFile getAttach() {
+		return attach;
 	}
 
-	public void setOrgFileName(String orgFileName) {
-		this.orgFileName = orgFileName;
-	}
-
-	public String getFileSize() {
-		return fileSize;
-	}
-
-	public void setFileSize(String fileSize) {
-		this.fileSize = fileSize;
-	}
-
-	public MultipartFile getAttach0() {
-		return attach0;
-	}
-
-	public void setAttach0(MultipartFile attach0) {
-		this.attach0 = attach0;
+	public void setAttach(MultipartFile attach) {
+		this.attach = attach;
 	}
 
 	public String getGroupNo() {
@@ -205,7 +189,14 @@ public class ReviewVO {
 	public void setDepthNo(String depthNo) {
 		this.depthNo = depthNo;
 	}
+
+	public List<String> getImgList() {
+		return imgList;
+	}
 	
+	public void setImgList(List<String> imgList) {
+		this.imgList = imgList;
+	}
 	
 	
 	

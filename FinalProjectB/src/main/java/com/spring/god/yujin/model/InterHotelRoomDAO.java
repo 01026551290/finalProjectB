@@ -20,6 +20,7 @@ public interface InterHotelRoomDAO {
 	List<HistoryVO> getReviewSList(HashMap<String, String> paramap);
 	List<HistoryVO> getReviewsList(HashMap<String, String> paramap);
 	int getReviewCnt(HashMap<String, String> paramap); //숙박상세페이지 리뷰갯수
+	double getReviewAvg(HashMap<String, String> paramap); //숙박상세페이지 평균별점
 
 
 }

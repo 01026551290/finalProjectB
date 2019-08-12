@@ -75,6 +75,12 @@ public class HotelRoomDAO implements InterHotelRoomDAO {
 		int cnt = sqlsession.selectOne("yujindb.getReviewCnt",paramap);
 		return cnt;
 	}
+	
+	@Override
+	public double getReviewAvg(HashMap<String, String> paramap) {
+		double cnt = sqlsession.selectOne("yujindb.getReviewAvg",paramap);
+		return cnt;
+	}
 
 
 }

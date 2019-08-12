@@ -121,6 +121,27 @@
        
 </script>
 
+<style>
+
+
+.starAreaIn {
+	background: url(. . <%=request.getContextPath()%>/resources/images/star_bgb.png);
+	background-size: 15px 14px;
+	display: inline-flex;
+	width: 76px;
+	height: 14px;
+}
+
+.starAreaOut {
+	background: url(. . <%=request.getContextPath()%>/resources/images/star_bg.png);
+	background-size: 15px 14px;
+	display: inline-block;
+	width: 76px;
+	height: 14px;
+}
+
+</style>
+
 <section class="site-hero inner-page overlay" style="background-image: url(<%= ctxPath%>/resources/images/hero_4.jpg;); background-position: 0% 0px;" data-stellar-background-ratio="0.5">
 	<div class="container">
 		<div
@@ -165,7 +186,14 @@
 								<p>${vo.info}</p>
 								<c:if test="${vo.title!=null}">
 									<div class="from-me">
-										<p>${vo.star}</p>
+										<p>
+										<span class="starAreaIn"> 
+											<span class="starAreaOut"style="width: ${vo.star*14.6}px;">
+												<span class="blind">star</span>
+											</span>
+										</span>
+										<span style="font-size: 10pt;">${vo.star}점</span>
+										</p>
 										<p>${vo.title}</p>
 										<p>${vo.content}</p>
 									</div>
