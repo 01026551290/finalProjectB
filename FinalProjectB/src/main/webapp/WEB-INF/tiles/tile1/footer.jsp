@@ -12,7 +12,7 @@
 					document.write(new Date().getFullYear());
 				</script>
 				All rights reserved | This hompage is made with <i
-					class="icon-heart-o" aria-hidden="true"></i> by <a href="<%=ctxPath%>/index.go">God</a>
+					class="icon-heart-o" aria-hidden="true"></i> by <a href="<%=ctxPath%>/admin_adminLogin.go">God</a>
 			</p>
 		</div>
 	</div>

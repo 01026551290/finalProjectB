@@ -272,18 +272,18 @@
     
     <!-- 호텔정보 보내는 폼 -->
     <form name="reserveHotelInfoFrm">
-    	<input type="hidden" name="largeCategoryontionCode" value="${paraMap.largeCategoryontionCode}" />
-    	<input type="hidden" name="fk_productId" value="${paraMap.productId}" />
-    	<input type="hidden" name="memberIdx" value="${sessionScope.loginuser.idx}" />
-    	<input type="hidden" name="img" value="${paraMap.img}" />
-    	<input type="hidden" name="name" value="${paraMap.name}" />
-    	<input type="hidden" name="address" value="${paraMap.address}" />
-    	<input type="hidden" name="checkIn" value="${paraMap.checkIn}" />
-    	<input type="hidden" name="checkOut" value="${paraMap.checkOut}" />
-    	<input type="hidden" name="noNight" value="${paraMap.noNight}" />
-    	<input type="hidden" name="productName" value="${paraMap.productName}" />
-    	<input type="hidden" name="roomType" value="${paraMap.roomType}" />
-    	<input type="hidden" name="weekPrice" value="${paraMap.weekPrice}" />
-    	<input type="hidden" name="price" value="${paraMap.totalPrice}" />
-    	<input type="hidden" name="point" value="${paraMap.point}" />
+    	<input type="text" name="largeCategoryontionCode" value="${paraMap.largeCategoryontionCode}" />
+    	<input type="text" name="fk_productId" value="${paraMap.productId}" />
+    	<input type="text" name="memberIdx" value="${sessionScope.loginuser.idx}" />
+    	<input type="text" name="img" value="${paraMap.img}" />
+    	<input type="text" name="name" value="${paraMap.name}" />
+    	<input type="text" name="address" value="${paraMap.address}" />
+    	<input type="text" name="checkIn" value="${paraMap.checkIn}" />
+    	<input type="text" name="checkOut" value="${paraMap.checkOut}" />
+    	<input type="text" name="noNight" value="${paraMap.noNight}" />
+    	<input type="text" name="productName" value="${paraMap.productName}" />
+    	<input type="text" name="roomType" value="${paraMap.roomType}" />
+    	<input type="text" name="weekPrice" value="${paraMap.weekPrice}" />
+    	<input type="text" name="price" value="${paraMap.totalPrice}" />
+    	<input type="text" name="point" value="${paraMap.point}" />
     </form>

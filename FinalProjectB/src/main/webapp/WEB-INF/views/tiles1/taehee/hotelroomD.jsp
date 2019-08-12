@@ -296,63 +296,67 @@
 
    ///////////////////////////////////////////////////////////////////////////////////
    
-   function goSearchRoom(searchTypeVal) {
-      $.ajax({
-         url:"<%= request.getContextPath()%>/reviewjson.action",
-         type:"POST",
-         dataType:"JSON",
-         success:function(json){
-            var html = "";
-            $.each(json, function(index, item){
-               html += "<tr>";
-               html += "<td>"+item.adult+"</td>";
-               html += "<td>"+item.children+"</td>";
-               html += "</tr>";
-            });
-            
-            $("# ").html(html);
-         },
-         error: function(request, status, error){
-            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-         }         
-      });//end of $.ajax
-   }
+	function goSearchRoom(searchTypeVal) {
+		$.ajax({
+			url:"<%= request.getContextPath()%>/reviewjson.action",
+			type:"POST",
+			dataType:"JSON",
+			success:function(json){
+				var html = "";
+					$.each(json, function(index, item){
+					   html += "<tr>";
+					   html += "<td>"+item.adult+"</td>";
+					   html += "<td>"+item.children+"</td>";
+					   html += "</tr>";
+					});
+				$("# ").html(html);
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}         
+		});//end of $.ajax
+	}
    
-   function goSearch() {
+	function goSearch() {
 		frm =document.returnFrm;
 		frm.method = "GET";
 		frm.action = "/god/product.go";
 		frm.submit();
-   }
+	}
    
-   function goView(productId,productName,roomType2,roomType3,weekPrice) {
+	function goView(productId,productName,roomType2,roomType3,weekPrice) {
+	
+	var loginuser = "${sessionScope.loginuser}";
+	var checkin_date = $("#checkin_date").val();
+	var checkout_date = $("#checkout_date").val();   
+	
+	
+	if (checkin_date.trim()=="") {
+		$("#checkin_date").val("");
+		alert("시작일을 선택해주세요.");
+		$("input#checkin_date").focus();
+		return;
+	}
+	
+	else if (checkout_date.trim()=="") {
+		$("#checkout_date").val("");
+		alert("종료일을 선택해주세요.");
+		$("input#checkout_date").focus();
+		return;
+	}
       
-      var checkin_date = $("#checkin_date").val();
-      var checkout_date = $("#checkout_date").val();   
-
-      
-      if (checkin_date.trim()=="") {
-         $("#checkin_date").val("");1
-         alert("시작일을 선택해주세요.");
-         $("input#checkin_date").focus();
-         return;
-      }
-      
-      else if (checkout_date.trim()=="") {
-         $("#checkout_date").val("");
-         alert("종료일을 선택해주세요.");
-            $("input#checkout_date").focus();
-          return;
-   }
-      
-
+	if(loginuser == null) {
+		alert("로그인 후 이용가능 합니다.");
+		location.href="<%= ctxPath%>/login.go";
+		return;
+	}
 	var frm = document.goViewFrm;      
 	frm.productId.value = productId;
 	frm.productName.value = productName;
 	frm.roomType2.value = roomType2;
 	frm.roomType3.value = roomType3;
 	frm.weekPrice.value = weekPrice;
-	frm.method = "POST";
+	frm.method = "GET";
 	frm.action = "<%=request.getContextPath()%>/accommodationInfo.go";
 	frm.submit();
       
