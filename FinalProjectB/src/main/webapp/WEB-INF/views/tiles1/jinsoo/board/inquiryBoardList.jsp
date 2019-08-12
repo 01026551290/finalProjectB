@@ -50,7 +50,7 @@ $(document).ready(function(){
 		 
 		 $.ajax({
 			
-			 url:"<%= request.getContextPath()%>/wordSearchSow.action",
+			 url:"<%= request.getContextPath()%>/admin_wordSearchSow.go",
 			 data:form_data,
 			 dataType:"JSON",
 			 success: function(json){
@@ -111,7 +111,7 @@ function goView(seq){
 	var frm = document.goViewFrm;
 	frm.seq.value = seq
 	frm.method = "GET";
-	frm.action = "<%= request.getContextPath()%>/jinsoo_inquiryBoardView.go"
+	frm.action = "<%= request.getContextPath()%>/admin_inquiryBoardView.go"
 	frm.submit();
 	
 }
@@ -119,7 +119,7 @@ function goView(seq){
 	function goSearch(){
 		var frm = document.searchFrm;
 		frm.method = "GET";
-		frm.action = "<%= request.getContextPath()%>/jinsoo/buisnessBoardList.go";
+		frm.action = "<%= request.getContextPath()%>/admin_buisnessBoardList.go";
 		frm.submit();
 	}
 	
@@ -128,7 +128,7 @@ function goView(seq){
 
 
 <div align="center" style="">
-	<h2 style="margin-bottom: 20px;">글목록</h2>
+	<h2 style="margin-bottom: 20px;">내 문의사항</h2>
 	
 	<table id="table">
 		<tr>
@@ -181,6 +181,7 @@ function goView(seq){
 		</select>
 		<input type="text" name="searchWord" id="searchWord" autocomplete=off  style="width: 300px;"  />
 		<button type="button" onclick="goSearch();">검색</button>
+		<button type="button" onclick="javascript:location.href='<%=request.getContextPath() %>/admin_inquiryBoard.go'">글쓰기</button>
 	</form>
 	<!-- #101 검색어 입력시 자동글 완성하기 1 -->
 	<div id="displayList" style=" width: 300px; height: 100px; overflow: auto; margin-left: 20px; border: solid gray 1px; border-top: -1px;">

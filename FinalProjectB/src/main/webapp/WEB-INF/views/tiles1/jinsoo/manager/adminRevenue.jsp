@@ -28,7 +28,7 @@
 		 		
 		 			$.ajax({
 		 				
-		 				url: "revenueStatusJSON.go",
+		 				url: "admin_revenueStatusJSON.go",
 		 				dataType: "JSON" ,
 		 				success: function(json){
 		 					
@@ -61,7 +61,7 @@
 					
 			$.ajax({
 				 
-				 url:"categoryRevenueJSON.go",
+				 url:"admin_categoryRevenueJSON.go",
 				 dataType: "JSON",
 				 success: function(json){
 					 
@@ -149,7 +149,7 @@
 	 	
 	  	case "MDcategory" :
 	 		
-	 		$.getJSON("MonthRevenueJSON.go",function(json){
+	 		$.getJSON("admin_MonthRevenueJSON.go",function(json){
 				
 				$("#chart_revenue").empty();
 				
@@ -169,14 +169,14 @@
 				var dayArr = [];		
 			
 			$.each(json, function(index,item){
-				$.getJSON("MdayRevenueJSON.go?month="+item.month , function(json2){
+				$.getJSON("admin_MdayRevenueJSON.go?month="+item.month , function(json2){
 					var subArr = [];
 
 					$.each(json2,function(index,item){							
 					
 						subArr.push([								
 							item.day  ,
-							item.revenue
+							Number(item.revenue)
 						]);
 					});// $.each(json2,function(index,item)
 					dayArr.push({
@@ -268,7 +268,7 @@
 		
 		<div id="chart_revenue" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 		
-		<div><span style="cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/productManage.go'">상품관리</span></div>
+		<div><span style="cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/admin_productManage.go'">상품관리</span></div>
 	</div>
 	
 

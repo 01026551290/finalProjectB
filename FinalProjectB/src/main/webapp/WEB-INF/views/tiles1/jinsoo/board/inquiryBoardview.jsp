@@ -48,7 +48,7 @@
 		var form_data = $("form[name=addWriteFrm]").serialize();
 		
 		$.ajax({
-				url: "<%= request.getContextPath()%>/addComment.go",
+				url: "<%= request.getContextPath()%>/admin_addComment.go",
 				data : form_data,
 				type: "POST" ,
 				dataType: "JSON",
@@ -126,7 +126,7 @@
 	
 
 	<button type="button" onClick="javascript:location.href='<%= request.getContextPath() %>/${gobackURL}'">목록보기</button> 
-	<button type="button" onClick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/buisnessBoardedit.go?seq=${boardvo.seq}'">수정</button>
+	<button type="button" onClick="javascript:location.href='<%= request.getContextPath() %>/admin_buisnessBoardedit.go?seq=${boardvo.seq}'">수정</button>
 	<button type="button" onClick="javascript:location.href='<%= request.getContextPath() %>/admin_inquiryBoarddel.go?seq=${boardvo.seq}'">삭제</button>
 	
 	

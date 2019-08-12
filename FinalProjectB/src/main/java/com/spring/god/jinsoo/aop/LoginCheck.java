@@ -31,7 +31,7 @@ import com.spring.god.common.MyUtil;
 그리고 bean의 이름(첫글자는 소문자)은 해당 클래스명이 된다. */
 public class LoginCheck {
 
-	@Pointcut("execution(public * com.spring..*Controller.requireLogin_*(..))") 
+	@Pointcut("execution(public * com.spring..*Controller.requireAdmin_*(..))") 
 	public void requireLogin() { }
 	
 	// === Before Advice 를 구현한다. ==
@@ -48,7 +48,7 @@ public class LoginCheck {
 		if(session.getAttribute("adminvo") == null) {
 			try {
 					String msg = "먼저 로그인 하세요";
-					String loc = request.getContextPath()+"/jinsoo/adminLogin.go";
+					String loc = request.getContextPath()+"/admin_adminLogin.go";
 					request.setAttribute("msg", msg);
 					request.setAttribute("loc", loc);
 					

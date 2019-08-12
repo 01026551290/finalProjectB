@@ -505,6 +505,17 @@
 		UPDATE RESERVE1 SET STATUS = 0 
 		WHERE RESERVEID = #{reserveId}
 	</update>
+	
+	<select id="getmemberOne" resultType="com.spring.god.jinsoo.model.JinsoomemberVO" parameterType="String">
+		SELECT IDX , MEMBERID , NICKNAME , NAME , EMAIL , BRITHDAY , TEL , GENDER , REGISTERDAY , GRADE , POINT , PICTURE , FINALLOGINDATE , FINALPWDATE
+		from MEMBER
+		where status = 1 and IDX = #{idx}  
+	</select>
+	
+	<update id="schedulCheckOut">
+		UPDATE RESERVE1	SET STATUS = 0 
+		WHERE RESERVEID IN (SELECT FK_RESERVEID FROM RESERVE2 WHERE CHECKOUT <![CDATA[ < ]]> SYSDATE)
+	</update>
 		
 </mapper>
 

@@ -101,6 +101,12 @@ public interface InterAdminDAO {
 	// 차트: 선택 달 일별 매출 통계 JSON으로 얻어오기
 	List<HashMap<String, String>> MdayRevenue(String month);
 
+	// 회원 상세보기
+	JinsoomemberVO getmemberOne(String idx);
+
+	// 시간 지나면 자동적으로 체크아웃하기
+	void schedulCheckOut();
+
 
 
 	

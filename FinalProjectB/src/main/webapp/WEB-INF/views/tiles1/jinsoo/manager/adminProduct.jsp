@@ -31,7 +31,7 @@
 		 		
 		 			$.ajax({
 		 				
-		 				url: "productStatusJSON.go",
+		 				url: "admin_productStatusJSON.go",
 		 				dataType: "JSON" ,
 		 				success: function(json){
 		 					
@@ -66,7 +66,7 @@
 					
 			$.ajax({
 				 
-				 url:"categoryProductJSON.go",
+				 url:"admin_categoryProductJSON.go",
 				 dataType: "JSON",
 				 success: function(json){
 					 
@@ -240,7 +240,7 @@
 		
 		<div id="chart_product" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 		
-		<div><span style="cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/productManage.go'">상품관리</span></div>
+		<div><span style="cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/admin_productManage.go'">상품관리</span></div>
 	</div>
 	
 

@@ -14,9 +14,9 @@
 </style>
 
 
-<div style="margin-top: 300px;"><span onclick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/manager.go'">홈으로</span></div>   
+<div style="margin-top: 300px;"><span onclick="javascript:location.href='<%= request.getContextPath() %>/admin_manager.go'">홈으로</span></div>   
 <div align="center" style="margin-top: 300px;">
-	<h2 style="margin-bottom: 20px; cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/reserveManage.go'">예약 목록</h2>
+	<h2 style="margin-bottom: 20px; cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/admin_reserveManage.go'">예약 목록</h2>
 	
 	<table id="table">
 		<tr>
@@ -39,7 +39,7 @@
 				 	<td align="center">${reservevo.reserveDate}</td>
 				 	<td align="center">${reservevo.checkIn}</td>
 				 	<td align="center">${reservevo.checkOut}</td>
-				 	<td align="center"><span style="cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/checkOut.go?reserveId=${reservevo.reserveId}'" >체크아웃</span></td>
+				 	<td align="center"><span style="cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/admin_checkOut.go?reserveId=${reservevo.reserveId}'" >체크아웃</span></td>
 						
 		</tr>
 			</c:forEach> 

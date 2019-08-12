@@ -47,7 +47,7 @@ public class AdminController {
 	private FileManager fileManager;
 	
 	// 관리자 로그인페이지 만들기
-	@RequestMapping(value="/jinsoo/adminLogin.go", method= {RequestMethod.GET} )
+	@RequestMapping(value="/admin_adminLogin.go", method= {RequestMethod.GET} )
 	public ModelAndView adminLogin(ModelAndView mv) {
 		
 		mv.setViewName("tiles1/jinsoo/manager/adminLogin");
@@ -55,16 +55,8 @@ public class AdminController {
 		return mv;
 	}
 	
-	
-	@RequestMapping(value="/jinsoo/search.go", method= {RequestMethod.GET} )
-	public ModelAndView search(ModelAndView mv) {
-		
-		mv.setViewName("tiles1/jinsoo/manager/search");
-		
-		return mv;
-	}
 	// 관리자 로그인하기
-	@RequestMapping(value="/jinsoo/adminLoginEnd.go", method= {RequestMethod.POST} )
+	@RequestMapping(value="/admin_adminLoginEnd.go", method= {RequestMethod.POST} )
 	public ModelAndView adminLoginEnd(ModelAndView mv, HttpServletRequest request) {
 		
 		String seq = request.getParameter("seq");
@@ -94,7 +86,7 @@ public class AdminController {
 				
 				session.setAttribute("adminvo", adminvo);
 				String msg = "로그인 되었습니다.";
-				String loc = request.getContextPath()+"/jinsoo/manager.go";
+				String loc = request.getContextPath()+"/admin_manager.go";
 				
 				
 				mv.addObject("msg", msg);
@@ -105,8 +97,8 @@ public class AdminController {
 		return mv;
 	}
 	// 관리자 페이지 띄우기
-	@RequestMapping(value="/jinsoo/manager.go", method= {RequestMethod.GET} )
-	public ModelAndView manager(ModelAndView mv) {
+	@RequestMapping(value="/admin_manager.go", method= {RequestMethod.GET} )
+	public ModelAndView requireAdmin_manager(HttpServletRequest request , HttpServletResponse response ,ModelAndView mv) {
 		
 		mv.setViewName("jinsoo/manager/adminHome.tiles1");
 		
@@ -114,7 +106,7 @@ public class AdminController {
 	}
 	
 	// 차트:  성별 JSON으로 얻어오기
-	@RequestMapping(value="/jinsoo/genderJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+	@RequestMapping(value="/admin_genderJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 	@ResponseBody
 	public String genderJSON() {
 		
@@ -140,7 +132,7 @@ public class AdminController {
 	}
 	
 	// 통계: 회원 가입 현황 보기
-	@RequestMapping(value="/jinsoo/todaymemberJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+	@RequestMapping(value="/admin_todaymemberJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 	@ResponseBody
 	public String todaymemberJSON() {
 		
@@ -159,7 +151,7 @@ public class AdminController {
 	}
 	
 	// 통계: 연령별 회원 통계
-	@RequestMapping(value="/jinsoo/ageJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+	@RequestMapping(value="/admin_ageJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 	@ResponseBody
 	public String ageJSON(HttpServletRequest request) {
 		
@@ -180,7 +172,7 @@ public class AdminController {
 	}
 	
 	// 통계: 연령별로 검색한 성별 회원 통계
-	@RequestMapping(value="/jinsoo/ageGenderJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+	@RequestMapping(value="/admin_ageGenderJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 	@ResponseBody
 	public String ageGenderJSON(HttpServletRequest request) {
 		
@@ -212,8 +204,8 @@ public class AdminController {
 	}
 	
 	// 회원 관리 페이지
-	@RequestMapping(value="/jinsoo/memberManage.go", method= {RequestMethod.GET} )
-	public ModelAndView memberManage(ModelAndView mv , HttpServletRequest request ) {
+	@RequestMapping(value="/admin_memberManage.go", method= {RequestMethod.GET} )
+	public ModelAndView requireAdmin_memberManage( HttpServletRequest request , HttpServletResponse response, ModelAndView mv  ) {
 		
 		List<JinsoomemberVO> jsmvoList = null;
 		
@@ -311,7 +303,7 @@ public class AdminController {
 		
 		String pagebar = "<ul>";
 		
-		String url = "memberManage.go";
+		String url = "admin_memberManage.go";
 		int blockSize = 10; 
 		
 		  
@@ -335,7 +327,7 @@ public class AdminController {
 	}
 	
 	// 검색어 자동 완성하기
-	@RequestMapping(value="/jinsoo/wordSearchShow.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+	@RequestMapping(value="/admin_wordSearchShow.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 	@ResponseBody
 	public String wordSearchShow(HttpServletRequest request) {
 		
@@ -365,7 +357,7 @@ public class AdminController {
 	}
 	
 	// 통계: 예약 현황 통계
-	@RequestMapping(value="/jinsoo/todayReserveJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+	@RequestMapping(value="/admin_todayReserveJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 	@ResponseBody
 	public String todayReserveJSON() {
 		
@@ -385,7 +377,7 @@ public class AdminController {
 	}
 	
 	// 통계: 예약된 회원 연령별 현황 가져오기
-	@RequestMapping(value="/jinsoo/ageReserveJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+	@RequestMapping(value="/admin_ageReserveJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 	@ResponseBody
 	public String ageReserveJSON() {
 		
@@ -408,7 +400,7 @@ public class AdminController {
 	
 	
 	// 통계: 예약된 회원 연령별로 검색한 성별  통계
-	@RequestMapping(value="/jinsoo/ageGenderReserveJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+	@RequestMapping(value="/admin_ageGenderReserveJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 	@ResponseBody
 	public String ageGenderReserveJSON(HttpServletRequest request) {
 		
@@ -440,7 +432,7 @@ public class AdminController {
 	}
 	
 	// 통계: 대분류로 정렬한 예약 현황  통계
-	@RequestMapping(value="/jinsoo/categoryReserveJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+	@RequestMapping(value="/admin_categoryReserveJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 	@ResponseBody
 	public String categoryReserveJSON() {
 		
@@ -462,8 +454,8 @@ public class AdminController {
 	}
 	
 	// 예약 관리 페이지
-	@RequestMapping(value="/jinsoo/reserveManage.go", method= {RequestMethod.GET} )
-	public ModelAndView reserveManage(ModelAndView mv , HttpServletRequest request) {
+	@RequestMapping(value="/admin_reserveManage.go", method= {RequestMethod.GET} )
+	public ModelAndView requireAdmin_reserveManage(HttpServletRequest request , HttpServletResponse response , ModelAndView mv  ) {
 		
 		List<reserveVO> reservevoList = null;
 		
@@ -557,7 +549,7 @@ public class AdminController {
 		
 		String pagebar = "<ul>";
 		
-		String url = "reserveManage.go";
+		String url = "admin_reserveManage.go";
 		int blockSize = 10; 
 		
 		  
@@ -584,7 +576,7 @@ public class AdminController {
 	
 	
 	// 통계: 상품 현황 통계
-	@RequestMapping(value="/jinsoo/productStatusJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+	@RequestMapping(value="/admin_productStatusJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 	@ResponseBody
 	public String productStatusJSON() {
 		
@@ -605,7 +597,7 @@ public class AdminController {
 	
 	
 	// 통계: 상품 종류별 현황 통계
-	@RequestMapping(value="/jinsoo/categoryProductJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+	@RequestMapping(value="/admin_categoryProductJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 	@ResponseBody
 	public String categoryProductJSON() {
 		
@@ -627,8 +619,8 @@ public class AdminController {
 	}
 	
 	// 상품 관리
-	@RequestMapping(value="/jinsoo/productManage.go", method= {RequestMethod.GET} )
-	public ModelAndView productManage(ModelAndView mv , HttpServletRequest request) {
+	@RequestMapping(value="/admin_productManage.go", method= {RequestMethod.GET} )
+	public ModelAndView requireAdmin_productManage( HttpServletRequest request , HttpServletResponse response , ModelAndView mv ) {
 	
 		List<HotelVO> hotelvoList = null;
 		
@@ -723,7 +715,7 @@ public class AdminController {
 		
 		String pagebar = "<ul>";
 		
-		String url = "productManage.go";
+		String url = "admin_productManage.go";
 		int blockSize = 10; 
 		
 		  
@@ -752,7 +744,7 @@ public class AdminController {
 	
 	
 	// 차트:  매출 통계 JSON으로 얻어오기
-		@RequestMapping(value="/jinsoo/revenueStatusJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+		@RequestMapping(value="/admin_revenueStatusJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 		@ResponseBody
 		public String revenueStatusJSON() {
 			
@@ -773,7 +765,7 @@ public class AdminController {
 		}
 	
 		// 차트: 종류별 매출 통계 JSON으로 얻어오기
-		@RequestMapping(value="/jinsoo/categoryRevenueJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+		@RequestMapping(value="/admin_categoryRevenueJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 		@ResponseBody
 		public String categoryRevenueJSON() {
 			
@@ -794,7 +786,7 @@ public class AdminController {
 		}
 		
 		// 차트: 월별 매출 통계 JSON으로 얻어오기
-		@RequestMapping(value="/jinsoo/MonthRevenueJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+		@RequestMapping(value="/admin_MonthRevenueJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 		@ResponseBody
 		public String MonthRevenueJSON() {
 			
@@ -815,7 +807,7 @@ public class AdminController {
 		}
 		
 		// 차트: 선택 달 일별 매출 통계 JSON으로 얻어오기
-		@RequestMapping(value="/jinsoo/MdayRevenueJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+		@RequestMapping(value="/admin_MdayRevenueJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 		@ResponseBody
 		public String MdayRevenueJSON(HttpServletRequest request) {
 			
@@ -842,7 +834,7 @@ public class AdminController {
 		
 		
 		// 차트: 요일별 매출 통계 JSON으로 얻어오기
-		@RequestMapping(value="/jinsoo/admin_dayRevenueJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+		@RequestMapping(value="/admin_dayRevenueJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
 		@ResponseBody
 		public String dayRevenueJSON() {
 			
@@ -862,20 +854,31 @@ public class AdminController {
 			return new Gson().toJson(jsonArr);
 			
 		}
-		/*
+		
+		// 모달 값 넘기기
+		@RequestMapping(value="/admin_return.go", method= {RequestMethod.GET} )
+		public String Modalreturn() {
+			
+			return "tiles1/jinsoo/return";
+		}
+		
 		// 회원 상세보기
-		@RequestMapping(value="/jinsoo/memberOneShow.go", method= {RequestMethod.GET} )
-		public ModelAndView memberOneShow(ModelAndView mv , HttpServletRequest request) {
+		@RequestMapping(value="/admin_memberOneShow.go", method= {RequestMethod.GET} )
+		public ModelAndView memberOneShow(ModelAndView mv , HttpServletRequest request) {						
 			
-			String idx = request.getParameter("modalidx");
+			String idx = request.getParameter("idx");
 			
-			System.out.println("모달"+idx);
+			JinsoomemberVO oneShow = service.getmemberOne(idx);
+			
+			mv.addObject("oneShow",oneShow );
+			
+			mv.setViewName("tiles1/jinsoo/member/oneShow");
 			
 			return mv;
-		}*/
+		}
 		
 		// 체크아웃시키기
-		@RequestMapping(value="/jinsoo/checkOut.go", method= {RequestMethod.GET} )
+		@RequestMapping(value="/admin_checkOut.go", method= {RequestMethod.GET} )
 		public ModelAndView checkOut(ModelAndView mv , HttpServletRequest request) {
 			
 			String reserveId = request.getParameter("reserveId");
@@ -889,11 +892,11 @@ public class AdminController {
 			
 			if(n==1) {
 				msg = "성공";
-				loc = "reserveManage.go";
+				loc = "admin_reserveManage.go";
 			}
 			else {
 				msg = "실패";
-				loc = "reserveManage.go";
+				loc = "admin_reserveManage.go";
 			}
 			mv.addObject("msg", msg);
 			mv.addObject("loc", loc);

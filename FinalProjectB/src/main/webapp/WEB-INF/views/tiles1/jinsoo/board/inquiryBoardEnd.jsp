@@ -5,11 +5,11 @@
 	    
 	if(${n == 1}){
 		alert("글쓰기에 성공했습니다.");
-		location.href="list.action";
+		location.href="admin_personinquiryBoardList.go";
 	}
 	else{
 		alert("글쓰기에 실패했습니다.");
-		location.href="<%= ctxPath%>/index.action";
+		location.href="<%= ctxPath%>/index.go";
 	}
 	
 

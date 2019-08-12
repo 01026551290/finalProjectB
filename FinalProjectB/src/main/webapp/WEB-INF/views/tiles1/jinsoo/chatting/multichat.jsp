@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<% String ctxPath =  request.getContextPath();	%>    
 
 <%-- //=== #174. (웹채팅관련5) ===  --%>
-
+<script src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/board/resources/js/json2.js"></script>
 <!-- JSON.stringify() 는 값을 그 값을 나타내는 JSON 표기법의 문자열로 변환해주는 것인데 이것을 사용하기 위해서는 json2.js 가 필요하다. -->
 
@@ -12,7 +13,8 @@
     // === !!! WebSocket 통신은 스크립트로 작성하는 것이다. !!! === //
     $(document).ready(function(){
         
-        var url = window.location.host;   // 웹브라우저의 주소창의 포트까지 가져옴
+    //  var url = window.location.host;   // 웹브라우저의 주소창의 포트까지 가져옴
+        var url = "192.168.50.16:9090";  
      
     	    
     	var pathname = window.location.pathname; // '/'부터 오른쪽에 있는 모든 경로
@@ -24,7 +26,7 @@
     	var root = url+appCtx;
     
    	
-    	var wsUrl = "ws://"+root+"/admin_chatting.go";
+    	var wsUrl = "ws://"+root+"/multichatstart.go";
        	var websocket = new WebSocket(wsUrl);  //  /WEB-INF/web.xml 에 가서 appServlet 의 contextConfigLocation 을 수정한다. 
      /*  var websocket = new WebSocket("ws://192.168.50.53:9090/board/chatting/multichatstart.action"); */
         

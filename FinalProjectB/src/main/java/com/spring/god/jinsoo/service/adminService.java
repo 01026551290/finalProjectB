@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.spring.god.jinsoo.model.BoardVO;
@@ -248,9 +249,19 @@ public class adminService implements InterAdminService {
 		return MdayRevenueList;
 	}
 
+	// 회원 상세보기
+	@Override
+	public JinsoomemberVO getmemberOne(String idx) {
+		JinsoomemberVO OneShow = dao.getmemberOne(idx);
+		return OneShow;
+	}
 
-	
 
+	// 시간 지나면 자동적으로 체크아웃하기
+	@Scheduled(cron="0 1 0 * * *")
+	public void schedulCheckOut() {
+		dao.schedulCheckOut();
+	}
 
 	
 }

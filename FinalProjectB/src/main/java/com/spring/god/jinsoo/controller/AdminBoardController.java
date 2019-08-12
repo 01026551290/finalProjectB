@@ -43,7 +43,7 @@ public class AdminBoardController {
 	
 
 	
-	@RequestMapping(value="/jinsoo/buisnessBoard.go" , method= {RequestMethod.GET})
+	@RequestMapping(value="/admin_buisnessBoard.go" , method= {RequestMethod.GET})
 	public ModelAndView buisnessBoard(HttpServletRequest request ,  HttpServletResponse response ,ModelAndView mv ) {
 		
 		String fk_seq = request.getParameter("fk_seq");
@@ -59,7 +59,7 @@ public class AdminBoardController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/jinsoo/buisnessBoardEnd.go" , method= {RequestMethod.POST})
+	@RequestMapping(value="/admin_buisnessBoardEnd.go" , method= {RequestMethod.POST})
 	public String addEnd(BoardVO boardvo, MultipartHttpServletRequest mrequest ) {
 		
 		
@@ -115,7 +115,7 @@ public class AdminBoardController {
 		return "jinsoo/board/buisnessBoardEnd.tiles1";
 	}
 
-	@RequestMapping(value="/jinsoo/buisnessBoardList.go" , method= {RequestMethod.GET})
+	@RequestMapping(value="/admin_buisnessBoardList.go" , method= {RequestMethod.GET})
 	public ModelAndView buisnessBoardList(ModelAndView mv , HttpServletRequest request) {
 		
 		List<BoardVO> buisnessBoardList = null;
@@ -210,7 +210,7 @@ public class AdminBoardController {
 		
 		String pagebar = "<ul>";
 		
-		String url = "buisnessBoardList.go";
+		String url = "admin_buisnessBoardList.go";
 		int blockSize = 10; 
 		
 		  
@@ -236,7 +236,7 @@ public class AdminBoardController {
 	}
 	
 	// 글 한개 보기
-	@RequestMapping(value="/jinsoo/buisnessBoardView.go" , method= {RequestMethod.GET})
+	@RequestMapping(value="/admin_buisnessBoardView.go" , method= {RequestMethod.GET})
 	public ModelAndView view(HttpServletRequest request ,  HttpServletResponse response ,ModelAndView mv) {
 		
 		String seq = request.getParameter("seq");	
@@ -280,7 +280,7 @@ public class AdminBoardController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/addComment.go" , method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8" )
+	@RequestMapping(value="/admin_addComment.go" , method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8" )
 	@ResponseBody
 	public String addComment(HttpServletRequest request , CommentVO commentvo) {
 		
@@ -318,7 +318,7 @@ public class AdminBoardController {
 		return jsonStr;
 	}
 	
-	@RequestMapping(value="/jinsoo/buisnessBoardedit.go" , method= {RequestMethod.GET})
+	@RequestMapping(value="/admin_buisnessBoardedit.go" , method= {RequestMethod.GET})
 	public ModelAndView buisnessBoardedit(ModelAndView mv , HttpServletRequest request) {
 		// 글 수정 해야할 글 번호 가져오기
 		String seq = request.getParameter("seq");
@@ -371,7 +371,7 @@ public class AdminBoardController {
 	
 	
 	// 문의 사항 글쓰기
-	@RequestMapping(value="/jinsoo/inquiryBoard.go" , method= {RequestMethod.GET})
+	@RequestMapping(value="/admin_inquiryBoard.go" , method= {RequestMethod.GET})
 	public ModelAndView inquiryBoard(HttpServletRequest request ,  HttpServletResponse response ,ModelAndView mv ) {
 				
 		
@@ -438,7 +438,7 @@ public class AdminBoardController {
 	}
 
 	// 문의 전체 사항 보기( 관리자 )
-	@RequestMapping(value="/jinsoo/inquiryBoardList.go" , method= {RequestMethod.GET})
+	@RequestMapping(value="/admin_inquiryBoardList.go" , method= {RequestMethod.GET})
 	public ModelAndView inquiryBoardList(ModelAndView mv , HttpServletRequest request) {
 		
 		List<BoardVO> inquiryBoardList = null;
@@ -533,7 +533,7 @@ public class AdminBoardController {
 		
 		String pagebar = "<ul>";
 		
-		String url = "inquiryBoardList.go";
+		String url = "admin_inquiryBoardList.go";
 		int blockSize = 10; 
 		
 		  
@@ -560,7 +560,7 @@ public class AdminBoardController {
 	
 	
 	// 문의사항  보기
-	@RequestMapping(value="/jinsoo_personinquiryBoardList.go" , method= {RequestMethod.GET})
+	@RequestMapping(value="/admin_personinquiryBoardList.go" , method= {RequestMethod.GET})
 	public ModelAndView personinquiryBoardList(ModelAndView mv , HttpServletRequest request) {
 		
 		List<BoardVO> inquiryBoardList = null;
@@ -662,7 +662,7 @@ public class AdminBoardController {
 		
 		String pagebar = "<ul>";
 		
-		String url = "inquiryBoardList.go";
+		String url = "admin_inquiryBoardList.go";
 		int blockSize = 10; 
 		
 		
@@ -688,7 +688,7 @@ public class AdminBoardController {
 	
 	
 	// 문의사항  보기
-	@RequestMapping(value="jinsoo_inquiryBoardView.go" , method= {RequestMethod.GET})
+	@RequestMapping(value="admin_inquiryBoardView.go" , method= {RequestMethod.GET})
 	public ModelAndView inquiryview(HttpServletRequest request ,  HttpServletResponse response ,ModelAndView mv) {
 		
 		String seq = request.getParameter("seq");	

@@ -31,7 +31,7 @@
 		 		
 		 			$.ajax({
 		 				
-		 				url: "todaymemberJSON.go",
+		 				url: "admin_todaymemberJSON.go",
 		 				dataType: "JSON" ,
 		 				success: function(json){
 		 					
@@ -63,7 +63,7 @@
 			 case "gender" :
 				 $.ajax({
 					 
-					 url:"genderJSON.go",
+					 url:"admin_genderJSON.go",
 					 dataType: "JSON",
 					 success: function(json){
 						 
@@ -123,7 +123,7 @@
 				 break;		
 			case "age" :
 				
-				$.getJSON("ageJSON.go",function(json){
+				$.getJSON("admin_ageJSON.go",function(json){
 					
 					$("#chart_container").empty();
 					
@@ -143,7 +143,7 @@
 					var ageGenderCntArr = [];		
 				
 				$.each(json, function(index,item){
-					$.getJSON("ageGenderJSON.go?age="+item.age , function(json2){
+					$.getJSON("admin_ageGenderJSON.go?age="+item.age , function(json2){
 						var subArr = [];
 
 						$.each(json2,function(index,item){							
@@ -242,7 +242,7 @@
 		
 		<div id="chart_container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 		
-		<div><span style="cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/memberManage.go'">회원관리</span></div>
+		<div><span style="cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/admin_memberManage.go'">회원관리</span></div>
 	</div>
 	
 

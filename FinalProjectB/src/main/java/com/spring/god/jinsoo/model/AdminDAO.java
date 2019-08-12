@@ -245,6 +245,19 @@ public class AdminDAO implements InterAdminDAO {
 		return MdayRevenueList;
 	}
 
+	// 회원 상세보기
+	@Override
+	public JinsoomemberVO getmemberOne(String idx) {
+		JinsoomemberVO OneShow = sqlsession.selectOne("jinsoodb.getmemberOne", idx);
+		return OneShow;
+	}
+
+	// 시간 지나면 자동적으로 체크아웃하기
+	@Override
+	public void schedulCheckOut() {
+		sqlsession.update("jinsoodb.schedulCheckOut");		
+	}
+
 
 
 

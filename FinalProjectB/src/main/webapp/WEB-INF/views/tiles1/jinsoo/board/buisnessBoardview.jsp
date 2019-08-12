@@ -126,20 +126,20 @@
 	
 	<br/>
 	
-	<div style="margin-bottom: 1%;">이전글 : <span class="move" onClick="javascript:location.href='<%= ctxPath%>/jinsoo/buisnessBoardView.go?seq=${boardvo.previousSeq}'">${boardvo.previousSubject}</span></div>
-	<div style="margin-bottom: 1%;">다음글 : <span class="move" onClick="javascript:location.href='<%= ctxPath%>/jinsoo/buisnessBoardView.go?seq=${boardvo.nextSeq}'">${boardvo.nextSubject}</span></div>
+	<div style="margin-bottom: 1%;">이전글 : <span class="move" onClick="javascript:location.href='<%= ctxPath%>/admin_buisnessBoardView.go?seq=${boardvo.previousSeq}'">${boardvo.previousSubject}</span></div>
+	<div style="margin-bottom: 1%;">다음글 : <span class="move" onClick="javascript:location.href='<%= ctxPath%>/admin_buisnessBoardView.go?seq=${boardvo.nextSeq}'">${boardvo.nextSubject}</span></div>
 	
 	<br/>
 	
 <%-- 	<button type="button" onClick="javascript:location.href='<%= request.getContextPath() %>/list.action'">목록보기</button> --%> 
 	<button type="button" onClick="javascript:location.href='<%= request.getContextPath() %>/${gobackURL}'">목록보기</button> 
-	<button type="button" onClick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/buisnessBoardedit.go?seq=${boardvo.seq}'">수정</button>
-	<button type="button" onClick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/buisnessBoarddel.go?seq=${boardvo.seq}'">삭제</button>
+	<button type="button" onClick="javascript:location.href='<%= request.getContextPath() %>/admin_buisnessBoardedit.go?seq=${boardvo.seq}'">수정</button>
+	<button type="button" onClick="javascript:location.href='<%= request.getContextPath() %>/admin_buisnessBoarddel.go?seq=${boardvo.seq}'">삭제</button>
 	
 	
 	<!-- #121 답변글 쓰기 버튼 추가 현재보고있는 글을 작성하려는 답변글의 원글이 된다. -->
 	
-	<button type="button" onclick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/buisnessBoard.go?fk_seq=${boardvo.seq}&groupno=${boardvo.groupNo}&depthno=${boardvo.depthno}'">답변글쓰기</button>
+	<button type="button" onclick="javascript:location.href='<%= request.getContextPath() %>/admin_buisnessBoard.go?fk_seq=${boardvo.seq}&groupno=${boardvo.groupNo}&depthno=${boardvo.depthno}'">답변글쓰기</button>
 	
 	<!-- # 84 댓글쓰기 폼추가 -->
 	<h3 style="margin-top: 50px;">댓글</h3>

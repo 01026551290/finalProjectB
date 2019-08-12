@@ -31,7 +31,7 @@
 		 		
 		 			$.ajax({
 		 				
-		 				url: "todayReserveJSON.go",
+		 				url: "admin_todayReserveJSON.go",
 		 				dataType: "JSON" ,
 		 				success: function(json){
 		 					
@@ -62,7 +62,7 @@
 	
 			case "ageGender" :
 				
-				$.getJSON("ageReserveJSON.go",function(json){
+				$.getJSON("admin_ageReserveJSON.go",function(json){
 					
 					$("#chart_reserve").empty();
 					
@@ -82,7 +82,7 @@
 					var ageGenderCntArr = [];		
 				
 				$.each(json, function(index,item){
-					$.getJSON("ageGenderReserveJSON.go?age="+item.age , function(json2){
+					$.getJSON("admin_ageGenderReserveJSON.go?age="+item.age , function(json2){
 						var subArr = [];
 
 						$.each(json2,function(index,item){							
@@ -159,7 +159,7 @@
 			 case "category" :
 				 $.ajax({
 					 
-					 url:"categoryReserveJSON.go",
+					 url:"admin_categoryReserveJSON.go",
 					 dataType: "JSON",
 					 success: function(json){
 						 
@@ -252,7 +252,7 @@
 		
 		<div id="chart_reserve" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 		
-		<div><span style="cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/reserveManage.go'">예약관리</span></div>
+		<div><span style="cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/admin_reserveManage.go'">예약관리</span></div>
 	</div>
 	
 

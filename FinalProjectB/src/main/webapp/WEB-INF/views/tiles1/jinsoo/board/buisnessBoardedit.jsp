@@ -123,7 +123,7 @@
 			
 			var frm = document.editFrm;
 			frm.method = "POST";
-			frm.action = "<%= ctxPath%>/editEnd.go";
+			frm.action = "<%= ctxPath%>/admin_editEnd.go";
 			frm.submit();
 		});
 		

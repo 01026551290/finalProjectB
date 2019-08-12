@@ -120,7 +120,7 @@
 			
 			var frm = document.addFrm;
 			frm.method = "POST";	// 파일을 첨부할 경우이라면 반드시 POST 방식이여만 한다. GET 이라면 파일첨부가 안되어진다.
-			frm.action = "<%= ctxPath%>/jinsoo/buisnessBoardEnd.go";
+			frm.action = "<%= ctxPath%>/admin_buisnessBoardEnd.go";
 			frm.submit();
 		});
 		

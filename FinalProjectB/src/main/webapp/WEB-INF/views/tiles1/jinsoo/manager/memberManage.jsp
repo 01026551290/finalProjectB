@@ -14,10 +14,9 @@
 	.subjectStyle { font-weight: bold; color: navy; cursor: pointer; }
 </style>
 <script type="text/javascript">
+
 $(document).ready(function(){
 	
-
-
 	
 	
 	$(".subject").bind("mouseover",function(event){
@@ -55,7 +54,7 @@ $(document).ready(function(){
 		 
 		 $.ajax({
 			
-			 url:"<%= request.getContextPath()%>/jinsoo/wordSearchShow.go",
+			 url:"<%= request.getContextPath()%>/admin_wordSearchShow.go",
 			 data:form_data,
 			 dataType:"JSON",
 			 success: function(json){
@@ -108,32 +107,45 @@ $(document).ready(function(){
 			$("#displayList").hide();
 			goSearch();
 	 });
-	 
-	 
+	
+	 if(sessionStorage.getItem("idx") != null){
+		 $("#modalhi").click();
+	 }
 	 
 	 
 });
 
+function goSearch(){
+	var frm = document.searchFrm;
+	frm.method = "GET";
+	frm.action = "<%= request.getContextPath()%>/admin_memberManage.go";
+	frm.submit();
+}
 
+function goRange() {
+	var frm = document.rangeFrm;
+	frm.method = "GET";
+	frm.action = "<%= request.getContextPath()%>/admin_memberManage.go";
+	frm.submit();
+}
 
-	function goSearch(){
-		var frm = document.searchFrm;
-		frm.method = "GET";
-		frm.action = "<%= request.getContextPath()%>/jinsoo/memberManage.go";
-		frm.submit();
-	}
+function goOneView(idx){
+	sessionStorage.setItem("idx", idx);
+	history.go(0);
 	
-	function goRange() {
-		var frm = document.rangeFrm;
-		frm.method = "GET";
-		frm.action = "<%= request.getContextPath()%>/jinsoo/memberManage.go";
-		frm.submit();
-	}
+	
+} 
+
+function modalclo(){
+	sessionStorage.removeItem("idx");
+	
+}
+	
 
 </script>        
- <div style="margin-top: 300px;"><span onclick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/manager.go'">홈으로</span></div>   
+ <div style="margin-top: 300px;"><span onclick="javascript:location.href='<%= request.getContextPath() %>/admin_manager.go'">홈으로</span></div>   
 <div align="center" style="margin-top: 300px;">
-	<h2 style="margin-bottom: 20px; cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/memberManage.go'">회원 목록</h2>
+	<h2 style="margin-bottom: 20px; cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/admin_memberManage.go'">회원 목록</h2>
 	
 	
 	<table id="table">
@@ -164,8 +176,8 @@ $(document).ready(function(){
 						<c:if test="${jsmvo.gender == 2}">
 						<td align="center">여자</td>
 						</c:if>
-					<td align="center"><span><a id="modal_idx" style="cursor: pointer;" data-toggle="modal" data-target="#membershow" data-dismiss="modal" data-unique="${jsmvo.idx}">보기</a></span></td>
-					
+					<td align="center"><span><a id="modal_idx" onclick="goOneView(${jsmvo.idx})"   >보기</a></span></td>
+						<a id="modalhi" style="cursor: pointer;" data-toggle="modal" data-target="#membershow" data-dismiss="modal" data-unique="${jsmvo.idx}" ></a>
 		</tr>
 		
 		 		
@@ -212,14 +224,15 @@ $(document).ready(function(){
 							<div id="idFind">
 								<input type="hidden" id="modalidx" name="modalidx" value="" />
 								<iframe style="border: none; width: 100%; height: 280px;"
-									src="<%=request.getContextPath()%>/jinsoo/memberOneShow.go?idx=${jsmvo.idx}">
+									src="<%= request.getContextPath() %>/admin_return.go">
 									
 								</iframe>
 							</div>
+							
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default myclose"
-								data-dismiss="modal">Close</button>
+								data-dismiss="modal" onclick="modalclo();">Close</button>
 						</div>
 					</div>
 				</div>

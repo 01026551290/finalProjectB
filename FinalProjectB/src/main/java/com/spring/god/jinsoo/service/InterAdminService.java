@@ -108,6 +108,9 @@ public interface InterAdminService {
 	// 차트: 선택 달 일별 매출 통계 JSON으로 얻어오기
 	List<HashMap<String, String>> MdayRevenue(String month);
 
+	// 회원 상세보기
+	JinsoomemberVO getmemberOne(String idx);
+
 	
 
 	

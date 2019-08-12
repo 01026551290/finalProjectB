@@ -50,7 +50,7 @@ $(document).ready(function(){
 		 
 		 $.ajax({
 			
-			 url:"<%= request.getContextPath()%>/wordSearchSow.action",
+			 url:"<%= request.getContextPath()%>/admin_wordSearchSow.go",
 			 data:form_data,
 			 dataType:"JSON",
 			 success: function(json){
@@ -111,7 +111,7 @@ function goView(seq){
 	var frm = document.goViewFrm;
 	frm.seq.value = seq
 	frm.method = "GET";
-	frm.action = "<%= request.getContextPath()%>/jinsoo/buisnessBoardView.go"
+	frm.action = "<%= request.getContextPath()%>/admin_buisnessBoardView.go"
 	frm.submit();
 	
 }
@@ -119,7 +119,7 @@ function goView(seq){
 	function goSearch(){
 		var frm = document.searchFrm;
 		frm.method = "GET";
-		frm.action = "<%= request.getContextPath()%>/jinsoo/buisnessBoardList.go";
+		frm.action = "<%= request.getContextPath()%>/admin_buisnessBoardList.go";
 		frm.submit();
 	}
 	

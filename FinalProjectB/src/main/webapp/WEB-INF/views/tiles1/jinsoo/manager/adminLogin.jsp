@@ -30,7 +30,7 @@ function adminlogin() {
 	
 	var frm = document.adminFrm;
 	frm.method = "POST";
-	frm.action = "<%= ctxPath%>/jinsoo/adminLoginEnd.go";
+	frm.action = "<%= ctxPath%>/admin_adminLoginEnd.go";
 	frm.submit();
 	
 }
