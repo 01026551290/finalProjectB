@@ -285,7 +285,7 @@ public class MemberController {
 		paraMap.put("name", name);
 		paraMap.put("email", email);
 
-		String idFind = service.getidFind(paraMap);
+		String idFind = "";
 		
 		boolean isUserExist = service.isUserExist(paraMap);
 		
@@ -293,13 +293,15 @@ public class MemberController {
 
 		// 회원이 존재하는 경우
 		if (isUserExist) {
+			 idFind = service.getidFind(paraMap);
 			n = 1; // n을 1로 바꾸겠다.
 		}
 		else {
-			n = 0;
+			n = 2;
 		}
 		mv.addObject("method", "POST");
 		mv.addObject("name", name);
+		mv.addObject("isUserExist", isUserExist);
 		mv.addObject("email", email);
 		mv.addObject("idFind", idFind);
 		mv.addObject("n", n);
@@ -573,7 +575,7 @@ public class MemberController {
 		System.out.println(attach);
 		if (!attach.isEmpty()) {
 			session = request.getSession();
-			String path = "C:\\Users\\samsung\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\member";
+			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\member";
 //			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\member";
 
 			String newFileName = "";

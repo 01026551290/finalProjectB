@@ -59,58 +59,40 @@
     </section>
     <!-- END section -->
           
-    <section class="section contact-section" id="next">
-      <div class="container" >
-        <div class="row">
-           <div class="col-md-12">
-            <!-- /////////////////////////////////////////////////////////////////// -->
+   <section class="section contact-section" id="next">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5">
+				<div class="row">
+					<div class="col-md-10 ml-auto contact-info">
+						<p class="loginborder">
+							<span class="text-black">마이페이지</span>
+						</p>
 			<c:if test="${loginuser != null }">  
-				<div class="col-md-5">
-					<img style = "width: 150px;" src="<%=ctxPath%>/resources/images/member/${loginuser.picture}" title="뜨나요" style="padding-bottom: 30px;"> 
-				</div>
-				<div class="col-md-7">
-           			<h3><a class="text-black" href="mypage.go">${loginuser.name}님의 페이지</a></h3>
-           			<p><a class="text-black" href="<%= ctxPath%>/photoaddedit.go">내 사진 추가/변경</</p>
-					<p><a class="text-black" href="#">내 구매기록 조회</a>                           </p>
-					<p><a class="text-black" href="<%= ctxPath%>/pwdpass.go">내 정보수정</a>         </p>
-					<p><a class="text-black" href="#">내 글 조회</a>                                 </p>
-					<p><a class="text-black" href="#">찜목록</a>                                     </p>
-				</div>
-			</c:if>
-			</div>
-            
-          <%--   
-            
-            <form name="registerFrm" enctype="multipart/form-data">                      
-			<div class="container">
-				<div class="row full-height align-items-center">
-					<div class="col-md-6 mx-auto">
-						<ul class="list-unstyled menu">
-							<div class="col-md-12">
-							<c:if test="${loginuser != null }">  
-								<div class="col-md-5">
-								<!-- 돌아가는거!!! -->
-							
-								<li><img style = "width: 150px;" src="<%=ctxPath%>/resources/images/member/${loginuser.picture}" title="뜨나요" style="padding-bottom: 30px;"></li> 
-								</div >
-								<div class="col-md-7">
-	                   			<li class="active"><a href="mypage.go">${loginuser.name}님의 페이지</a></li>
-	                   			<li><a href="<%= ctxPath%>/photoaddedit.go">내 사진 추가/변경</a></li>
-								<li><a href="#">내 구매기록 조회</a></li>
-								<li><a href="<%= ctxPath%>/pwdpass.go">내 정보수정</a></li>
-								<li><a href="#">내 글 조회</a></li>
-								<li><a href="#">찜목록</a></li>
-								</div>
-							</c:if>
-							</div>
-						</ul>
+			<div class="col-md-12 taC mgt10">
+               <img style = "width: 150px;" src="<%=ctxPath%>/resources/images/member/${loginuser.picture}" title="뜨나요" style="padding-bottom: 30px;"> 
+            </div>
 					</div>
 				</div>
 			</div>
-            </form> --%>
+			<div class="col-md-7">
+        <div class="row">
+            <div class="col-md-12">
             <!-- /////////////////////////////////////////////////////////////////// -->
-            
-          </div>                  
+				<div class="col-md-7 ml-5">
+           			<h3><a class="text-black" href="mypage.go">${loginuser.name}님의 페이지</a></h3>
+           			<p><a class="text-black" href="<%= ctxPath%>/photoaddedit.go">내 사진 추가/변경</</p>
+					<p><a class="text-black" href="#">내 구매기록 조회</a></p>
+					<p><a class="text-black" href="<%= ctxPath%>/pwdpass.go">내 정보수정</a></p>
+					<p><a class="text-black" href="#">내 글 조회</a></p>
+					<p><a class="text-black" href="<%= ctxPath%>/jinsoo_personinquiryBoardList.go">문의하기</a></p>
+					<p><a class="text-black" href="#">찜목록</a></p>
+				</div>
+				</div>
+				</div>
+			</c:if>
+			</div>
+          </div>   
         </div>
     </section>  
    
