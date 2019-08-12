@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
        
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-    
+
+<% String ctxPath = request.getContextPath(); %>
+
 <script type="text/javascript">
 	
 	$(document).ready(function(){
@@ -99,12 +101,28 @@
 	   
 		}// end of function goRegister(event)----------
 
-	</script> 
-		<section class="section contact-section" id="next">
+	</script>
+<section class="site-hero inner-page overlay"style="background-image: url(<%=ctxPath%>/resources/images/hero_4.jpg)" data-stellar-background-ratio="0.5">
+	<div class="container">
+		<div class="row site-hero-inner justify-content-center align-items-center">
+			<div class="col-md-10 text-center" data-aos="fade">
+				<h1 class="heading mb-3">탈퇴하기</h1>
+			</div>
+		</div>
+	</div>
+	<a class="mouse smoothscroll" href="#next">
+		<div class="mouse-icon">
+			<span class="mouse-wheel"></span>
+		</div>
+	</a>
+</section>
+<!-- END section -->
+
+<section class="section contact-section" id="next">
       		<div class="container" >
         		<div class="row">
          		 <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
-            		 <div>::: 탈퇴하실 아이디와 비밀번호를 입력해주세요 :::(<span style="font-size: 10pt; font-style: italic;"><span class="star">*</span>표시는 필수입력사항</span>) </div>
+            		 <div>::: 탈퇴를 위해 아이디와 비밀번호를 다시 한 번 입력해주세요 :::(<span style="font-size: 10pt; font-style: italic;"><span class="star">*</span>표시는 필수입력사항</span>) </div>
             <form name="registerFrm" >                      
               <div class="row">
                 <div class="col-md-12 form-group">

@@ -79,7 +79,7 @@
    
    <update id="memberout" parameterType="HashMap">
 	   UPDATE MEMBER set status = 0 , DELETEDAYE =SYSDATE
-	   where status = 1 and memberId = #{memberId} and pwd = #{pwd}
+	   where status = 1 and memberId = #{memberId} and pwd = #{pwd} and idx = #{idx}
    </update> 
    
 	<update id="add_withFile" parameterType="com.spring.god.jiyoung.model.MemberVO"> 	

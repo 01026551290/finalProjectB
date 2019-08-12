@@ -79,14 +79,14 @@
         <div class="row">
             <div class="col-md-12">
             <!-- /////////////////////////////////////////////////////////////////// -->
-				<div class="col-md-7 ml-5">
+				<div class="col-md-7 ml-5" >
            			<h3><a class="text-black" href="mypage.go">${loginuser.name}님의 페이지</a></h3>
            			<p><a class="text-black" href="<%= ctxPath%>/photoaddedit.go">내 사진 추가/변경</</p>
-					<p><a class="text-black" href="#">내 구매기록 조회</a></p>
+					<p><a class="text-black" href="<%= ctxPath%>/purchasehistory.go">내 구매기록 조회</a></p>
 					<p><a class="text-black" href="<%= ctxPath%>/pwdpass.go">내 정보수정</a></p>
-					<p><a class="text-black" href="#">내 글 조회</a></p>
+					<p><a class="text-black" href="<%= ctxPath%>/history.go">내 여행</a></p>
 					<p><a class="text-black" href="<%= ctxPath%>/jinsoo_personinquiryBoardList.go">문의하기</a></p>
-					<p><a class="text-black" href="#">찜목록</a></p>
+					<p><a class="text-black" href="<%= ctxPath%>/heartList.go">찜목록</a></p>
 				</div>
 				</div>
 				</div>
