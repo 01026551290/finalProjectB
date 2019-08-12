@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-       
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
 <% String ctxPath = request.getContextPath(); %>
@@ -87,6 +87,9 @@
 					<p><a class="text-black" href="<%= ctxPath%>/history.go">내 여행</a></p>
 					<p><a class="text-black" href="<%= ctxPath%>/jinsoo_personinquiryBoardList.go">문의하기</a></p>
 					<p><a class="text-black" href="<%= ctxPath%>/heartList.go">찜목록</a></p>
+					<c:if test="${loginuser.grade ==3}">
+					<p><a class="text-black" href="<%= ctxPath%>/admin_buisnessBoardList.go">사장님 게시판</a></p>
+					</c:if>
 				</div>
 				</div>
 				</div>

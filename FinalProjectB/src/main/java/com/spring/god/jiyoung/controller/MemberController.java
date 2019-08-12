@@ -420,7 +420,7 @@ public class MemberController {
 	// 강사님은 한 페이지에서 해결했는데, 그건 이클립스라서 아무 방식이나 받기 때문임.
 	// 근데 스프링에서는 한 메서드에 한 request 방식만 받기 때문에, 나눠줘야 함.
 	@RequestMapping(value = "/pwdConfirm.go", method = { RequestMethod.GET })
-	public ModelAndView LoginCK_PwdConfirmgo(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+	public ModelAndView PwdConfirmgo(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 
 		String userid = request.getParameter("userid");
 		request.setAttribute("userid", userid);
