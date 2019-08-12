@@ -291,6 +291,40 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
     });// end of $("#searchType").bind("change",function()
    
    
+    		
+///////////////////////////////////////////////////////////////////////////////////
+	var imgLength=$('.slides img').length
+    var showIndex=0;
+    console.log(imgLength);
+    
+    $('.slides img').eq(0).show();
+    
+    $('.next').click(function(){
+        $('.slides img')
+            .eq(showIndex)
+            .next()
+            .fadeIn()
+            .siblings('img')
+            .fadeOut(0);
+        if(showIndex<imgLength-1){
+            showIndex++;
+        }
+    });/* next */
+    
+    $('.prev').click(function(){
+        $('.slides img')
+            .eq(showIndex)
+            .prev()
+            .fadeIn(0)
+            .siblings('img')
+            .fadeOut();
+        if(showIndex>0){
+            showIndex--;
+        }
+    });/* prev */    		
+/////////////////////////////////////////////////////////////////////////////////// 		
+    		
+    		
    });// end of ready
    
    ///////////////////////////////////////////////////////////////////////////////////
