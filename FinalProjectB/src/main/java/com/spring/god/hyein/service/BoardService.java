@@ -46,14 +46,6 @@ public class BoardService implements InterBoardService {
 		return boardList;
 	}
 
-	/*
-	@Override
-	public MemberVO getLoginMember(HashMap<String, String> paraMap) {
-		MemberVO loginuser = dao.getLoginMember(paraMap);
-		return loginuser;
-	}
-	*/
-
 	// 1개 글 보여주기
 	@Override
 	public BoardVO getView(String seq) {

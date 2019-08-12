@@ -25,7 +25,6 @@ import com.spring.god.common.SHA256;
 import com.spring.god.common.FileManager;
 import com.spring.god.hyein.service.InterBoardService;
 import com.spring.god.jinsoo.model.JinsooadminVO;
-import com.spring.god.jiyoung.model.MemberVO;
 
 @Component
 @Controller

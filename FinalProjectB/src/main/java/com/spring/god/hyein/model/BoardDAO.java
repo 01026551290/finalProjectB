@@ -38,13 +38,6 @@ public class BoardDAO implements InterBoardDAO {
 		return boardList;
 	}
 
-	// === 로그인하기 === //
-	@Override
-	public MemberVO getLoginMember(HashMap<String, String> paraMap) {
-		MemberVO loginuser = sqlsession.selectOne("jiyoungdb.getLoginMember",paraMap);
-		return loginuser;
-	}
-
 	// === 글조회수 1증가하기 === //
 	@Override
 	public void setAddReadCount(String seq) {
