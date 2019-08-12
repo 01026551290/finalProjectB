@@ -1,11 +1,13 @@
- <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
+       
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-
 <script type="text/javascript">
 	
 	$(document).ready(function(){
+
 		var now = new Date(); 
 		// 자바스크립트에서 현재날짜시각을 얻어온다.
 		
@@ -16,6 +18,17 @@
 		$("#error_passwd").hide();
 		$("#NAME").focus();
 		
+	/*	
+		$("#name").blur(function(){
+			var name = $(this).val().trim();
+			if(name == "") {
+				$(this).parent().find(".error").show();
+			}
+		}); 
+		// 선택자.blur(); 은 선택자에서 포커스 잃어버렸을 경우
+		// 발생하는 이벤트 이다.
+	*/	
+	
 		$(".form-control").each(function(){
 			$(this).blur(function(){
 				var data = $(this).val().trim();
@@ -59,7 +72,10 @@
 		$("#PWD").blur(function(){
 			var passwd = $(this).val();
 			
+		//	var regExp_PW = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;
+			// 또는
 			var regExp_PW = new RegExp(/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g); 
+			// 숫자/문자/특수문자/ 포함 형태의 8~15자리 이내의 암호 정규식 객체 생성
 			
 			var bool = regExp_PW.test(passwd);
 			
@@ -135,17 +151,16 @@
 				$(this).parent().find(".error").show();
 				$(":input").attr("disabled",true).addClass("bgcol");
 				$(this).attr("disabled",false).removeClass("bgcol"); 
-				$(this).focus();
+				
 			}
 			else {
 				$(this).parent().find(".error").hide();
 				$(":input").attr("disabled",false).removeClass("bgcol");
-				$("#hp2").focus();
+				
 			}
 			
 		});// end of $("#email").blur()--------------
-		
-		
+		 
 		$("#hp2").blur(function(){
 			var hp2 = $(this).val();
 			
@@ -167,11 +182,10 @@
 			else {
 				$(this).parent().find(".error").hide();
 				$(":input").attr("disabled", false).removeClass("bgcol");
-				$("#hp3").focus();
+				
 			}
 			
 		});// end of $("#hp2").blur()-------------
-		
 		
 		$("#hp3").blur(function(){
 			var hp3 = $(this).val();
@@ -189,27 +203,28 @@
 			else {
 				$(this).parent().find(".error").hide();
 				$(":input").attr("disabled", false).removeClass("bgcol");
-				$("#hp3").focus();
+				
 			}			
 		});// end of $("#hp3").blur()-------------
-
+		
 	}); // end of $(document).ready()-------------------
 	
 	
 	function goRegister(event) {
-		
-   	  
-	  if( !$("input:radio[name=gender]").is(":checked")) {
-		  alert("성별을 선택하셔야 합니다.");
-		  return;
-	  } 
-   	   
+   	 
    	  var frm = document.registerFrm;
    	  frm.method = "POST";
-   	  frm.action = "memberInsert.go";
+   	  frm.action = "memberEditEnd.go";
    	  frm.submit();
 	}// end of function goRegister(event)----------
 	
+	function goRegister2(event) {
+	
+		var frm = document.registerFrm;
+		frm.method = "POST";
+		frm.action = "memberout.go";
+		frm.submit();
+	}
 </script>
 
 
@@ -230,8 +245,7 @@
     </section>
     <!-- END section -->
 
-
-<section class="section contact-section" id="next">
+  <section class="section contact-section" id="next">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5">
@@ -245,139 +259,93 @@
 			</div>
 			<div class="col-md-7">
 				<form name="registerFrm" class="bg-white p-md-5 p-4 mb-5 border">
-					<div class="row">
+				 <div class="row"> 
 						<div class="col-md-12 form-group">
 							<div class="row">
-								<div class="col-md-12 form-group">
-									<label class="text-black font-weight-bold" for="NAME" >성명</label><span class="star">*</span> 
-									<input type="text" name="name" id="NAME" class="form-control "  readonly="readonly" value="${vo.name}"> 
-									<span class="error">성명은 필수입력 사항입니다.</span>
-								</div>
-							</div>
-							<label class="text-black font-weight-bold" for="MEMBERID" >회원아이디</label><span class="star">*</span> 
-							<input type="text" name="memberId" id="MEMBERID" class="form-control" readonly="readonly" value="${vo.memberId}">
-							<!-- 아이디중복체크 -->
-							<div class="col-md-12 form-group">
-								<a class="styleFont" style="cursor: pointer;" id="idcheck">아이디중복체크</a>
-								<span class="error">아이디는 필수입력 사항입니다.</span> 
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="PWD" required>암호</label><span class="star">*</span> 
-							<input type="password" name="pwd" id="PWD" class="form-control "> 
-							<span id="error_passwd">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로만 입력가능합니다.</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="PWDcheck"required>암호확인</label><span class="star">*</span> 
-							<input type="password" name="PWDcheck" id="PWDcheck" class="form-control "> 
-							<span class="error">암호가 일치하지 않습니다.</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="NICKNAME" required>닉네임</label><span class="star">*</span> 
-							<input type="text" name="nickName" id="NICKNAME" class="form-control ">
-							<!-- 닉네임중복체크 -->
-							<div class="col-md-12 form-group">
-							<a class="styleFont" style="cursor: pointer;" id="nicknamecheck">닉네임중복체크</a>
-							<span class="error">닉네임은 필수입력 사항입니다.</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="EMAIL" required>Email</label> <span class="star">*</span>
-							<input type="email" name="email" id="EMAIL" class="form-control ">
-							<!-- 이메일중복체크 -->
-							<div class="col-md-12 form-group">
-							<a class="styleFont" style="cursor: pointer;" id="emailcheck">이메일중복체크</a>
-							<span class="error">이메일은 필수입력 사항입니다.</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="GENDER">성별</label><span class="star">*</span>
-							<input type="radio" id="male" name="gender" value="1" />
-							<label for="male" style="margin-left: 2%;">남자</label> 
-							<input type="radio" id="female" name="gender" value="2" style="margin-left: 10%;" />
-							<label for="female" style="margin-left: 2%;">여자</label> 
-							<span  class="error">성별을 입력하세요</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold">전화번호</label><span class="star">*</span> 
-							<select name="hp1" id="hp1" style="width: 75px; padding: 8px;">
-								<option value="010" selected>010</option>
-							</select>&nbsp;-&nbsp; 
-							<input type="text" name="hp2" id="hp2" size="6" maxlength="4" />&nbsp;-&nbsp; 
-							<input type="text" name="hp3" id="hp3" size="6" maxlength="4" />&nbsp;&nbsp; 
-							<span  class="error error_hp">휴대폰 형식이 아닙니다.</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 form-group">
-							<label class="text-black font-weight-bold" for="email" required>생년월일</label><span class="star">*</span>
-							<input type="number" id="birthyyyy" name="birthyyyy" min="1950" max="2050" step="1" value="1995" style="width: 80px;" required /> 
-							<select id="birthmm" name="birthmm" style="margin-left: 2%; width: 60px; padding: 8px;">
-								<option value="01">01</option>
-								<option value="02">02</option>
-								<option value="03">03</option>
-								<option value="04">04</option>
-								<option value="05">05</option>
-								<option value="06">06</option>
-								<option value="07">07</option>
-								<option value="08">08</option>
-								<option value="09">09</option>
-								<option value="10">10</option>
-								<option value="11">11</option>
-								<option value="12">12</option>
-							</select>
-							<select id="birthdd" name="birthdd" style="margin-left: 2%; width: 60px; padding: 8px;">
-								<option value="01">01</option>
-								<option value="02">02</option>
-								<option value="03">03</option>
-								<option value="04">04</option>
-								<option value="05">05</option>
-								<option value="06">06</option>
-								<option value="07">07</option>
-								<option value="08">08</option>
-								<option value="09">09</option>
-								<option value="10">10</option>
-								<option value="11">11</option>
-								<option value="12">12</option>
-								<option value="13">13</option>
-								<option value="14">14</option>
-								<option value="15">15</option>
-								<option value="16">16</option>
-								<option value="17">17</option>
-								<option value="18">18</option>
-								<option value="19">19</option>
-								<option value="20">20</option>
-								<option value="21">21</option>
-								<option value="22">22</option>
-								<option value="23">23</option>
-								<option value="24">24</option>
-								<option value="25">25</option>
-								<option value="26">26</option>
-								<option value="27">27</option>
-								<option value="28">28</option>
-								<option value="29">29</option>
-								<option value="30">30</option>
-								<option value="31">31</option>
-							</select>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 form-group taC">
-							<input type="button" id="btnRegister" value="회원가입" class="btn btn-primary text-white py-3 px-5 font-weight-bold" onClick="goRegister(event);">
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</section>
+								<div class="col-md-12 form-group"> 
+                  <label class="text-black font-weight-bold" for="MEMBERID">회원아이디</label><span class="star">*</span>
+                  <input type="text" name="memberId" id="MEMBERID" class="form-control "readonly="readonly" value="${vo.memberId}" >
+                  <!-- 아이디중복체크 -->
+			   <div class="col-md-12 form-group">
+				  <a class="styleFont" style="cursor: pointer;" id="idcheck">아이디중복체크</a>
+				  <span class="error">아이디는 필수입력 사항입니다.</span> 
+				  		</div>
+				  	</div>
+				  </div>
+				</div>
+             </div> 
+               <div class="row">
+                <div class="col-md-12 form-group">
+                  <label class="text-black font-weight-bold" for="PWD" >암호변경</label><span class="star">*</span>
+                  <input type="password" name="pwd" id="PWD" class="form-control ">
+                  <span id="error_passwd">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로만 입력가능합니다.</span>
+                </div>
+              </div> 
+              <div class="row">
+                <div class="col-md-12 form-group">
+                  <label class="text-black font-weight-bold" for="PWDcheck" >암호변경확인</label><span class="star">*</span>
+                  <input type="password" name="PWDcheck" id="PWDcheck" class="form-control" >
+                  <span class="error">암호가 일치하지 않습니다.</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 form-group">
+                  <label class="text-black font-weight-bold" for="NICKNAME" >닉네임</label><span class="star">*</span>
+                  <input type="text" name="nickName" id="NICKNAME"  class="form-control" value="${vo.nickName}" required>
+                   <!-- 닉네임중복체크 -->
+			    <div class="col-md-12 form-group">
+				  <a class="styleFont" style="cursor: pointer;" id="nicknamecheck">닉네임중복체크</a>
+				  <span class="error">닉네임은 필수입력 사항입니다.</span>
+                </div>
+              </div>
+             </div>
+              <div class="row">
+                <div class="col-md-12 form-group">
+                  <label class="text-black font-weight-bold" for="EMAIL" >Email</label><span class="star">*</span>
+                  <input type="email" name="email" id="EMAIL" class="form-control " value="${vo.email}" required >
+                   <!-- 이메일중복체크 -->
+			    <div class="col-md-12 form-group">
+				  <a class="styleFont" style="cursor: pointer;" id="emailcheck">이메일중복체크</a>
+				  <span class="error">이메일은 필수입력 사항입니다.</span>
+                </div>
+              </div>
+             </div>
+               <div class="row">
+                <div class="col-md-12 form-group">
+                  <label class="text-black font-weight-bold" >성별</label><span class="star">*</span>
+                  <c:if test="${vo.gender == 1 }"> 
+		                 <input type="radio" id="male" name="gender" value="1" checked disabled="disabled" /><label  style="margin-left: 2%;" >남자</label>
+				   	  <input type="radio" id="female" name="gender" value="2" style="margin-left: 10%;" disabled="disabled"/><label  style="margin-left: 2%;" >여자</label>
+				   	  <span class="error">성별을 입력하세요</span>
+                  </c:if>
+                  <c:if test="${vo.gender == 2 }">			           
+                  <input type="radio" id="male" name="gender" value="1" disabled="disabled"/><label  style="margin-left: 2%;" >남자</label>
+			   	  <input type="radio" id="female" name="gender" value="2" style="margin-left: 10%;" checked disabled="disabled" /><label  style="margin-left: 2%;" >여자</label>
+			   	  <span class="error">성별을 입력하세요</span>
+				</c:if>
+             </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 form-group">
+                  <label class="text-black font-weight-bold">전화번호</label><span class="star">*</span>
+                  <select name="hp1" id="hp1" style="width: 75px; padding: 8px;">
+					<option value="010" selected>010</option>
+				</select>&nbsp;-&nbsp;
+			    <input type="text" name="hp2" id="hp2" size="6" maxlength="4" value="${vo.tel2}" required>&nbsp;-&nbsp;
+			    <input type="text" name="hp3" id="hp3" size="6" maxlength="4" value="${vo.tel3}" required>&nbsp;&nbsp;
+			    <span class="error error_hp">휴대폰 형식이 아닙니다.</span>
+                </div>
+              </div>                                               
+              
+              <div class="row">
+                <div class="col-md-12 form-group taC" >
+                  <input type="button" id="btnRegister" value="수정완료" class="btn btn-primary text-white py-3 mx-1 font-weight-bold" onClick="goRegister(event);">
+                  <input type="button" id="btnRegister" value="탈퇴하기" class="btn btn-primary text-white py-3 mx-1 font-weight-bold" onClick="goRegister2(event);">
+                </div>
+              </div>
+            </form>
+          </div>                  
+        </div>
+      </div>
+    </section>  
+   
