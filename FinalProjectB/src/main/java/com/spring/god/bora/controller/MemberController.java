@@ -29,7 +29,7 @@ public class MemberController {
 	
 	// === 예약확인페이지 ===
 	@RequestMapping(value="/accommodationInfo.go")
-	public ModelAndView LoginCK2_accommodationInfo_back(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+	public ModelAndView LoginCK2_accommodationInfo(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		
 		// 상세페이지에서 받아옴
 		String largeCategoryontionCode = request.getParameter("largeCategoryontionCode");
