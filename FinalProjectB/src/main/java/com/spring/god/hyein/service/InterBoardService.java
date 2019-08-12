@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.spring.god.hyein.model.BoardVO;
-import com.spring.god.hyein.model.MemberVO;
 
 public interface InterBoardService {
 

@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.god.hyein.model.BoardVO;
 import com.spring.god.hyein.model.InterBoardDAO;
-import com.spring.god.hyein.model.MemberVO;
 import com.spring.god.common.AES256;
 
 @Service

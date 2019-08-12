@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.god.hyein.model.BoardVO;
-import com.spring.god.hyein.model.MemberVO;
 
 @Repository
 public class BoardDAO implements InterBoardDAO {
