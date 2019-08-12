@@ -233,7 +233,7 @@ public class BoardController {
 	   
 		// === 공지사항 글쓰기 폼페이지 요청 (관리자만 가능) ===
 		@RequestMapping(value="/noticeAdd.go", method= {RequestMethod.GET})
-		public ModelAndView noticeAdd(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) { 
+		public ModelAndView requireLogin_noticeAdd(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) { 
 			
 			HttpSession session =  request.getSession();
 			JinsooadminVO adminvo = (JinsooadminVO)session.getAttribute("adminvo");
@@ -325,7 +325,7 @@ public class BoardController {
 			
 		// 공지사항 글수정 페이지 요청 (관리자만 가능)
 		@RequestMapping(value="/noticeEdit.go" , method= {RequestMethod.GET})
-		public ModelAndView noticeEdit(ModelAndView mv , HttpServletRequest request) {
+		public ModelAndView requireLogin_noticeEdit(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
 			
 			// 글 수정 해야할 글 번호 가져오기
 			String seq = request.getParameter("seq");

@@ -51,7 +51,7 @@ public class AdminController {
 	
 	// 숙소 등록 뷰단 보여주기
 	@RequestMapping(value="/roomrg.go", method={RequestMethod.GET} )
-	public ModelAndView roomRegistration(ModelAndView mv) {
+	public ModelAndView requireLogin_roomRegistration(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
 		
 		mv.setViewName("hyein/roomRg/roomrg.tiles1");
 		
@@ -180,7 +180,7 @@ public class AdminController {
 	
 	// 룸 등록 뷰단 보여주기
 	@RequestMapping(value="/roomrg2.go", method={RequestMethod.GET} )
-	public ModelAndView roomRegistration2(ModelAndView mv) {
+	public ModelAndView requireLogin_roomRegistration2(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
 		
 		mv.setViewName("hyein/roomRg/roomrg2.tiles1");
 		
