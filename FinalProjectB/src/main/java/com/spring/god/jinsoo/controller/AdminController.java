@@ -32,16 +32,16 @@ import com.spring.god.jinsoo.model.HotelVO;
 import com.spring.god.jinsoo.model.JinsooadminVO;
 import com.spring.god.jinsoo.model.JinsoomemberVO;
 import com.spring.god.jinsoo.model.reserveVO;
-import com.spring.god.jinsoo.service.InterJinsooService;
+import com.spring.god.jinsoo.service.InterAdminService;
 import com.spring.god.jiyoung.model.MemberVO;
 
 
 
 @Controller
-public class JinsooController {
+public class AdminController {
 	
 	@Autowired
-	private InterJinsooService service;
+	private InterAdminService service;
 	
 	@Autowired
 	private FileManager fileManager;
@@ -812,6 +812,94 @@ public class JinsooController {
 			}
 			return new Gson().toJson(jsonArr);
 			
+		}
+		
+		// 차트: 선택 달 일별 매출 통계 JSON으로 얻어오기
+		@RequestMapping(value="/jinsoo/MdayRevenueJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+		@ResponseBody
+		public String MdayRevenueJSON(HttpServletRequest request) {
+			
+			String month = request.getParameter("month");
+			
+			System.out.println(month);
+			
+			List<HashMap<String,String>> MdayRevenueList =  service.MdayRevenue(month);
+			
+			JsonArray jsonArr = new JsonArray();
+			
+			if(MdayRevenueList != null) {
+				for(HashMap<String,String> map :MdayRevenueList) {
+					JsonObject jsonObj = new JsonObject();
+					jsonObj.addProperty("day", map.get("DAY"));
+					jsonObj.addProperty("revenue", map.get("REVENUE"));																				
+					jsonArr.add(jsonObj);
+				}
+			}
+			return new Gson().toJson(jsonArr);
+			
+		}
+		/////////////////////////////////////////////////////////////////////////////////////////////
+		
+		
+		// 차트: 요일별 매출 통계 JSON으로 얻어오기
+		@RequestMapping(value="/jinsoo/admin_dayRevenueJSON.go", method= {RequestMethod.GET}  , produces="text/plain;charset=UTF-8" )
+		@ResponseBody
+		public String dayRevenueJSON() {
+			
+			List<HashMap<String,String>> dayRevenueList =  service.dayRevenueList();
+			
+			JsonArray jsonArr = new JsonArray();
+			
+			if(dayRevenueList != null) {
+				for(HashMap<String,String> map :dayRevenueList) {
+					JsonObject jsonObj = new JsonObject();
+					jsonObj.addProperty("day", map.get("DAY"));
+					jsonObj.addProperty("price", map.get("PRICE"));																				
+					jsonObj.addProperty("percnt", map.get("PERCNT"));																				
+					jsonArr.add(jsonObj);
+				}
+			}
+			return new Gson().toJson(jsonArr);
+			
+		}
+		/*
+		// 회원 상세보기
+		@RequestMapping(value="/jinsoo/memberOneShow.go", method= {RequestMethod.GET} )
+		public ModelAndView memberOneShow(ModelAndView mv , HttpServletRequest request) {
+			
+			String idx = request.getParameter("modalidx");
+			
+			System.out.println("모달"+idx);
+			
+			return mv;
+		}*/
+		
+		// 체크아웃시키기
+		@RequestMapping(value="/jinsoo/checkOut.go", method= {RequestMethod.GET} )
+		public ModelAndView checkOut(ModelAndView mv , HttpServletRequest request) {
+			
+			String reserveId = request.getParameter("reserveId");
+			
+			int n = service.checkOut(reserveId);
+			
+			System.out.println(n);
+			
+			String msg = "";
+			String loc = "";
+			
+			if(n==1) {
+				msg = "성공";
+				loc = "reserveManage.go";
+			}
+			else {
+				msg = "실패";
+				loc = "reserveManage.go";
+			}
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			mv.setViewName("tiles1/jinsoo/msg");
+			
+			return mv;
 		}
 		
 }

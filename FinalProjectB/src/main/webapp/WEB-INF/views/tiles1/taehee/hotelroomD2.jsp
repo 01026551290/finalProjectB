@@ -6,181 +6,6 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<style>
-.wrap * {
-	padding: 0;
-	margin: 0;
-}
-
-.wrap .info {
-	width: 286px;
-	height: 120px;
-	border-radius: 5px;
-	border-bottom: 2px solid #ccc;
-	border-right: 1px solid #ccc;
-	overflow: hidden;
-	background: #fff;
-}
-
-.wrap .info:nth-child(1) {
-	border: 0;
-	box-shadow: 0px 1px 2px #888;
-}
-
-.info .title {
-	padding: 5px 0 0 10px;
-	height: 30px;
-	background: #eee;
-	border-bottom: 1px solid #ddd;
-	font-size: 18px;
-	font-weight: bold;
-}
-
-.info .close {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	color: #888;
-	width: 17px;
-	height: 17px;
-	background:
-		url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');
-}
-
-.info .close:hover {
-	cursor: pointer;
-}
-
-.info .body {
-	position: relative;
-	overflow: hidden;
-}
-
-.info .desc {
-	position: relative;
-	margin: 13px 0 0 90px;
-	height: 75px;
-}
-
-.desc .ellipsis {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-.desc .jibun {
-	font-size: 11px;
-	color: #888;
-	margin-top: -2px;
-}
-
-.info .img {
-	position: absolute;
-	top: 6px;
-	left: 5px;
-	width: 73px;
-	height: 71px;
-	border: 1px solid #ddd;
-	color: #888;
-	overflow: hidden;
-}
-
-.info:after {
-	content: '';
-	position: absolute;
-	margin-left: -12px;
-	left: 50%;
-	bottom: 0;
-	width: 22px;
-	height: 12px;
-	background:
-		url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
-}
-
-.info .link {
-	color: #5085BB;
-}
-
-.radius_border {
-	border: 1px solid #919191;
-	border-radius: 5px;
-}
-
-.custom_zoomcontrol { /* position:absolute; */
-	top: 50px;
-	right: 10px;
-	width: 36px;
-	height: 80px;
-	overflow: hidden;
-	z-index: 1;
-	background-color: #f5f5f5;
-}
-
-.custom_zoomcontrol span {
-	display: block;
-	width: 36px;
-	height: 40px;
-	text-align: center;
-	cursor: pointer;
-}
-
-.custom_zoomcontrol span img {
-	width: 15px;
-	height: 15px;
-	padding: 12px 0;
-	border: none;
-}
-
-.custom_zoomcontrol span:first-child {
-	border-bottom: 1px solid #bfbfbf;
-}
-
-.display-4 {
-	font-size: 2.1rem !important;
-}
-
-._gig1e7 {
-	width: 100% !important;
-	height: 100% !important;
-	padding-top: 8px !important;
-	padding-bottom: 12px !important;
-}
-
-.hotelAddr {
-	font-size: 12px;
-}
-
-.hotelName {
-	font-size: 18px;
-	font-weight: bold;
-}
-
-.hotelPrice {
-	font-size: 14px;
-}
-
-.hotelStar {
-	font-size: 12px;
-}
-
-.hotelBox {
-	padding: 8px 8px 12px;
-}
-
-button#btn_heart {
-	padding: 8px;
-	margin: -8px;
-	border: none;
-	background-color: transparent;
-	border: 1px solid red;
-	position: absolute;
-	right: 18px;
-	top: 10px;
-	color: #af3d3d;
-	font-size: 22px;
-}
-</style>
-
 <script type="text/javascript">
    $(document).ready(function(){
 	   	  largeCategoryontionCode = {largeCategoryontionCode:${HotelVO.largeCategoryontionCode}};
@@ -444,9 +269,40 @@ geocoder.addressSearch('${HotelVO.address}', function(result, status) {
     });// end of $("#searchType").bind("change",function()
    
    
+///////////////////////////////////////////////////////////////////////////////////
+	var imgLength=$('.slides img').length
+    var showIndex=0;
+    console.log(imgLength);
+    
+    $('.slides img').eq(0).show();
+    
+    $('.next').click(function(){
+        $('.slides img')
+            .eq(showIndex)
+            .next()
+            .fadeIn()
+            .siblings('img')
+            .fadeOut(1000);
+        if(showIndex<imgLength-1){
+            showIndex++;
+        }
+    });/* next */
+    
+    $('.prev').click(function(){
+        $('.slides img')
+            .eq(showIndex)
+            .prev()
+            .fadeIn(2000)
+            .siblings('img')
+            .fadeOut();
+        if(showIndex>0){
+            showIndex--;
+        }
+    });/* prev */    		
+///////////////////////////////////////////////////////////////////////////////////
+    		
    });// end of ready
    
-   ///////////////////////////////////////////////////////////////////////////////////
     
    
       ///////////////////////////////////////////////////////////////////////////////////
@@ -696,88 +552,64 @@ geocoder.addressSearch('${HotelVO.address}', function(result, status) {
 
 <!-- END section -->
 <section class="section bg-light">
+	<div class="container">
+
 	<c:if test="${RoomVO!=null}">
-		<!-- 객실 뽑을 for문 -->
-		<c:forEach var="RoomVO" items="${RoomVO}">
-			<div class="site-block-half d-block d-lg-flex bg-white  ">
-				<c:if test="${RoomVO.imgList!=null}">
-					<c:forEach var="list" items="${RoomVO.imgList}">
-						<a href="#" class="image d-block bg-image-2"
-							style="background-image: url('/god/resources/images/room/${list}');"></a>
-					</c:forEach>
-				</c:if>
-
-				<%-- 
-            <div class="row">
-				<div class="col-md-12">
+	<!-- 객실 뽑을 for문 -->
+	<c:forEach var="RoomVO" items="${RoomVO}">
+		<div class="row bg-white mb-4">
+			<%-- <c:if test="${RoomVO.imgList!=null}">
+				<c:forEach var="list" items="${RoomVO.imgList}">
+					<a href="#" class="image d-block bg-image-2" style="background-image: url('/god/resources/images/room/${list}');"></a>
+				</c:forEach>
+			</c:if> --%>
 				
-					<div class="home-slider major-caousel owl-carousel mb-5 owl-loaded owl-drag aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
-					
-					<div class="owl-stage-outer">
-						<div class="owl-stage" style="transform: translate3d(-6720px, 0px, 0px); transition: all 0s ease 0s; width: 16800px;">
-							<div class="owl-item cloned" style="width: 1110px; margin-right: 10px;">
-								<div class="slider-item">
-									<a class="image d-block bg-image-2" href="/god/resources/images/room/${list}" data-fancybox="images" data-caption="Caption for this image" style="background-image: url('/god/resources/images/room/${list}');"></a>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="owl-item" style="width: 1110px; margin-right: 10px;">
-						<div class="slider-item">
-							<a href="images/slider-1.jpg" data-fancybox="images" data-caption="Caption for this image">
-							<img src="images/slider-1.jpg" alt="Image placeholder" class="img-fluid">
-							</a>
-						</div>
-					</div>
-						
-					<div class="owl-item cloned" style="width: 1110px; margin-right: 10px;"><div class="slider-item">
-						<a href="images/slider-1.jpg" data-fancybox="images" data-caption="Caption for this image"><img src="images/slider-1.jpg" alt="Image placeholder" class="img-fluid"></a>
-						</div>
-						</div>
-					</div>
-					
-				</div>
-				<div class="owl-nav">
-					<button role="presentation" class="owl-prev"><span class="ion-chevron-left"></span></button>
-					<button role="presentation" class="owl-next"><span class="ion-chevron-right"></span></button>
-				</div>
-			</div> --%>
-				<!-- END slider -->
-
-
-
-				<div class="text">
+				<!-- 슬라이드 테스트3 -->
+				<div class="col-lg-6 col-md-12 mt-3 mb-3">
+				<div class="slide_wrap">
+			        <div class="slide_viewport">
+			            <div class="slides">
+			                <img src="/god/resources/images/room/hiddenTwin.jpg" style="height: -webkit-fill-available;">
+			                <img src="/god/resources/images/room/hiddenDouble.jpg" style="height: -webkit-fill-available;">
+			            </div><!--// slides -->
+			        </div><!--// slide_viewport -->
+			        <span class="prev">
+			            <i class="fa fa-angle-left" aria-hidden="true"></i>
+			        </span>
+			        <span class="next">
+			            <i class="fa fa-angle-right" aria-hidden="true"></i>
+			        </span>
+			    </div>
+			    </div>
+				<!-- End 슬라이드 테스트3 -->
+				<div class="col-lg-6 col-md-12 mt-5 mb-3">
 					<h5 class="mb-4" style="font-size: 25px;">${RoomVO.productName}</h5>
-					<span class="d-block mb-4"> <span
-						class="text-uppercase letter-spacing-2">주중가 : </span> <span
-						class="display-4 text-primary">${RoomVO.weekPrice} ~</span> <span
-						class="text-uppercase letter-spacing-2">/ per night</span>
-					</span> <span class="d-block mb-4"><span
-						class="text-uppercase letter-spacing-2">주말가 : </span> <span
-						class="display-4 text-primary">${RoomVO.weekenPrice} ~</span> <span
-						class="text-uppercase letter-spacing-2">/ per night</span> </span>
-					<h5 class="mb-4">침대갯수 : ${RoomVO.roomType.substring(1,2)}개 /
-						수용인원 : ${RoomVO.roomType.substring(2)}명</h5>
+					<span class="d-block mb-4"> 
+						<span class="text-uppercase letter-spacing-2" style="display: inline-block; vertical-align: super;">주중가 : </span>
+						<span class="display-4 text-primary" style="font-size: 25pt;">${RoomVO.weekPrice} ~</span> 
+						<span class="text-uppercase letter-spacing-2" style="display: inline-block; vertical-align: super;">/ per night</span>
+					</span> 
+					<span class="d-block mb-4">
+						<span class="text-uppercase letter-spacing-2" style="display: inline-block; vertical-align: super;">주말가 : </span>
+						<span class="display-4 text-primary" style="font-size: 25pt;">${RoomVO.weekenPrice} ~</span>
+						<span class="text-uppercase letter-spacing-2" style="display: inline-block; vertical-align: super;">/ per night</span>
+					</span>
+					<h5 class="mb-4">침대갯수 : ${RoomVO.roomType.substring(1,2)}개 / 수용인원 : ${RoomVO.roomType.substring(2)}명</h5>
 					<p class="mb-4">${RoomVO.roomInfo}</p>
 					<p>
-						<a href="#" class="btn btn-primary text-white" id="btnReserve"
-							onclick="goView('${RoomVO.productId}','${RoomVO.productName}','${RoomVO.roomType.substring(1,2)}','${RoomVO.roomType.substring(2)}','${RoomVO.weekPrice}')"
-							style="cursor: pointer;">예약하기</a>
+						<a href="#" class="btn btn-primary text-white" id="btnReserve" onclick="goView('${RoomVO.productId}','${RoomVO.productName}','${RoomVO.roomType.substring(1,2)}','${RoomVO.roomType.substring(2)}','${RoomVO.weekPrice}')" style="cursor: pointer;">예약하기</a>
 					</p>
 				</div>
 			</div>
 		</c:forEach>
 		<!-- 객실 뽑을 for문 -->
 	</c:if>
+	</div>
 </section>
 
 
 <section class="section contact-section" id="next">
 	<div class="container">
-
-
-
 		<div class="col-md-12" style="border: 1px solid gray;">
 			<div class="row">
 				<div id="map" style="width: 790px; height: 500px; margin: 0 auto;"></div>
@@ -797,16 +629,15 @@ geocoder.addressSearch('${HotelVO.address}', function(result, status) {
 		<div class="food-menu-tabs aos-init aos-animate" data-aos="fade">
 			<!-- Ajax로 최신순 별점순 등등으로 정렬조회 -->
 			<ul class="nav nav-tabs mb-5" id="myTab" role="tablist">
-				<li class="nav-item"><a
-					class="nav-link letter-spacing-2 active show" data-toggle="tab"
-					href="#regDates" role="tab" aria-controls="regDate"
-					aria-selected="true" id="regDate-tab">regDate</a></li>
-				<li class="nav-item"><a class="nav-link letter-spacing-2"
-					id="STAR-tab" data-toggle="tab" href="#LSTAR" role="tab"
-					aria-controls="STAR" aria-selected="false">STAR</a></li>
-				<li class="nav-item"><a class="nav-link letter-spacing-2"
-					id="starS-tab" data-toggle="tab" href="#starss" role="tab"
-					aria-controls="starS" aria-selected="false">starS</a></li>
+				<li class="nav-item">
+					<a class="nav-link letter-spacing-2 active show" data-toggle="tab" href="#regDates" role="tab" aria-controls="regDate" aria-selected="true" id="regDate-tab">regDate</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link letter-spacing-2" id="STAR-tab" data-toggle="tab" href="#LSTAR" role="tab" aria-controls="STAR" aria-selected="false">STAR</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link letter-spacing-2" id="starS-tab" data-toggle="tab" href="#starss" role="tab" aria-controls="starS" aria-selected="false">starS</a>
+				</li>
 			</ul>
 			<div class="tab-content py-5" id="reviewDiv">
 
@@ -819,15 +650,15 @@ geocoder.addressSearch('${HotelVO.address}', function(result, status) {
 
 	<!-- 호텔정보 보내기(체크인&체크아웃은 RoomVO임)  -->
 	<form name="goViewFrm">
-		<input type="hidden" name=""
-			value="${HotelVO.largeCategoryontionCode}" /> <input type="hidden"
-			name="productId" value="" /> <input type="hidden" name="img"
-			value="${HotelVO.img}" /> <input type="hidden" name="name"
-			value="${HotelVO.name}" /> <input type="hidden" name="address"
-			value="${HotelVO.address}" /> <input type="hidden" name="checkIn"
-			value="${checkin_date}" /> <input type="hidden" name="checkOut"
-			value="${checkout_date}" /> <input type="hidden" name="productName"
-			value="" /> <input type="hidden" name="roomType2" value="" />
+		<input type="hidden" name="largeCategoryontionCode" value="${HotelVO.largeCategoryontionCode}" />
+		<input type="hidden" name="productId" value="" />
+		<input type="hidden" name="img" value="${HotelVO.img}" />
+		<input type="hidden" name="name" value="${HotelVO.name}" />
+		<input type="hidden" name="address" value="${HotelVO.address}" />
+		<input type="hidden" name="checkIn" value="${checkin_date}" />
+		<input type="hidden" name="checkOut" value="${checkout_date}" />
+		<input type="hidden" name="productName" value="" />
+		<input type="hidden" name="roomType2" value="" />
 		<!-- 침대갯수 -->
 		<input type="hidden" name="roomType3" value="" />
 		<!-- 수용인원 -->

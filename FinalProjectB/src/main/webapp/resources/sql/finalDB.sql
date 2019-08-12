@@ -773,3 +773,38 @@ COMMIT;
 
 SELECT *
 FROM ADMIN
+
+----------------------------------------------------------------------------------------------------------------------
+
+-- 작성자명 : 정혜인  작성일자 : 2019.08.11  공지사항 게시판 테이블 생성 및 수정
+
+create table noticeBoard
+(seq            number                not null   -- 글번호
+,fk_member      number          not null   -- 사용자ID
+,name           Nvarchar2(20)         not null   -- 글쓴이
+,subject        Nvarchar2(200)        not null   -- 글제목
+,content        clob       not null   -- 글내용    -- clob
+,pw             varchar2(20)          not null   -- 글암호
+,readCount      number default 0      not null   -- 글조회수
+,regDate        date default sysdate  not null   -- 글쓴시간
+,status         number(1) default 1   not null   -- 글삭제여부  1:사용가능한글,  0:삭제된글 
+,deleteDay      date                             -- 글삭제시간
+,commentCount   number default 0      not null   -- 댓글의 갯수
+,fileName       varchar2(255)                    -- WAS(톰캣)에 저장될 파일명()
+,orgFilename    varchar2(255)                   -- 진짜 파일명(강아지,png) // 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
+,fileSize       number                          -- 파일크기
+,constraint  PK_noticeBoard_seq primary key(seq)
+,constraint  FK_noticeBoard_admin foreign key(fk_member) references admin(seq)
+,constraint  CK_noticeBoard_status check( status in(0,1) )
+);
+
+create sequence noticeBoardSeq
+start with 1
+increment by 1
+nomaxvalue 
+nominvalue
+nocycle
+nocache;
+
+select *
+from noticeBoard

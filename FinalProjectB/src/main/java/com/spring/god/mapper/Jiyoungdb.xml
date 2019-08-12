@@ -61,7 +61,7 @@
    </select>
    
   <update id="updatePwdUser" parameterType="HashMap">
-	   UPDATE MEMBER SET PWD = #{pwd}, tel = '010'||#{tel2}||#{tel3}
+	   UPDATE MEMBER SET PWD = #{pwd}
 	   where status = 1 and memberid = #{userid}
   </update>
    
@@ -75,7 +75,7 @@
     <update id="memberEditEnd" parameterType="com.spring.god.jiyoung.model.MemberVO">
 	   UPDATE MEMBER SET PWD = #{pwd}, NICKNAME = #{nickName}, EMAIL = #{email}, TEL = #{tel}
 	   where status = 1 and memberid = #{memberId}
-  </update>
+   </update>
    
    <update id="memberout" parameterType="HashMap">
 	   UPDATE MEMBER set status = 0 , DELETEDAYE =SYSDATE
@@ -86,5 +86,11 @@
  		update MEMBER set picture = #{picture}
 		where status = 1 and memberId = #{memberId}
 	 </update> 
+	 
+	 <select id="isUserExist" parameterType="HashMap" resultType="int">
+		SELECT count(*)
+		from MEMBER
+		where status = 1 and name = #{name} and email = #{email}
+     </select>
       
 </mapper>

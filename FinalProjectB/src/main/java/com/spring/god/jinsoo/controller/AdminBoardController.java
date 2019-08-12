@@ -24,15 +24,19 @@ import com.spring.god.common.MyUtil;
 import com.spring.god.jinsoo.model.BoardVO;
 import com.spring.god.jinsoo.model.CommentVO;
 import com.spring.god.jinsoo.model.JinsooadminVO;
-import com.spring.god.jinsoo.service.InterJinsooService;
+import com.spring.god.jinsoo.service.InterAdminService;
+import com.spring.god.jinsoo.service.InterboardService;
 import com.spring.god.jiyoung.model.MemberVO;
 
 @Controller
-public class adminBoardController {
+public class AdminBoardController {
 
 	                  
 	@Autowired
-	private InterJinsooService service;
+	private InterboardService boardservice;
+	
+	@Autowired
+	private InterAdminService service;
 	
 	@Autowired
 	private FileManager fileManager;
@@ -100,10 +104,10 @@ public class adminBoardController {
 		int n = 0;
 		if(attach.isEmpty()) {
 			
-			 n = service.add(boardvo);
+			 n = boardservice.add(boardvo);
 		}
 		else {
-			 n = service.add_withFile(boardvo);
+			 n = boardservice.add_withFile(boardvo);
 		}
 		
 		mrequest.setAttribute("n", n);
@@ -162,10 +166,10 @@ public class adminBoardController {
 		paramap.put("str_sizePerPage", str_sizePerPage);
 		
 		if("".equals(searchWord)) {
-			totalCount=  service.allbuisnessBoardList();
+			totalCount=  boardservice.allbuisnessBoardList();
 		}
 		else {
-			totalCount=  service.getbuisnessBoardListTotalCountWithSearch(paramap);
+			totalCount=  boardservice.getbuisnessBoardListTotalCountWithSearch(paramap);
 		}
 		
 		totalPage = (int)Math.ceil((double)totalCount/sizePerPage);
@@ -194,7 +198,7 @@ public class adminBoardController {
 		paramap.put("startRno", String.valueOf(startRno));
 		paramap.put("endRno", String.valueOf(endRno));
 		
-		buisnessBoardList = service.getbuisnessBoardList(paramap);
+		buisnessBoardList = boardservice.getbuisnessBoardList(paramap);
 		
 		
 		if(!("".equals(searchWord)) ) {
@@ -231,6 +235,7 @@ public class adminBoardController {
 		
 	}
 	
+	// 글 한개 보기
 	@RequestMapping(value="/jinsoo/buisnessBoardView.go" , method= {RequestMethod.GET})
 	public ModelAndView view(HttpServletRequest request ,  HttpServletResponse response ,ModelAndView mv) {
 		
@@ -257,16 +262,16 @@ public class adminBoardController {
 		
 		
 		
-			boardvo = service.getbuisnessBoardView(seq,userid);
+			boardvo = boardservice.getbuisnessBoardView(seq,userid);
 			session.removeAttribute("readCountPermisision");
 			// 중요함!! session 에 저장된 값을 삭제한다.
 		}
 		else {
 			
-			boardvo = service.getViewWithNoAddCount(seq); 
+			boardvo = boardservice.getViewWithNoAddCount(seq); 
 			
 		}
-		List<CommentVO> commentlist = service.getCommentList(seq);				
+		List<CommentVO> commentlist = boardservice.getCommentList(seq);				
 		
 		mv.addObject("boardvo" , boardvo);
 		mv.addObject("commentlist" , commentlist);
@@ -285,11 +290,11 @@ public class adminBoardController {
 		//댓글쓰기 (ajax 처리)
 		int n;
 		try {
-			n = service.addComment(commentvo);
+			n = boardservice.addComment(commentvo);
 			
 			if(n==1) {
 				// 댓글쓰기 및 원게시물(tblBoard 테이블)에 댓글의 갯수(1씩 증가) 증가가 성공했다라면 
-				List<CommentVO> commentlist = service.getCommentList(commentvo.getParentSeq());
+				List<CommentVO> commentlist = boardservice.getCommentList(commentvo.getParentSeq());
 				// 원게시물에 딸린 댓글 조회해오기
 				
 				JSONArray jsArr = new JSONArray();
@@ -319,7 +324,7 @@ public class adminBoardController {
 		String seq = request.getParameter("seq");
 		
 		// 글 수정해야할 글 1개 내용 가져오기 
-		BoardVO boardvo = service.getViewWithNoAddCount(seq); 
+		BoardVO boardvo = boardservice.getViewWithNoAddCount(seq); 
 		
 		HttpSession session =  request.getSession();
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
@@ -368,22 +373,15 @@ public class adminBoardController {
 	// 문의 사항 글쓰기
 	@RequestMapping(value="/jinsoo/inquiryBoard.go" , method= {RequestMethod.GET})
 	public ModelAndView inquiryBoard(HttpServletRequest request ,  HttpServletResponse response ,ModelAndView mv ) {
+				
 		
-		String fk_seq = request.getParameter("fk_seq");
-		String groupno = request.getParameter("groupno");
-		String depthno = request.getParameter("depthno");
-		
-		mv.addObject("fk_seq", fk_seq);
-		mv.addObject("groupno", groupno);
-		mv.addObject("depthno", depthno);
-		
-		mv.setViewName("jinsoo/board/buisnessBoard.tiles1");
+		mv.setViewName("jinsoo/board/inquiryBoard.tiles1");
 		
 		return mv;
 	}
 	
-	// 문의 사항 글 쓰기 완료 (디비 테이블 만들어야함)
-	@RequestMapping(value="/jinsoo/inquiryBoardEnd.go" , method= {RequestMethod.POST})
+	// 문의 사항 글 쓰기 완료 
+	@RequestMapping(value="/admin_inquiryBoardEnd.go" , method= {RequestMethod.POST})
 	public String inquiryBoardEnd(BoardVO boardvo, MultipartHttpServletRequest mrequest ) {
 		
 		
@@ -428,21 +426,22 @@ public class adminBoardController {
 		int n = 0;
 		if(attach.isEmpty()) {
 			
-			 n = service.add(boardvo);
+			 n = boardservice.inquiryadd(boardvo);
 		}
 		else {
-			 n = service.add_withFile(boardvo);
+			 n = boardservice.inquiryadd_withFile(boardvo);
 		}
 		
 		mrequest.setAttribute("n", n);
 		
-		return "jinsoo/board/buisnessBoardEnd.tiles1";
+		return "jinsoo/board/inquiryBoardEnd.tiles1";
 	}
 
-/*	@RequestMapping(value="/jinsoo/buisnessBoardList.go" , method= {RequestMethod.GET})
-	public ModelAndView buisnessBoardList2(ModelAndView mv , HttpServletRequest request) {
+	// 문의 전체 사항 보기( 관리자 )
+	@RequestMapping(value="/jinsoo/inquiryBoardList.go" , method= {RequestMethod.GET})
+	public ModelAndView inquiryBoardList(ModelAndView mv , HttpServletRequest request) {
 		
-		List<BoardVO> buisnessBoardList = null;
+		List<BoardVO> inquiryBoardList = null;
 		
 		String str_currentShowPageNo = request.getParameter("currentShowPageNo");
 		
@@ -490,10 +489,10 @@ public class adminBoardController {
 		paramap.put("str_sizePerPage", str_sizePerPage);
 		
 		if("".equals(searchWord)) {
-			totalCount=  service.allbuisnessBoardList();
+			totalCount=  boardservice.allinquiryBoardList();
 		}
 		else {
-			totalCount=  service.getbuisnessBoardListTotalCountWithSearch(paramap);
+			totalCount=  boardservice.getinquiryBoardListTotalCountWithSearch(paramap);
 		}
 		
 		totalPage = (int)Math.ceil((double)totalCount/sizePerPage);
@@ -522,7 +521,7 @@ public class adminBoardController {
 		paramap.put("startRno", String.valueOf(startRno));
 		paramap.put("endRno", String.valueOf(endRno));
 		
-		buisnessBoardList = service.getbuisnessBoardList(paramap);
+		inquiryBoardList = boardservice.getinquiryBoardList(paramap);
 		
 		
 		if(!("".equals(searchWord)) ) {
@@ -534,7 +533,7 @@ public class adminBoardController {
 		
 		String pagebar = "<ul>";
 		
-		String url = "buisnessBoardList.go";
+		String url = "inquiryBoardList.go";
 		int blockSize = 10; 
 		
 		  
@@ -552,11 +551,242 @@ public class adminBoardController {
 		
 		
 		
-		mv.addObject("buisnessBoardList", buisnessBoardList);
-		mv.setViewName("jinsoo/board/buisnessBoardList.tiles1");
+		mv.addObject("inquiryBoardList", inquiryBoardList);
+		mv.setViewName("jinsoo/board/inquiryBoardList.tiles1");
 		
 		return mv;
 		
-	}*/
+	}
+	
+	
+	// 문의사항  보기
+	@RequestMapping(value="/jinsoo_personinquiryBoardList.go" , method= {RequestMethod.GET})
+	public ModelAndView personinquiryBoardList(ModelAndView mv , HttpServletRequest request) {
+		
+		List<BoardVO> inquiryBoardList = null;
+		
+		HttpSession session = request.getSession();	
+		
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		
+		String memberid = loginuser.getMemberId();
+		
+		String str_currentShowPageNo = request.getParameter("currentShowPageNo");
+		
+		int totalCount = 0; // 총회원 건수
+		int sizePerPage = 0; // 한 페이지당 보여줄 회원 수
+		int currentShowPageNo = 0; // 현재보여주는 페이지 번호로서, 초기치로는 1페이지로 설정해야한다
+		int totalPage = 0; // 총페이지 수 (웹브라우저상에 보여줄 총 페이지 갯수)
+		
+		int startRno = 0;	// 시작 행 번호
+		int endRno = 0;		// 끝 행 번호
+		
+		String str_sizePerPage = request.getParameter("sizePerPage");	
+		
+		if(str_sizePerPage == null) {
+			sizePerPage = 10;
+		}
+		else {
+			try {
+				sizePerPage = Integer.parseInt(str_sizePerPage);
+				
+				if(sizePerPage < 1) {
+					sizePerPage = 10;
+				}
+				
+			}catch (NumberFormatException e) {
+				sizePerPage = 10;
+			}
+		}
+		
+		
+		String searchType = request.getParameter("searchType");		
+		String searchWord = request.getParameter("searchWord");		
+		
+		
+		if(searchWord == null || searchWord.trim().isEmpty()) {
+			
+			searchWord = "";
+		}
+		
+		
+		HashMap<String,String> paramap = new HashMap<String,String>();
+		
+		paramap.put("searchType", searchType);
+		paramap.put("searchWord", searchWord.trim());		
+		paramap.put("str_sizePerPage", str_sizePerPage);
+		paramap.put("memberid", memberid);
+		
+		if("".equals(searchWord)) {
+			totalCount=  boardservice.personinquiryBoardList(paramap);
+		}
+		else {
+			totalCount=  boardservice.psersoninquiryBoardListTotalCountWithSearch(paramap);
+		}
+		
+		totalPage = (int)Math.ceil((double)totalCount/sizePerPage);
+		
+		if(str_currentShowPageNo == null) {
+			// 게시판에 보여지는 초기화면 
+			currentShowPageNo = 1;
+			// 즉, 초기화면은 1로 한다.
+		}
+		else {
+			try {
+				currentShowPageNo = Integer.parseInt(str_currentShowPageNo);
+				
+				if(currentShowPageNo < 1 || currentShowPageNo > totalPage) {
+					currentShowPageNo = 1;
+				}
+				
+			}catch (NumberFormatException e) {
+				currentShowPageNo = 1;
+			}
+		}
+		
+		startRno = ((currentShowPageNo - 1) * sizePerPage )+1 ;		
+		endRno = startRno + sizePerPage - 1;
+		
+		paramap.put("startRno", String.valueOf(startRno));
+		paramap.put("endRno", String.valueOf(endRno));
+		
+		inquiryBoardList = boardservice.psersoninquiryBoardList(paramap);
+		
+		
+		if(!("".equals(searchWord)) ) {
+			mv.addObject("paramap", paramap);
+		}
+		else {
+			
+		}
+		
+		String pagebar = "<ul>";
+		
+		String url = "inquiryBoardList.go";
+		int blockSize = 10; 
+		
+		
+		pagebar += MyUtil.makePageBar(url, currentShowPageNo, sizePerPage, totalPage, blockSize, searchType, searchWord);
+		
+		pagebar +=  "</ul>";
+		
+		mv.addObject("pagebar", pagebar);
+		
+		
+		String url1 = MyUtil.getCurrentURL(request);
+		
+		session.setAttribute("gobackURL", url1);
+		
+		
+		
+		mv.addObject("inquiryBoardList", inquiryBoardList);
+		mv.setViewName("jinsoo/board/inquiryBoardList.tiles1");
+		
+		return mv;
+		
+	}
+	
+	
+	// 문의사항  보기
+	@RequestMapping(value="jinsoo_inquiryBoardView.go" , method= {RequestMethod.GET})
+	public ModelAndView inquiryview(HttpServletRequest request ,  HttpServletResponse response ,ModelAndView mv) {
+		
+		String seq = request.getParameter("seq");	
+		
+		HttpSession session = request.getSession();	
+			
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");		
+		
+			
+		JinsooadminVO adminvo = (JinsooadminVO)session.getAttribute("adminvo");		
+		String userid = null;
+		
+		if(loginuser != null && adminvo != null ) {
+	//		userid = loginuser.getFk_MemberId()();  // 로그인 되어진 사용자의 userid
+			userid = adminvo.getName();
+		}
+		
+		
+		BoardVO boardvo = null;
+		
+		boardvo = boardservice.getinquiryBoardView(seq);
+		
+		List<CommentVO> commentlist = boardservice.inquiryCommentList(seq);				
+		
+		mv.addObject("boardvo" , boardvo);
+		mv.addObject("commentlist" , commentlist);
+		mv.setViewName("jinsoo/board/inquiryBoardview.tiles1");
+		
+		return mv;
+	}
+	
+	
+	// 글 삭제페이지 요청	
+	@RequestMapping(value="/admin_inquiryBoarddel.go" , method= {RequestMethod.GET})
+	public ModelAndView del(HttpServletRequest request ,  HttpServletResponse response,ModelAndView mv,BoardVO boardvo) {
+		
+		String seq = request.getParameter("seq");
+		
+		boardvo = boardservice.getinquiryBoardView(seq); 
+		
+		HttpSession session =  request.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		System.out.println(loginuser.getMemberId());
+		System.out.println(boardvo);
+		System.out.println(boardvo.getFk_member());
+		
+		if(!( loginuser.getMemberId().equals(boardvo.getFk_member())) ) {
+			String msg = "다른 사용자의 글은 삭제가 불가합니다.";
+			String loc = "javascript:history.back()";
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			
+			mv.setViewName("msg");
+		}
+		else {
+			// 자신의 글을 삭제할 경우
+			// 글삭제시 입력한 암호가 글작성시 입력해준 암호와 일치하는지 알아오도록 view단 페이지로 넘긴다.
+			mv.addObject("seq", seq);
+			
+			mv.setViewName("jinsoo/board/del.tiles1");
+			
+		}
+		
+		return mv;
+	}
+	
+	// 문의사항 삭제하기
+	@RequestMapping(value="/admin_delEnd.go" , method= {RequestMethod.POST})
+	public ModelAndView delEnd(HttpServletRequest request ,  HttpServletResponse response,ModelAndView mv ) {
+	
+		try {
+				String pw = request.getParameter("pw");
+				String seq = request.getParameter("seq");
+				
+				BoardVO boardvo = new BoardVO();
+				
+				boardvo.setSeq(seq);
+				boardvo.setPw(pw);
+				
+				int result;
+				
+					result = boardservice.del(boardvo);
+					
+					if(result == 0) {
+						mv.addObject("msg", "암호가 일치하지 않습니다.");
+					}else {
+						mv.addObject("msg", "글삭제성공");
+					}
+					mv.addObject("loc", request.getContextPath()+"/jinsoo_personinquiryBoardList.go");
+					mv.setViewName("tiles1/jinsoo/msg");
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		
+		
+		return mv;
+	
+	}
+		
 	
 }

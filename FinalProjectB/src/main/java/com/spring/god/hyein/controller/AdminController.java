@@ -62,26 +62,9 @@ public class AdminController {
 	// 숙소 등록하기
 	@RequestMapping(value="/roomrgEnd.go", method={RequestMethod.POST} )
 	public String roomRegistrationEnd(HotelRoomVO hotelroomvo, MultipartHttpServletRequest mrequest) {
-		/*
-		System.out.println(hotelroomvo.getLseq());
-		System.out.println(hotelroomvo.getName());
-		System.out.println(hotelroomvo.getBusinessTel());
-		System.out.println(hotelroomvo.getAddress());
-		System.out.println(hotelroomvo.getInfo());
-		System.out.println(hotelroomvo.getOntionType());
-		System.out.println(hotelroomvo.getAttach());
-		*/
+		
 		System.out.println(hotelroomvo.getRegDay());
 		
-		/*
-		HttpSession session = mrequest.getSession();
-		
-		ServletContext svlCtx = session.getServletContext();
-		String imagesDir = svlCtx.getRealPath("/images/detailP_imgs");
-
-		System.out.println("=== 첨부되어지는 이미지 파일이 올라갈 절대경로 imagesDir==> " + imagesDir); // 파일을 첨부하면 .metadata에 올라온다!
-		// === 첨부되어지는 이미지 파일이 올라갈 절대경로 imagesDir==> C:\springworkspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\FinalProjectB\images\detailP_imgs
-		*/
 		
 //		========= !!첨부파일이 있는지 없는지 알아오기 시작!! =========
 		MultipartFile attach = hotelroomvo.getAttach();
@@ -92,9 +75,10 @@ public class AdminController {
 			HttpSession session = mrequest.getSession();
 			String root = session.getServletContext().getRealPath("/");
 //			path = root + "resources" + File.separator + "files";
-//			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\resources" + File.separator + "images\\hotel";
-
-			String path = root + "resources" + File.separator + "images" + File.separator + "hotel"; 
+			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\hotel";
+//			String path = root + "resources" + File.separator + "images" + File.separator + "hotel"; 
+			
+//			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources" + File.separator + "images\\hotel";
 			
 			System.out.println(">>> 확인용 path ==> " + path);
 			
@@ -290,7 +274,9 @@ public class AdminController {
 	        	// 이미지첨부 다중파일을 업로드할 WAS 의 webapp 의 절대경로를 알아와야 한다. 
 				HttpSession session = mrequest.getSession();
 				String root = session.getServletContext().getRealPath("/"); 
-				String path = root + "resources" + File.separator + "images" + File.separator + "room"; 
+//				String path = root + "resources" + File.separator + "images" + File.separator + "room"; 
+				String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\room";
+//				String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources" + File.separator + "images\\room";
 				// path 가 첨부파일들을 저장할 WAS(톰캣)의 폴더가 된다. 
 				
 				String newFileName = ""; // WAS(톰캣) 디스크에 저장할 파일명 
@@ -344,7 +330,6 @@ public class AdminController {
 			   else {
 				   n=0;
 			   }
-			
 
 			   String msg = "";
 			   String loc = "";
@@ -362,273 +347,7 @@ public class AdminController {
 			   mrequest.setAttribute("loc", loc);
 			   
 			   return "hyein/roomRg/roomrg2End.tiles1";   
-//				
 
 	}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
-	
-	
-	
-        /* System.out.println(fileList);
-        HttpSession session = mrequest.getSession();
-        byte[] bytes = null;
-        long fileSize = 0;
-        List<PhotoVO> photoList = null;*/
-        
-//        if(fileList!=null) {
-//        	for(int i=0;i<fileList.size();i++) {
-//    			try {
-//    				bytes = fileList.get(i).getBytes();
-//    				
-//    				newFileName = fileManager.doFileUpload(bytes, fileList.get(i).getOriginalFilename(), path);
-//    				fileSize = fileList.get(i).getSize();
-//    				PhotoVO phvo = new PhotoVO();
-//    				phvo.setFileName(newFileName);
-//    				phvo.setPseq(pseq);
-//    				photoList.add(phvo);
-//    				
-//    			} catch (Exception e) {
-//    				e.printStackTrace();
-//    			}
-//    			
-//    		}
-//        	
-//        }
-        
-//        int n = service.photoaddimg(photoList);
-		
-
-        
-//        for (MultipartFile file : files) {
-//            if (!file.getOriginalFilename().isEmpty()) {
-//               BufferedOutputStream outputStream = new BufferedOutputStream(
-//                     new FileOutputStream(new File(path, file.getOriginalFilename()))); // 원본 파일 명
-//
-//               hotelroomvo.setPicture(file.getOriginalFilename());
-//               
-//               outputStream.write(file.getBytes());
-//               outputStream.flush();
-//               outputStream.close();
-//            } 
-//         }
-		
-		// 룸 등록하기
-
-
-//		
-//		mrequest.setAttribute("n", n);
-
-		
-		
-///////////////////////////////////////////////////////////////////////////////////////////////
-		
-		
-//	String path = "C:\\springworkspace\\FinalProjectTest\\src\\main\\resources\\images\\detailP_imgs";
-
-		
-//		String attach = mrequest.getParameter("attach");
-//		
-//		
-//		List<MultipartFile> file_list = mrequest.getFiles("attach");
-//		
-//			if( file_list.size() > 0 ){
-//				
-//	 		for( MultipartFile mpf : file_list ){ // 파일이 빈 껍데기가 아닐때
-//	
-//		 		if( ! mpf.isEmpty() ){
-//		 			
-//		 		}
-//		}
-//		
-//		try {
-//			
-//			Iterator itr = mrequest.getFileNames();
-//
-//			while((boolean) itr.next()){     // while로 루프돌면서 name이 다른 파일input 을 처리
-//	
-//	 		// 명령어 getFiles   : input이 multiple로 파일이 한 input태그에 여러개 들어가는 경우
-//	
-//	 		List<MultipartFile> file_list = mrequest.getFiles( (String) itr.next());  
-//	
-//	
-//	 		if( file_list.size() > 0 ){
-//	
-//		 		for( MultipartFile mpf : file_list ){
-//		
-//			 		if( ! mpf.isEmpty() ){    // 파일이 빈 껍데기가 아닐때
-//			 		// 파일 저장이든 DB에 값넣고 insert를 하던지 하기
-//			 		}
-//			 	}
-//		 	}
-// 		}
-//			
-//		} catch (Exception e) {
-//
-//
-//	e.printStackTrace();
-//
-//}
-//
-//return "hyein/roomRg/roomrg2End.tiles1";
-//
-//}
-		
-///////////////////////////////////////////////////////////////////////////////////////////////			
-//		========= !!첨부파일이 있는지 없는지 알아오기 시작!! =========
-//		MultipartFile attach = photovo.getAttach();
-//		System.out.println("attach확인: "+attach);
-//		
-//		if(!attach.isEmpty()) {
-//			
-//			HttpSession session = mrequest.getSession();
-//			String root = session.getServletContext().getRealPath("/");
-//			String path = root + "resources" + File.separator + "files";
-//			
-//			System.out.println(">>> 확인용 path ==> " + path);
-//			
-//			String newFileName = "";
-//			// WAS(톰캣)의 디스크에 저장될 파일명
-//			
-//			byte[] bytes = null;
-//			// 첨부파일을 WAS(톰캣)의 디스크에 저장할 때 사용되는 용도
-//			
-//			long fileSize = 0;
-//			// 파일크기를 읽어오기 위한 용도
-//			
-//			try {
-//				bytes = attach.getBytes();
-//				// getBytes() 메소드는 첨부된 파일을 바이트단위로 파일을 다 읽어오는 것이다.
-//				// 예를 들어, 첨부한 파일이 "강아지".png 이라면
-//				// 이 파일을 WAS(톰캣) 디스크에 저장시키기 위해 byte[] 타입으로 변경해서 올린다.
-//				
-//				newFileName = fileManager.doFileUpload(bytes, attach.getOriginalFilename(), path);
-//				// 이제 파일 올리기를 한다.
-//				// attach.getOriginalFilename() 은 첨부된 파일의 파일명(강아지.png)이다.
-//				
-//				System.out.println(">>> 확인용 : newFileName ==> " + newFileName);
-//				// >>> 확인용 : newFileName ==> 201907251244161722498031530800.jpg
-//				
-//				// == 3. BoardVO hotelroomvo 에 fileName 과 picture 값과 fileSize 값을 넣어주기
-//				photovo.setFileName(newFileName);
-//				// WAS(톰캣)에 저장된 파일명(201907251244161722498031530800.jpg)
-//				
-//				photovo.setOrgFilename(attach.getOriginalFilename());
-//				// 게시판 페이지에서 첨부된 파일의 파일명(강아지.png)을 보여줄 때 및
-//				// 사용자가 파일을 다운로드 할 때 사용되어지는 파일명
-//				
-//				fileSize = attach.getSize();
-//				photovo.setFileSize(String.valueOf(fileSize));
-//				// 게시판 페이지에서 첨부한 파일의 크기를 보여줄 때 String 타입으로 변경해서 저장함.
-//				
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			
-//		}
-		
-		
-		// ========= !!첨부파일이 있는지 없는지 알아오기 끝!! ========= */
-//		
-//		
-//		int m = 1;
-//		MultipartFile attach = null;
-//		String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\resources" + File.separator + "images\\room";
-//		String newFileName="";
-//		byte[] bytes = null;
-//		long fileSize = 0;
-//		String str_attachCount = mrequest.getParameter("attachCount");
-//			// 넘어온 갯수만큼 뺑뺑이
-//			int attachCount = Integer.parseInt(str_attachCount);
-//			System.out.println(attachCount);
-//			for(int i=0; i<attachCount; i++) {
-//				
-//				attach = photovo.getAttach();
-//				System.out.println("attach확인: "+attach);
-//				
-//				if(!attach.isEmpty()) {
-//					try {
-//						bytes = attach.getBytes();
-//						// getBytes() 메소드는 첨부된 파일을 바이트단위로 파일을 다 읽어오는 것이다.
-//						// 예를 들어, 첨부한 파일이 "강아지".png 이라면
-//						// 이 파일을 WAS(톰캣) 디스크에 저장시키기 위해 byte[] 타입으로 변경해서 올린다.
-//						
-//						newFileName = fileManager.doFileUpload(bytes, attach.getOriginalFilename(), path);
-//						// 이제 파일 올리기를 한다.
-//						// attach.getOriginalFilename() 은 첨부된 파일의 파일명(강아지.png)이다.
-//						
-//						System.out.println(">>> 확인용 : newFileName ==> " + newFileName);
-//						// >>> 확인용 : newFileName ==> 201907251244161722498031530800.jpg
-//						
-//						// == 3. BoardVO hotelroomvo 에 fileName 과 picture 값과 fileSize 값을 넣어주기
-//						photovo.setFileName(newFileName);
-//						// WAS(톰캣)에 저장된 파일명(201907251244161722498031530800.jpg)
-//						
-//						photovo.setOrgFilename(attach.getOriginalFilename());
-//						// 게시판 페이지에서 첨부된 파일의 파일명(강아지.png)을 보여줄 때 및
-//						// 사용자가 파일을 다운로드 할 때 사용되어지는 파일명
-//						
-//						fileSize = attach.getSize();
-//						photovo.setFileSize(String.valueOf(fileSize));
-//						// 게시판 페이지에서 첨부한 파일의 크기를 보여줄 때 String 타입으로 변경해서 저장함.
-//						
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
-//					
-//			
-//				String attachFileName = mtrequest.getFilesystemName("attach"+i);
-//				
-////			String attachFileName = mtrequest.getFilesystemName("attach"+i);				
-//				
-//				// jsp_product_imagefile 테이블에 추가이미지 파일명 insert 해주기
-//				m = pdao.product_imagefile_Insert(pnum, attachFileName); // 이 테이블에 insert를 한다
-//				
-//				if(m==0) break;
-//			} // end of for--------------------------------------------------------------------------------
-//		} // end of if-------------------------------------------------------------------------------------
-
-
-//		int n = 0;
-//		if(attach.isEmpty()) {
-//			
-//		} else {
-//		// 룸 등록하기
-//		n = service.roomAdd(hotelroomvo);
-//		
-//		}
-//		mrequest.setAttribute("n", n);
-//
-//		return "hyein/roomRg/roomrg2End.tiles1";
-//	}
-	
-	/*
-	@RequestMapping(value="/yj.go", method={RequestMethod.GET} )
-	public String yj() {
-		return "tiles1/hyein/roomRg/yj";
-	}
-	
-	@RequestMapping(value="/yjend.go", method={RequestMethod.POST} )
-	public String yjend(@RequestParam("attach") MultipartFile[] files, PhotoVO photovo, MultipartHttpServletRequest mrequest)throws IOException {
-
-// 		String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\resources" + File.separator + "images\\review";            
-        String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\resources" + File.separator + "images\\yj";
-        String newFileName = "";
-        
-        for (MultipartFile file : files) {
-            if (!file.getOriginalFilename().isEmpty()) {
-               BufferedOutputStream outputStream = new BufferedOutputStream(
-                     new FileOutputStream(
-                           new File(path, file.getOriginalFilename())));
-
-               outputStream.write(file.getBytes());
-               outputStream.flush();
-               outputStream.close();
-            } 
-         }
-
-		
-		return "tiles1/hyein/roomRg/yj";
-	}
-	*/
     
 }

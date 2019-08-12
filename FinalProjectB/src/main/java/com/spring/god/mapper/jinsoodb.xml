@@ -179,8 +179,9 @@
 					ON A.FK_PRODUCTID = C.PRODUCTID
 					JOIN LONTION D
 					ON C.FK_LARGECATEGORYONTIONCODE = D.LARGECATEGORYONTIONCODE
+					WHERE A.STATUS = 1 
 		            <if test='searchWord !=""'>
-						WHERE STATUS = 1 AND LOWER(${searchType}) LIKE '%'||LOWER(#{searchWord})||'%'
+						AND LOWER(${searchType}) LIKE '%'||LOWER(#{searchWord})||'%'
 					</if>	
 		            	ORDER BY RESERVEID DESC					
 				)V
@@ -380,6 +381,130 @@
 		SELECT COUNT(*)
 		FROM RESERVE1
 	</select>
+	
+	<insert id="inquiryadd" parameterType="com.spring.god.jinsoo.model.BoardVO">
+		INSERT INTO INQUIRYBOARD (SEQ,FK_MEMBER,NAME,SUBJECT,CONTENT,PW,READCOUNT,REGDATE,STATUS)
+		VALUES(INQUIRYBOARDSEQ.NEXTVAL,#{fk_member},#{name},#{subject},#{content},#{pw},DEFAULT,DEFAULT,DEFAULT)
+	</insert>
+	
+	<insert id="inquiryadd_withFile" parameterType="com.spring.god.jinsoo.model.BoardVO">
+		INSERT INTO INQUIRYBOARD (SEQ,FK_MEMBER,NAME,SUBJECT,CONTENT,PW,READCOUNT,REGDATE,STATUS,FILENAME,ORGFILENAME,FILESIZE)
+		VALUES(INQUIRYBOARDSEQ.NEXTVAL,#{fk_member},#{name},#{subject},#{content},#{pw},default,default,default,#{fileName},#{orgFilename},#{fileSize})
+	</insert>
+	
+	<select id="allinquiryBoardList" resultType="int">
+		SELECT COUNT(*)
+		FROM INQUIRYBOARD
+	</select>
+	
+	<select id="getinquiryBoardListTotalCountWithSearch" resultType="int" parameterType="HashMap" >
+		SELECT COUNT(*)
+		FROM INQUIRYBOARD
+		WHERE LOWER(${searchType}) LIKE '%'||LOWER(#{searchWord})||'%'
+	</select>
+	
+	<select id="getinquiryBoardList"  resultType="com.spring.god.jinsoo.model.BoardVO" parameterType="HashMap" >
+		SELECT SEQ , FK_MEMBER , NAME , SUBJECT , CONTENT , PW , READCOUNT , TO_CHAR(REGDATE,'YYYY-MM-DD HH24:MI:SS') AS REGDATE , STATUS , DELETEDAY 
+		, COMMENTCOUNT , FILENAME , ORGFILENAME , FILESIZE
+		FROM INQUIRYBOARD
+		WHERE STATUS = 1
+		<if test='searchWord !=""'>
+			AND ${searchtype} LIKE '%'||#{searchword}||'%'
+		</if>
+		ORDER BY SEQ DESC
+	</select>
+	
+	<select id="getinquiryBoardView"  parameterType="String" resultType="com.spring.god.jinsoo.model.BoardVO" >
+		SELECT  SEQ,FK_MEMBER,NAME,SUBJECT,CONTENT,READCOUNT,TO_CHAR(REGDATE,'YYYY-MM-DD HH24:MI:SS') AS REGDATE ,COMMENTCOUNT 			 
+			 ,  FILENAME , ORGFILENAME , FILESIZE
+			 FROM INQUIRYBOARD
+			 WHERE STATUS = 1 
+	</select>
+	
+	<select id="inquiryCommentList" resultType="com.spring.god.jinsoo.model.CommentVO" parameterType="String" >
+			SELECT NAME,CONTENT,TO_CHAR(REGDATE,'YYYY-MM-DD HH24:MI:SS') AS REGDATE  
+			FROM INQUIRYBOARDCOMMENT 
+			WHERE PARENTSEQ = #{parentSeq}	
+			ORDER BY SEQ DESC
+	</select>	
+	
+	<select id="personinquiryBoardList" resultType="int" parameterType="HashMap" >
+		SELECT COUNT(*)
+		FROM INQUIRYBOARD
+		WHERE FK_MEMBER = #{memberid}
+	</select>
+	
+	<select id="psersoninquiryBoardListTotalCountWithSearch" resultType="int" parameterType="HashMap" >
+		SELECT COUNT(*)
+		FROM INQUIRYBOARD
+		WHERE FK_MEMBER = #{memberid} AND LOWER(${searchType}) LIKE '%'||LOWER(#{searchWord})||'%'
+	</select>
+	
+	<select id="psersoninquiryBoardList"  resultType="com.spring.god.jinsoo.model.BoardVO" parameterType="HashMap" >
+		SELECT SEQ , FK_MEMBER , NAME , SUBJECT , CONTENT , PW , READCOUNT , TO_CHAR(REGDATE,'YYYY-MM-DD HH24:MI:SS') AS REGDATE , STATUS , DELETEDAY 
+		, COMMENTCOUNT , FILENAME , ORGFILENAME , FILESIZE
+		FROM INQUIRYBOARD
+		WHERE STATUS = 1 AND FK_MEMBER = #{memberid}
+		<if test='searchWord !=""'>
+			AND ${searchtype} LIKE '%'||#{searchword}||'%'
+		</if>
+		ORDER BY SEQ DESC
+	</select>
+	
+	<update id="del" parameterType="com.spring.god.jinsoo.model.BoardVO" >
+		UPDATE INQUIRYBOARD SET STATUS = 0 WHERE SEQ = #{seq} AND PW = #{pw}
+	</update>
+	
+	<resultMap type="HASHMAP" id="MONTHREVENUE">
+			<result property="MONTH" column="MONTH" javaType="STRING" />
+			<result property="REVENUE" column="REVENUE" javaType="STRING" />						
+	</resultMap>
+	
+	<select id="MonthRevenueList" resultMap="MONTHREVENUE">
+			SELECT TO_CHAR(RESERVEDATE, 'MM') AS "MONTH"
+                 , SUM(PRICE)  AS "REVENUE"
+            FROM RESERVE1
+            WHERE TO_CHAR(RESERVEDATE, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY')
+            GROUP BY TO_CHAR(RESERVEDATE, 'MM')
+            ORDER BY MONTH
+	</select>
+	
+	<resultMap type="HASHMAP" id="MDAYREVENUE">
+			<result property="DAY" column="DAY" javaType="STRING" />
+			<result property="REVENUE" column="REVENUE" javaType="STRING" />						
+	</resultMap>
+	
+	<select id="MdayRevenue" resultMap="MDAYREVENUE" parameterType="String">
+			SELECT TO_CHAR(RESERVEDATE, 'DD') AS "DAY"
+                 , SUM(PRICE)  AS "REVENUE"
+            FROM RESERVE1
+            WHERE TO_CHAR(RESERVEDATE, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY') AND TO_CHAR(RESERVEDATE, 'MM') = #{month}
+            GROUP BY TO_CHAR(RESERVEDATE, 'DD')
+            ORDER BY DAY
+	</select>
+	
+	<resultMap type="HASHMAP" id="DAYREVENUE">
+			<result property="DAY" column="DAY" javaType="STRING" />
+			<result property="PRICE" column="PRICE" javaType="STRING" />			
+			<result property="PERCNT" column="PERCNT" javaType="STRING" />			
+	</resultMap>
+	
+	<select id="dayRevenueList" resultMap="DAYREVENUE">		
+		SELECT  DECODE(DAY,'1' ,'일'  ,'2','월'  ,'3','화'  ,'4','수' ,'5','목'  ,'6','금' ,'7','토') AS DAY 
+		    , PRICE  ,  ROUND(PRICE /(SELECT SUM(PRICE) FROM RESERVE1)*100 ,2) AS PERCNT
+		FROM 
+		(
+		SELECT  TO_CHAR(RESERVEDATE, 'D') AS DAY , SUM(PRICE) AS PRICE 
+		FROM RESERVE1
+		GROUP BY TO_CHAR(RESERVEDATE, 'D')
+		ORDER BY DAY ASC
+		)V
+	</select>
+	
+	<update id="checkOut" parameterType="String">
+		UPDATE RESERVE1 SET STATUS = 0 
+		WHERE RESERVEID = #{reserveId}
+	</update>
 		
 </mapper>
 

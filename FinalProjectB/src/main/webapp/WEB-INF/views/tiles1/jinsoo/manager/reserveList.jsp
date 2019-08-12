@@ -27,7 +27,8 @@
 			<th style="width: 180px; text-align: center;">예약일</th>
 			<th style="width: 180px; text-align: center;">체크인</th>
 			<th style="width: 180px; text-align: center;">체크아웃</th>
-			<th style="width: 70px; text-align: center;">회원번호</th>
+			<th style="width: 180px; text-align: center;">체크아웃하기</th>
+			
 		</tr>	
 			 <c:forEach var="reservevo" items="${reservevoList}" varStatus="status"> 
 		<tr>
@@ -38,7 +39,7 @@
 				 	<td align="center">${reservevo.reserveDate}</td>
 				 	<td align="center">${reservevo.checkIn}</td>
 				 	<td align="center">${reservevo.checkOut}</td>
-				 	<td align="center">${reservevo.memberIdx}</td>
+				 	<td align="center"><span style="cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/jinsoo/checkOut.go?reserveId=${reservevo.reserveId}'" >체크아웃</span></td>
 						
 		</tr>
 			</c:forEach> 

@@ -286,11 +286,23 @@ public class MemberController {
 		paraMap.put("email", email);
 
 		String idFind = service.getidFind(paraMap);
+		
+		boolean isUserExist = service.isUserExist(paraMap);
+		
+		int n = 0;
 
+		// 회원이 존재하는 경우
+		if (isUserExist) {
+			n = 1; // n을 1로 바꾸겠다.
+		}
+		else {
+			n = 0;
+		}
 		mv.addObject("method", "POST");
 		mv.addObject("name", name);
 		mv.addObject("email", email);
 		mv.addObject("idFind", idFind);
+		mv.addObject("n", n);
 		mv.setViewName("tiles1/jiyoung/idFind");
 //				mv.setViewName("jiyoung/login.tiles1");
 

@@ -139,31 +139,29 @@
 							<input type="button" value="회원가입" onclick="location.href='/god/register.go'" class="btn btn-primary text-white py-3 mx-2 font-weight-bold">
 						</div>
 						<div class="col-md-12 form-group taC styleAfter">
-							<a style="cursor: pointer;" data-toggle="modal" data-target="#userIdfind" data-dismiss="modal">아이디찾기</a> 
-							<a style="cursor: pointer;" data-toggle="modal" data-target="#passwdFind" data-dismiss="modal">비밀번호찾기</a>
+							<a style="cursor: pointer;" data-toggle="modal" data-target="#userIdfind" data-dismiss="modal" data-backdrop="static">아이디찾기</a> 
+							<a style="cursor: pointer;" data-toggle="modal" data-target="#passwdFind" data-dismiss="modal" data-backdrop="static">비밀번호찾기</a>
 						</div>
 					</div>
 				</form>
 			</div>
-
+			
+			<%-- ****** 아이디 찾기 Modal ****** --%>
 			<div class="modal fade" id="userIdfind" role="dialog">
 				<div class="modal-dialog">
 					<!-- Modal content-->
 					<div class="modal-content">
 						<div class="modal-header">
-							<button type="button" class="close myclose" data-dismiss="modal">&times;</button>
 							<h4 class="modal-title">아이디 찾기</h4>
+							<button type="button" class="close myclose" data-dismiss="modal">&times;</button>
 						</div>
-						<div class="modal-body" style="height: 300px; width: 100%;">
+						<div class="modal-body" style="width: 100%;">
 							<div id="idFind">
-								<iframe style="border: none; width: 100%; height: 280px;"
-									src="<%=request.getContextPath()%>/idFind.go">
-								</iframe>
+								<iframe style="border: none; width: 100%; height: 250px;" src="<%=request.getContextPath()%>/idFind.go" scrolling="no"></iframe>
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-default myclose"
-								data-dismiss="modal">Close</button>
+							<button type="button" onClick="history.go(0)" class="btn btn-default myclose" data-dismiss="modal">Close</button>
 						</div>
 					</div>
 				</div>
@@ -176,19 +174,16 @@
 					<!-- Modal content-->
 					<div class="modal-content">
 						<div class="modal-header">
-							<button type="button" class="close myclose" data-dismiss="modal">&times;</button>
 							<h4 class="modal-title">비밀번호 찾기</h4>
+							<button type="button" class="close myclose" data-dismiss="modal">&times;</button>
 						</div>
 						<div class="modal-body">
 							<div id="pwFind">
-								<iframe style="border: none; width: 100%; height: 350px;"
-									src="<%= request.getContextPath() %>/pwdFind.go">
-								</iframe>
+								<iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath() %>/pwdFind.go" scrolling="no"></iframe>
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-default myclose"
-								data-dismiss="modal">Close</button>
+							<button type="button" onClick="history.go(0)" class="btn btn-default myclose" data-dismiss="modal">Close</button>
 						</div>
 					</div>
 

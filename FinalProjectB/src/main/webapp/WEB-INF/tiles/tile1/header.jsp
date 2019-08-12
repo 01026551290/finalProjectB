@@ -222,6 +222,7 @@
 										<li><a href="<%= ctxPath%>/login.go">로그인</a></li>
 										<li><a href="<%= ctxPath%>/register.go">회원가입</a></li>
 										<li><a href="#">고객센터</a></li>
+										<li><a href="<%= ctxPath%>/noticeList.go">공지사항</a></li>
 										</c:if>
 										<!-- 로그인 후 보여지는 메뉴 -->
 										<c:if test="${loginuser != null }">    
@@ -230,6 +231,7 @@
 										<li><a href="<%= ctxPath%>/heartList.go">찜목록</a></li>
 										<li><a href="<%= ctxPath%>/mypage.go">마이페이지</a></li>
 										<li><a href="<%= ctxPath%>/logout.go">로그아웃</a></li>
+										<li><a href="<%= ctxPath%>/noticeList.go">공지사항</a></li>
 										</c:if>
 									</ul>
 								</div>

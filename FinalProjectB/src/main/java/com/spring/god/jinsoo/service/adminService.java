@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 import com.spring.god.jinsoo.model.BoardVO;
 import com.spring.god.jinsoo.model.CommentVO;
 import com.spring.god.jinsoo.model.HotelVO;
-import com.spring.god.jinsoo.model.InterJinsooDAO;
+import com.spring.god.jinsoo.model.InterAdminDAO;
 import com.spring.god.jinsoo.model.JinsooadminVO;
 import com.spring.god.jinsoo.model.JinsoomemberVO;
 import com.spring.god.jinsoo.model.reserveVO;
 
 @Service
-public class JinsooService implements InterJinsooService {
+public class adminService implements InterAdminService {
 
 	@Autowired
-	private InterJinsooDAO dao;
+	private InterAdminDAO dao;
 
 	// 차트:  성별 JSON으로 얻어오기
 	@Override
@@ -183,97 +183,7 @@ public class JinsooService implements InterJinsooService {
 		return hotelvoList;
 	}
 
-	// 파일 첨부 없는 글쓰기
-	@Override
-	public int add(BoardVO boardvo) {
-		
-		if(boardvo.getFk_seq() == null || boardvo.getFk_seq().trim().isEmpty()) {
-					
-			int groupno = dao.getGroupnoMax()+1;
-			
-			boardvo.setGroupNo(String.valueOf(groupno));
-		}
-		
-		int n = dao.add(boardvo);
-		return n;
-	}
-
-	// 파일 첨부  글쓰기
-	@Override
-	public int add_withFile(BoardVO boardvo) {
-		if(boardvo.getFk_seq() == null || boardvo.getFk_seq().trim().isEmpty()) {			
-			int groupno = dao.getGroupnoMax()+1;
-			
-			boardvo.setGroupNo(String.valueOf(groupno));
-		}		
-		int n = dao.add_withFile(boardvo);	
-		return n;
-	}
-
-	// 업주 게시판 총 게시물 수 구해오기
-	@Override
-	public int allbuisnessBoardList() {
-		int totalCount = dao.allbuisnessBoardList();
-		return totalCount;
-	}
-
-	// 검색 조건이 있는 업주 게시판 게시물 수 구해오기
-	@Override
-	public int getbuisnessBoardListTotalCountWithSearch(HashMap<String, String> paramap) {
-		int totalCount =  dao.getbuisnessBoardListTotalCountWithSearch(paramap);
-		return totalCount;
-	}
-
-	// 검색 조건이 있는 게시물리스트 가져오기
-	@Override
-	public List<BoardVO> getbuisnessBoardList(HashMap<String, String> paramap) {
-		List<BoardVO> buisnessBoardList = dao.getbuisnessBoardList(paramap);
-		return buisnessBoardList;
-	}
-
-	// 글보기
-	@Override
-	public BoardVO getbuisnessBoardView(String seq, String userid) {
-		
-		BoardVO boardvo = dao.getbuisnessBoardView(seq);
-
-		if(userid != null && !(boardvo.getFk_member().equals(userid))) {
-			// 글조회수 증가는 다른 사람의 글을 읽을때만 증가하도록 해야 한다. 로그인 하지 않은 성태에서는 글을 읽을수가 없다.
-			dao.setAddReadCount(seq); // 글 조회수 증가하기
-			boardvo = dao.getbuisnessBoardView(seq);
-		}
-		
-		return boardvo;
-	}
-
-	// 글 조횟수 증가 안되게 글 보기
-	@Override
-	public BoardVO getViewWithNoAddCount(String seq) {
-		BoardVO boardvo = dao.getbuisnessBoardView(seq);	
-		return boardvo;
-	}
-
-	// 코멘트 보이기
-	@Override
-	public List<CommentVO> getCommentList(String parentSeq) {
-		List<CommentVO> commentlist = dao.getCommentList(parentSeq);
-		return commentlist;
-	}
-
-	// 코멘트 추가하기
-	@Override
-	public int addComment(CommentVO commentvo) {
-		
-		int result = 0;
-		int n = 0; 
-		
-		n = dao.addComment(commentvo);		
-		if(n==1) {
-			result = dao.updateCommentCount(commentvo.getParentSeq());			
-		}
-		
-		return result;
-	}
+	
 
 	// 통계: 연 매출 현황
 	@Override
@@ -315,6 +225,27 @@ public class JinsooService implements InterJinsooService {
 	public List<HashMap<String, String>> MonthRevenueList() {
 		List<HashMap<String,String>> MonthRevenueList =  dao.MonthRevenueList();
 		return MonthRevenueList;
+	}
+
+	// 차트: 요일별 매출 통계 JSON으로 얻어오기
+	@Override
+	public List<HashMap<String, String>> dayRevenueList() {
+		List<HashMap<String,String>> dayRevenueList =  dao.dayRevenueList();
+		return dayRevenueList;
+	}
+
+	// 체크아웃시키기
+	@Override
+	public int checkOut(String reserveId) {
+		int n = dao.checkOut(reserveId);
+		return n;
+	}
+
+	// 차트: 선택 달 일별 매출 통계 JSON으로 얻어오기
+	@Override
+	public List<HashMap<String, String>> MdayRevenue(String month) {
+		List<HashMap<String,String>> MdayRevenueList =  dao.MdayRevenue(month);
+		return MdayRevenueList;
 	}
 
 

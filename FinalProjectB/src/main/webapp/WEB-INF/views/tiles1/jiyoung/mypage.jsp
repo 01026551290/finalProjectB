@@ -58,16 +58,16 @@
       </a>
     </section>
     <!-- END section -->
-
+          
     <section class="section contact-section" id="next">
       <div class="container" >
         <div class="row">
-          <div class="col-md-12">
+           <div class="col-md-12">
             <!-- /////////////////////////////////////////////////////////////////// -->
 			<c:if test="${loginuser != null }">  
 				<div class="col-md-5">
 					<img style = "width: 150px;" src="<%=ctxPath%>/resources/images/member/${loginuser.picture}" title="뜨나요" style="padding-bottom: 30px;"> 
-				</div >
+				</div>
 				<div class="col-md-7">
            			<h3><a class="text-black" href="mypage.go">${loginuser.name}님의 페이지</a></h3>
            			<p><a class="text-black" href="<%= ctxPath%>/photoaddedit.go">내 사진 추가/변경</</p>
