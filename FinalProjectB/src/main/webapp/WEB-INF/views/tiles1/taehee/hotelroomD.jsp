@@ -352,11 +352,10 @@ geocoder.addressSearch('${hotelroomvo.address}', function(result, status) {
    }
    
    function goSearch() {
-      frm =document.returnFrm;
-      
-      frm.method = "GET";
-       frm.action = "/god/product2.go";
-        frm.submit();
+		frm =document.returnFrm;
+		frm.method = "GET";
+		frm.action = "/god/product.go";
+		frm.submit();
    }
    
    function goView(productId,productName,roomType2,roomType3,weekPrice) {
