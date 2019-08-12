@@ -352,7 +352,7 @@
 	frm.roomType2.value = roomType2;
 	frm.roomType3.value = roomType3;
 	frm.weekPrice.value = weekPrice;
-	frm.method = "GET";
+	frm.method = "POST";
 	frm.action = "<%=request.getContextPath()%>/accommodationInfo.go";
 	frm.submit();
       
