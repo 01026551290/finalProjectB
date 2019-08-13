@@ -119,32 +119,42 @@
 <!-- END section -->
 
 <section class="section contact-section" id="next">
-      		<div class="container" >
-        		<div class="row">
-         		 <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
-            		 <div>::: 탈퇴를 위해 아이디와 비밀번호를 다시 한 번 입력해주세요 :::(<span style="font-size: 10pt; font-style: italic;"><span class="star">*</span>표시는 필수입력사항</span>) </div>
-            <form name="registerFrm" >                      
-              <div class="row">
-                <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="MEMBERID" required>회원아이디</label><span class="star">*</span>
-                  <input type="text" name="memberId" id="MEMBERID" class="form-control" value="${vo.memberId}" />
-              		<div class="row">
-                	<div class="col-md-12 form-group">
-	                 	 <label class="text-black font-weight-bold" for="PWD" required>암호</label><span class="star">*</span>
-	                  	 <input type="password" name="pwd" id="PWD" class="form-control" value="${vo.pwd}"/>
-	                  	 <span id="error_passwd">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로만 입력가능합니다.</span>
-                  </div>
-                </div>
-                 <div class="row">
-                <div class="col-md-6 form-group">
-                  <input type="button" id="btnRegister" value="탈퇴하기" class="btn btn-primary text-white py-3 px-5 font-weight-bold" onClick="goRegister();" />
-                </div>
-              </div>
-              </div>
-              </div>
-              </form>
-          </div>                  
-        </div>
-      </div>
-    </section>
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-5">
+				<div class="row">
+					<div class="col-md-10 ml-auto contact-info">
+						<p class="loginborder">
+							<span class="text-black">탈퇴하기</span>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-7">
+				<form name="registerFrm">
+				
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<label class="text-black font-weight-bold" for="MEMBERID" required>회원아이디</label><span class="star">*</span>
+							<input type="text" name="memberId" id="MEMBERID" class="form-control" value="${vo.memberId}" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<label class="text-black font-weight-bold" for="PWD" required>암호</label><span class="star">*</span>
+							<input type="password" name="pwd" id="PWD" class="form-control" value="${vo.pwd}" />
+							<span id="error_passwd">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로만 입력가능합니다.</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<input type="button" id="btnRegister" value="탈퇴하기" class="btn btn-primary text-white py-3 px-5 font-weight-bold" onClick="goRegister();" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
 

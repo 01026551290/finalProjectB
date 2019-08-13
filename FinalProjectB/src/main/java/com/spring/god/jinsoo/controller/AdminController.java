@@ -50,7 +50,7 @@ public class AdminController {
 	@RequestMapping(value="/admin_adminLogin.go", method= {RequestMethod.GET} )
 	public ModelAndView adminLogin(ModelAndView mv) {
 		
-		mv.setViewName("tiles1/jinsoo/manager/adminLogin");
+		mv.setViewName("jinsoo/manager/adminLogin.tiles1");
 		
 		return mv;
 	}
