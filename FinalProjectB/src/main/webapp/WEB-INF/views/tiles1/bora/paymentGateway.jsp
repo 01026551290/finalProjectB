@@ -64,20 +64,20 @@ $(document).ready(function() {
 
 <body>
 	<form name="reserveHotelInfoFrm">
-		<input type="text" name="largeCategoryontionCode" value="${largeCategoryontionCode}" />
-    	<input type="text" name="fk_productId" value="${fk_productId}" />
-    	<input type="text" name="memberIdx" value="${sessionScope.loginuser.idx}" />
-    	<input type="text" name="img" value="${img}" />
-    	<input type="text" name="name" value="${name}" />
-    	<input type="text" name="address" value="${address}" />
-    	<input type="text" name="checkIn" value="${checkIn}" />
-    	<input type="text" name="checkOut" value="${checkOut}" />
-    	<input type="text" name="noNight" value="${noNight}" />
-    	<input type="text" name="productName" value="${productName}" />
-    	<input type="text" name="roomType" value="${roomType}" />
-    	<input type="text" name="weekPrice" value="${weekPrice}" />
-    	<input type="text" name="price" value="${totalPrice}" />
-    	<input type="text" name="point" value="${point}" />
+		<input type="hidden" name="largeCategoryontionCode" value="${largeCategoryontionCode}" />
+    	<input type="hidden" name="fk_productId" value="${fk_productId}" />
+    	<input type="hidden" name="memberIdx" value="${sessionScope.loginuser.idx}" />
+    	<input type="hidden" name="img" value="${img}" />
+    	<input type="hidden" name="name" value="${name}" />
+    	<input type="hidden" name="address" value="${address}" />
+    	<input type="hidden" name="checkIn" value="${checkIn}" />
+    	<input type="hidden" name="checkOut" value="${checkOut}" />
+    	<input type="hidden" name="noNight" value="${noNight}" />
+    	<input type="hidden" name="productName" value="${productName}" />
+    	<input type="hidden" name="roomType" value="${roomType}" />
+    	<input type="hidden" name="weekPrice" value="${weekPrice}" />
+    	<input type="hidden" name="price" value="${totalPrice}" />
+    	<input type="hidden" name="point" value="${point}" />
     </form>
 </body>
 </html>
