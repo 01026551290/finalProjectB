@@ -215,7 +215,7 @@ function modalclo(){
 
 
         
-<div align="center" style="margin-top: 300px;">
+<div align="center" style="margin: 50px 0;">
 	<h2 style="margin-bottom: 20px; cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/admin_memberManage.go'">회원 목록</h2>
 	
 	

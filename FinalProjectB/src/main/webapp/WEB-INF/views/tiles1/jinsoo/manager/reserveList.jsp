@@ -86,7 +86,7 @@ String serverName = "http://"+serverIP+":"+portnumber;
 </div>
 
   
-<div align="center" style="margin-top: 300px;">
+<div align="center" style="margin: 50px 0;">
 	<h2 style="margin-bottom: 20px; cursor: pointer;" onclick="javascript:location.href='<%= request.getContextPath() %>/admin_reserveManage.go'">예약 목록</h2>
 	
 	<table id="table">
@@ -136,9 +136,4 @@ String serverName = "http://"+serverIP+":"+portnumber;
 		<input type="text" name="searchWord" id="searchWord" autocomplete=off  style="width: 300px;"  />
 		<button type="button" onclick="goSearch();">검색</button>
 	</form>
-	<!-- #101 검색어 입력시 자동글 완성하기 1 -->
-	<div id="displayList" style=" width: 300px; height: 100px; overflow: auto; margin-left: 36px; border: solid gray 1px; border-top: -2px;">
-	
-	</div>
-	
 </div>        
