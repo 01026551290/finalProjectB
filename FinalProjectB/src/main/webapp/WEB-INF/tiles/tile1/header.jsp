@@ -216,16 +216,16 @@
 							<div class="row full-height align-items-center">
 								<div class="col-md-6 mx-auto">
 									<ul class="list-unstyled menu">
-										<c:if test="${loginuser == null }">
+										
+										<c:if test="${loginuser == null && adminvo == null}">
                              			<li class="active"><a href="index.go">홈으로</a></li>
 										<!-- 로그인 전 -->
 										<li><a href="<%= ctxPath%>/login.go">로그인</a></li>
 										<li><a href="<%= ctxPath%>/register.go">회원가입</a></li>
-										<li><a href="#">고객센터</a></li>
 										<li><a href="<%= ctxPath%>/noticeList.go">공지사항</a></li>
 										</c:if>
 										<!-- 로그인 후 보여지는 메뉴 -->
-										<c:if test="${loginuser != null }">    
+										<c:if test="${loginuser != null && adminvo == null}">    
 										<li class="active"><a href="index.go">홈으로</a></li>
 										<li><a href="<%= ctxPath%>/history.go">여행</a></li>
 										<li><a href="<%= ctxPath%>/heartList.go">찜목록</a></li>
@@ -233,9 +233,13 @@
 										<li><a href="<%= ctxPath%>/logout.go">로그아웃</a></li>
 										<li><a href="<%= ctxPath%>/noticeList.go">공지사항</a></li>
 										</c:if>
+										
+										
 										<c:if test="${adminvo != null }">
-										 <li><a href="<%= ctxPath%>/roomrg.go">숙소 등록</a></li>
-										 <li><a href="<%= ctxPath%>/roomrg2.go">객실 등록</a></li>
+										<li class="active"><a href="admin_manager.go">관리자홈</a></li>
+										<li><a href="<%= ctxPath%>/noticeList.go">공지사항</a></li>
+										<li><a href="<%= ctxPath%>/roomrg.go">숙소 등록</a></li>
+										<li><a href="<%= ctxPath%>/roomrg2.go">객실 등록</a></li>
 										</c:if> 
 									</ul>
 								</div>
