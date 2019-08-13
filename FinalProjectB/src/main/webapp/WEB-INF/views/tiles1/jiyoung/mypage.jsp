@@ -85,7 +85,7 @@
 					<p><a class="text-black" href="<%= ctxPath%>/purchasehistory.go">내 구매기록 조회</a></p>
 					<p><a class="text-black" href="<%= ctxPath%>/pwdpass.go">내 정보수정</a></p>
 					<p><a class="text-black" href="<%= ctxPath%>/history.go">내 여행</a></p>
-					<p><a class="text-black" href="<%= ctxPath%>/jinsoo_personinquiryBoardList.go">문의하기</a></p>
+					<p><a class="text-black" href="<%= ctxPath%>/admin_personinquiryBoardList.go">문의하기</a></p>
 					<p><a class="text-black" href="<%= ctxPath%>/heartList.go">찜목록</a></p>
 					<c:if test="${loginuser.grade ==3}">
 					<p><a class="text-black" href="<%= ctxPath%>/admin_buisnessBoardList.go">사장님 게시판</a></p>

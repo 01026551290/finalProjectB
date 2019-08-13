@@ -163,7 +163,7 @@ button#btn_heart {
 }
 
 .heartAreaIn {
-	background: url(. . <%=request.getContextPath()%>/resources/images/heart_bgb.png);
+	background: url(<%=request.getContextPath()%>/resources/images/heart_bgb.png);
 	background-size: 22px 22px;
 	display: inline-flex;
 	width: 22px;
@@ -171,28 +171,13 @@ button#btn_heart {
 }
 
 .heartAreaOut {
-	background: url(. . <%=request.getContextPath()%>/resources/images/heart_bg.png);
+	background: url(<%=request.getContextPath()%>/resources/images/heart_bg.png);
 	background-size: 22px 22px;
 	display: inline-flex;
 	width: 22px;
 	height: 22px;
 }
 
-.starAreaIn {
-	background: url(. . <%=request.getContextPath()%>/resources/images/star_bgb.png);
-	background-size: 15px 14px;
-	display: inline-flex;
-	width: 76px;
-	height: 14px;
-}
-
-.starAreaOut {
-	background: url(. . <%=request.getContextPath()%>/resources/images/star_bg.png);
-	background-size: 15px 14px;
-	display: inline-block;
-	width: 76px;
-	height: 14px;
-}
 </style>
 
 <script type="text/javascript">

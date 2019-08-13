@@ -124,10 +124,10 @@
 					
 				</table>
 				
-				
+				<%-- 
 				<div style="margin-bottom: 1%;">다음글 :&nbsp;&nbsp;<span class="move" onClick="javascript:location.href='noticeView.go?seq=${boardvo.nextseq}'">${boardvo.previoussubject}</span></div>
 				<div style="margin-bottom: 1%;">이전글 :&nbsp;&nbsp;<span class="move" onClick="javascript:location.href='noticeView.go?seq=${boardvo.previousseq}'">${boardvo.nextsubject}</span></div>
-				
+				 --%>
 				<br/>
 				
 				<%-- <button type="button" onClick="javascript:location.href='<%= request.getContextPath() %>/list.action'">목록보기1</button>  --%>

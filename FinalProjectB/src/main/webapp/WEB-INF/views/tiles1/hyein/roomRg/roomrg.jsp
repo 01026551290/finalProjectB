@@ -494,7 +494,7 @@
                 
               <div class="row">
                 <div class="col-md-6 form-group">
-                	<input type="button" value="Next" id="btnNext" class="btn btn-primary text-white py-3 px-5 font-weight-bold" style="margin-top: 30px;" onclick="goNext(event);"/>
+                	<input type="button" value="등록하기" id="btnNext" class="btn btn-primary text-white py-3 px-5 font-weight-bold" style="margin-top: 30px;" onclick="goNext(event);"/>
                 </div>
               </div>
                

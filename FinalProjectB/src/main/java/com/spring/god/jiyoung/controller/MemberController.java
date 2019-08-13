@@ -576,7 +576,10 @@ public class MemberController {
 		System.out.println(attach);
 		if (!attach.isEmpty()) {
 			session = request.getSession();
-			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\member";
+
+			String root = session.getServletContext().getRealPath("/");
+			String path = root + "resources" + File.separator +"images" + File.separator + "member";
+//			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\member";
 //			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\member";
 
 			String newFileName = "";

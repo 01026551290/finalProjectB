@@ -13,8 +13,8 @@
     // === !!! WebSocket 통신은 스크립트로 작성하는 것이다. !!! === //
     $(document).ready(function(){
         
-    //  var url = window.location.host;   // 웹브라우저의 주소창의 포트까지 가져옴
-        var url = "192.168.50.16:9090";  
+      var url = window.location.host;   // 웹브라우저의 주소창의 포트까지 가져옴
+     //   var url = "192.168.50.16:9090";  
      
     	    
     	var pathname = window.location.pathname; // '/'부터 오른쪽에 있는 모든 경로

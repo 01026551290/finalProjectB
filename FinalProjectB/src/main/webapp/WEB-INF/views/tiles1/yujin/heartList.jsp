@@ -6,7 +6,7 @@
 <style>
 
 .heartAreaIn {
-	background: url(..<%=request.getContextPath()%>/resources/images/heart_bgb.png);
+	background: url(<%=request.getContextPath()%>/resources/images/heart_bgb.png);
     background-size: 22px 22px;
     display: inline-flex;
     width: 22px;
@@ -14,27 +14,11 @@
 }
 
 .heartAreaOut {
-	background: url(..<%=request.getContextPath()%>/resources/images/heart_bg.png);
+	background: url(<%=request.getContextPath()%>/resources/images/heart_bg.png);
     background-size: 22px 22px;
     display: inline-flex;
     width: 22px;
     height: 22px;
-}
-
-.starAreaIn {
-	background: url(. . <%=request.getContextPath()%>/resources/images/star_bgb.png);
-	background-size: 15px 14px;
-	display: inline-flex;
-	width: 76px;
-	height: 14px;
-}
-
-.starAreaOut {
-	background: url(. . <%=request.getContextPath()%>/resources/images/star_bg.png);
-	background-size: 15px 14px;
-	display: inline-block;
-	width: 76px;
-	height: 14px;
 }
 </style>
 
@@ -199,14 +183,14 @@
 											</c:if>
 										</span>
 									</button>
-									<img src="/god/resources/images/hotel/${vo.img}"
-										style="width: 100%;">
+									<img src="/god/resources/images/hotel/${vo.img}" 
+										style="width: 270px; height: 180px; cursor: pointer;" onclick="location.href='<%= ctxPath%>/product.go?largeCategoryontionCode=${vo.largeCategoryontionCode}'">
 								</div>
 								
 								<!-- 하단(설명,호텔명,가격,평점) -->
 								<div style="padding: 12px 0 0 0;">
-									<div class="hotelAddr">${vo.address}</div>
-									<div class="hotelName">${vo.name}</div>
+									<div class="hotelAddr" >${vo.address}</div>
+									<div class="hotelName" style="cursor: pointer;" onclick="location.href='<%= ctxPath%>/product.go?largeCategoryontionCode=${vo.largeCategoryontionCode}'">${vo.name}</div>
 									<div class="hotelStar">
 										<c:if test="${vo.starcnt != 0}">
 										<span class="starAreaIn"> <span class="starAreaOut"
@@ -224,6 +208,8 @@
 							</div>
 						</c:forEach>
 					</c:if>
+					
+					<form ></form>
 
 					</div>
 					<div class="custom-pagination">

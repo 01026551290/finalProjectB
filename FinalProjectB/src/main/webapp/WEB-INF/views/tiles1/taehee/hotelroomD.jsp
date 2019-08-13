@@ -404,7 +404,7 @@
 
 
                <p>
-                  <a href="#" class="btn btn-primary text-white py-2 mr-3">찜하기</a>
+                  <a href="#" class="btn btn-primary text-white py-2 mr-3" onclick="location.href='/god/addHeart2.go?largeCategoryontionCode=${HotelVO.largeCategoryontionCode}'">찜하기</a>
                   <span class="mr-3 font-family-serif">
             </div>
          </c:if>

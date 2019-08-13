@@ -73,9 +73,12 @@ public class AdminController {
 		if(!attach.isEmpty()) {
 			
 			HttpSession session = mrequest.getSession();
+//			String root = session.getServletContext().getRealPath("/");
+
 			String root = session.getServletContext().getRealPath("/");
+			String path = root + "resources" + File.separator +"images" + File.separator + "hotel";
 //			path = root + "resources" + File.separator + "files";
-			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\hotel";
+//			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\hotel";
 //			String path = root + "resources" + File.separator + "images" + File.separator + "hotel"; 
 			
 //			String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources" + File.separator + "images\\hotel";
@@ -273,9 +276,12 @@ public class AdminController {
 	        if(attachList != null) {  // 이미지첨부 다중파일을 받아왔다라면 
 	        	// 이미지첨부 다중파일을 업로드할 WAS 의 webapp 의 절대경로를 알아와야 한다. 
 				HttpSession session = mrequest.getSession();
-				String root = session.getServletContext().getRealPath("/"); 
+
+				String root = session.getServletContext().getRealPath("/");
+				String path = root + "resources" + File.separator +"images" + File.separator + "room";
+//				String root = session.getServletContext().getRealPath("/"); 
 //				String path = root + "resources" + File.separator + "images" + File.separator + "room"; 
-				String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\room";
+//				String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources\\images\\room";
 //				String path = "C:\\Users\\user1\\git\\finalProjectB\\FinalProjectB\\src\\main\\webapp\\resources" + File.separator + "images\\room";
 				// path 가 첨부파일들을 저장할 WAS(톰캣)의 폴더가 된다. 
 				

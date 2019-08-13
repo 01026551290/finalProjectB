@@ -2127,17 +2127,17 @@ button#btn_heart {
 
 .from-me {
 	padding: 10px 20px;
-	color: white;
-	background: #ffaa34;
+	background: #E5E5EA;
 	border-radius: 25px;
 	margin-left: 50px;	  
 }
 
 .from-them {
 	padding: 10px 20px;
-	background: #E5E5EA;
-	border-radius: 25px;
+	color: white;
+	background: #ffaa34;
 	color: black;
+	border-radius: 25px;
 	margin-right: 50px;
 	margin-top: 30px;
 }

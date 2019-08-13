@@ -49,7 +49,7 @@
 				<c:forEach var="vo" items="${purchaseList}">
 					<div class="col-lg-12 col-md-12 col-md-12" style="display: -webkit-box; margin-bottom: 27px;border-bottom: solid 1px gray;">
 						<div class="col-lg-3 col-md-3 col-md-3">
-							<a href="<%=request.getContextPath()%>/product.go?largeCategoryontionCode=${vo.largeCategoryOntionCode}" class="mb-4 d-block"><img src="/god/resources/images/hotel/${vo.img}" class="img-fluid"></a>
+							<a href="<%=request.getContextPath()%>/product.go?largeCategoryontionCode=${vo.largeCategoryOntionCode}" class="mb-4 d-block"><img src="/god/resources/images/hotel/${vo.img}" class="img-fluid" style="width: 270px; height: 180px; cursor: pointer; " ></a>
 						</div>
 						<div class="col-lg-6 col-md-3 col-md-3">
 							<div class="media-body"> 
@@ -91,7 +91,7 @@
 								<p>취소된 예약</p>
 							</c:if>
 							
-							<h4><fmt:formatNumber value="${vo.price/11*10}" pattern="###,###" />원</h4>
+							<h4><fmt:formatNumber value="${vo.price}" pattern="###,###" />원</h4>
 						</div>
 					</div>
 				</c:forEach>

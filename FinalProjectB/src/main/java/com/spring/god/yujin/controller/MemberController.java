@@ -86,6 +86,51 @@ public class MemberController {
 
 	      return mv;
 	   }
+	 
+	 @RequestMapping(value="/addHeart2.go", method= {RequestMethod.GET})
+	 public ModelAndView LoginCK2_addHeart2(HttpServletRequest request,HttpServletResponse response,ModelAndView mv) {
+		 
+		 String largeCategoryontionCode = request.getParameter("largeCategoryontionCode");
+		 
+		 HttpSession session = request.getSession(); 
+		 String memberid = ((MemberVO)session.getAttribute("loginuser")).getMemberId();	
+		 String url = (String) session.getAttribute("url");
+		 session.removeAttribute("url");
+		 
+		 
+		 HashMap<String, String> paramap = new HashMap<String,String>();
+		 paramap.put("largeCategoryontionCode", largeCategoryontionCode);
+		 paramap.put("memberId", memberid);
+		 
+		 
+		 int org = service.findHeart(paramap);
+		 
+		 String msg = "";
+		 String loc = "javascript:history.back()";
+		 if(url != null && url != "") {
+			 loc = request.getContextPath() + "/product.go?largeCategoryontionCode="+largeCategoryontionCode;
+		 }
+		 
+		 if(org!=1) {
+			 int add = service.addHeart(paramap);
+			 msg = "찜 실패";
+			 
+			 if(add==1)
+				 msg="찜 해둠";
+		 } else {
+			 int del = service.delHeart(paramap);
+			 msg = "찜 뺌!";
+			 
+			 if(del==1)
+				 msg="찜빼기실패!";
+		 }
+		 
+		 mv.addObject("msg",msg);
+		 mv.addObject("loc",loc);
+		 mv.setViewName("tiles1/yujin/msg");
+		 
+		 return mv;
+	 }
 	   
 	   @RequestMapping(value="/heartList.go", method= {RequestMethod.GET})
 	   public ModelAndView LoginCK_heartList(HttpServletRequest request,HttpServletResponse response,ModelAndView mv, SearchVO svo) {
@@ -257,8 +302,11 @@ public class MemberController {
 			if(!attachList.isEmpty()) { 
 				
 				HttpSession session = request.getSession();
+
+				String root = session.getServletContext().getRealPath("/");
+				String path = root + "resources" + File.separator +"images" + File.separator + "review";
 //				String path = "C:" + File.separator + "Users" + File.separator + "user1" + File.separator + "git" + File.separator + "finalProjectB" + File.separator + "FinalProjectB" + File.separator + "src" + File.separator + "main" + File.separator + "webapp" + File.separator + "resources" + File.separator + "images" + File.separator + "review";
-				String path = "C:" + File.separator + "Users" + File.separator + "uj979" + File.separator + "git" + File.separator + "finalProjectB" + File.separator + "FinalProjectB" + File.separator + "src" + File.separator + "main" + File.separator + "webapp" + File.separator + "resources" + File.separator + "images" + File.separator + "review";
+//				String path = "C:" + File.separator + "Users" + File.separator + "uj979" + File.separator + "git" + File.separator + "finalProjectB" + File.separator + "FinalProjectB" + File.separator + "src" + File.separator + "main" + File.separator + "webapp" + File.separator + "resources" + File.separator + "images" + File.separator + "review";
 				String newFileName = "";
 				
 				byte[] bytes = null;

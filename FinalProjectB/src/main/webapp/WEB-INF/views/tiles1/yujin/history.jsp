@@ -124,22 +124,6 @@
 <style>
 
 
-.starAreaIn {
-	background: url(. . <%=request.getContextPath()%>/resources/images/star_bgb.png);
-	background-size: 15px 14px;
-	display: inline-flex;
-	width: 76px;
-	height: 14px;
-}
-
-.starAreaOut {
-	background: url(. . <%=request.getContextPath()%>/resources/images/star_bg.png);
-	background-size: 15px 14px;
-	display: inline-block;
-	width: 76px;
-	height: 14px;
-}
-
 </style>
 
 <section class="site-hero inner-page overlay" style="background-image: url(<%= ctxPath%>/resources/images/hero_4.jpg;); background-position: 0% 0px;" data-stellar-background-ratio="0.5">
