@@ -100,11 +100,24 @@
   <a href="<%= serverName%><%=ctxPath%>/admin_chatting.go">회의</a>
 </div>
 
-<div style="height: 2000px; width: 2100px; display: inline-block;" >
-	<div id="container" style=" border: 1px solid red; width: 400px; display: inline-block; margin-left: 10px;  "><jsp:include page="adminGengerJSON.jsp" /></div>     
-	<div id="container" style=" border: 1px solid red; width: 400px; display: inline-block;  "><jsp:include page="adminReserve.jsp" /></div>    
-	<div id="container" style=" border: 1px solid red; width: 400px; display: inline-block;  "><jsp:include page="adminProduct.jsp" /></div>    
-	<div id="container" style=" border: 1px solid red; width: 400px; display: inline-block;  "><jsp:include page="adminRevenue.jsp" /></div>    
-</div>
+<section class="section bg-light pb-0">
+	<div class="container">
+		<div class="row mb-5">
+			<div class="col-md-6 col-lg-6 mb-5 pt-5 pb-5" style="border: 1px dotted #333;">
+				<jsp:include page="adminGengerJSON.jsp" />     
+			</div>
+			<div class="col-md-6 col-lg-6 mb-5 pt-5 pb-5" style="border: 1px dotted #333;">
+				<jsp:include page="adminReserve.jsp" />    
+			</div>
+			<div class="col-md-6 col-lg-6 mb-5 pt-5 pb-5" style="border: 1px dotted #333;">
+				<jsp:include page="adminProduct.jsp" />    
+			</div>
+			<div class="col-md-6 col-lg-6 mb-5 pt-5 pb-5" style="border: 1px dotted #333;">
+				<jsp:include page="adminRevenue.jsp" />    
+			</div>
+		</div>
+	</div>
+</section>
+
 
 
