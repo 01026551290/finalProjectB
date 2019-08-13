@@ -68,6 +68,13 @@
 	     frm.submit();
 	 }
 	
+	function goSearch() {
+		var frm = document.searchFrm;
+		frm.method = "GET";
+		frm.action = "<%= request.getContextPath()%>/noticeList.go";
+		frm.submit();
+	 }
+	
 </script>  
     
     
@@ -208,7 +215,7 @@
 					<form name="searchFrm" style="text-align: center;">
 						<select name="searchType" id="searchType" style="width:80px; height: 40px;">
 							<option value="subject">글제목</option>
-							<option value="name">글쓴이</option>
+							<option value="content">글내용</option>
 						</select>
 						<input type="text" style="height: 40px; margin: 20px;" name="searchWord" id="searchWord" size="40" autocomplete="off" /> 
 						<button type="button" onclick="goSearch()" class= "btn btn-primary text-white py-2 px-4 font-weight-bold" style="padding: 0;">검색</button>
