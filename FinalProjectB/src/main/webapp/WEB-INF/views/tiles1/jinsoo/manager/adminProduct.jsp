@@ -230,7 +230,7 @@
 				<option value="">통계선택</option>
 				<option value="productStatus">상품현황</option>
 				<option value="categoryProduct">종류별 상품통계</option>
-				<option value="category">숙박별 예약 통계</option>
+				
 			</select>
 		</form>
 		
