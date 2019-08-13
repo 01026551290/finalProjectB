@@ -142,7 +142,7 @@ function goView(seq){
                         <td align="center">${boardvo.seq}</td>
                         <td align="left"> 
                            <%-- === 댓글쓰기가 없는 게시판 === --%>
-                                <span class="subject" onclick="goView('${boardvo.seq}');">${boardvo.subject}</span>
+                                <span class="subject" onclick="goView('${boardvo.seq}')">${boardvo.subject}</span>
                            
                            <%-- === 댓글쓰기가 있는 게시판 === --%> 
                           

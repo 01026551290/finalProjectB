@@ -170,7 +170,7 @@
 		</c:if>		
 		<form name="addWriteFrm" style="margin-top: 20px;">
 		<c:if test="${loginuser != null }">
-				 <input type="hidden" name="fk_memberid" value="${loginuser.userid}" class="short" readonly />
+				 <input type="hidden" name="fk_memberid" value="${loginuser.memberId}" class="short" readonly />
 			성명 : <input type="text" name="name" value="${loginuser.name}" class="short" readonly />
 			댓글내용 : <input type="text" name="content" class="long"  />
 			
