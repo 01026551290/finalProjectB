@@ -82,45 +82,55 @@ function adminlogin() {
 }
 
 </script>
+<section class="site-hero inner-page overlay" style="background-color: #333;">
+	<div class="container">
+		<div class="row site-hero-inner justify-content-center align-items-center">
+			<div class="col-md-10 text-center" data-aos="fade">
+				<h1 class="heading mb-3">관리자로그인</h1>
+			</div>
+		</div>
+	</div>
 
+	<a class="mouse smoothscroll" href="#next">
+		<div class="mouse-icon">
+			<span class="mouse-wheel"></span>
+		</div>
+	</a>
+</section>
 
-	<div class="container custom-border" style="border: 0px red soild; width: 500px; height: 500px;  position: absolute; left: 750px; top: 200px; ">
-
-	<div class="row col-md-8 col-md-offset-2 col-sm-10 custom-border">
-		<h2 class="text-primary">로그인</h2>
-		<p class="bg-primary">&nbsp;</p>
-		
-		<form name="adminFrm">
-		<div class="row custom-loginFrm custom-border">    
-		    <div class="col-sm-8 col-lg-8 custom-border">
-				<div class="form-group custom-input">  <%-- 폼에서는 class form-group 을 사용해야 하며, 그 뜻은 폼에서 사용되어지는 1개 행 즉, 클래스 row 와 같은 용도로 사용되어지는 것이다. --%>
-					<div class="col-sm-3 col-lg-3">
-						<label for="userid">사번</label>
-					</div>
-					<div class="col-sm-9 col-lg-9">
-						<input type="text" class="form-control" name="seq" id="seq" value=""/> <%-- 부트스트랩에서 input 태그에는 항상 class form-control 이 사용되어져야 한다. --%>
-					</div>
-				</div>	
-					
-				<div class="form-group custom-input">
-					<div class="col-sm-3 col-lg-3">
-						<label for="pwd">비밀번호</label>
-					</div>
-					<div class="col-sm-9 col-lg-9">
-						<input type="password" class="form-control" name="pwd" id="pwd" value="" /> 
+<section class="section contact-section" id="next">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5">
+				<div class="row">
+					<div class="col-md-10 ml-auto contact-info">
+						<p class="loginborder">
+							<span class="text-black">관리자 로그인</span>
+						</p>
 					</div>
 				</div>
 			</div>
-			
-			<div class="col-sm-4 col-lg-4 custom-login-submit custom-border">
-				<button class="btn btn-success" type="button" id="btnLOGIN" >확인</button> 
-			</div>	 
+			<div class="col-md-7">
+				<form name="adminFrm" class="bg-white p-md-5 p-4 mb-5 border">
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<label class="text-black font-weight-bold" for="userid">사번</label>
+							<input type="text" name="seq" id="seq" value="" class="form-control ">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 form-group">
+							<label class="text-black font-weight-bold" for="pwd">비밀번호</label>
+							<input type="password" id="pwd" name="pwd" value="" class="form-control ">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 form-group taC">
+							<input type="button" value="로그인" id="btnLOGIN" class="btn btn-primary text-white py-3 mx-2 font-weight-bold">
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
-		</form>
 	</div>
-	
-</div>
-
-
-</body>
-</html>
+</section>
