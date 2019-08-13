@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ChattingController {
 
 	@RequestMapping(value="/admin_chatting.go", method= {RequestMethod.GET}) 
-	public String multichat(HttpServletRequest request, HttpServletResponse response) { 
+	public String requireAdmin_multichat(HttpServletRequest request, HttpServletResponse response) { 
 		
 		return "tiles1/jinsoo/chatting/multichat";
 	}

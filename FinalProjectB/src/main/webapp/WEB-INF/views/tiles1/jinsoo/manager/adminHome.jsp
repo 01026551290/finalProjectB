@@ -104,7 +104,7 @@
 	<div id="container" style=" border: 1px solid red; width: 400px; display: inline-block; margin-left: 10px;  "><jsp:include page="adminGengerJSON.jsp" /></div>     
 	<div id="container" style=" border: 1px solid red; width: 400px; display: inline-block;  "><jsp:include page="adminReserve.jsp" /></div>    
 	<div id="container" style=" border: 1px solid red; width: 400px; display: inline-block;  "><jsp:include page="adminProduct.jsp" /></div>    
-	<div id="container" style=" border: 1px solid red; width: 400px; display: inline-block;  "><jsp:include page="adminRevenue.jsp" /></div>    
+	<div id="container" style=" border: 1px solid red; width: 400px; display: inline-block; height:584px; position: absolute;  "><jsp:include page="adminRevenue.jsp" /></div>    
 </div>
 
 

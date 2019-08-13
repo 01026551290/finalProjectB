@@ -124,7 +124,7 @@
 	<input type="text" id="to" placeholder="귓속말대상"/><br/>
 	<input type="text" id="message" size="50" placeholder="메시지 내용"/>
     <input type="button" id="sendMessage" value="보내기" />
-    <input type="button" onClick="javascript:location.href='<%=request.getContextPath() %>/jinsoo/manager.go'" value="채팅방나가기" />
+    <input type="button" onClick="javascript:location.href='<%=request.getContextPath() %>/admin_manager.go'" value="채팅방나가기" />
     
     <div id="chatMessage" style="overFlow: auto; max-height: 500px;"></div>
 </body>
